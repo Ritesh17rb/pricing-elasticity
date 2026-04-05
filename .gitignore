@@ -1,0 +1,48 @@
+# Editor and OS files
+.vscode/
+.idea/
+*.code-workspace
+.DS_Store
+Thumbs.db
+
+# Python caches and virtual environments
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Node and web tooling
+node_modules/
+coverage/
+dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+*.local
+
+# Temp files and local databases
+tmp/
+temp/
+*.tmp
+*.log
+*.db
+*.sqlite
+*.sqlite3
+
+# Generated local exports and scrape caches
+exports/
+reports/
+data/customers.csv
+data/yum/raw/
+data/yum/cache/
+data/yum/tmp/

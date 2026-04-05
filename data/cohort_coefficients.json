@@ -1,0 +1,168 @@
+{
+  "metadata": {
+    "description": "Behavioral archetype profiles for seasonal retail cohorts",
+    "version": "5.0",
+    "generation_date": "2026-02-24",
+    "method": "Profile mixing with seasonal adjustments"
+  },
+  "brand_loyal": {
+    "label": "Brand Loyal",
+    "description": "High-repeat customers with strong brand affinity",
+    "acquisition_elasticity": -0.7,
+    "repeat_loss_elasticity": 0.45,
+    "migration_upgrade": 1.3,
+    "migration_downgrade": 0.6,
+    "tenure_decay_rate": 0.08,
+    "engagement_offset": 0.35,
+    "price_history_habituation": 0.2,
+    "repeat_loss_curve_type": "delayed_ramp",
+    "migration_asymmetry_factor": 1.7,
+    "time_lag_distribution": {
+      "0_4_weeks": 0.06,
+      "4_8_weeks": 0.12,
+      "8_12_weeks": 0.2,
+      "12_16_weeks": 0.34,
+      "16_20_weeks": 0.28
+    }
+  },
+  "value_conscious": {
+    "label": "Value Conscious",
+    "description": "Responds to price gaps and smaller discounts",
+    "acquisition_elasticity": -1.8,
+    "repeat_loss_elasticity": 0.95,
+    "migration_upgrade": 0.9,
+    "migration_downgrade": 1.4,
+    "tenure_decay_rate": 0.03,
+    "engagement_offset": 0.18,
+    "price_history_habituation": 0.06,
+    "repeat_loss_curve_type": "moderate",
+    "migration_asymmetry_factor": 2.2,
+    "time_lag_distribution": {
+      "0_4_weeks": 0.16,
+      "4_8_weeks": 0.26,
+      "8_12_weeks": 0.28,
+      "12_16_weeks": 0.2,
+      "16_20_weeks": 0.1
+    }
+  },
+  "deal_seeker": {
+    "label": "Deal Seeker",
+    "description": "Promo-first shoppers with high drop-off risk",
+    "acquisition_elasticity": -2.6,
+    "repeat_loss_elasticity": 1.4,
+    "migration_upgrade": 0.6,
+    "migration_downgrade": 1.9,
+    "tenure_decay_rate": 0.01,
+    "engagement_offset": 0.08,
+    "price_history_habituation": 0.02,
+    "repeat_loss_curve_type": "sharp_spike_plateau",
+    "migration_asymmetry_factor": 3.4,
+    "time_lag_distribution": {
+      "0_4_weeks": 0.38,
+      "4_8_weeks": 0.32,
+      "8_12_weeks": 0.18,
+      "12_16_weeks": 0.08,
+      "16_20_weeks": 0.04
+    }
+  },
+  "trend_driven": {
+    "label": "Trend Driven",
+    "description": "Social-led discovery with medium loyalty",
+    "acquisition_elasticity": -2.0,
+    "repeat_loss_elasticity": 0.9,
+    "migration_upgrade": 1.1,
+    "migration_downgrade": 1.0,
+    "tenure_decay_rate": 0.05,
+    "engagement_offset": 0.25,
+    "price_history_habituation": 0.12,
+    "repeat_loss_curve_type": "conditional_spike",
+    "migration_asymmetry_factor": 2.1,
+    "time_lag_distribution": {
+      "0_4_weeks": 0.14,
+      "4_8_weeks": 0.24,
+      "8_12_weeks": 0.28,
+      "12_16_weeks": 0.22,
+      "16_20_weeks": 0.12
+    }
+  },
+  "channel_switcher": {
+    "label": "Channel Switcher",
+    "description": "Moves between mass and prestige based on price gaps",
+    "acquisition_elasticity": -1.9,
+    "repeat_loss_elasticity": 1.1,
+    "migration_upgrade": 1.0,
+    "migration_downgrade": 1.6,
+    "tenure_decay_rate": 0.04,
+    "engagement_offset": 0.2,
+    "price_history_habituation": 0.1,
+    "repeat_loss_curve_type": "moderate",
+    "migration_asymmetry_factor": 2.6,
+    "time_lag_distribution": {
+      "0_4_weeks": 0.18,
+      "4_8_weeks": 0.28,
+      "8_12_weeks": 0.26,
+      "12_16_weeks": 0.18,
+      "16_20_weeks": 0.1
+    }
+  },
+  "premium_loyal": {
+    "label": "Premium Loyal",
+    "description": "High AOV shoppers loyal to prestige channel",
+    "acquisition_elasticity": -1.2,
+    "repeat_loss_elasticity": 0.6,
+    "migration_upgrade": 1.5,
+    "migration_downgrade": 0.5,
+    "tenure_decay_rate": 0.06,
+    "engagement_offset": 0.3,
+    "price_history_habituation": 0.15,
+    "repeat_loss_curve_type": "gentle_slope",
+    "migration_asymmetry_factor": 1.1,
+    "time_lag_distribution": {
+      "0_4_weeks": 0.1,
+      "4_8_weeks": 0.14,
+      "8_12_weeks": 0.2,
+      "12_16_weeks": 0.28,
+      "16_20_weeks": 0.28
+    }
+  },
+  "at_risk": {
+    "label": "At Risk",
+    "description": "Low engagement, high drop-off potential",
+    "acquisition_elasticity": -2.2,
+    "repeat_loss_elasticity": 1.35,
+    "migration_upgrade": 0.6,
+    "migration_downgrade": 1.7,
+    "tenure_decay_rate": -0.01,
+    "engagement_offset": 0.12,
+    "price_history_habituation": 0.05,
+    "repeat_loss_curve_type": "accelerating",
+    "migration_asymmetry_factor": 3.0,
+    "time_lag_distribution": {
+      "0_4_weeks": 0.24,
+      "4_8_weeks": 0.3,
+      "8_12_weeks": 0.24,
+      "12_16_weeks": 0.14,
+      "16_20_weeks": 0.08
+    }
+  },
+  "baseline": {
+    "label": "Baseline",
+    "description": "Aggregate of all cohorts weighted by population",
+    "acquisition_elasticity": -1.6,
+    "repeat_loss_elasticity": 0.95,
+    "migration_upgrade": 1.0,
+    "migration_downgrade": 1.2,
+    "tenure_decay_rate": 0.05,
+    "engagement_offset": 0.2,
+    "price_history_habituation": 0.1,
+    "repeat_loss_curve_type": "moderate",
+    "migration_asymmetry_factor": 2.2,
+    "time_lag_distribution": {
+      "0_4_weeks": 0.16,
+      "4_8_weeks": 0.26,
+      "8_12_weeks": 0.28,
+      "12_16_weeks": 0.2,
+      "16_20_weeks": 0.1
+    }
+  }
+}

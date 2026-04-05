@@ -1,0 +1,41 @@
+brand_id,item_id,item_name,category,subcategory,price_tier,base_list_price,base_weekly_units,elasticity_prior,contribution_margin_pct,is_combo,is_value_platform,is_lto,protein_type,notes
+habitburger,hb_charburger,Charburger,burgers,core_meal,core,8.49,126,-1.62,0.52,false,false,false,core_meal,Core better-burger anchor.
+habitburger,hb_chicken_club,Chicken Club,sandwiches,core_meal,premium,10.49,82,-1.34,0.53,false,false,false,core_meal,Chicken premium alternative.
+habitburger,hb_combo_meal,Combo Meal,bundles,traffic_builder,core,13.49,96,-1.76,0.46,true,false,false,core_meal,Combo architecture for check growth.
+habitburger,hb_double_char,Double Char,burgers,core_meal,premium,10.99,92,-1.38,0.5,false,false,false,core_meal,Premium burger ladder step.
+habitburger,hb_family_bundle,Family Bundle,bundles,family_meal,premium,31.99,42,-0.98,0.44,true,false,false,family_share,Family orderable used to broaden occasions.
+habitburger,hb_fries_and_onion_rings,Sides Duo,sides,attach,core,5.99,102,-1.14,0.69,false,false,false,snack_treat,Shareable side bundle.
+habitburger,hb_santa_barbara,Santa Barbara Char,burgers,innovation,premium,11.99,74,-1.29,0.49,false,false,false,core_meal,Premium signature sandwich.
+habitburger,hb_shake,Hand-Spun Shake,beverages,attach,core,5.49,68,-1.07,0.71,false,false,false,snack_treat,Dessert beverage with summer skew.
+habitburger,hb_tempura_green_beans,Tempura Green Beans,sides,attach,core,4.99,76,-1.2,0.68,false,false,false,snack_treat,Signature side for differentiation.
+habitburger,hb_veggie_burger,Plant-Based Burger,burgers,innovation,premium,10.79,48,-1.41,0.51,false,false,true,core_meal,Menu innovation and dietary whitespace.
+kfc,kfc_biscuit_and_side,Side Pairing,sides,attach,entry,3.49,118,-1.05,0.71,false,false,false,snack_treat,Attach-led small basket builder.
+kfc,kfc_chicken_pot_pie,Chicken Pot Pie,bowls,core_meal,core,6.99,92,-1.51,0.58,false,false,false,core_meal,Comfort-food dinner item with lower promo depth.
+kfc,kfc_family_bucket,Family Bucket,buckets,family_meal,premium,24.99,108,-1.14,0.46,true,false,false,family_share,Large family occasion anchor.
+kfc,kfc_famous_bowl,Famous Bowl,bowls,core_meal,core,6.79,144,-1.92,0.59,false,false,false,core_meal,Strong value perception at lunch.
+kfc,kfc_fill_up_box,Fill Up Box,boxes,traffic_builder,value,7.49,205,-2.12,0.56,true,true,false,solo_value_meal,Entry value meal used to protect lunch traffic.
+kfc,kfc_hot_wings,Hot Wings,wings,traffic_builder,core,8.49,96,-1.58,0.52,true,false,true,snack_treat,Spicy innovation pulse for higher-intent users.
+kfc,kfc_nuggets_box,Saucy Nuggets Box,nuggets,traffic_builder,entry,6.49,178,-2.21,0.6,true,true,false,snack_treat,Snackable offer with digital upside.
+kfc,kfc_sandwich_combo,Chicken Sandwich Combo,sandwiches,core_meal,core,10.49,168,-1.74,0.53,false,false,false,core_meal,Core sandwich ladder anchor.
+kfc,kfc_tenders_combo,Tenders Combo,tenders,core_meal,core,11.29,156,-1.68,0.52,false,false,false,core_meal,Family-friendly individual meal platform.
+kfc,kfc_tenders_family_feast,Tenders Family Feast,bundles,family_meal,premium,29.99,76,-1.03,0.45,true,false,false,family_share,Bundle-led family feast for dinner.
+pizzahut,ph_breadsticks,Breadsticks,sides,attach,entry,6.49,96,-1.11,0.71,false,false,false,family_share,Low-cost attach that supports bundle optics.
+pizzahut,ph_cookie_dessert,Ultimate Cookie,desserts,attach,core,8.29,54,-0.92,0.7,false,false,false,snack_treat,Dessert attach for higher-spend baskets.
+pizzahut,ph_dinner_box,Dinner Box,bundles,family_meal,premium,26.99,74,-1.02,0.49,true,false,false,family_share,Bundle-led family order with strong check.
+pizzahut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,premium,19.99,126,-1.21,0.54,true,false,false,family_share,Large dinner anchor with delivery leverage.
+pizzahut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,core,15.99,132,-1.36,0.55,false,false,false,family_share,Core family order line.
+pizzahut,ph_melts,Melts,handhelds,traffic_builder,core,8.49,112,-1.73,0.61,true,false,false,solo_value_meal,Portable lunch item with carryout strength.
+pizzahut,ph_pasta_bake,Pasta Bake,pasta,core_meal,core,11.49,68,-1.26,0.57,false,false,false,core_meal,Dinner adjacency outside core pizza.
+pizzahut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,entry,6.79,118,-1.84,0.6,true,true,false,solo_value_meal,Entry lunch pizza platform.
+pizzahut,ph_stuffed_crust,Large Stuffed Crust Pizza,pizza,innovation,premium,22.99,92,-1.05,0.51,false,false,false,family_share,Premium pizza ladder step.
+pizzahut,ph_wings,Wings,wings,attach,core,10.99,88,-1.44,0.53,false,false,false,family_share,Attach product for sports occasions.
+tacobell,tb_baja_blast,Large Baja Blast,beverages,attach,entry,3.29,238,-1.02,0.76,false,false,false,snack_treat,High-attach beverage with digital affinity.
+tacobell,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,4.99,88,-1.74,0.59,true,false,false,solo_value_meal,Breakfast carryover used in modeled daypart mix.
+tacobell,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,3.79,122,-1.66,0.57,false,false,true,snack_treat,Premium innovation ladder.
+tacobell,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,6.89,104,-1.36,0.54,false,false,false,core_meal,Premium dependable dinner choice.
+tacobell,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,5.99,148,-1.48,0.55,false,false,false,core_meal,Signature innovation item.
+tacobell,tb_freeze,Signature Freeze,beverages,attach,core,3.99,132,-1.18,0.73,false,false,true,snack_treat,Seasonal beverage draw.
+tacobell,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,7.00,184,-2.34,0.5,true,true,false,solo_value_meal,Value box used to reset affordability optics.
+tacobell,tb_nachos,nachos,shareables,core_meal,core,5.79,96,-1.57,0.58,false,false,false,snack_treat,Shareable snacking platform.
+tacobell,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,2.29,265,-2.55,0.62,true,true,false,solo_value_meal,Value-led taco shop traffic driver.
+tacobell,tb_value_taco,Value Taco,tacos,traffic_builder,value,1.99,278,-2.63,0.64,true,true,false,solo_value_meal,Entry taco anchor for value missions.

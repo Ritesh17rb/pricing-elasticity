@@ -1,0 +1,521 @@
+week_start,year_week,item_id,item_name,category,subcategory,price_tier,weekly_units,net_sales,avg_net_price,contribution_margin,contribution_margin_pct,promo_mix_pct,channels_sold,elasticity_prior
+2025-01-06,2025-01-06,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4602,16393.84,3.56,12018.11,0.7331,0.0,5,-0.9459
+2025-01-06,2025-01-06,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1835,9925.07,5.41,5632.3,0.5675,0.0,5,-1.6443
+2025-01-06,2025-01-06,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2480,10168.8,4.1,5575.19,0.5483,0.0,5,-1.4778
+2025-01-06,2025-01-06,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2091,15589.79,7.46,8082.92,0.5185,0.0,5,-1.2107
+2025-01-06,2025-01-06,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,2987,19371.77,6.49,10235.84,0.5284,0.0,5,-1.3427
+2025-01-06,2025-01-06,tb_freeze,Signature Freeze,beverages,attach,core,2556,11045.41,4.32,7776.95,0.7041,0.0,5,-1.0943
+2025-01-06,2025-01-06,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,3961,29996.98,7.57,14384.14,0.4795,0.0,5,-2.3869
+2025-01-06,2025-01-06,tb_nachos,nachos,shareables,core_meal,core,1921,12024.35,6.26,6702.94,0.5574,0.0,5,-1.4837
+2025-01-06,2025-01-06,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,5827,14476.56,2.48,8633.71,0.5964,0.0,5,-2.6508
+2025-01-06,2025-01-06,tb_value_taco,Value Taco,tacos,traffic_builder,value,6133,13236.05,2.16,8144.91,0.6154,0.0,5,-2.734
+2025-01-13,2025-01-13,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4603,16395.45,3.56,12015.65,0.7329,0.0,5,-0.9459
+2025-01-13,2025-01-13,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1834,9899.61,5.4,5616.87,0.5674,0.0,5,-1.6443
+2025-01-13,2025-01-13,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2432,9957.03,4.09,5458.95,0.5483,0.0,5,-1.4778
+2025-01-13,2025-01-13,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2067,15407.43,7.45,7993.88,0.5188,0.0,5,-1.2107
+2025-01-13,2025-01-13,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,2972,19273.28,6.48,10179.14,0.5281,0.0,5,-1.3427
+2025-01-13,2025-01-13,tb_freeze,Signature Freeze,beverages,attach,core,2558,11051.89,4.32,7777.07,0.7037,0.0,5,-1.0943
+2025-01-13,2025-01-13,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,3970,30074.66,7.58,14428.52,0.4798,0.0,5,-2.3869
+2025-01-13,2025-01-13,tb_nachos,nachos,shareables,core_meal,core,1919,12012.37,6.26,6702.43,0.558,0.0,5,-1.4837
+2025-01-13,2025-01-13,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,5877,14619.77,2.49,8723.3,0.5967,0.0,5,-2.6508
+2025-01-13,2025-01-13,tb_value_taco,Value Taco,tacos,traffic_builder,value,6132,13235.24,2.16,8149.94,0.6158,0.0,5,-2.734
+2025-01-20,2025-01-20,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4547,16178.56,3.56,11862.34,0.7332,0.0,5,-0.9459
+2025-01-20,2025-01-20,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1830,9892.61,5.41,5607.59,0.5668,0.0,5,-1.6443
+2025-01-20,2025-01-20,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2451,10064.02,4.11,5519.51,0.5484,0.0,5,-1.4778
+2025-01-20,2025-01-20,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2086,15567.56,7.46,8073.76,0.5186,0.0,5,-1.2107
+2025-01-20,2025-01-20,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,2927,18988.35,6.49,10020.97,0.5277,0.0,5,-1.3427
+2025-01-20,2025-01-20,tb_freeze,Signature Freeze,beverages,attach,core,2539,10969.13,4.32,7715.71,0.7034,0.0,5,-1.0943
+2025-01-20,2025-01-20,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,3995,30266.75,7.58,14511.75,0.4795,0.0,5,-2.3869
+2025-01-20,2025-01-20,tb_nachos,nachos,shareables,core_meal,core,1943,12176.59,6.27,6796.9,0.5582,0.0,5,-1.4837
+2025-01-20,2025-01-20,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,5843,14517.17,2.48,8662.92,0.5967,0.0,5,-2.6508
+2025-01-20,2025-01-20,tb_value_taco,Value Taco,tacos,traffic_builder,value,6065,13094.92,2.16,8064.73,0.6159,0.0,5,-2.734
+2025-01-27,2025-01-27,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4871,16116.98,3.31,11819.79,0.7334,100.0,5,-0.9313
+2025-01-27,2025-01-27,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,2085,10503.28,5.04,5964.57,0.5679,100.0,5,-1.6202
+2025-01-27,2025-01-27,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2693,10353.38,3.84,5677.63,0.5484,100.0,5,-1.4573
+2025-01-27,2025-01-27,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2313,15807.53,6.83,8205.04,0.5191,100.0,5,-1.1887
+2025-01-27,2025-01-27,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,3327,19618.47,5.9,10367.73,0.5285,100.0,5,-1.3158
+2025-01-27,2025-01-27,tb_freeze,Signature Freeze,beverages,attach,core,2749,11024.09,4.01,7767.94,0.7046,100.0,5,-1.0769
+2025-01-27,2025-01-27,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,5301,35632.5,6.72,17128.58,0.4807,100.0,5,-2.3279
+2025-01-27,2025-01-27,tb_nachos,nachos,shareables,core_meal,core,2133,12491.94,5.86,6967.95,0.5578,100.0,5,-1.4625
+2025-01-27,2025-01-27,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,8067,17734.24,2.2,10584.77,0.5969,100.0,5,-2.5836
+2025-01-27,2025-01-27,tb_value_taco,Value Taco,tacos,traffic_builder,value,8621,16426.37,1.91,10141.11,0.6174,100.0,5,-2.663
+2025-02-03,2025-02-03,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4543,16190.66,3.56,11863.21,0.7327,0.0,5,-0.9475
+2025-02-03,2025-02-03,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1839,9948.03,5.41,5649.12,0.5679,0.0,5,-1.6471
+2025-02-03,2025-02-03,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2442,10023.48,4.1,5493.58,0.5481,0.0,5,-1.4803
+2025-02-03,2025-02-03,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2092,15598.52,7.46,8093.14,0.5188,0.0,5,-1.2128
+2025-02-03,2025-02-03,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,3001,19468.09,6.49,10283.63,0.5282,0.0,5,-1.345
+2025-02-03,2025-02-03,tb_freeze,Signature Freeze,beverages,attach,core,2535,10948.69,4.32,7705.6,0.7038,0.0,5,-1.0961
+2025-02-03,2025-02-03,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,4020,30476.56,7.58,14611.95,0.4794,0.0,5,-2.391
+2025-02-03,2025-02-03,tb_nachos,nachos,shareables,core_meal,core,1922,12051.23,6.27,6716.94,0.5574,0.0,5,-1.4862
+2025-02-03,2025-02-03,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,5714,14178.46,2.48,8454.32,0.5963,0.0,5,-2.6553
+2025-02-03,2025-02-03,tb_value_taco,Value Taco,tacos,traffic_builder,value,6060,13091.22,2.16,8053.51,0.6152,0.0,5,-2.7386
+2025-02-10,2025-02-10,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4499,16019.5,3.56,11736.17,0.7326,0.0,5,-0.9475
+2025-02-10,2025-02-10,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1821,9846.23,5.41,5582.05,0.5669,0.0,5,-1.6471
+2025-02-10,2025-02-10,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2429,9961.24,4.1,5458.68,0.548,0.0,5,-1.4803
+2025-02-10,2025-02-10,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2084,15542.19,7.46,8061.48,0.5187,0.0,5,-1.2128
+2025-02-10,2025-02-10,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,2934,19024.02,6.48,10051.19,0.5283,0.0,5,-1.345
+2025-02-10,2025-02-10,tb_freeze,Signature Freeze,beverages,attach,core,2519,10882.49,4.32,7652.63,0.7032,0.0,5,-1.0961
+2025-02-10,2025-02-10,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,3975,30139.29,7.58,14458.81,0.4797,0.0,5,-2.391
+2025-02-10,2025-02-10,tb_nachos,nachos,shareables,core_meal,core,1911,11977.84,6.27,6672.27,0.5571,0.0,5,-1.4862
+2025-02-10,2025-02-10,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,5727,14226.72,2.48,8477.54,0.5959,0.0,5,-2.6553
+2025-02-10,2025-02-10,tb_value_taco,Value Taco,tacos,traffic_builder,value,6067,13107.9,2.16,8078.34,0.6163,0.0,5,-2.7386
+2025-02-17,2025-02-17,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4569,16288.59,3.57,11924.67,0.7321,0.0,5,-0.9475
+2025-02-17,2025-02-17,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1825,9853.08,5.4,5591.76,0.5675,0.0,5,-1.6471
+2025-02-17,2025-02-17,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2425,9941.34,4.1,5449.38,0.5482,0.0,5,-1.4803
+2025-02-17,2025-02-17,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2104,15688.63,7.46,8136.89,0.5186,0.0,5,-1.2128
+2025-02-17,2025-02-17,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,2969,19246.16,6.48,10169.05,0.5284,0.0,5,-1.345
+2025-02-17,2025-02-17,tb_freeze,Signature Freeze,beverages,attach,core,2522,10891.59,4.32,7662.88,0.7036,0.0,5,-1.0961
+2025-02-17,2025-02-17,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,3997,30323.36,7.59,14540.26,0.4795,0.0,5,-2.391
+2025-02-17,2025-02-17,tb_nachos,nachos,shareables,core_meal,core,1926,12060.8,6.26,6732.51,0.5582,0.0,5,-1.4862
+2025-02-17,2025-02-17,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,5842,14502.62,2.48,8659.52,0.5971,0.0,5,-2.6553
+2025-02-17,2025-02-17,tb_value_taco,Value Taco,tacos,traffic_builder,value,6152,13278.17,2.16,8185.94,0.6165,0.0,5,-2.7386
+2025-02-24,2025-02-24,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4944,16368.35,3.31,12004.18,0.7334,100.0,5,-0.9329
+2025-02-24,2025-02-24,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,2050,10339.41,5.04,5874.05,0.5681,100.0,5,-1.623
+2025-02-24,2025-02-24,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2681,10307.56,3.84,5649.62,0.5481,100.0,5,-1.4598
+2025-02-24,2025-02-24,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2309,15803.02,6.84,8195.47,0.5186,100.0,5,-1.1907
+2025-02-24,2025-02-24,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,3363,19822.27,5.89,10477.0,0.5285,100.0,5,-1.3181
+2025-02-24,2025-02-24,tb_freeze,Signature Freeze,beverages,attach,core,2692,10794.51,4.01,7601.17,0.7042,100.0,5,-1.0788
+2025-02-24,2025-02-24,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,5220,35160.69,6.74,16882.54,0.4802,100.0,5,-2.3318
+2025-02-24,2025-02-24,tb_nachos,nachos,shareables,core_meal,core,2085,12210.54,5.86,6808.91,0.5576,100.0,5,-1.465
+2025-02-24,2025-02-24,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,7961,17503.91,2.2,10461.18,0.5976,100.0,5,-2.588
+2025-02-24,2025-02-24,tb_value_taco,Value Taco,tacos,traffic_builder,value,8407,16013.31,1.9,9877.47,0.6168,100.0,5,-2.6675
+2025-03-03,2025-03-03,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4548,16190.31,3.56,11876.65,0.7336,0.0,5,-0.9497
+2025-03-03,2025-03-03,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1760,9504.17,5.4,5393.96,0.5675,0.0,5,-1.6509
+2025-03-03,2025-03-03,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2416,9918.54,4.11,5437.69,0.5482,0.0,5,-1.4837
+2025-03-03,2025-03-03,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2086,15556.9,7.46,8067.67,0.5186,0.0,5,-1.2156
+2025-03-03,2025-03-03,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,2914,18892.46,6.48,9976.18,0.5281,0.0,5,-1.3481
+2025-03-03,2025-03-03,tb_freeze,Signature Freeze,beverages,attach,core,2494,10765.61,4.32,7574.48,0.7036,0.0,5,-1.0986
+2025-03-03,2025-03-03,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,3658,27736.95,7.58,13297.83,0.4794,0.0,5,-2.3965
+2025-03-03,2025-03-03,tb_nachos,nachos,shareables,core_meal,core,1910,11960.48,6.26,6676.5,0.5582,0.0,5,-1.4896
+2025-03-03,2025-03-03,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,5290,13131.06,2.48,7838.77,0.597,0.0,5,-2.6614
+2025-03-03,2025-03-03,tb_value_taco,Value Taco,tacos,traffic_builder,value,5652,12200.08,2.16,7519.18,0.6163,0.0,5,-2.7449
+2025-03-10,2025-03-10,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4522,16106.6,3.56,11799.53,0.7326,0.0,5,-0.9497
+2025-03-10,2025-03-10,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1783,9636.2,5.4,5466.74,0.5673,0.0,5,-1.6509
+2025-03-10,2025-03-10,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2445,10032.86,4.1,5496.91,0.5479,0.0,5,-1.4837
+2025-03-10,2025-03-10,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2047,15257.3,7.45,7918.65,0.519,0.0,5,-1.2156
+2025-03-10,2025-03-10,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,2948,19124.01,6.49,10105.77,0.5284,0.0,5,-1.3481
+2025-03-10,2025-03-10,tb_freeze,Signature Freeze,beverages,attach,core,2511,10854.3,4.32,7638.79,0.7038,0.0,5,-1.0986
+2025-03-10,2025-03-10,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,3692,28009.56,7.59,13435.56,0.4797,0.0,5,-2.3965
+2025-03-10,2025-03-10,tb_nachos,nachos,shareables,core_meal,core,1915,11997.23,6.26,6691.16,0.5577,0.0,5,-1.4896
+2025-03-10,2025-03-10,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,5311,13202.62,2.49,7867.15,0.5959,0.0,5,-2.6614
+2025-03-10,2025-03-10,tb_value_taco,Value Taco,tacos,traffic_builder,value,5590,12061.93,2.16,7424.86,0.6156,0.0,5,-2.7449
+2025-03-17,2025-03-17,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4490,15993.97,3.56,11724.01,0.733,0.0,5,-0.9497
+2025-03-17,2025-03-17,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1739,9386.12,5.4,5326.92,0.5675,0.0,5,-1.6509
+2025-03-17,2025-03-17,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2451,10050.38,4.1,5503.8,0.5476,0.0,5,-1.4837
+2025-03-17,2025-03-17,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2071,15442.83,7.46,8018.34,0.5192,0.0,5,-1.2156
+2025-03-17,2025-03-17,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,2914,18908.87,6.49,9988.71,0.5283,0.0,5,-1.3481
+2025-03-17,2025-03-17,tb_freeze,Signature Freeze,beverages,attach,core,2486,10741.52,4.32,7558.88,0.7037,0.0,5,-1.0986
+2025-03-17,2025-03-17,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,3684,27885.9,7.57,13371.61,0.4795,0.0,5,-2.3965
+2025-03-17,2025-03-17,tb_nachos,nachos,shareables,core_meal,core,1902,11917.99,6.27,6643.99,0.5575,0.0,5,-1.4896
+2025-03-17,2025-03-17,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,5317,13203.21,2.48,7880.97,0.5969,0.0,5,-2.6614
+2025-03-17,2025-03-17,tb_value_taco,Value Taco,tacos,traffic_builder,value,5561,11999.98,2.16,7391.21,0.6159,0.0,5,-2.7449
+2025-03-24,2025-03-24,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4825,15982.93,3.31,11707.4,0.7325,100.0,5,-0.935
+2025-03-24,2025-03-24,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1959,9889.1,5.05,5612.09,0.5675,100.0,5,-1.6267
+2025-03-24,2025-03-24,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2654,10210.07,3.85,5594.03,0.5479,100.0,5,-1.4632
+2025-03-24,2025-03-24,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2312,15808.21,6.84,8198.32,0.5186,100.0,5,-1.1934
+2025-03-24,2025-03-24,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,3322,19564.64,5.89,10344.02,0.5287,100.0,5,-1.3211
+2025-03-24,2025-03-24,tb_freeze,Signature Freeze,beverages,attach,core,2719,10908.05,4.01,7671.86,0.7033,100.0,5,-1.0813
+2025-03-24,2025-03-24,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,4855,32636.54,6.72,15674.29,0.4803,100.0,5,-2.3372
+2025-03-24,2025-03-24,tb_nachos,nachos,shareables,core_meal,core,2114,12387.02,5.86,6914.87,0.5582,100.0,5,-1.4684
+2025-03-24,2025-03-24,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,7299,16056.86,2.2,9584.9,0.5969,100.0,5,-2.594
+2025-03-24,2025-03-24,tb_value_taco,Value Taco,tacos,traffic_builder,value,7798,14848.57,1.9,9166.79,0.6174,100.0,5,-2.6737
+2025-03-31,2025-03-31,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4535,16129.57,3.56,11823.95,0.7331,0.0,5,-0.9497
+2025-03-31,2025-03-31,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1752,9464.08,5.4,5370.49,0.5675,0.0,5,-1.6509
+2025-03-31,2025-03-31,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2421,9931.2,4.1,5439.42,0.5477,0.0,5,-1.4837
+2025-03-31,2025-03-31,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2076,15470.22,7.45,8030.08,0.5191,0.0,5,-1.2156
+2025-03-31,2025-03-31,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,2891,18716.59,6.47,9882.44,0.528,0.0,5,-1.3481
+2025-03-31,2025-03-31,tb_freeze,Signature Freeze,beverages,attach,core,2489,10758.03,4.32,7569.32,0.7036,0.0,5,-1.0986
+2025-03-31,2025-03-31,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,3609,27351.98,7.58,13116.59,0.4795,0.0,5,-2.3965
+2025-03-31,2025-03-31,tb_nachos,nachos,shareables,core_meal,core,1902,11913.24,6.26,6638.12,0.5572,0.0,5,-1.4896
+2025-03-31,2025-03-31,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,5298,13156.91,2.48,7856.91,0.5972,0.0,5,-2.6614
+2025-03-31,2025-03-31,tb_value_taco,Value Taco,tacos,traffic_builder,value,5676,12250.62,2.16,7547.61,0.6161,0.0,5,-2.7449
+2025-04-07,2025-04-07,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4488,15979.05,3.56,11701.19,0.7323,0.0,5,-0.9522
+2025-04-07,2025-04-07,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1717,9278.63,5.4,5259.62,0.5669,0.0,5,-1.6553
+2025-04-07,2025-04-07,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2400,9847.63,4.1,5398.09,0.5482,0.0,5,-1.4876
+2025-04-07,2025-04-07,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2056,15351.75,7.47,7967.7,0.519,0.0,5,-1.2188
+2025-04-07,2025-04-07,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,2909,18861.47,6.48,9957.23,0.5279,0.0,5,-1.3516
+2025-04-07,2025-04-07,tb_freeze,Signature Freeze,beverages,attach,core,2481,10715.82,4.32,7535.89,0.7032,0.0,5,-1.1015
+2025-04-07,2025-04-07,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,3614,27386.03,7.58,13131.44,0.4795,0.0,5,-2.4028
+2025-04-07,2025-04-07,tb_nachos,nachos,shareables,core_meal,core,1895,11869.96,6.26,6617.94,0.5575,0.0,5,-1.4936
+2025-04-07,2025-04-07,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,5252,13039.48,2.48,7779.9,0.5966,0.0,5,-2.6685
+2025-04-07,2025-04-07,tb_value_taco,Value Taco,tacos,traffic_builder,value,5589,12061.04,2.16,7432.35,0.6162,0.0,5,-2.7522
+2025-04-14,2025-04-14,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4521,16095.96,3.56,11812.42,0.7339,0.0,5,-0.9522
+2025-04-14,2025-04-14,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1756,9487.03,5.4,5380.03,0.5671,0.0,5,-1.6553
+2025-04-14,2025-04-14,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2420,9925.43,4.1,5440.39,0.5481,0.0,5,-1.4876
+2025-04-14,2025-04-14,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2042,15220.98,7.45,7898.65,0.5189,0.0,5,-1.2188
+2025-04-14,2025-04-14,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,2906,18838.24,6.48,9949.83,0.5282,0.0,5,-1.3516
+2025-04-14,2025-04-14,tb_freeze,Signature Freeze,beverages,attach,core,2524,10902.58,4.32,7669.63,0.7035,0.0,5,-1.1015
+2025-04-14,2025-04-14,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,3677,27868.87,7.58,13378.39,0.48,0.0,5,-2.4028
+2025-04-14,2025-04-14,tb_nachos,nachos,shareables,core_meal,core,1895,11868.32,6.26,6615.6,0.5574,0.0,5,-1.4936
+2025-04-14,2025-04-14,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,5313,13182.28,2.48,7867.91,0.5969,0.0,5,-2.6685
+2025-04-14,2025-04-14,tb_value_taco,Value Taco,tacos,traffic_builder,value,5579,12039.65,2.16,7420.5,0.6163,0.0,5,-2.7522
+2025-04-21,2025-04-21,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4855,16105.7,3.32,11810.22,0.7333,100.0,5,-0.9375
+2025-04-21,2025-04-21,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1947,9813.1,5.04,5566.68,0.5673,100.0,5,-1.631
+2025-04-21,2025-04-21,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2598,9990.9,3.85,5473.91,0.5479,100.0,5,-1.467
+2025-04-21,2025-04-21,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2295,15698.45,6.84,8137.0,0.5183,100.0,5,-1.1966
+2025-04-21,2025-04-21,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,3294,19432.42,5.9,10260.42,0.528,100.0,5,-1.3246
+2025-04-21,2025-04-21,tb_freeze,Signature Freeze,beverages,attach,core,2719,10909.58,4.01,7683.23,0.7043,100.0,5,-1.0841
+2025-04-21,2025-04-21,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,4749,31932.73,6.72,15332.42,0.4801,100.0,5,-2.3434
+2025-04-21,2025-04-21,tb_nachos,nachos,shareables,core_meal,core,2115,12401.82,5.86,6922.13,0.5582,100.0,5,-1.4723
+2025-04-21,2025-04-21,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,7332,16108.91,2.2,9629.92,0.5978,100.0,5,-2.6008
+2025-04-21,2025-04-21,tb_value_taco,Value Taco,tacos,traffic_builder,value,7783,14829.17,1.91,9149.5,0.617,100.0,5,-2.6808
+2025-04-28,2025-04-28,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4464,15915.31,3.57,11660.55,0.7327,0.0,5,-0.9522
+2025-04-28,2025-04-28,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1735,9366.12,5.4,5314.08,0.5674,0.0,5,-1.6553
+2025-04-28,2025-04-28,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2415,9912.4,4.1,5433.08,0.5481,0.0,5,-1.4876
+2025-04-28,2025-04-28,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2067,15414.01,7.46,7995.21,0.5187,0.0,5,-1.2188
+2025-04-28,2025-04-28,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,2943,19074.1,6.48,10085.13,0.5287,0.0,5,-1.3516
+2025-04-28,2025-04-28,tb_freeze,Signature Freeze,beverages,attach,core,2500,10795.97,4.32,7601.55,0.7041,0.0,5,-1.1015
+2025-04-28,2025-04-28,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,3653,27704.2,7.58,13291.45,0.4798,0.0,5,-2.4028
+2025-04-28,2025-04-28,tb_nachos,nachos,shareables,core_meal,core,1861,11670.61,6.27,6506.03,0.5575,0.0,5,-1.4936
+2025-04-28,2025-04-28,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,5265,13058.74,2.48,7793.73,0.5968,0.0,5,-2.6685
+2025-04-28,2025-04-28,tb_value_taco,Value Taco,tacos,traffic_builder,value,5572,12030.53,2.16,7409.72,0.6159,0.0,5,-2.7522
+2025-05-05,2025-05-05,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4479,15944.04,3.56,11686.61,0.733,0.0,5,-0.9547
+2025-05-05,2025-05-05,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1744,9424.23,5.4,5346.13,0.5673,0.0,5,-1.6596
+2025-05-05,2025-05-05,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2368,9704.75,4.1,5321.2,0.5483,0.0,5,-1.4915
+2025-05-05,2025-05-05,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2044,15228.28,7.45,7896.68,0.5186,0.0,5,-1.222
+2025-05-05,2025-05-05,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,2919,18931.85,6.49,10004.85,0.5285,0.0,5,-1.3552
+2025-05-05,2025-05-05,tb_freeze,Signature Freeze,beverages,attach,core,2508,10827.79,4.32,7626.29,0.7043,0.0,5,-1.1044
+2025-05-05,2025-05-05,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,3599,27279.95,7.58,13070.31,0.4791,0.0,5,-2.4091
+2025-05-05,2025-05-05,tb_nachos,nachos,shareables,core_meal,core,1898,11896.1,6.27,6642.14,0.5583,0.0,5,-1.4975
+2025-05-05,2025-05-05,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,5279,13130.81,2.49,7827.86,0.5961,0.0,5,-2.6754
+2025-05-05,2025-05-05,tb_value_taco,Value Taco,tacos,traffic_builder,value,5576,12030.56,2.16,7411.54,0.6161,0.0,5,-2.7593
+2025-05-12,2025-05-12,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4483,15993.74,3.57,11725.8,0.7331,0.0,5,-0.9547
+2025-05-12,2025-05-12,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1739,9402.1,5.41,5328.58,0.5667,0.0,5,-1.6596
+2025-05-12,2025-05-12,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2387,9807.65,4.11,5368.24,0.5474,0.0,5,-1.4915
+2025-05-12,2025-05-12,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2071,15452.18,7.46,8019.15,0.519,0.0,5,-1.222
+2025-05-12,2025-05-12,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,2909,18871.88,6.49,9976.16,0.5286,0.0,5,-1.3552
+2025-05-12,2025-05-12,tb_freeze,Signature Freeze,beverages,attach,core,2476,10695.25,4.32,7525.1,0.7036,0.0,5,-1.1044
+2025-05-12,2025-05-12,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,3603,27296.15,7.58,13087.05,0.4794,0.0,5,-2.4091
+2025-05-12,2025-05-12,tb_nachos,nachos,shareables,core_meal,core,1895,11874.21,6.27,6620.22,0.5575,0.0,5,-1.4975
+2025-05-12,2025-05-12,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,5290,13143.44,2.48,7840.97,0.5966,0.0,5,-2.6754
+2025-05-12,2025-05-12,tb_value_taco,Value Taco,tacos,traffic_builder,value,5564,12013.3,2.16,7400.55,0.616,0.0,5,-2.7593
+2025-05-19,2025-05-19,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4793,15880.55,3.31,11650.36,0.7336,100.0,5,-0.94
+2025-05-19,2025-05-19,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1923,9688.54,5.04,5503.61,0.5681,100.0,5,-1.6353
+2025-05-19,2025-05-19,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2647,10179.15,3.85,5585.02,0.5487,100.0,5,-1.4709
+2025-05-19,2025-05-19,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2274,15549.49,6.84,8071.8,0.5191,100.0,5,-1.1997
+2025-05-19,2025-05-19,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,3302,19480.21,5.9,10300.96,0.5288,100.0,5,-1.328
+2025-05-19,2025-05-19,tb_freeze,Signature Freeze,beverages,attach,core,2713,10883.5,4.01,7657.26,0.7036,100.0,5,-1.0869
+2025-05-19,2025-05-19,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,4803,32295.65,6.72,15522.68,0.4806,100.0,5,-2.3495
+2025-05-19,2025-05-19,tb_nachos,nachos,shareables,core_meal,core,2081,12197.87,5.86,6806.74,0.558,100.0,5,-1.4761
+2025-05-19,2025-05-19,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,7387,16248.89,2.2,9713.87,0.5978,100.0,5,-2.6076
+2025-05-19,2025-05-19,tb_value_taco,Value Taco,tacos,traffic_builder,value,7766,14787.69,1.9,9122.72,0.6169,100.0,5,-2.6878
+2025-05-26,2025-05-26,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4507,16043.01,3.56,11754.52,0.7327,0.0,5,-0.9547
+2025-05-26,2025-05-26,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1697,9161.26,5.4,5194.99,0.5671,0.0,5,-1.6596
+2025-05-26,2025-05-26,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2399,9831.06,4.1,5383.27,0.5476,0.0,5,-1.4915
+2025-05-26,2025-05-26,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2040,15207.46,7.45,7887.92,0.5187,0.0,5,-1.222
+2025-05-26,2025-05-26,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,2874,18616.95,6.48,9834.82,0.5283,0.0,5,-1.3552
+2025-05-26,2025-05-26,tb_freeze,Signature Freeze,beverages,attach,core,2478,10693.62,4.32,7525.37,0.7037,0.0,5,-1.1044
+2025-05-26,2025-05-26,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,3611,27355.9,7.58,13117.87,0.4795,0.0,5,-2.4091
+2025-05-26,2025-05-26,tb_nachos,nachos,shareables,core_meal,core,1868,11707.37,6.27,6527.11,0.5575,0.0,5,-1.4975
+2025-05-26,2025-05-26,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,5316,13200.71,2.48,7881.74,0.5971,0.0,5,-2.6754
+2025-05-26,2025-05-26,tb_value_taco,Value Taco,tacos,traffic_builder,value,5599,12076.29,2.16,7451.83,0.6171,0.0,5,-2.7593
+2025-06-02,2025-06-02,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4972,17706.06,3.56,12986.2,0.7334,0.0,5,-0.9568
+2025-06-02,2025-06-02,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1728,9331.47,5.4,5292.62,0.5672,0.0,5,-1.6633
+2025-06-02,2025-06-02,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2396,9833.23,4.1,5390.33,0.5482,0.0,5,-1.4948
+2025-06-02,2025-06-02,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2035,15166.22,7.45,7866.78,0.5187,0.0,5,-1.2247
+2025-06-02,2025-06-02,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,2853,18495.09,6.48,9763.99,0.5279,0.0,5,-1.3582
+2025-06-02,2025-06-02,tb_freeze,Signature Freeze,beverages,attach,core,2742,11836.06,4.32,8334.94,0.7042,0.0,5,-1.1069
+2025-06-02,2025-06-02,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,3615,27410.62,7.58,13141.18,0.4794,0.0,5,-2.4144
+2025-06-02,2025-06-02,tb_nachos,nachos,shareables,core_meal,core,1863,11686.75,6.27,6513.43,0.5573,0.0,5,-1.5008
+2025-06-02,2025-06-02,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,5293,13145.68,2.48,7839.91,0.5964,0.0,5,-2.6813
+2025-06-02,2025-06-02,tb_value_taco,Value Taco,tacos,traffic_builder,value,5506,11893.73,2.16,7325.21,0.6159,0.0,5,-2.7655
+2025-06-09,2025-06-09,tb_baja_blast,Large Baja Blast,beverages,attach,entry,5023,17878.22,3.56,13109.9,0.7333,0.0,5,-0.9568
+2025-06-09,2025-06-09,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1730,9348.5,5.4,5303.26,0.5673,0.0,5,-1.6633
+2025-06-09,2025-06-09,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2374,9737.15,4.1,5337.72,0.5482,0.0,5,-1.4948
+2025-06-09,2025-06-09,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2011,15003.76,7.46,7784.46,0.5188,0.0,5,-1.2247
+2025-06-09,2025-06-09,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,2907,18856.42,6.49,9962.95,0.5284,0.0,5,-1.3582
+2025-06-09,2025-06-09,tb_freeze,Signature Freeze,beverages,attach,core,2775,11999.39,4.32,8441.34,0.7035,0.0,5,-1.1069
+2025-06-09,2025-06-09,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,3605,27325.07,7.58,13096.56,0.4793,0.0,5,-2.4144
+2025-06-09,2025-06-09,tb_nachos,nachos,shareables,core_meal,core,1878,11763.87,6.26,6562.81,0.5579,0.0,5,-1.5008
+2025-06-09,2025-06-09,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,5247,13034.64,2.48,7777.13,0.5967,0.0,5,-2.6813
+2025-06-09,2025-06-09,tb_value_taco,Value Taco,tacos,traffic_builder,value,5551,11981.67,2.16,7377.65,0.6157,0.0,5,-2.7655
+2025-06-16,2025-06-16,tb_baja_blast,Large Baja Blast,beverages,attach,entry,5331,17668.43,3.31,12960.4,0.7335,100.0,5,-0.942
+2025-06-16,2025-06-16,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1914,9657.37,5.05,5484.6,0.5679,100.0,5,-1.6389
+2025-06-16,2025-06-16,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2615,10064.82,3.85,5514.07,0.5479,100.0,5,-1.4741
+2025-06-16,2025-06-16,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2272,15523.61,6.83,8056.26,0.519,100.0,5,-1.2024
+2025-06-16,2025-06-16,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,3309,19506.25,5.89,10316.71,0.5289,100.0,5,-1.331
+2025-06-16,2025-06-16,tb_freeze,Signature Freeze,beverages,attach,core,3016,12101.14,4.01,8520.93,0.7041,100.0,5,-1.0893
+2025-06-16,2025-06-16,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,4804,32290.34,6.72,15517.74,0.4806,100.0,5,-2.3547
+2025-06-16,2025-06-16,tb_nachos,nachos,shareables,core_meal,core,2123,12433.98,5.86,6942.64,0.5584,100.0,5,-1.4794
+2025-06-16,2025-06-16,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,7271,15974.97,2.2,9556.53,0.5982,100.0,5,-2.6134
+2025-06-16,2025-06-16,tb_value_taco,Value Taco,tacos,traffic_builder,value,7726,14701.49,1.9,9074.9,0.6173,100.0,5,-2.6937
+2025-06-23,2025-06-23,tb_baja_blast,Large Baja Blast,beverages,attach,entry,5085,18129.8,3.57,13289.28,0.733,0.0,5,-0.9568
+2025-06-23,2025-06-23,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1733,9360.99,5.4,5310.94,0.5673,0.0,5,-1.6633
+2025-06-23,2025-06-23,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2381,9766.07,4.1,5348.89,0.5477,0.0,5,-1.4948
+2025-06-23,2025-06-23,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2002,14938.7,7.46,7741.09,0.5182,0.0,5,-1.2247
+2025-06-23,2025-06-23,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,2883,18694.95,6.48,9870.76,0.528,0.0,5,-1.3582
+2025-06-23,2025-06-23,tb_freeze,Signature Freeze,beverages,attach,core,2764,11933.41,4.32,8392.47,0.7033,0.0,5,-1.1069
+2025-06-23,2025-06-23,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,3600,27251.36,7.57,13075.03,0.4798,0.0,5,-2.4144
+2025-06-23,2025-06-23,tb_nachos,nachos,shareables,core_meal,core,1893,11851.18,6.26,6613.27,0.558,0.0,5,-1.5008
+2025-06-23,2025-06-23,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,5302,13162.05,2.48,7855.96,0.5969,0.0,5,-2.6813
+2025-06-23,2025-06-23,tb_value_taco,Value Taco,tacos,traffic_builder,value,5534,11935.32,2.16,7349.43,0.6158,0.0,5,-2.7655
+2025-06-30,2025-06-30,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4985,17741.34,3.56,13001.7,0.7328,0.0,5,-0.9568
+2025-06-30,2025-06-30,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1726,9316.81,5.4,5290.14,0.5678,0.0,5,-1.6633
+2025-06-30,2025-06-30,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2376,9749.77,4.1,5340.77,0.5478,0.0,5,-1.4948
+2025-06-30,2025-06-30,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2064,15409.32,7.47,7991.17,0.5186,0.0,5,-1.2247
+2025-06-30,2025-06-30,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,2903,18825.04,6.48,9955.63,0.5289,0.0,5,-1.3582
+2025-06-30,2025-06-30,tb_freeze,Signature Freeze,beverages,attach,core,2735,11810.57,4.32,8311.24,0.7037,0.0,5,-1.1069
+2025-06-30,2025-06-30,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,3578,27097.11,7.57,13002.25,0.4798,0.0,5,-2.4144
+2025-06-30,2025-06-30,tb_nachos,nachos,shareables,core_meal,core,1875,11757.74,6.27,6557.51,0.5577,0.0,5,-1.5008
+2025-06-30,2025-06-30,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,5262,13068.49,2.48,7798.36,0.5967,0.0,5,-2.6813
+2025-06-30,2025-06-30,tb_value_taco,Value Taco,tacos,traffic_builder,value,5467,11809.11,2.16,7277.79,0.6163,0.0,5,-2.7655
+2025-07-07,2025-07-07,tb_baja_blast,Large Baja Blast,beverages,attach,entry,5021,17888.58,3.56,13126.65,0.7338,0.0,5,-0.9583
+2025-07-07,2025-07-07,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1700,9181.58,5.4,5211.58,0.5676,0.0,5,-1.6659
+2025-07-07,2025-07-07,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2375,9746.73,4.1,5343.11,0.5482,0.0,5,-1.4972
+2025-07-07,2025-07-07,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2013,15011.5,7.46,7777.03,0.5181,0.0,5,-1.2266
+2025-07-07,2025-07-07,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,2898,18785.65,6.48,9926.21,0.5284,0.0,5,-1.3603
+2025-07-07,2025-07-07,tb_freeze,Signature Freeze,beverages,attach,core,2733,11809.26,4.32,8307.99,0.7035,0.0,5,-1.1086
+2025-07-07,2025-07-07,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,3525,26714.84,7.58,12792.46,0.4789,0.0,5,-2.4182
+2025-07-07,2025-07-07,tb_nachos,nachos,shareables,core_meal,core,1869,11707.49,6.26,6530.63,0.5578,0.0,5,-1.5031
+2025-07-07,2025-07-07,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,5330,13247.4,2.49,7900.97,0.5964,0.0,5,-2.6855
+2025-07-07,2025-07-07,tb_value_taco,Value Taco,tacos,traffic_builder,value,5475,11828.56,2.16,7288.69,0.6162,0.0,5,-2.7698
+2025-07-14,2025-07-14,tb_baja_blast,Large Baja Blast,beverages,attach,entry,5345,17706.72,3.31,12983.65,0.7333,100.0,5,-0.9435
+2025-07-14,2025-07-14,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1920,9676.83,5.04,5493.25,0.5677,100.0,5,-1.6415
+2025-07-14,2025-07-14,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2639,10147.14,3.85,5563.54,0.5483,100.0,5,-1.4764
+2025-07-14,2025-07-14,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2232,15254.17,6.83,7921.33,0.5193,100.0,5,-1.2042
+2025-07-14,2025-07-14,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,3296,19432.53,5.9,10269.13,0.5285,100.0,5,-1.3331
+2025-07-14,2025-07-14,tb_freeze,Signature Freeze,beverages,attach,core,2988,11988.56,4.01,8442.08,0.7042,100.0,5,-1.0911
+2025-07-14,2025-07-14,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,4728,31815.53,6.73,15264.8,0.4798,100.0,5,-2.3584
+2025-07-14,2025-07-14,tb_nachos,nachos,shareables,core_meal,core,2080,12186.62,5.86,6800.56,0.558,100.0,5,-1.4817
+2025-07-14,2025-07-14,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,7326,16126.56,2.2,9626.31,0.5969,100.0,5,-2.6175
+2025-07-14,2025-07-14,tb_value_taco,Value Taco,tacos,traffic_builder,value,7705,14659.91,1.9,9041.66,0.6168,100.0,5,-2.6979
+2025-07-21,2025-07-21,tb_baja_blast,Large Baja Blast,beverages,attach,entry,5013,17842.99,3.56,13078.4,0.733,0.0,5,-0.9583
+2025-07-21,2025-07-21,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1723,9319.08,5.41,5286.39,0.5673,0.0,5,-1.6659
+2025-07-21,2025-07-21,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2385,9779.62,4.1,5364.99,0.5486,0.0,5,-1.4972
+2025-07-21,2025-07-21,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2006,14957.0,7.46,7755.86,0.5185,0.0,5,-1.2266
+2025-07-21,2025-07-21,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,2918,18923.03,6.48,10000.07,0.5285,0.0,5,-1.3603
+2025-07-21,2025-07-21,tb_freeze,Signature Freeze,beverages,attach,core,2723,11755.76,4.32,8267.24,0.7033,0.0,5,-1.1086
+2025-07-21,2025-07-21,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,3603,27303.9,7.58,13103.1,0.4799,0.0,5,-2.4182
+2025-07-21,2025-07-21,tb_nachos,nachos,shareables,core_meal,core,1887,11831.08,6.27,6594.51,0.5574,0.0,5,-1.5031
+2025-07-21,2025-07-21,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,5278,13098.77,2.48,7813.87,0.5965,0.0,5,-2.6855
+2025-07-21,2025-07-21,tb_value_taco,Value Taco,tacos,traffic_builder,value,5520,11909.61,2.16,7331.94,0.6156,0.0,5,-2.7698
+2025-07-28,2025-07-28,tb_baja_blast,Large Baja Blast,beverages,attach,entry,5009,17836.33,3.56,13084.38,0.7336,0.0,5,-0.9583
+2025-07-28,2025-07-28,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1724,9321.82,5.41,5291.08,0.5676,0.0,5,-1.6659
+2025-07-28,2025-07-28,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2360,9684.13,4.1,5299.75,0.5473,0.0,5,-1.4972
+2025-07-28,2025-07-28,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2044,15249.86,7.46,7913.96,0.519,0.0,5,-1.2266
+2025-07-28,2025-07-28,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,2891,18761.74,6.49,9907.7,0.5281,0.0,5,-1.3603
+2025-07-28,2025-07-28,tb_freeze,Signature Freeze,beverages,attach,core,2785,12041.06,4.32,8481.67,0.7044,0.0,5,-1.1086
+2025-07-28,2025-07-28,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,3643,27580.75,7.57,13237.8,0.48,0.0,5,-2.4182
+2025-07-28,2025-07-28,tb_nachos,nachos,shareables,core_meal,core,1867,11700.14,6.27,6527.11,0.5579,0.0,5,-1.5031
+2025-07-28,2025-07-28,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,5268,13081.92,2.48,7808.91,0.5969,0.0,5,-2.6855
+2025-07-28,2025-07-28,tb_value_taco,Value Taco,tacos,traffic_builder,value,5500,11864.9,2.16,7305.21,0.6157,0.0,5,-2.7698
+2025-08-04,2025-08-04,tb_baja_blast,Large Baja Blast,beverages,attach,entry,5073,18048.95,3.56,13233.63,0.7332,0.0,5,-0.959
+2025-08-04,2025-08-04,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1695,9162.38,5.41,5190.8,0.5665,0.0,5,-1.6671
+2025-08-04,2025-08-04,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2392,9818.39,4.1,5382.57,0.5482,0.0,5,-1.4982
+2025-08-04,2025-08-04,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2048,15272.21,7.46,7921.53,0.5187,0.0,5,-1.2275
+2025-08-04,2025-08-04,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,2905,18829.42,6.48,9946.71,0.5283,0.0,5,-1.3613
+2025-08-04,2025-08-04,tb_freeze,Signature Freeze,beverages,attach,core,2774,11978.89,4.32,8439.54,0.7045,0.0,5,-1.1094
+2025-08-04,2025-08-04,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,3633,27556.5,7.59,13220.05,0.4797,0.0,5,-2.42
+2025-08-04,2025-08-04,tb_nachos,nachos,shareables,core_meal,core,1873,11729.69,6.26,6540.41,0.5576,0.0,5,-1.5042
+2025-08-04,2025-08-04,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,5261,13075.43,2.49,7790.12,0.5958,0.0,5,-2.6875
+2025-08-04,2025-08-04,tb_value_taco,Value Taco,tacos,traffic_builder,value,5602,12087.98,2.16,7447.6,0.6161,0.0,5,-2.7718
+2025-08-11,2025-08-11,tb_baja_blast,Large Baja Blast,beverages,attach,entry,5343,17708.73,3.31,12971.83,0.7325,100.0,5,-0.9442
+2025-08-11,2025-08-11,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1924,9702.11,5.04,5510.64,0.568,100.0,5,-1.6426
+2025-08-11,2025-08-11,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2642,10156.14,3.84,5570.08,0.5484,100.0,5,-1.4775
+2025-08-11,2025-08-11,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2259,15443.58,6.84,8020.96,0.5194,100.0,5,-1.2051
+2025-08-11,2025-08-11,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,3280,19332.84,5.89,10219.36,0.5286,100.0,5,-1.334
+2025-08-11,2025-08-11,tb_freeze,Signature Freeze,beverages,attach,core,3006,12049.02,4.01,8479.83,0.7038,100.0,5,-1.0918
+2025-08-11,2025-08-11,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,4781,32147.74,6.72,15452.93,0.4807,100.0,5,-2.3601
+2025-08-11,2025-08-11,tb_nachos,nachos,shareables,core_meal,core,2064,12100.01,5.86,6750.7,0.5579,100.0,5,-1.4828
+2025-08-11,2025-08-11,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,7193,15810.11,2.2,9440.34,0.5971,100.0,5,-2.6194
+2025-08-11,2025-08-11,tb_value_taco,Value Taco,tacos,traffic_builder,value,7685,14636.09,1.9,9024.64,0.6166,100.0,5,-2.6999
+2025-08-18,2025-08-18,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4950,17609.58,3.56,12917.04,0.7335,0.0,5,-0.959
+2025-08-18,2025-08-18,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1745,9427.96,5.4,5353.31,0.5678,0.0,5,-1.6671
+2025-08-18,2025-08-18,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2397,9842.77,4.11,5395.43,0.5482,0.0,5,-1.4982
+2025-08-18,2025-08-18,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2021,15072.61,7.46,7813.54,0.5184,0.0,5,-1.2275
+2025-08-18,2025-08-18,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,2910,18877.65,6.49,9968.16,0.528,0.0,5,-1.3613
+2025-08-18,2025-08-18,tb_freeze,Signature Freeze,beverages,attach,core,2781,12020.64,4.32,8460.36,0.7038,0.0,5,-1.1094
+2025-08-18,2025-08-18,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,3605,27322.92,7.58,13098.42,0.4794,0.0,5,-2.42
+2025-08-18,2025-08-18,tb_nachos,nachos,shareables,core_meal,core,1879,11772.37,6.27,6562.46,0.5574,0.0,5,-1.5042
+2025-08-18,2025-08-18,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,5223,12969.37,2.48,7730.73,0.5961,0.0,5,-2.6875
+2025-08-18,2025-08-18,tb_value_taco,Value Taco,tacos,traffic_builder,value,5520,11916.36,2.16,7342.09,0.6161,0.0,5,-2.7718
+2025-08-25,2025-08-25,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4934,17545.41,3.56,12858.31,0.7329,0.0,5,-0.959
+2025-08-25,2025-08-25,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1707,9220.79,5.4,5232.52,0.5675,0.0,5,-1.6671
+2025-08-25,2025-08-25,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2391,9804.33,4.1,5369.85,0.5477,0.0,5,-1.4982
+2025-08-25,2025-08-25,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2018,15058.81,7.46,7799.35,0.5179,0.0,5,-1.2275
+2025-08-25,2025-08-25,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,2910,18871.52,6.49,9974.21,0.5285,0.0,5,-1.3613
+2025-08-25,2025-08-25,tb_freeze,Signature Freeze,beverages,attach,core,2758,11916.69,4.32,8388.19,0.7039,0.0,5,-1.1094
+2025-08-25,2025-08-25,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,3665,27780.04,7.58,13318.95,0.4794,0.0,5,-2.42
+2025-08-25,2025-08-25,tb_nachos,nachos,shareables,core_meal,core,1892,11851.48,6.26,6614.14,0.5581,0.0,5,-1.5042
+2025-08-25,2025-08-25,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,5295,13154.24,2.48,7847.45,0.5966,0.0,5,-2.6875
+2025-08-25,2025-08-25,tb_value_taco,Value Taco,tacos,traffic_builder,value,5547,11969.18,2.16,7377.34,0.6164,0.0,5,-2.7718
+2025-09-01,2025-09-01,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4480,15958.75,3.56,11698.14,0.733,0.0,5,-0.9588
+2025-09-01,2025-09-01,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1803,9745.4,5.41,5529.93,0.5674,0.0,5,-1.6668
+2025-09-01,2025-09-01,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2392,9821.49,4.11,5377.48,0.5475,0.0,5,-1.498
+2025-09-01,2025-09-01,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2069,15427.68,7.46,8008.5,0.5191,0.0,5,-1.2273
+2025-09-01,2025-09-01,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,2894,18763.09,6.48,9912.63,0.5283,0.0,5,-1.361
+2025-09-01,2025-09-01,tb_freeze,Signature Freeze,beverages,attach,core,2504,10808.77,4.32,7605.78,0.7037,0.0,5,-1.1092
+2025-09-01,2025-09-01,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,3770,28562.11,7.58,13693.93,0.4794,0.0,5,-2.4196
+2025-09-01,2025-09-01,tb_nachos,nachos,shareables,core_meal,core,1884,11807.84,6.27,6578.55,0.5571,0.0,5,-1.504
+2025-09-01,2025-09-01,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,5467,13581.4,2.48,8101.97,0.5965,0.0,5,-2.687
+2025-09-01,2025-09-01,tb_value_taco,Value Taco,tacos,traffic_builder,value,5757,12423.99,2.16,7654.49,0.6161,0.0,5,-2.7713
+2025-09-08,2025-09-08,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4770,15795.78,3.31,11579.72,0.7331,100.0,5,-0.944
+2025-09-08,2025-09-08,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,2029,10239.12,5.05,5812.73,0.5677,100.0,5,-1.6424
+2025-09-08,2025-09-08,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2616,10062.66,3.85,5519.4,0.5485,100.0,5,-1.4773
+2025-09-08,2025-09-08,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2290,15668.28,6.84,8122.74,0.5184,100.0,5,-1.2049
+2025-09-08,2025-09-08,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,3282,19352.71,5.9,10236.29,0.5289,100.0,5,-1.3338
+2025-09-08,2025-09-08,tb_freeze,Signature Freeze,beverages,attach,core,2693,10795.68,4.01,7601.32,0.7041,100.0,5,-1.0917
+2025-09-08,2025-09-08,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,4970,33410.46,6.72,16044.52,0.4802,100.0,5,-2.3597
+2025-09-08,2025-09-08,tb_nachos,nachos,shareables,core_meal,core,2103,12324.98,5.86,6880.81,0.5583,100.0,5,-1.4825
+2025-09-08,2025-09-08,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,7601,16726.02,2.2,9994.28,0.5975,100.0,5,-2.6189
+2025-09-08,2025-09-08,tb_value_taco,Value Taco,tacos,traffic_builder,value,8004,15242.98,1.9,9404.76,0.617,100.0,5,-2.6994
+2025-09-15,2025-09-15,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4520,16102.33,3.56,11809.95,0.7334,0.0,5,-0.9588
+2025-09-15,2025-09-15,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1794,9683.7,5.4,5493.18,0.5673,0.0,5,-1.6668
+2025-09-15,2025-09-15,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2406,9871.17,4.1,5406.34,0.5477,0.0,5,-1.498
+2025-09-15,2025-09-15,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2065,15406.09,7.46,7990.09,0.5186,0.0,5,-1.2273
+2025-09-15,2025-09-15,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,2958,19181.75,6.48,10143.4,0.5288,0.0,5,-1.361
+2025-09-15,2025-09-15,tb_freeze,Signature Freeze,beverages,attach,core,2514,10850.1,4.32,7640.58,0.7042,0.0,5,-1.1092
+2025-09-15,2025-09-15,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,3784,28650.96,7.57,13746.31,0.4798,0.0,5,-2.4196
+2025-09-15,2025-09-15,tb_nachos,nachos,shareables,core_meal,core,1881,11782.64,6.26,6568.0,0.5574,0.0,5,-1.504
+2025-09-15,2025-09-15,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,5490,13636.81,2.48,8130.13,0.5962,0.0,5,-2.687
+2025-09-15,2025-09-15,tb_value_taco,Value Taco,tacos,traffic_builder,value,5675,12235.94,2.16,7531.58,0.6155,0.0,5,-2.7713
+2025-09-22,2025-09-22,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4473,15933.32,3.56,11673.88,0.7327,0.0,5,-0.9588
+2025-09-22,2025-09-22,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1798,9702.7,5.4,5512.13,0.5681,0.0,5,-1.6668
+2025-09-22,2025-09-22,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2432,9981.95,4.1,5474.2,0.5484,0.0,5,-1.498
+2025-09-22,2025-09-22,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2030,15134.36,7.46,7852.01,0.5188,0.0,5,-1.2273
+2025-09-22,2025-09-22,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,2884,18707.58,6.49,9879.64,0.5281,0.0,5,-1.361
+2025-09-22,2025-09-22,tb_freeze,Signature Freeze,beverages,attach,core,2514,10857.65,4.32,7638.82,0.7035,0.0,5,-1.1092
+2025-09-22,2025-09-22,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,3742,28350.43,7.58,13588.19,0.4793,0.0,5,-2.4196
+2025-09-22,2025-09-22,tb_nachos,nachos,shareables,core_meal,core,1890,11843.02,6.27,6603.33,0.5576,0.0,5,-1.504
+2025-09-22,2025-09-22,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,5479,13606.07,2.48,8116.07,0.5965,0.0,5,-2.687
+2025-09-22,2025-09-22,tb_value_taco,Value Taco,tacos,traffic_builder,value,5781,12480.79,2.16,7691.83,0.6163,0.0,5,-2.7713
+2025-09-29,2025-09-29,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4540,16161.99,3.56,11845.23,0.7329,0.0,5,-0.9588
+2025-09-29,2025-09-29,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1802,9728.99,5.4,5515.7,0.5669,0.0,5,-1.6668
+2025-09-29,2025-09-29,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2425,9943.66,4.1,5445.57,0.5476,0.0,5,-1.498
+2025-09-29,2025-09-29,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2034,15166.45,7.46,7864.07,0.5185,0.0,5,-1.2273
+2025-09-29,2025-09-29,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,2908,18854.04,6.48,9969.66,0.5288,0.0,5,-1.361
+2025-09-29,2025-09-29,tb_freeze,Signature Freeze,beverages,attach,core,2499,10794.75,4.32,7596.91,0.7038,0.0,5,-1.1092
+2025-09-29,2025-09-29,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,3720,28184.49,7.58,13515.41,0.4795,0.0,5,-2.4196
+2025-09-29,2025-09-29,tb_nachos,nachos,shareables,core_meal,core,1888,11824.1,6.26,6594.63,0.5577,0.0,5,-1.504
+2025-09-29,2025-09-29,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,5565,13810.29,2.48,8238.66,0.5966,0.0,5,-2.687
+2025-09-29,2025-09-29,tb_value_taco,Value Taco,tacos,traffic_builder,value,5778,12457.92,2.16,7676.03,0.6162,0.0,5,-2.7713
+2025-10-06,2025-10-06,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4840,16036.24,3.31,11763.65,0.7336,100.0,5,-0.9431
+2025-10-06,2025-10-06,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1963,9895.4,5.04,5614.47,0.5674,100.0,5,-1.6408
+2025-10-06,2025-10-06,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2637,10143.23,3.85,5556.87,0.5478,100.0,5,-1.4758
+2025-10-06,2025-10-06,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2278,15584.12,6.84,8088.76,0.519,100.0,5,-1.2038
+2025-10-06,2025-10-06,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,3286,19368.82,5.89,10247.54,0.5291,100.0,5,-1.3325
+2025-10-06,2025-10-06,tb_freeze,Signature Freeze,beverages,attach,core,2720,10913.58,4.01,7681.23,0.7038,100.0,5,-1.0906
+2025-10-06,2025-10-06,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,4798,32280.83,6.73,15508.58,0.4804,100.0,5,-2.3574
+2025-10-06,2025-10-06,tb_nachos,nachos,shareables,core_meal,core,2086,12225.98,5.86,6821.55,0.558,100.0,5,-1.4811
+2025-10-06,2025-10-06,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,7282,15994.38,2.2,9549.78,0.5971,100.0,5,-2.6164
+2025-10-06,2025-10-06,tb_value_taco,Value Taco,tacos,traffic_builder,value,7803,14857.86,1.9,9169.37,0.6171,100.0,5,-2.6968
+2025-10-13,2025-10-13,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4519,16094.35,3.56,11807.18,0.7336,0.0,5,-0.9579
+2025-10-13,2025-10-13,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1745,9428.04,5.4,5353.38,0.5678,0.0,5,-1.6652
+2025-10-13,2025-10-13,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2413,9888.54,4.1,5420.66,0.5482,0.0,5,-1.4965
+2025-10-13,2025-10-13,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2079,15496.29,7.45,8036.98,0.5186,0.0,5,-1.2261
+2025-10-13,2025-10-13,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,2935,19022.69,6.48,10053.29,0.5285,0.0,5,-1.3597
+2025-10-13,2025-10-13,tb_freeze,Signature Freeze,beverages,attach,core,2516,10868.66,4.32,7645.17,0.7034,0.0,5,-1.1081
+2025-10-13,2025-10-13,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,3634,27503.84,7.57,13192.53,0.4797,0.0,5,-2.4172
+2025-10-13,2025-10-13,tb_nachos,nachos,shareables,core_meal,core,1902,11904.39,6.26,6638.45,0.5576,0.0,5,-1.5025
+2025-10-13,2025-10-13,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,5323,13231.48,2.49,7891.59,0.5964,0.0,5,-2.6844
+2025-10-13,2025-10-13,tb_value_taco,Value Taco,tacos,traffic_builder,value,5614,12118.35,2.16,7468.78,0.6163,0.0,5,-2.7687
+2025-10-20,2025-10-20,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4492,16004.5,3.56,11722.76,0.7325,0.0,5,-0.9579
+2025-10-20,2025-10-20,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1751,9458.81,5.4,5366.4,0.5673,0.0,5,-1.6652
+2025-10-20,2025-10-20,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2389,9793.38,4.1,5363.53,0.5477,0.0,5,-1.4965
+2025-10-20,2025-10-20,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2042,15220.82,7.45,7891.76,0.5185,0.0,5,-1.2261
+2025-10-20,2025-10-20,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,2918,18921.0,6.48,9996.22,0.5283,0.0,5,-1.3597
+2025-10-20,2025-10-20,tb_freeze,Signature Freeze,beverages,attach,core,2478,10704.89,4.32,7525.93,0.703,0.0,5,-1.1081
+2025-10-20,2025-10-20,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,3612,27362.96,7.58,13113.25,0.4792,0.0,5,-2.4172
+2025-10-20,2025-10-20,tb_nachos,nachos,shareables,core_meal,core,1903,11922.15,6.26,6644.03,0.5573,0.0,5,-1.5025
+2025-10-20,2025-10-20,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,5312,13189.27,2.48,7863.56,0.5962,0.0,5,-2.6844
+2025-10-20,2025-10-20,tb_value_taco,Value Taco,tacos,traffic_builder,value,5592,12075.74,2.16,7438.96,0.616,0.0,5,-2.7687
+2025-10-27,2025-10-27,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4466,15890.29,3.56,11648.01,0.733,0.0,5,-0.9579
+2025-10-27,2025-10-27,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1732,9354.12,5.4,5308.96,0.5676,0.0,5,-1.6652
+2025-10-27,2025-10-27,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2423,9929.41,4.1,5441.74,0.548,0.0,5,-1.4965
+2025-10-27,2025-10-27,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2023,15070.57,7.45,7816.0,0.5186,0.0,5,-1.2261
+2025-10-27,2025-10-27,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,2894,18749.32,6.48,9903.31,0.5282,0.0,5,-1.3597
+2025-10-27,2025-10-27,tb_freeze,Signature Freeze,beverages,attach,core,2503,10807.77,4.32,7604.3,0.7036,0.0,5,-1.1081
+2025-10-27,2025-10-27,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,3643,27618.4,7.58,13247.86,0.4797,0.0,5,-2.4172
+2025-10-27,2025-10-27,tb_nachos,nachos,shareables,core_meal,core,1909,11963.44,6.27,6666.65,0.5573,0.0,5,-1.5025
+2025-10-27,2025-10-27,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,5332,13234.41,2.48,7900.66,0.597,0.0,5,-2.6844
+2025-10-27,2025-10-27,tb_value_taco,Value Taco,tacos,traffic_builder,value,5534,11936.81,2.16,7356.02,0.6162,0.0,5,-2.7687
+2025-11-03,2025-11-03,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4818,15967.17,3.31,11696.76,0.7326,100.0,5,-0.9417
+2025-11-03,2025-11-03,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1963,9908.08,5.05,5624.56,0.5677,100.0,5,-1.6382
+2025-11-03,2025-11-03,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2679,10312.39,3.85,5645.61,0.5475,100.0,5,-1.4736
+2025-11-03,2025-11-03,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2304,15750.06,6.84,8172.24,0.5189,100.0,5,-1.2019
+2025-11-03,2025-11-03,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,3317,19553.0,5.89,10323.69,0.528,100.0,5,-1.3305
+2025-11-03,2025-11-03,tb_freeze,Signature Freeze,beverages,attach,core,2720,10903.43,4.01,7673.41,0.7038,100.0,5,-1.0889
+2025-11-03,2025-11-03,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,4853,32613.16,6.72,15663.53,0.4803,100.0,5,-2.3538
+2025-11-03,2025-11-03,tb_nachos,nachos,shareables,core_meal,core,2121,12421.84,5.86,6934.13,0.5582,100.0,5,-1.4788
+2025-11-03,2025-11-03,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,7422,16310.98,2.2,9743.29,0.5973,100.0,5,-2.6123
+2025-11-03,2025-11-03,tb_value_taco,Value Taco,tacos,traffic_builder,value,7860,14984.2,1.91,9250.59,0.6174,100.0,5,-2.6927
+2025-11-10,2025-11-10,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4507,16041.51,3.56,11755.11,0.7328,0.0,5,-0.9564
+2025-11-10,2025-11-10,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1785,9644.44,5.4,5471.73,0.5673,0.0,5,-1.6626
+2025-11-10,2025-11-10,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2437,9996.39,4.1,5478.6,0.5481,0.0,5,-1.4942
+2025-11-10,2025-11-10,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2081,15515.21,7.46,8045.51,0.5186,0.0,5,-1.2242
+2025-11-10,2025-11-10,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,2950,19128.77,6.48,10100.04,0.528,0.0,5,-1.3576
+2025-11-10,2025-11-10,tb_freeze,Signature Freeze,beverages,attach,core,2553,11040.41,4.32,7771.21,0.7039,0.0,5,-1.1064
+2025-11-10,2025-11-10,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,3648,27644.65,7.58,13253.52,0.4794,0.0,5,-2.4135
+2025-11-10,2025-11-10,tb_nachos,nachos,shareables,core_meal,core,1942,12171.96,6.27,6780.61,0.5571,0.0,5,-1.5002
+2025-11-10,2025-11-10,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,5393,13382.55,2.48,7984.65,0.5966,0.0,5,-2.6803
+2025-11-10,2025-11-10,tb_value_taco,Value Taco,tacos,traffic_builder,value,5602,12087.46,2.16,7447.35,0.6161,0.0,5,-2.7644
+2025-11-17,2025-11-17,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4497,16018.43,3.56,11747.09,0.7333,0.0,5,-0.9564
+2025-11-17,2025-11-17,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1732,9346.72,5.4,5300.78,0.5671,0.0,5,-1.6626
+2025-11-17,2025-11-17,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2436,10002.16,4.11,5478.06,0.5477,0.0,5,-1.4942
+2025-11-17,2025-11-17,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2087,15561.58,7.46,8075.1,0.5189,0.0,5,-1.2242
+2025-11-17,2025-11-17,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,2927,18984.72,6.49,10024.32,0.528,0.0,5,-1.3576
+2025-11-17,2025-11-17,tb_freeze,Signature Freeze,beverages,attach,core,2528,10924.21,4.32,7684.65,0.7035,0.0,5,-1.1064
+2025-11-17,2025-11-17,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,3684,27934.02,7.58,13398.41,0.4796,0.0,5,-2.4135
+2025-11-17,2025-11-17,tb_nachos,nachos,shareables,core_meal,core,1924,12049.37,6.26,6715.62,0.5573,0.0,5,-1.5002
+2025-11-17,2025-11-17,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,5297,13157.18,2.48,7847.54,0.5964,0.0,5,-2.6803
+2025-11-17,2025-11-17,tb_value_taco,Value Taco,tacos,traffic_builder,value,5544,11958.29,2.16,7365.3,0.6159,0.0,5,-2.7644
+2025-11-24,2025-11-24,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4493,16008.61,3.56,11732.33,0.7329,0.0,5,-0.9564
+2025-11-24,2025-11-24,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1749,9445.11,5.4,5356.07,0.5671,0.0,5,-1.6626
+2025-11-24,2025-11-24,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2411,9894.18,4.1,5413.13,0.5471,0.0,5,-1.4942
+2025-11-24,2025-11-24,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2080,15516.61,7.46,8053.81,0.519,0.0,5,-1.2242
+2025-11-24,2025-11-24,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,2936,19040.39,6.49,10059.36,0.5283,0.0,5,-1.3576
+2025-11-24,2025-11-24,tb_freeze,Signature Freeze,beverages,attach,core,2521,10879.3,4.32,7657.24,0.7038,0.0,5,-1.1064
+2025-11-24,2025-11-24,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,3611,27353.51,7.58,13113.24,0.4794,0.0,5,-2.4135
+2025-11-24,2025-11-24,tb_nachos,nachos,shareables,core_meal,core,1906,11945.0,6.27,6663.31,0.5578,0.0,5,-1.5002
+2025-11-24,2025-11-24,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,5375,13343.07,2.48,7959.28,0.5965,0.0,5,-2.6803
+2025-11-24,2025-11-24,tb_value_taco,Value Taco,tacos,traffic_builder,value,5559,11991.77,2.16,7384.76,0.6158,0.0,5,-2.7644
+2025-12-01,2025-12-01,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4904,16251.75,3.31,11902.19,0.7324,100.0,5,-0.94
+2025-12-01,2025-12-01,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1968,9920.57,5.04,5633.72,0.5679,100.0,5,-1.6353
+2025-12-01,2025-12-01,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2680,10303.63,3.84,5651.06,0.5485,100.0,5,-1.4709
+2025-12-01,2025-12-01,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2300,15732.46,6.84,8170.42,0.5193,100.0,5,-1.1997
+2025-12-01,2025-12-01,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,3377,19924.8,5.9,10526.18,0.5283,100.0,5,-1.328
+2025-12-01,2025-12-01,tb_freeze,Signature Freeze,beverages,attach,core,2748,11012.52,4.01,7753.15,0.704,100.0,5,-1.0869
+2025-12-01,2025-12-01,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,4900,32969.44,6.73,15821.11,0.4799,100.0,5,-2.3495
+2025-12-01,2025-12-01,tb_nachos,nachos,shareables,core_meal,core,2106,12345.19,5.86,6889.85,0.5581,100.0,5,-1.4761
+2025-12-01,2025-12-01,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,7351,16151.36,2.2,9648.34,0.5974,100.0,5,-2.6076
+2025-12-01,2025-12-01,tb_value_taco,Value Taco,tacos,traffic_builder,value,7983,15201.86,1.9,9381.86,0.6172,100.0,5,-2.6878
+2025-12-08,2025-12-08,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4576,16300.55,3.56,11946.98,0.7329,0.0,5,-0.9547
+2025-12-08,2025-12-08,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1728,9343.86,5.41,5298.71,0.5671,0.0,5,-1.6596
+2025-12-08,2025-12-08,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2445,10028.14,4.1,5493.85,0.5478,0.0,5,-1.4915
+2025-12-08,2025-12-08,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2088,15557.48,7.45,8067.93,0.5186,0.0,5,-1.222
+2025-12-08,2025-12-08,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,2962,19229.25,6.49,10151.01,0.5279,0.0,5,-1.3552
+2025-12-08,2025-12-08,tb_freeze,Signature Freeze,beverages,attach,core,2519,10873.16,4.32,7648.5,0.7034,0.0,5,-1.1044
+2025-12-08,2025-12-08,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,3708,28063.55,7.57,13468.58,0.4799,0.0,5,-2.4091
+2025-12-08,2025-12-08,tb_nachos,nachos,shareables,core_meal,core,1947,12194.91,6.26,6803.96,0.5579,0.0,5,-1.4975
+2025-12-08,2025-12-08,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,5362,13315.16,2.48,7946.0,0.5968,0.0,5,-2.6754
+2025-12-08,2025-12-08,tb_value_taco,Value Taco,tacos,traffic_builder,value,5667,12228.61,2.16,7543.51,0.6169,0.0,5,-2.7593
+2025-12-15,2025-12-15,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4550,16184.82,3.56,11871.87,0.7335,0.0,5,-0.9547
+2025-12-15,2025-12-15,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1772,9561.52,5.4,5426.82,0.5676,0.0,5,-1.6596
+2025-12-15,2025-12-15,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2425,9949.24,4.1,5448.54,0.5476,0.0,5,-1.4915
+2025-12-15,2025-12-15,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2084,15534.63,7.45,8055.12,0.5185,0.0,5,-1.222
+2025-12-15,2025-12-15,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,2933,19014.65,6.48,10030.33,0.5275,0.0,5,-1.3552
+2025-12-15,2025-12-15,tb_freeze,Signature Freeze,beverages,attach,core,2560,11052.32,4.32,7778.83,0.7038,0.0,5,-1.1044
+2025-12-15,2025-12-15,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,3727,28242.96,7.58,13551.83,0.4798,0.0,5,-2.4091
+2025-12-15,2025-12-15,tb_nachos,nachos,shareables,core_meal,core,1925,12060.27,6.27,6725.05,0.5576,0.0,5,-1.4975
+2025-12-15,2025-12-15,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,5425,13471.32,2.48,8045.42,0.5972,0.0,5,-2.6754
+2025-12-15,2025-12-15,tb_value_taco,Value Taco,tacos,traffic_builder,value,5706,12311.24,2.16,7588.94,0.6164,0.0,5,-2.7593
+2025-12-22,2025-12-22,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4494,16010.49,3.56,11739.69,0.7332,0.0,5,-0.9547
+2025-12-22,2025-12-22,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1760,9509.13,5.4,5397.0,0.5676,0.0,5,-1.6596
+2025-12-22,2025-12-22,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2431,9978.33,4.1,5466.92,0.5479,0.0,5,-1.4915
+2025-12-22,2025-12-22,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2091,15588.72,7.46,8086.0,0.5187,0.0,5,-1.222
+2025-12-22,2025-12-22,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,2985,19367.28,6.49,10225.55,0.528,0.0,5,-1.3552
+2025-12-22,2025-12-22,tb_freeze,Signature Freeze,beverages,attach,core,2532,10929.3,4.32,7693.5,0.7039,0.0,5,-1.1044
+2025-12-22,2025-12-22,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,3682,27898.86,7.58,13359.58,0.4789,0.0,5,-2.4091
+2025-12-22,2025-12-22,tb_nachos,nachos,shareables,core_meal,core,1927,12083.48,6.27,6732.64,0.5572,0.0,5,-1.4975
+2025-12-22,2025-12-22,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,5344,13272.84,2.48,7922.68,0.5969,0.0,5,-2.6754
+2025-12-22,2025-12-22,tb_value_taco,Value Taco,tacos,traffic_builder,value,5549,11973.77,2.16,7379.4,0.6163,0.0,5,-2.7593
+2025-12-29,2025-12-29,tb_baja_blast,Large Baja Blast,beverages,attach,entry,4934,16345.37,3.31,11990.56,0.7336,100.0,5,-0.94
+2025-12-29,2025-12-29,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,1957,9867.97,5.04,5598.88,0.5674,100.0,5,-1.6353
+2025-12-29,2025-12-29,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,2678,10285.81,3.84,5634.66,0.5478,100.0,5,-1.4709
+2025-12-29,2025-12-29,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,2290,15670.55,6.84,8127.92,0.5187,100.0,5,-1.1997
+2025-12-29,2025-12-29,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,3334,19674.19,5.9,10393.02,0.5283,100.0,5,-1.328
+2025-12-29,2025-12-29,tb_freeze,Signature Freeze,beverages,attach,core,2731,10939.73,4.01,7700.88,0.7039,100.0,5,-1.0869
+2025-12-29,2025-12-29,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,4862,32713.4,6.73,15713.62,0.4803,100.0,5,-2.3495
+2025-12-29,2025-12-29,tb_nachos,nachos,shareables,core_meal,core,2134,12502.52,5.86,6971.81,0.5576,100.0,5,-1.4761
+2025-12-29,2025-12-29,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,7476,16431.71,2.2,9825.71,0.598,100.0,5,-2.6076
+2025-12-29,2025-12-29,tb_value_taco,Value Taco,tacos,traffic_builder,value,7857,14958.27,1.9,9223.21,0.6166,100.0,5,-2.6878

@@ -1,0 +1,53 @@
+event_id,week_start,event_type,channel_group,affected_channel,price_before,price_after,promo_id,promo_discount_pct,notes,validation_window
+EVT_001_04,2024-03-25,Retail Event,prestige,sephora,0,0,PROMO_EVENT,12.0,sephora seasonal highlight,clean
+EVT_001_12,2024-05-20,Retail Event,prestige,sephora,0,0,PROMO_EVENT,12.0,sephora seasonal highlight,clean
+EVT_001_18,2024-07-01,Retail Event,prestige,sephora,0,0,PROMO_EVENT,12.0,sephora seasonal highlight,clean
+EVT_001_36,2024-11-04,Retail Event,prestige,sephora,0,0,PROMO_EVENT,12.0,sephora seasonal highlight,clean
+EVT_001_56,2025-03-24,Retail Event,prestige,sephora,0,0,PROMO_EVENT,12.0,sephora seasonal highlight,clean
+EVT_002_05,2024-04-01,Retail Event,prestige,ulta,0,0,PROMO_EVENT,12.0,ulta seasonal highlight,clean
+EVT_002_13,2024-05-27,Retail Event,prestige,ulta,0,0,PROMO_EVENT,12.0,ulta seasonal highlight,clean
+EVT_002_19,2024-07-08,Retail Event,prestige,ulta,0,0,PROMO_EVENT,12.0,ulta seasonal highlight,clean
+EVT_002_37,2024-11-11,Retail Event,prestige,ulta,0,0,PROMO_EVENT,12.0,ulta seasonal highlight,clean
+EVT_002_57,2025-03-31,Retail Event,prestige,ulta,0,0,PROMO_EVENT,12.0,ulta seasonal highlight,clean
+EVT_003_06,2024-04-08,Retail Event,mass,target,0,0,PROMO_EVENT,12.0,target seasonal highlight,clean
+EVT_003_14,2024-06-03,Retail Event,mass,target,0,0,PROMO_EVENT,12.0,target seasonal highlight,clean
+EVT_003_20,2024-07-15,Retail Event,mass,target,0,0,PROMO_EVENT,12.0,target seasonal highlight,clean
+EVT_003_38,2024-11-18,Retail Event,mass,target,0,0,PROMO_EVENT,12.0,target seasonal highlight,clean
+EVT_003_58,2025-04-07,Retail Event,mass,target,0,0,PROMO_EVENT,12.0,target seasonal highlight,clean
+EVT_004_07,2024-04-15,Retail Event,mass,amazon,0,0,PROMO_EVENT,12.0,amazon seasonal highlight,clean
+EVT_004_15,2024-06-10,Retail Event,mass,amazon,0,0,PROMO_EVENT,12.0,amazon seasonal highlight,clean
+EVT_004_21,2024-07-22,Retail Event,mass,amazon,0,0,PROMO_EVENT,12.0,amazon seasonal highlight,clean
+EVT_004_39,2024-11-25,Retail Event,mass,amazon,0,0,PROMO_EVENT,12.0,amazon seasonal highlight,clean
+EVT_004_59,2025-04-14,Retail Event,mass,amazon,0,0,PROMO_EVENT,12.0,amazon seasonal highlight,clean
+EVT_005_03,2024-03-18,Retail Event,prestige,dtc,0,0,PROMO_EVENT,12.0,dtc seasonal highlight,clean
+EVT_005_11,2024-05-13,Retail Event,prestige,dtc,0,0,PROMO_EVENT,12.0,dtc seasonal highlight,clean
+EVT_005_17,2024-06-24,Retail Event,prestige,dtc,0,0,PROMO_EVENT,12.0,dtc seasonal highlight,clean
+EVT_005_35,2024-10-28,Retail Event,prestige,dtc,0,0,PROMO_EVENT,12.0,dtc seasonal highlight,clean
+EVT_005_55,2025-03-17,Retail Event,prestige,dtc,0,0,PROMO_EVENT,12.0,dtc seasonal highlight,clean
+EVT_TENT_06,2024-04-08,Retail Event,all,all,0,0,TENTPOLE,0.0,Memorial Day Promo,confounded
+EVT_TENT_15,2024-06-10,Retail Event,all,all,0,0,TENTPOLE,0.0,Prime Day Competitive,confounded
+EVT_TENT_26,2024-08-26,Retail Event,all,all,0,0,TENTPOLE,0.0,Back-to-School Push,confounded
+EVT_TENT_37,2024-11-11,Retail Event,all,all,0,0,TENTPOLE,0.0,Labor Day Week,confounded
+EVT_TENT_48,2025-01-27,Retail Event,all,all,0,0,TENTPOLE,0.0,Holiday Gifting Kickoff,confounded
+EVT_TENT_59,2025-04-14,Retail Event,all,all,0,0,TENTPOLE,0.0,Year-End Clearance,confounded
+EVT_COMP_07,2024-04-15,Competitor Price Drop,mass,amazon,0,0,COMP_DROP,0.0,Competitive set drops price on key SPF SKU,confounded
+EVT_COMP_15,2024-06-10,Competitor Price Drop,mass,amazon,0,0,COMP_DROP,0.0,Competitive set drops price on key SPF SKU,confounded
+EVT_COMP_24,2024-08-12,Competitor Price Drop,mass,amazon,0,0,COMP_DROP,0.0,Competitive set drops price on key SPF SKU,confounded
+EVT_COMP_35,2024-10-28,Competitor Price Drop,mass,amazon,0,0,COMP_DROP,0.0,Competitive set drops price on key SPF SKU,confounded
+EVT_COMP_44,2024-12-30,Competitor Price Drop,mass,amazon,0,0,COMP_DROP,0.0,Competitive set drops price on key SPF SKU,confounded
+EVT_COMP_56,2025-03-24,Competitor Price Drop,mass,amazon,0,0,COMP_DROP,0.0,Competitive set drops price on key SPF SKU,confounded
+EVT_SOC_05,2024-04-01,Social Spike,all,all,0,0,SOCIAL_SPIKE,0.0,Social lift in demand due to influencer content,confounded
+EVT_SOC_09,2024-04-29,Social Spike,all,all,0,0,SOCIAL_SPIKE,0.0,Social lift in demand due to influencer content,confounded
+EVT_SOC_16,2024-06-17,Social Spike,all,all,0,0,SOCIAL_SPIKE,0.0,Social lift in demand due to influencer content,confounded
+EVT_SOC_20,2024-07-15,Social Spike,all,all,0,0,SOCIAL_SPIKE,0.0,Social lift in demand due to influencer content,confounded
+EVT_SOC_26,2024-08-26,Social Spike,all,all,0,0,SOCIAL_SPIKE,0.0,Social lift in demand due to influencer content,confounded
+EVT_SOC_30,2024-09-23,Social Spike,all,all,0,0,SOCIAL_SPIKE,0.0,Social lift in demand due to influencer content,confounded
+EVT_SOC_36,2024-11-04,Social Spike,all,all,0,0,SOCIAL_SPIKE,0.0,Social lift in demand due to influencer content,confounded
+EVT_SOC_40,2024-12-02,Social Spike,all,all,0,0,SOCIAL_SPIKE,0.0,Social lift in demand due to influencer content,confounded
+EVT_SOC_46,2025-01-13,Social Spike,all,all,0,0,SOCIAL_SPIKE,0.0,Social lift in demand due to influencer content,confounded
+EVT_SOC_52,2025-02-24,Social Spike,all,all,0,0,SOCIAL_SPIKE,0.0,Social lift in demand due to influencer content,confounded
+EVT_MKD_18,2024-07-01,Markdown Start,all,all,0,0,MARKDOWN,25.0,Late-season markdown to clear inventory,confounded
+EVT_MKD_22,2024-07-29,Markdown Start,all,all,0,0,MARKDOWN,25.0,Late-season markdown to clear inventory,confounded
+EVT_MKD_28,2024-09-09,Markdown Start,all,all,0,0,MARKDOWN,25.0,Late-season markdown to clear inventory,confounded
+EVT_MKD_34,2024-10-21,Markdown Start,all,all,0,0,MARKDOWN,25.0,Late-season markdown to clear inventory,confounded
+EVT_MKD_46,2025-01-13,Markdown Start,all,all,0,0,MARKDOWN,25.0,Late-season markdown to clear inventory,confounded

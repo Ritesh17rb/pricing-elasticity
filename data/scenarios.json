@@ -1,0 +1,294 @@
+[
+  {
+    "id": "scenario_001",
+    "name": "Mass Channel Defensive Promo (Target/Amazon)",
+    "category": "promotion",
+    "model_type": "acquisition",
+    "description": "Apply a 15% promo on mass channels to defend volume after competitor price drops.",
+    "impact_summary": "Projected +18% new customers, +9% units, -6% margin short-term",
+    "config": {
+      "tier": "ad_supported",
+      "current_price": 24.0,
+      "new_price": 20.4,
+      "price_change_pct": -15.0,
+      "promotion": {
+        "type": "seasonal_discount",
+        "duration_months": 2,
+        "discount_pct": 15,
+        "promo_code": "DEFEND15",
+        "eligibility": "all_customers",
+        "start_date": "2025-06-01",
+        "end_date": "2025-08-01"
+      },
+      "target_segment": "all",
+      "effective_date": "2025-06-01",
+      "grandfathering": false
+    },
+    "constraints": {
+      "platform_compliant": true,
+      "price_change_12mo_limit": true,
+      "notice_period_30d": false,
+      "min_price": 18.0,
+      "max_price": 30.0
+    },
+    "priority": "high",
+    "business_rationale": "Defend share in mass channels when competitors discount on marketplaces."
+  },
+  {
+    "id": "scenario_002",
+    "name": "Prestige Channel Light Promo (Sephora/Ulta)",
+    "category": "promotion",
+    "model_type": "acquisition",
+    "description": "Offer 8% prestige promo focused on high-margin SKUs to support season launch.",
+    "impact_summary": "Projected +9% new customers, +4% units, -2% margin",
+    "config": {
+      "tier": "ad_free",
+      "current_price": 36.0,
+      "new_price": 33.12,
+      "price_change_pct": -8.0,
+      "promotion": {
+        "type": "seasonal_launch",
+        "duration_months": 1,
+        "discount_pct": 8,
+        "promo_code": "LAUNCH8",
+        "eligibility": "prestige_channels",
+        "start_date": "2025-03-15",
+        "end_date": "2025-04-15"
+      },
+      "target_segment": "loyal",
+      "effective_date": "2025-03-15",
+      "grandfathering": false
+    },
+    "constraints": {
+      "platform_compliant": true,
+      "price_change_12mo_limit": true,
+      "notice_period_30d": false,
+      "min_price": 28.0,
+      "max_price": 45.0
+    },
+    "priority": "high",
+    "business_rationale": "Keep prestige positioning while supporting launch momentum."
+  },
+  {
+    "id": "scenario_003",
+    "name": "Reduce Promo Depth in Prestige (Hold Price)",
+    "category": "price_increase",
+    "model_type": "churn",
+    "description": "Pull back discounts in prestige channel to protect margin during viral demand spike.",
+    "impact_summary": "Projected -2% units, +5% margin, minimal repeat loss",
+    "config": {
+      "tier": "ad_free",
+      "current_price": 36.0,
+      "new_price": 38.0,
+      "price_change_pct": 5.56,
+      "promotion": null,
+      "target_segment": "all",
+      "effective_date": "2025-07-01",
+      "grandfathering": false
+    },
+    "constraints": {
+      "platform_compliant": true,
+      "price_change_12mo_limit": true,
+      "notice_period_30d": true,
+      "min_price": 28.0,
+      "max_price": 45.0
+    },
+    "priority": "medium",
+    "business_rationale": "Monetize demand spike without over-discounting prestige channel."
+  },
+  {
+    "id": "scenario_004",
+    "name": "Mass Channel Markdown Start (Late Season)",
+    "category": "promotion",
+    "model_type": "churn",
+    "description": "Introduce 25% markdown to clear inventory before season end.",
+    "impact_summary": "Projected +22% units, -9% margin, faster sell-through",
+    "config": {
+      "tier": "ad_supported",
+      "current_price": 24.0,
+      "new_price": 18.0,
+      "price_change_pct": -25.0,
+      "promotion": {
+        "type": "markdown",
+        "duration_months": 1.5,
+        "discount_pct": 25,
+        "promo_code": "CLEAR25",
+        "eligibility": "all_customers",
+        "start_date": "2025-08-15",
+        "end_date": "2025-10-01"
+      },
+      "target_segment": "all",
+      "effective_date": "2025-08-15",
+      "grandfathering": false
+    },
+    "constraints": {
+      "platform_compliant": true,
+      "price_change_12mo_limit": false,
+      "notice_period_30d": false,
+      "min_price": 16.0,
+      "max_price": 30.0
+    },
+    "priority": "medium",
+    "business_rationale": "Accelerate sell-through on seasonal inventory."
+  },
+  {
+    "id": "scenario_005",
+    "name": "Seasonal Value Set (DTC Exclusive)",
+    "category": "new_tier",
+    "model_type": "migration",
+    "description": "Launch limited-time value set bundle at $44 to drive channel mix toward DTC.",
+    "impact_summary": "Projected +6% mix shift to DTC, +4% revenue lift",
+    "config": {
+      "tier": "bundle",
+      "current_price": 72.0,
+      "new_price": 44.0,
+      "price_change_pct": -38.9,
+      "promotion": null,
+      "target_segment": "value_bundle_buyer",
+      "effective_date": "2025-06-15",
+      "grandfathering": false,
+      "bundle_components": {
+        "supergoop_core": {
+          "tier": "prestige",
+          "standalone_price": 36.0
+        },
+        "seasonal_add_on": {
+          "tier": "mass",
+          "standalone_price": 24.0
+        },
+        "bundle_discount": 16.0,
+        "bundle_discount_pct": 26
+      }
+    },
+    "constraints": {
+      "platform_compliant": true,
+      "price_change_12mo_limit": false,
+      "notice_period_30d": false,
+      "min_price": 40.0,
+      "max_price": 60.0
+    },
+    "priority": "high",
+    "business_rationale": "Drive DTC traffic and capture higher margin bundles."
+  },
+  {
+    "id": "scenario_006",
+    "name": "Entry Pack for Mass Channel",
+    "category": "new_tier",
+    "model_type": "migration",
+    "description": "Introduce a trial-size entry pack at $14 to capture price-sensitive shoppers.",
+    "impact_summary": "Projected +12% new customers, -3% margin, improved trial conversion",
+    "config": {
+      "tier": "basic",
+      "current_price": null,
+      "new_price": 14.0,
+      "price_change_pct": null,
+      "promotion": null,
+      "target_segment": "promo_triggered",
+      "effective_date": "2025-04-01",
+      "grandfathering": false,
+      "tier_features": {
+        "bundle": "trial_size",
+        "channel": "mass",
+        "unit_count": 1
+      }
+    },
+    "constraints": {
+      "platform_compliant": true,
+      "price_change_12mo_limit": false,
+      "notice_period_30d": false,
+      "min_price": 10.0,
+      "max_price": 18.0
+    },
+    "priority": "medium",
+    "business_rationale": "Lower barrier to entry for price-sensitive shoppers."
+  },
+  {
+    "id": "scenario_007",
+    "name": "Prestige Channel Price Lift",
+    "category": "price_increase",
+    "model_type": "churn",
+    "description": "Increase prestige channel price by $2 to protect margin amid strong demand.",
+    "impact_summary": "Projected +4% revenue, -2% units, small repeat loss uptick",
+    "config": {
+      "tier": "ad_free",
+      "current_price": 36.0,
+      "new_price": 38.0,
+      "price_change_pct": 5.56,
+      "promotion": null,
+      "target_segment": "prestige_loyalist",
+      "effective_date": "2025-05-15",
+      "grandfathering": false
+    },
+    "constraints": {
+      "platform_compliant": true,
+      "price_change_12mo_limit": true,
+      "notice_period_30d": true,
+      "min_price": 28.0,
+      "max_price": 45.0
+    },
+    "priority": "low",
+    "business_rationale": "Capture margin while loyalty remains high."
+  },
+  {
+    "id": "scenario_008",
+    "name": "Channel Mix Shift to Prestige",
+    "category": "bundling",
+    "model_type": "migration",
+    "description": "Shift demand toward prestige channel with exclusive gift-with-purchase.",
+    "impact_summary": "Projected +5% prestige mix, +3% revenue",
+    "config": {
+      "tier": "premium",
+      "current_price": 36.0,
+      "new_price": 36.0,
+      "price_change_pct": 0,
+      "promotion": {
+        "type": "gift_with_purchase",
+        "duration_months": 2,
+        "discount_pct": 0,
+        "promo_code": "GIFT",
+        "eligibility": "prestige_channels",
+        "start_date": "2025-05-01",
+        "end_date": "2025-07-01"
+      },
+      "target_segment": "premium_add_on",
+      "effective_date": "2025-05-01",
+      "grandfathering": false
+    },
+    "constraints": {
+      "platform_compliant": true,
+      "price_change_12mo_limit": false,
+      "notice_period_30d": false,
+      "min_price": 28.0,
+      "max_price": 45.0
+    },
+    "priority": "medium",
+    "business_rationale": "Encourage migration to prestige without deep discounting."
+  },
+  {
+    "id": "scenario_baseline",
+    "name": "Do Nothing (Baseline)",
+    "category": "baseline",
+    "model_type": "baseline",
+    "description": "Maintain current pricing and promotional strategy with no changes",
+    "impact_summary": "Baseline scenario for comparison",
+    "config": {
+      "tier": "all",
+      "current_price": null,
+      "new_price": null,
+      "price_change_pct": 0,
+      "promotion": null,
+      "target_segment": "all",
+      "effective_date": "2025-03-15",
+      "grandfathering": false
+    },
+    "constraints": {
+      "platform_compliant": true,
+      "price_change_12mo_limit": true,
+      "notice_period_30d": true,
+      "min_price": null,
+      "max_price": null
+    },
+    "priority": "n/a",
+    "business_rationale": "Control scenario to measure incremental impact"
+  }
+]

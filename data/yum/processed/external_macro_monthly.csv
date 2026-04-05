@@ -1,0 +1,13 @@
+month_start,unemployment_rate,consumer_sentiment,food_away_from_home_cpi,source
+2025-01-01,4.16,76.97,382.9,fallback_modeled_series
+2025-02-01,4.22,75.76,383.8,fallback_modeled_series
+2025-03-01,4.26,73.96,384.7,fallback_modeled_series
+2025-04-01,4.28,71.84,385.6,fallback_modeled_series
+2025-05-01,4.28,69.75,386.5,fallback_modeled_series
+2025-06-01,4.25,68.02,387.4,fallback_modeled_series
+2025-07-01,4.21,66.91,388.3,fallback_modeled_series
+2025-08-01,4.15,66.61,389.2,fallback_modeled_series
+2025-09-01,4.09,67.16,390.1,fallback_modeled_series
+2025-10-01,4.02,68.47,391.0,fallback_modeled_series
+2025-11-01,3.97,70.34,391.9,fallback_modeled_series
+2025-12-01,3.94,72.47,392.8,fallback_modeled_series

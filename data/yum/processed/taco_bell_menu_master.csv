@@ -1,0 +1,11 @@
+brand_id,item_id,item_name,category,subcategory,price_tier,base_list_price,base_weekly_units,elasticity_prior,contribution_margin_pct,is_combo,is_value_platform,is_lto,protein_type,notes
+tacobell,tb_baja_blast,Large Baja Blast,beverages,attach,entry,3.29,238,-1.02,0.76,false,false,false,snack_treat,High-attach beverage with digital affinity.
+tacobell,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,core,4.99,88,-1.74,0.59,true,false,false,solo_value_meal,Breakfast carryover used in modeled daypart mix.
+tacobell,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,premium,3.79,122,-1.66,0.57,false,false,true,snack_treat,Premium innovation ladder.
+tacobell,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,premium,6.89,104,-1.36,0.54,false,false,false,core_meal,Premium dependable dinner choice.
+tacobell,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,premium,5.99,148,-1.48,0.55,false,false,false,core_meal,Signature innovation item.
+tacobell,tb_freeze,Signature Freeze,beverages,attach,core,3.99,132,-1.18,0.73,false,false,true,snack_treat,Seasonal beverage draw.
+tacobell,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,value,7.00,184,-2.34,0.5,true,true,false,solo_value_meal,Value box used to reset affordability optics.
+tacobell,tb_nachos,nachos,shareables,core_meal,core,5.79,96,-1.57,0.58,false,false,false,snack_treat,Shareable snacking platform.
+tacobell,tb_value_burrito,Value Burrito,burritos,traffic_builder,value,2.29,265,-2.55,0.62,true,true,false,solo_value_meal,Value-led taco shop traffic driver.
+tacobell,tb_value_taco,Value Taco,tacos,traffic_builder,value,1.99,278,-2.63,0.64,true,true,false,solo_value_meal,Entry taco anchor for value missions.

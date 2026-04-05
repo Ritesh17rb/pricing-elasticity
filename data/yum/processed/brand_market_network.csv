@@ -1,0 +1,49 @@
+brand_id,brand_name,market_id,market_name,store_count_proxy,franchise_mix_pct,company_owned_mix_pct,drive_thru_coverage_pct,delivery_coverage_pct,digital_ready_index
+kfc,KFC,los_angeles_ca,Los Angeles,33,97.0,3.0,86.02,94.23,0.8288
+kfc,KFC,dallas_tx,Dallas-Fort Worth,30,97.0,3.0,95.94,79.71,0.7474
+kfc,KFC,chicago_il,Chicago,38,97.0,3.0,85.27,92.63,0.74
+kfc,KFC,atlanta_ga,Atlanta,38,97.0,3.0,92.89,95.46,0.7326
+kfc,KFC,new_york_ny,New York City,28,97.0,3.0,96.11,93.25,0.851
+kfc,KFC,miami_fl,Miami,32,97.0,3.0,93.94,97.09,0.7622
+kfc,KFC,phoenix_az,Phoenix,31,97.0,3.0,83.75,91.79,0.7178
+kfc,KFC,denver_co,Denver,31,97.0,3.0,94.46,97.73,0.7622
+kfc,KFC,seattle_wa,Seattle,39,97.0,3.0,91.95,89.23,0.8066
+kfc,KFC,nashville_tn,Nashville,29,97.0,3.0,89.6,79.54,0.703
+kfc,KFC,minneapolis_mn,Minneapolis,28,97.0,3.0,97.17,86.99,0.7252
+kfc,KFC,charlotte_nc,Charlotte,38,97.0,3.0,90.7,88.08,0.7252
+tacobell,Taco Bell,los_angeles_ca,Los Angeles,33,93.0,7.0,85.97,79.56,0.9296
+tacobell,Taco Bell,dallas_tx,Dallas-Fort Worth,34,93.0,7.0,97.57,95.64,0.8383
+tacobell,Taco Bell,chicago_il,Chicago,33,93.0,7.0,94.63,96.18,0.83
+tacobell,Taco Bell,atlanta_ga,Atlanta,31,93.0,7.0,87.43,96.69,0.8217
+tacobell,Taco Bell,new_york_ny,New York City,33,93.0,7.0,88.65,91.89,0.9545
+tacobell,Taco Bell,miami_fl,Miami,31,93.0,7.0,85.27,95.31,0.8549
+tacobell,Taco Bell,phoenix_az,Phoenix,28,93.0,7.0,94.53,84.62,0.8051
+tacobell,Taco Bell,denver_co,Denver,33,93.0,7.0,91.58,81.57,0.8549
+tacobell,Taco Bell,seattle_wa,Seattle,32,93.0,7.0,86.43,80.98,0.9047
+tacobell,Taco Bell,nashville_tn,Nashville,28,93.0,7.0,91.61,94.77,0.7885
+tacobell,Taco Bell,minneapolis_mn,Minneapolis,32,93.0,7.0,84.31,85.76,0.8134
+tacobell,Taco Bell,charlotte_nc,Charlotte,24,93.0,7.0,83.16,84.06,0.8134
+pizzahut,Pizza Hut,los_angeles_ca,Los Angeles,27,99.0,1.0,0.0,82.25,0.9072
+pizzahut,Pizza Hut,dallas_tx,Dallas-Fort Worth,25,99.0,1.0,0.0,85.7,0.8181
+pizzahut,Pizza Hut,chicago_il,Chicago,24,99.0,1.0,0.0,90.83,0.81
+pizzahut,Pizza Hut,atlanta_ga,Atlanta,31,99.0,1.0,0.0,90.22,0.8019
+pizzahut,Pizza Hut,new_york_ny,New York City,25,99.0,1.0,0.0,90.47,0.9315
+pizzahut,Pizza Hut,miami_fl,Miami,26,99.0,1.0,0.0,79.85,0.8343
+pizzahut,Pizza Hut,phoenix_az,Phoenix,24,99.0,1.0,0.0,83.56,0.7857
+pizzahut,Pizza Hut,denver_co,Denver,26,99.0,1.0,0.0,78.94,0.8343
+pizzahut,Pizza Hut,seattle_wa,Seattle,23,99.0,1.0,0.0,84.67,0.8829
+pizzahut,Pizza Hut,nashville_tn,Nashville,23,99.0,1.0,0.0,92.26,0.7695
+pizzahut,Pizza Hut,minneapolis_mn,Minneapolis,24,99.0,1.0,0.0,97.43,0.7938
+pizzahut,Pizza Hut,charlotte_nc,Charlotte,31,99.0,1.0,0.0,84.16,0.7938
+habitburger,Habit Burger & Grill,los_angeles_ca,Los Angeles,9,58.0,42.0,84.78,89.51,0.7728
+habitburger,Habit Burger & Grill,dallas_tx,Dallas-Fort Worth,11,58.0,42.0,85.06,85.79,0.6969
+habitburger,Habit Burger & Grill,chicago_il,Chicago,10,58.0,42.0,94.68,93.96,0.69
+habitburger,Habit Burger & Grill,atlanta_ga,Atlanta,9,58.0,42.0,82.35,83.05,0.6831
+habitburger,Habit Burger & Grill,new_york_ny,New York City,11,58.0,42.0,83.83,83.15,0.7935
+habitburger,Habit Burger & Grill,miami_fl,Miami,8,58.0,42.0,83.73,91.91,0.7107
+habitburger,Habit Burger & Grill,phoenix_az,Phoenix,8,58.0,42.0,93.33,78.86,0.6693
+habitburger,Habit Burger & Grill,denver_co,Denver,9,58.0,42.0,86.17,91.48,0.7107
+habitburger,Habit Burger & Grill,seattle_wa,Seattle,10,58.0,42.0,83.54,88.85,0.7521
+habitburger,Habit Burger & Grill,nashville_tn,Nashville,8,58.0,42.0,93.58,92.48,0.6555
+habitburger,Habit Burger & Grill,minneapolis_mn,Minneapolis,8,58.0,42.0,92.35,95.38,0.6762
+habitburger,Habit Burger & Grill,charlotte_nc,Charlotte,10,58.0,42.0,87.64,89.49,0.6762

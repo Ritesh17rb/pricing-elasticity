@@ -1,0 +1,6 @@
+brand_id,channel,channel_name,display_order,digital_flag,off_premise_flag,supported_store_count,supported_store_pct,base_weight,price_factor,margin_factor,elasticity_factor,notes
+tacobell,drive_thru,Drive-Thru,1,false,true,12,100,47.0,1.0,1.0,0.95,Legacy compatibility channel file.
+tacobell,dine_in,Dine-In,2,false,false,12,100,10.0,1.0,1.02,1.0,Legacy compatibility channel file.
+tacobell,carryout,Carryout,3,false,true,12,100,9.0,1.0,1.0,0.99,Legacy compatibility channel file.
+tacobell,pickup_app,Pickup / App,4,true,true,12,100,21.0,0.985,0.99,0.91,Legacy compatibility channel file.
+tacobell,delivery,Delivery,5,true,true,12,100,13.0,1.07,0.82,0.85,Legacy compatibility channel file.

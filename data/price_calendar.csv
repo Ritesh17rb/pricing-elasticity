@@ -1,0 +1,209 @@
+week_start,channel_group,list_price,promo_flag,promo_discount_pct,effective_price,price_changed,price_change_pct,promo_type,promo_message
+2024-03-04,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2024-03-04,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2024-03-11,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2024-03-11,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2024-03-18,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2024-03-18,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2024-03-25,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2024-03-25,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2024-04-01,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2024-04-01,prestige,36.0,True,8.0,33.12,True,-8.0,seasonal_push,Limited-time sun care savings
+2024-04-08,mass,24.0,True,18.0,19.68,True,-18.0,seasonal_push,Limited-time sun care savings
+2024-04-08,prestige,36.0,True,8.0,33.12,True,-8.0,seasonal_push,Limited-time sun care savings
+2024-04-15,mass,24.0,True,18.0,19.68,True,-18.0,seasonal_push,Limited-time sun care savings
+2024-04-15,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2024-04-22,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2024-04-22,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2024-04-29,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2024-04-29,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2024-05-06,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2024-05-06,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2024-05-13,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2024-05-13,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2024-05-20,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2024-05-20,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2024-05-27,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2024-05-27,prestige,36.0,True,8.0,33.12,True,-8.0,seasonal_push,Limited-time sun care savings
+2024-06-03,mass,24.0,True,18.0,19.68,True,-18.0,competitive_defense,Limited-time sun care savings
+2024-06-03,prestige,36.0,True,8.0,33.12,True,-8.0,competitive_defense,Limited-time sun care savings
+2024-06-10,mass,24.0,True,18.0,19.68,True,-18.0,competitive_defense,Limited-time sun care savings
+2024-06-10,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2024-06-17,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2024-06-17,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2024-06-24,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2024-06-24,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2024-07-01,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2024-07-01,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2024-07-08,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2024-07-08,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2024-07-15,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2024-07-15,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2024-07-22,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2024-07-22,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2024-07-29,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2024-07-29,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2024-08-05,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2024-08-05,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2024-08-12,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2024-08-12,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2024-08-19,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2024-08-19,prestige,36.0,True,8.0,33.12,True,-8.0,seasonal_push,Limited-time sun care savings
+2024-08-26,mass,24.0,True,18.0,19.68,True,-18.0,seasonal_push,Limited-time sun care savings
+2024-08-26,prestige,36.0,True,8.0,33.12,True,-8.0,seasonal_push,Limited-time sun care savings
+2024-09-02,mass,24.0,True,18.0,19.68,True,-18.0,seasonal_push,Limited-time sun care savings
+2024-09-02,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2024-09-09,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2024-09-09,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2024-09-16,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2024-09-16,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2024-09-23,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2024-09-23,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2024-09-30,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2024-09-30,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2024-10-07,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2024-10-07,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2024-10-14,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2024-10-14,prestige,36.0,True,8.0,33.12,True,-8.0,seasonal_push,Limited-time sun care savings
+2024-10-21,mass,24.0,True,18.0,19.68,True,-18.0,competitive_defense,Limited-time sun care savings
+2024-10-21,prestige,36.0,True,8.0,33.12,True,-8.0,competitive_defense,Limited-time sun care savings
+2024-10-28,mass,24.0,True,18.0,19.68,True,-18.0,competitive_defense,Limited-time sun care savings
+2024-10-28,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2024-11-04,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2024-11-04,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2024-11-11,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2024-11-11,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2024-11-18,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2024-11-18,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2024-11-25,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2024-11-25,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2024-12-02,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2024-12-02,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2024-12-09,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2024-12-09,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2024-12-16,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2024-12-16,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2024-12-23,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2024-12-23,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2024-12-30,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2024-12-30,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2025-01-06,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2025-01-06,prestige,36.0,True,8.0,33.12,True,-8.0,seasonal_push,Limited-time sun care savings
+2025-01-13,mass,24.0,True,18.0,19.68,True,-18.0,seasonal_push,Limited-time sun care savings
+2025-01-13,prestige,36.0,True,8.0,33.12,True,-8.0,seasonal_push,Limited-time sun care savings
+2025-01-20,mass,24.0,True,18.0,19.68,True,-18.0,seasonal_push,Limited-time sun care savings
+2025-01-20,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2025-01-27,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2025-01-27,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2025-02-03,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2025-02-03,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2025-02-10,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2025-02-10,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2025-02-17,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2025-02-17,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2025-02-24,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2025-02-24,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2025-03-03,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2025-03-03,prestige,36.0,True,8.0,33.12,True,-8.0,seasonal_push,Limited-time sun care savings
+2025-03-10,mass,24.0,True,18.0,19.68,True,-18.0,competitive_defense,Limited-time sun care savings
+2025-03-10,prestige,36.0,True,8.0,33.12,True,-8.0,competitive_defense,Limited-time sun care savings
+2025-03-17,mass,24.0,True,18.0,19.68,True,-18.0,competitive_defense,Limited-time sun care savings
+2025-03-17,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2025-03-24,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2025-03-24,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2025-03-31,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2025-03-31,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2025-04-07,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2025-04-07,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2025-04-14,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2025-04-14,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2025-04-21,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2025-04-21,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2025-04-28,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2025-04-28,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2025-05-05,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2025-05-05,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2025-05-12,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2025-05-12,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2025-05-19,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2025-05-19,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2025-05-26,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2025-05-26,prestige,36.0,True,8.0,33.12,True,-8.0,seasonal_push,Limited-time sun care savings
+2025-06-02,mass,24.0,True,18.0,19.68,True,-18.0,seasonal_push,Limited-time sun care savings
+2025-06-02,prestige,36.0,True,8.0,33.12,True,-8.0,seasonal_push,Limited-time sun care savings
+2025-06-09,mass,24.0,True,18.0,19.68,True,-18.0,seasonal_push,Limited-time sun care savings
+2025-06-09,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2025-06-16,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2025-06-16,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2025-06-23,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2025-06-23,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2025-06-30,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2025-06-30,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2025-07-07,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2025-07-07,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2025-07-14,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2025-07-14,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2025-07-21,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2025-07-21,prestige,36.0,True,8.0,33.12,True,-8.0,seasonal_push,Limited-time sun care savings
+2025-07-28,mass,24.0,True,18.0,19.68,True,-18.0,competitive_defense,Limited-time sun care savings
+2025-07-28,prestige,36.0,True,8.0,33.12,True,-8.0,competitive_defense,Limited-time sun care savings
+2025-08-04,mass,24.0,True,18.0,19.68,True,-18.0,competitive_defense,Limited-time sun care savings
+2025-08-04,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2025-08-11,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2025-08-11,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2025-08-18,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2025-08-18,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2025-08-25,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2025-08-25,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2025-09-01,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2025-09-01,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2025-09-08,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2025-09-08,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2025-09-15,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2025-09-15,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2025-09-22,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2025-09-22,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2025-09-29,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2025-09-29,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2025-10-06,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2025-10-06,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2025-10-13,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2025-10-13,prestige,36.0,True,8.0,33.12,True,-8.0,seasonal_push,Limited-time sun care savings
+2025-10-20,mass,24.0,True,18.0,19.68,True,-18.0,seasonal_push,Limited-time sun care savings
+2025-10-20,prestige,36.0,True,8.0,33.12,True,-8.0,seasonal_push,Limited-time sun care savings
+2025-10-27,mass,24.0,True,18.0,19.68,True,-18.0,seasonal_push,Limited-time sun care savings
+2025-10-27,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2025-11-03,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2025-11-03,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2025-11-10,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2025-11-10,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2025-11-17,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2025-11-17,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2025-11-24,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2025-11-24,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2025-12-01,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2025-12-01,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2025-12-08,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2025-12-08,prestige,36.0,True,8.0,33.12,True,-8.0,seasonal_push,Limited-time sun care savings
+2025-12-15,mass,24.0,True,18.0,19.68,True,-18.0,competitive_defense,Limited-time sun care savings
+2025-12-15,prestige,36.0,True,8.0,33.12,True,-8.0,competitive_defense,Limited-time sun care savings
+2025-12-22,mass,24.0,True,18.0,19.68,True,-18.0,competitive_defense,Limited-time sun care savings
+2025-12-22,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2025-12-29,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2025-12-29,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2026-01-05,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2026-01-05,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2026-01-12,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2026-01-12,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2026-01-19,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2026-01-19,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2026-01-26,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2026-01-26,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2026-02-02,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2026-02-02,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2026-02-09,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2026-02-09,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2026-02-16,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2026-02-16,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing
+2026-02-23,mass,24.0,False,0.0,24.0,False,0.0,full_price,Everyday prestige pricing
+2026-02-23,prestige,36.0,False,0.0,36.0,False,0.0,full_price,Everyday prestige pricing

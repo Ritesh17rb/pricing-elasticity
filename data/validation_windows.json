@@ -1,0 +1,21 @@
+{
+  "clean_windows": [
+    {
+      "start_date": "2025-03-02",
+      "end_date": "2025-04-05",
+      "notes": "Baseline spring launch stability"
+    },
+    {
+      "start_date": "2025-06-01",
+      "end_date": "2025-07-06",
+      "notes": "Mid-season steady demand"
+    }
+  ],
+  "confounded_windows": [
+    {
+      "start_date": "2025-06-15",
+      "end_date": "2025-07-20",
+      "notes": "Competitive price drop period"
+    }
+  ]
+}

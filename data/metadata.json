@@ -1,0 +1,11 @@
+{
+  "customers.csv": "Customer-level records with channel group, region, and purchase behavior.",
+  "channel_weekly.csv": "Weekly KPIs by channel group (mass vs prestige).",
+  "season_calendar.csv": "Season phases, demand index, and inventory position.",
+  "price_calendar.csv": "Promo cadence and effective price by channel group.",
+  "market_signals.csv": "Competitor pricing and macro signals aligned to season.",
+  "social_signals.csv": "Social listening proxy signals and influencer activity.",
+  "retail_events.csv": "Retail events, competitive price moves, and markdown starts.",
+  "segments.csv": "Behavioral segments mapped to channel group.",
+  "segment_kpis.csv": "Segment KPIs (AOV, repeat loss, CAC, promo redemption)."
+}

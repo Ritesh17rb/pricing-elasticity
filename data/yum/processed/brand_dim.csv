@@ -1,0 +1,5 @@
+brand_id,brand_name,portfolio_role,cuisine_focus,service_model,core_dayparts,value_positioning,typical_check_low,typical_check_high,digital_maturity_index,franchise_mix_pct,global_exposure_index,brand_strength_index,brand_color,source_method
+kfc,KFC,Global fried chicken scale engine,Chicken,QSR,"lunch,dinner",balanced_value_and_family_meals,8.0,28.0,0.74,97.0,1.0,1.02,#d62828,modeled_public_portfolio_foundation
+tacobell,Taco Bell,High-frequency value and innovation growth engine,Mexican-inspired QSR,QSR,"late_night,lunch,dinner",value_led_innovation,7.0,16.0,0.83,93.0,0.82,1.06,#682bd7,modeled_public_portfolio_foundation
+pizzahut,Pizza Hut,Delivery and carryout family meal platform,Pizza,QSR/casual hybrid,"dinner,weekend",bundle_led_family_value,14.0,34.0,0.81,99.0,0.97,0.97,#0f6cbd,modeled_public_portfolio_foundation
+habitburger,Habit Burger & Grill,Premium burger adjacency and whitespace growth concept,Burger,Fast casual,"lunch,dinner",premium_better_burger,10.0,22.0,0.69,58.0,0.34,0.9,#ff8c42,modeled_public_portfolio_foundation
