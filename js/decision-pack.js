@@ -161,7 +161,7 @@ function addExecutiveSummary(doc, top3, objective, timestamp) {
   // Footer
   doc.setFontSize(8);
   doc.setTextColor(150, 150, 150);
-  doc.text('Yum Brands Pricing Elasticity Studio | Sample public-data build', 20, 285);
+  doc.text('Yum Brands Pricing Elasticity Studio', 20, 285);
   doc.text('Page 1 of 5', 180, 285);
 }
 
@@ -214,7 +214,7 @@ function addTop3Recommendations(doc, top3) {
   // Footer
   doc.setFontSize(8);
   doc.setTextColor(150, 150, 150);
-  doc.text('Yum Brands Pricing Elasticity Studio | Sample public-data build', 20, 285);
+  doc.text('Yum Brands Pricing Elasticity Studio', 20, 285);
   doc.text('Page 2 of 5', 180, 285);
 }
 
@@ -289,7 +289,7 @@ function addKPIComparison(doc, top3) {
   // Footer
   doc.setFontSize(8);
   doc.setTextColor(150, 150, 150);
-  doc.text('Yum Brands Pricing Elasticity Studio | Sample public-data build', 20, 285);
+  doc.text('Yum Brands Pricing Elasticity Studio', 20, 285);
   doc.text('Page 3 of 5', 180, 285);
 }
 
@@ -344,7 +344,7 @@ function addImplementationGuidance(doc, winner) {
   // Footer
   doc.setFontSize(8);
   doc.setTextColor(150, 150, 150);
-  doc.text('Yum Brands Pricing Elasticity Studio | Sample public-data build', 20, 285);
+  doc.text('Yum Brands Pricing Elasticity Studio', 20, 285);
   doc.text('Page 4 of 5', 180, 285);
 }
 
