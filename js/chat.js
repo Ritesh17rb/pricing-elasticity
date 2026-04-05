@@ -44,6 +44,7 @@ const settingsForm = saveform("#settings-form");
 // Conversation history
 let conversationHistory = [];
 let dataContext = null;
+let uiMessages = [];
 
 // Default system prompt template
 const DEFAULT_SYSTEM_PROMPT = `You are the Yum Elasticity Assistant for the Yum Brands Pricing Elasticity Studio.
@@ -108,6 +109,7 @@ const DEFAULT_SYSTEM_PROMPT = `You are the Yum Elasticity Assistant for the Yum 
 - Cite elasticity values when explaining price sensitivity
 - Be explicit when an answer applies only to one selected brand, cohort, mission, or channel
 - When users save scenarios, you can compare them using the compare_outcomes tool
+- When a message contains an "Active Screen Context" block, treat that as the primary scope and answer from that screen's current state first
 
 Be very concise and informative in your responses. No much questions to the user.
 Return the response in Markdown format for rich text display. (Bold important points, use lists for clarity, and include code blocks for any data or JSON.)
@@ -140,12 +142,92 @@ User: "Show me high repeat-loss segments"
 User: "What are the largest segments in mass channel group?"
 → Use query_segments with filter: {channel group: "mass", size: "large"}`;
 
+function escapeHtml(value) {
+  return String(value || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function getChatFeeds() {
+  return Array.from(document.querySelectorAll('[data-chat-feed]'));
+}
+
+function getEmptyStateMarkup(variant = 'compact') {
+  if (variant === 'full') {
+    return `
+      <div class="text-center text-muted mt-5">
+        <i class="bi bi-robot display-4 mb-3"></i>
+        <p><strong>Yum Elasticity Assistant</strong></p>
+        <p class="small">Ask me to summarize the current business, explain the elasticity readouts, compare options, or turn the evidence into actions.</p>
+      </div>
+    `;
+  }
+
+  return `
+    <div class="assistant-chat-empty">
+      <div class="assistant-chat-empty__icon"><i class="bi bi-stars"></i></div>
+      <div class="assistant-chat-empty__title">Ask the Yum assistant about this screen</div>
+      <div class="assistant-chat-empty__copy">Use the prompt chips below or type a question to turn this screen into a clear business readout.</div>
+    </div>
+  `;
+}
+
+function renderAllChatFeeds() {
+  const feeds = getChatFeeds();
+  feeds.forEach((feed) => {
+    const variant = feed.dataset.chatVariant || 'compact';
+    const visibleMessages = variant === 'full' ? uiMessages : uiMessages.slice(-4);
+
+    if (!visibleMessages.length) {
+      feed.innerHTML = getEmptyStateMarkup(variant);
+      return;
+    }
+
+    feed.innerHTML = visibleMessages.map((message) => {
+      const icon = message.role === 'user' ? '👤' : message.role === 'system' ? '⚙️' : '🤖';
+      const label = message.role === 'user' ? 'You' : message.role === 'system' ? 'System' : 'AI Assistant';
+      const contentMarkup = message.isLoading
+        ? `
+            <span class="spinner-border spinner-border-sm me-2"></span>
+            <span class="text-muted">Thinking...</span>
+          `
+        : message.role === 'assistant'
+          ? marked.parse(message.content || '')
+          : `<div>${escapeHtml(message.content || '')}</div>`;
+
+      return `
+        <div id="${message.id}" class="chat-message mb-3 ${message.role} ${message.customClass || ''}">
+          <div class="d-flex align-items-start">
+            <div class="me-2">${icon}</div>
+            <div class="flex-grow-1">
+              <div class="text-muted small mb-1">${label}</div>
+              <div class="message-content">${contentMarkup}</div>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    feed.scrollTop = feed.scrollHeight;
+  });
+}
+
+function setChatComposerEnabled(enabled) {
+  document.querySelectorAll('.assistant-chat-input, .assistant-chat-send-btn, .suggested-query').forEach((node) => {
+    node.disabled = !enabled;
+  });
+}
+
 /**
  * Initialize chat module with data context
  * @param {Object} context - Application data context
  */
 export function initializeChat(context) {
   dataContext = context;
+  renderAllChatFeeds();
 
   // Set up settings form handlers
   const resetButton = document.querySelector("#settings-form [type=reset]");
@@ -207,17 +289,15 @@ async function checkAndEnableChatUI() {
     // If we got a config with apiKey, enable the chat UI
     if (config && config.apiKey) {
       console.log('LLM already configured, enabling chat UI');
-      document.getElementById('chat-input').disabled = false;
-      document.getElementById('chat-send-btn').disabled = false;
-      document.querySelectorAll('.suggested-query').forEach(btn => {
-        btn.disabled = false;
-      });
+      setChatComposerEnabled(true);
     } else {
       console.log('LLM not configured yet, chat UI will remain disabled until configuration');
+      setChatComposerEnabled(false);
     }
   } catch (error) {
     // Config doesn't exist yet, that's fine
     console.log('LLM not configured yet:', error.message);
+    setChatComposerEnabled(false);
   }
 }
 
@@ -241,11 +321,7 @@ export async function configureLLM() {
     });
 
     // Enable chat UI after configuration
-    document.getElementById('chat-input').disabled = false;
-    document.getElementById('chat-send-btn').disabled = false;
-    document.querySelectorAll('.suggested-query').forEach(btn => {
-      btn.disabled = false;
-    });
+    setChatComposerEnabled(true);
 
     bootstrapAlert({
       color: "success",
@@ -518,7 +594,14 @@ function getToolDefinitions() {
  * @param {string} userMessage - User's question
  * @returns {Promise<void>}
  */
-export async function sendMessage(userMessage) {
+export async function sendMessage(userMessage, options = {}) {
+  const displayMessage = typeof userMessage === 'string'
+    ? userMessage
+    : userMessage?.displayMessage || '';
+  const contextBlock = typeof userMessage === 'object'
+    ? userMessage?.contextBlock || ''
+    : options.contextBlock || '';
+
   if (!dataContext) {
     bootstrapAlert({
       color: "warning",
@@ -529,10 +612,13 @@ export async function sendMessage(userMessage) {
   }
 
   // Add user message to UI and history
-  appendMessage('user', userMessage);
+  appendMessage('user', displayMessage);
+  const actualUserMessage = contextBlock
+    ? `[Active Screen Context]\n${contextBlock}\n\n[User Question]\n${displayMessage}\n\nAnswer specifically for this active screen and selected state unless the user asks for a broader cross-screen answer.`
+    : displayMessage;
   conversationHistory.push({
     role: "user",
-    content: userMessage
+    content: actualUserMessage
   });
 
   // Show loading indicator
@@ -888,45 +974,9 @@ function generateSegmentName(segment) {
  * Append a message to the chat UI
  */
 function appendMessage(role, content, isLoading = false, customClass = '') {
-  const messagesDiv = document.getElementById('chat-messages');
   const messageId = `msg-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
-
-  const messageDiv = document.createElement('div');
-  messageDiv.id = messageId;
-  messageDiv.className = `chat-message mb-3 ${role} ${customClass}`;
-
-  const icon = role === 'user' ? '👤' : role === 'system' ? '⚙️' : '🤖';
-  const label = role === 'user' ? 'You' : role === 'system' ? 'System' : 'AI Assistant';
-
-  if (isLoading) {
-    messageDiv.innerHTML = `
-      <div class="d-flex align-items-start">
-        <div class="me-2">${icon}</div>
-        <div class="flex-grow-1">
-          <div class="text-muted small mb-1">${label}</div>
-          <div class="message-content">
-            <span class="spinner-border spinner-border-sm me-2"></span>
-            <span class="text-muted">Thinking...</span>
-          </div>
-        </div>
-      </div>
-    `;
-  } else {
-    const formattedContent = role === 'assistant' ? marked.parse(content) : content;
-    messageDiv.innerHTML = `
-      <div class="d-flex align-items-start">
-        <div class="me-2">${icon}</div>
-        <div class="flex-grow-1">
-          <div class="text-muted small mb-1">${label}</div>
-          <div class="message-content">${formattedContent}</div>
-        </div>
-      </div>
-    `;
-  }
-
-  messagesDiv.appendChild(messageDiv);
-  messagesDiv.scrollTop = messagesDiv.scrollHeight;
-
+  uiMessages.push({ id: messageId, role, content, isLoading, customClass });
+  renderAllChatFeeds();
   return messageId;
 }
 
@@ -934,32 +984,21 @@ function appendMessage(role, content, isLoading = false, customClass = '') {
  * Update an existing message
  */
 function updateMessage(messageId, content, isLoading = false) {
-  const messageDiv = document.getElementById(messageId);
-  if (!messageDiv) return;
-
-  const contentDiv = messageDiv.querySelector('.message-content');
-  if (!contentDiv) return;
-
-  if (isLoading) {
-    contentDiv.innerHTML = `
-      <span class="spinner-border spinner-border-sm me-2"></span>
-      <span class="text-muted">Thinking...</span>
-    `;
-  } else {
-    contentDiv.innerHTML = marked.parse(content);
-  }
-
-  const messagesDiv = document.getElementById('chat-messages');
-  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  const target = uiMessages.find((message) => message.id === messageId);
+  if (!target) return;
+  target.content = content;
+  target.isLoading = isLoading;
+  renderAllChatFeeds();
 }
 
 /**
  * Remove a message from the UI
  */
 function removeMessage(messageId) {
-  const messageDiv = document.getElementById(messageId);
-  if (messageDiv) {
-    messageDiv.remove();
+  const targetIndex = uiMessages.findIndex((message) => message.id === messageId);
+  if (targetIndex !== -1) {
+    uiMessages.splice(targetIndex, 1);
+    renderAllChatFeeds();
   }
 }
 
@@ -968,11 +1007,7 @@ function removeMessage(messageId) {
  */
 export function clearHistory() {
   conversationHistory = [];
-  const messagesDiv = document.getElementById('chat-messages');
-  messagesDiv.innerHTML = `
-    <div class="text-center text-muted mt-5">
-      <i class="bi bi-chat-square-text display-4 mb-3"></i>
-      <p>Start a conversation by asking a question about your pricing data, scenarios, or elasticity analysis.</p>
-    </div>
-  `;
+  uiMessages = [];
+  renderAllChatFeeds();
 }
+

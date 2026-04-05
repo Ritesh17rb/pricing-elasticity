@@ -3,11 +3,18 @@ import { parseCSV } from './csv-utils.js';
 const yumCache = {
   manifest: null,
   metadata: null,
+  brandDim: null,
+  brandMarketNetwork: null,
+  brandWeekSummary: null,
+  brandMarketProductChannelWeekPanel: null,
+  brandMarketChannelWeekPanel: null,
+  dataQualityChecks: null,
   storeDim: null,
   marketDim: null,
   menuItemDim: null,
   channelDim: null,
   calendarDim: null,
+  calendarWeekDim: null,
   externalMacroMonthly: null,
   storeItemWeekPanel: null,
   storeChannelWeekPanel: null,
@@ -47,6 +54,48 @@ export async function loadYumMetadata() {
   return yumCache.metadata;
 }
 
+export async function loadYumBrandDim() {
+  if (!yumCache.brandDim) {
+    yumCache.brandDim = await fetchCsv('data/yum/processed/brand_dim.csv');
+  }
+  return yumCache.brandDim;
+}
+
+export async function loadYumBrandMarketNetwork() {
+  if (!yumCache.brandMarketNetwork) {
+    yumCache.brandMarketNetwork = await fetchCsv('data/yum/processed/brand_market_network.csv');
+  }
+  return yumCache.brandMarketNetwork;
+}
+
+export async function loadYumBrandWeekSummary() {
+  if (!yumCache.brandWeekSummary) {
+    yumCache.brandWeekSummary = await fetchCsv('data/yum/processed/brand_week_summary.csv');
+  }
+  return yumCache.brandWeekSummary;
+}
+
+export async function loadYumBrandMarketProductChannelWeekPanel() {
+  if (!yumCache.brandMarketProductChannelWeekPanel) {
+    yumCache.brandMarketProductChannelWeekPanel = await fetchCsv('data/yum/processed/brand_market_product_channel_week_panel.csv');
+  }
+  return yumCache.brandMarketProductChannelWeekPanel;
+}
+
+export async function loadYumBrandMarketChannelWeekPanel() {
+  if (!yumCache.brandMarketChannelWeekPanel) {
+    yumCache.brandMarketChannelWeekPanel = await fetchCsv('data/yum/processed/brand_market_channel_week_panel.csv');
+  }
+  return yumCache.brandMarketChannelWeekPanel;
+}
+
+export async function loadYumDataQualityChecks() {
+  if (!yumCache.dataQualityChecks) {
+    yumCache.dataQualityChecks = await fetchCsv('data/yum/processed/data_quality_checks.csv');
+  }
+  return yumCache.dataQualityChecks;
+}
+
 export async function loadYumStoreDim() {
   if (!yumCache.storeDim) {
     yumCache.storeDim = await fetchCsv('data/yum/processed/store_dim.csv');
@@ -80,6 +129,13 @@ export async function loadYumCalendarDim() {
     yumCache.calendarDim = await fetchCsv('data/yum/processed/calendar_dim.csv');
   }
   return yumCache.calendarDim;
+}
+
+export async function loadYumCalendarWeekDim() {
+  if (!yumCache.calendarWeekDim) {
+    yumCache.calendarWeekDim = await fetchCsv('data/yum/processed/calendar_week_dim.csv');
+  }
+  return yumCache.calendarWeekDim;
 }
 
 export async function loadYumExternalMacroMonthly() {
@@ -128,11 +184,18 @@ export async function loadYumFoundation() {
   const [
     manifest,
     metadata,
+    brandDim,
+    brandMarketNetwork,
+    brandWeekSummary,
+    brandMarketProductChannelWeekPanel,
+    brandMarketChannelWeekPanel,
+    dataQualityChecks,
     storeDim,
     marketDim,
     menuItemDim,
     channelDim,
     calendarDim,
+    calendarWeekDim,
     externalMacroMonthly,
     storeItemWeekPanel,
     storeChannelWeekPanel,
@@ -142,11 +205,18 @@ export async function loadYumFoundation() {
   ] = await Promise.all([
     loadYumManifest(),
     loadYumMetadata(),
+    loadYumBrandDim(),
+    loadYumBrandMarketNetwork(),
+    loadYumBrandWeekSummary(),
+    loadYumBrandMarketProductChannelWeekPanel(),
+    loadYumBrandMarketChannelWeekPanel(),
+    loadYumDataQualityChecks(),
     loadYumStoreDim(),
     loadYumMarketDim(),
     loadYumMenuItemDim(),
     loadYumChannelDim(),
     loadYumCalendarDim(),
+    loadYumCalendarWeekDim(),
     loadYumExternalMacroMonthly(),
     loadYumStoreItemWeekPanel(),
     loadYumStoreChannelWeekPanel(),
@@ -158,11 +228,18 @@ export async function loadYumFoundation() {
   return {
     manifest,
     metadata,
+    brandDim,
+    brandMarketNetwork,
+    brandWeekSummary,
+    brandMarketProductChannelWeekPanel,
+    brandMarketChannelWeekPanel,
+    dataQualityChecks,
     storeDim,
     marketDim,
     menuItemDim,
     channelDim,
     calendarDim,
+    calendarWeekDim,
     externalMacroMonthly,
     storeItemWeekPanel,
     storeChannelWeekPanel,
@@ -174,26 +251,29 @@ export async function loadYumFoundation() {
 
 export async function getYumFoundationSummary(brandId = 'tacobell') {
   const foundation = await loadYumFoundation();
-  const storeDim = foundation.storeDim.filter(row => row.brand_id === brandId);
-  const marketIds = new Set(storeDim.map(row => row.market_id));
-  const items = foundation.menuItemDim.filter(row => row.brand_id === brandId);
-  const panelRows = foundation.storeItemWeekPanel.filter(row => row.brand_id === brandId);
-  const channels = [...new Set(panelRows.map(row => row.channel))].sort();
-  const latestWeek = panelRows.reduce((max, row) => {
+  const networkRows = foundation.brandMarketNetwork.filter(row => row.brand_id === brandId);
+  const marketIds = new Set(networkRows.map(row => row.market_id));
+  const products = foundation.brandMarketProductChannelWeekPanel.filter(row => row.brand_id === brandId);
+  const items = new Set(products.map(row => row.product_id));
+  const channels = [...new Set(products.map(row => row.channel_id))].sort();
+  const latestWeek = products.reduce((max, row) => {
     if (!max || row.week_start > max) return row.week_start;
     return max;
   }, null);
-  const latestRows = latestWeek ? panelRows.filter(row => row.week_start === latestWeek) : [];
-  const latestRevenue = latestRows.reduce((sum, row) => sum + (Number(row.net_sales) || 0), 0);
-  const latestUnits = latestRows.reduce((sum, row) => sum + (Number(row.units) || 0), 0);
+  const latestSummary = foundation.brandWeekSummary.find(
+    row => row.brand_id === brandId && row.week_start === latestWeek
+  );
+  const latestRevenue = Number(latestSummary?.system_sales) || 0;
+  const latestUnits = Number(latestSummary?.system_orders) || 0;
+  const stores = networkRows.reduce((sum, row) => sum + (Number(row.store_count_proxy) || 0), 0);
 
   return {
     brandId,
-    stores: storeDim.length,
+    stores,
     markets: marketIds.size,
-    items: items.length,
+    items: items.size,
     channels,
-    panelRows: panelRows.length,
+    panelRows: products.length,
     latestWeek,
     latestRevenue,
     latestUnits

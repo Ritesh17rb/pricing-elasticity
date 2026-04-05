@@ -7,8 +7,8 @@ const TOTAL_STEPS = 8; // 0-7
 let currentStep = 0;
 const stepSectionMap = {
   0: 'section-0',
-  1: 'section-1',
-  2: 'section-10',
+  1: 'section-10',
+  2: 'section-1',
   3: 'section-6',
   4: 'section-7',
   5: 'section-3',
@@ -23,11 +23,30 @@ const stepSectionMap = {
 function goToStep(step) {
   if (step < 0 || step >= TOTAL_STEPS) return;
 
+  const isInitialLoadingStep = step === 1 && Boolean(window.loadAppData) && !window.dataLoaded;
+  if (isInitialLoadingStep) {
+    window.postLoadStep = 1;
+  }
+  if (isInitialLoadingStep) {
+    document.body.classList.add('app-loading-step');
+    const loadSection = document.getElementById('load-data-section');
+    const loadingProgress = document.getElementById('loading-progress');
+    if (loadSection) {
+      loadSection.style.display = 'flex';
+      loadSection.style.visibility = 'visible';
+      loadSection.style.opacity = '1';
+    }
+    if (loadingProgress) {
+      loadingProgress.style.display = 'none';
+      loadingProgress.style.visibility = 'hidden';
+    }
+  }
+
   // Hide all section wrappers
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
 
   // Show the target section wrapper
-  const sectionId = stepSectionMap[step];
+  const sectionId = isInitialLoadingStep ? 'section-1' : stepSectionMap[step];
   const section = sectionId ? document.getElementById(sectionId) : null;
   if (section) {
     section.classList.add('active');
@@ -45,12 +64,20 @@ function goToStep(step) {
   });
 
   currentStep = step;
+  window.yumCurrentStep = step;
+  window.yumCurrentSectionId = sectionId;
+  if (step !== 7) {
+    window.yumChatPinnedScreenId = null;
+  }
+  if (sectionId && !['section-0', 'section-9'].includes(sectionId)) {
+    window.yumLastAnalysisSectionId = sectionId;
+  }
 
   // Show/hide appropriate original content sections
   showStepContent(step);
 
   // Scroll to top
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo({ top: 0, behavior: isInitialLoadingStep ? 'auto' : 'smooth' });
 }
 
 /**
@@ -90,30 +117,30 @@ function showStepContent(step) {
       // Hero - no additional content
       break;
     case 1:
-      // Dashboard - load-data-section and kpi-section are now INSIDE section-1
-      // Trigger data loading if not already loaded
+      // Data Explorer is the first screen after the initial load finishes.
+      // While loading, section-1 acts as the fullscreen loader host.
       if (window.loadAppData && !window.dataLoaded) {
         window.dataLoaded = true; // Set immediately to prevent multiple calls
+        window.postLoadStep = 1;
+        document.body.classList.add('app-loading-step');
 
-        // IMPORTANT: Wait for section animation to complete and ensure loading UI is visible
-        setTimeout(() => {
-          // Make sure loading section is visible
-          const loadSection = document.getElementById('load-data-section');
-          const loadingProgress = document.getElementById('loading-progress');
-          if (loadSection) {
-            loadSection.style.display = 'block';
-            loadSection.style.visibility = 'visible';
-            loadSection.style.opacity = '1';
-          }
-          if (loadingProgress) {
-            loadingProgress.style.display = 'block';
-            loadingProgress.style.visibility = 'visible';
-          }
+        const loadSection = document.getElementById('load-data-section');
+        const loadingProgress = document.getElementById('loading-progress');
+        if (loadSection) {
+          loadSection.style.display = 'flex';
+          loadSection.style.visibility = 'visible';
+          loadSection.style.opacity = '1';
+        }
+        if (loadingProgress) {
+          loadingProgress.style.display = 'none';
+          loadingProgress.style.visibility = 'hidden';
+        }
 
-          // Start loading data
+        requestAnimationFrame(() => {
           window.loadAppData().catch(error => {
             console.error('Failed to load data:', error);
             window.dataLoaded = false; // Reset on error
+            document.body.classList.remove('app-loading-step');
             // Show error message to user
             if (loadSection) {
               loadSection.innerHTML = `
@@ -127,17 +154,48 @@ function showStepContent(step) {
               `;
             }
           });
-        }, 100); // Small delay to ensure DOM is ready after section animation starts
+        });
+      } else {
+        const dataViewerSection = document.getElementById('data-viewer-section');
+        const dataViewerContentArea = document.getElementById('step-3-data-viewer-container-content');
+        if (dataViewerSection && dataViewerContentArea) {
+          dataViewerSection.style.display = 'block';
+          if (dataViewerSection.parentElement !== dataViewerContentArea) {
+            dataViewerContentArea.appendChild(dataViewerSection);
+          }
+        }
       }
       break;
     case 2:
-      // Data Explorer
-      const dataViewerSection = document.getElementById('data-viewer-section');
-      const dataViewerContentArea = document.getElementById('step-3-data-viewer-container-content');
-      if (dataViewerSection && dataViewerContentArea) {
-        dataViewerSection.style.display = 'block';
-        if (dataViewerSection.parentElement !== dataViewerContentArea) {
-          dataViewerContentArea.appendChild(dataViewerSection);
+      // Current Business Overview
+      if (window.loadAppData && !window.dataLoaded) {
+        window.dataLoaded = true;
+        window.postLoadStep = 2;
+        document.body.classList.add('app-loading-step');
+
+        const loadSection = document.getElementById('load-data-section');
+        const loadingProgress = document.getElementById('loading-progress');
+        if (loadSection) {
+          loadSection.style.display = 'flex';
+          loadSection.style.visibility = 'visible';
+          loadSection.style.opacity = '1';
+        }
+        if (loadingProgress) {
+          loadingProgress.style.display = 'none';
+          loadingProgress.style.visibility = 'hidden';
+        }
+
+        requestAnimationFrame(() => {
+          window.loadAppData().catch(error => {
+            console.error('Failed to load data:', error);
+            window.dataLoaded = false;
+            document.body.classList.remove('app-loading-step');
+          });
+        });
+      } else {
+        const kpiSection = document.getElementById('kpi-section');
+        if (kpiSection) {
+          kpiSection.style.display = 'block';
         }
       }
       break;
@@ -308,7 +366,7 @@ function createStepNavigation(prevStep, nextStep, nextLabel = 'Next') {
  */
 function injectStepNavigations() {
   const stepConfigs = [
-    { step: 2, container: 'step-3-data-viewer-container', prev: 1, next: 3, nextLabel: 'Next: Customer Cohorts' },
+    { step: 1, container: 'step-3-data-viewer-container', prev: 0, next: 2, nextLabel: 'Next: Current Business Overview' },
     { step: 3, container: 'step-6-segmentation-container', prev: 2, next: 4, nextLabel: 'Next: Segment Comparison' },
     { step: 4, container: 'step-7-analysis-container', prev: 3, next: 5, nextLabel: 'Next: Traffic Acquisition' },
     { step: 5, container: 'step-3-acquisition-container', prev: 4, next: 6, nextLabel: 'Next: Promotion Performance' },

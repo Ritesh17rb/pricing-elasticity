@@ -448,9 +448,106 @@ function updateSegmentTable(channelData, impacts) {
   });
 }
 
+function projectAcquisitionOutcome(channelData, cohortMultiplier, newPrice) {
+  const currentPrice = channelData.avgCheck;
+  const priceChangePct = ((newPrice - currentPrice) / currentPrice) * 100;
+  const baseElasticity = channelData.elasticity * cohortMultiplier;
+  const trafficImpactPct = baseElasticity * (priceChangePct / 100) * 100;
+
+  const projectedGroups = channelData.groups.map(group => {
+    const adjustedElasticity = group.elasticity * cohortMultiplier;
+    const orderImpactPct = adjustedElasticity * (priceChangePct / 100) * 100;
+    const projectedOrders = Math.max(0, Math.round(group.baselineOrders * (1 + orderImpactPct / 100)));
+    const salesImpact = group.baselineSales * ((1 + orderImpactPct / 100) * (newPrice / currentPrice) - 1);
+    return {
+      ...group,
+      adjustedElasticity,
+      orderImpactPct,
+      projectedOrders,
+      salesImpact
+    };
+  });
+
+  const projectedOrders = projectedGroups.reduce((sum, group) => sum + group.projectedOrders, 0);
+  const netSalesImpact = projectedGroups.reduce((sum, group) => sum + group.salesImpact, 0);
+
+  return {
+    newPrice,
+    currentPrice,
+    priceChangePct,
+    baseElasticity,
+    trafficImpactPct,
+    projectedGroups,
+    projectedOrders,
+    netSalesImpact
+  };
+}
+
+function findOptimalPriceSuggestion(channelData, cohortMultiplier) {
+  const minPrice = Math.max(4, channelData.avgCheck * 0.82);
+  const maxPrice = channelData.avgCheck * 1.18;
+  const candidates = [];
+
+  for (let price = minPrice; price <= maxPrice + 0.001; price += 0.1) {
+    const roundedPrice = Number(price.toFixed(2));
+    const outcome = projectAcquisitionOutcome(channelData, cohortMultiplier, roundedPrice);
+    const revenueChangePct = channelData.baselineSales
+      ? (outcome.netSalesImpact / channelData.baselineSales) * 100
+      : 0;
+    const orderChangePct = channelData.baselineOrders
+      ? ((outcome.projectedOrders - channelData.baselineOrders) / channelData.baselineOrders) * 100
+      : 0;
+    const orderLossPct = Math.max(0, -orderChangePct);
+    const priceMovePenalty = Math.abs(outcome.priceChangePct) * 0.12;
+    const revenuePenalty = Math.max(0, -revenueChangePct) * 1.4;
+    const score = revenueChangePct - (orderLossPct * 0.85) - priceMovePenalty - revenuePenalty;
+
+    candidates.push({
+      ...outcome,
+      revenueChangePct,
+      orderChangePct,
+      orderLossPct,
+      score
+    });
+  }
+
+  candidates.sort((left, right) => right.score - left.score);
+  const best = candidates[0];
+  if (!best) return null;
+
+  const rangeCandidates = candidates
+    .filter(candidate =>
+      candidate.score >= best.score - 0.45 &&
+      Math.abs(candidate.newPrice - best.newPrice) <= 0.4 &&
+      candidate.revenueChangePct >= best.revenueChangePct - 0.6
+    )
+    .sort((left, right) => left.newPrice - right.newPrice);
+
+  const selectedRange = rangeCandidates.length ? rangeCandidates : [best];
+  const low = selectedRange[0].newPrice;
+  const high = selectedRange[selectedRange.length - 1].newPrice;
+
+  let note = 'Suggested range minimizes order loss while protecting revenue.';
+  if (best.priceChangePct > 0.35) {
+    note = 'Suggested range supports a measured increase while keeping order loss contained.';
+  } else if (best.priceChangePct < -0.35) {
+    note = 'Suggested range protects weekly traffic with limited revenue trade-off.';
+  }
+
+  return {
+    low,
+    high,
+    bestPrice: best.newPrice,
+    bestRevenueChangePct: best.revenueChangePct,
+    bestOrderChangePct: best.orderChangePct,
+    note
+  };
+}
+
 function renderAcquisitionReadout({
   channelData,
   cohortLabel,
+  optimalPriceSuggestion,
   priceChangePct,
   baseElasticity,
   trafficImpactPct,
@@ -460,6 +557,8 @@ function renderAcquisitionReadout({
 }) {
   const mostSensitive = [...projectedGroups].sort((left, right) => Math.abs(right.adjustedElasticity) - Math.abs(left.adjustedElasticity))[0];
   const mostResilient = [...projectedGroups].sort((left, right) => Math.abs(left.adjustedElasticity) - Math.abs(right.adjustedElasticity))[0];
+  const valueGroup = projectedGroups.find(group => group.key === 'value');
+  const premiumGroup = projectedGroups.find(group => group.key === 'premium');
   const channelLabel = channelData.channelName || getYumChannelLabel(channelData.channel);
   const summaryBullets = [
     `${channelLabel} for ${cohortLabel} is the active scope in this view.`,
@@ -469,13 +568,13 @@ function renderAcquisitionReadout({
   ];
 
   const actionBullets = [
-    netSalesImpact >= 0
-      ? `Use ${channelLabel} as a controlled price test, but watch ${mostSensitive.label.toLowerCase()} first for early conversion pressure.`
-      : `Do not take a broad price move on ${channelLabel} without targeted support. ${mostSensitive.label} breaks first in the current elasticity view.`,
-    Math.abs(mostSensitive.adjustedElasticity) >= 2.2
-      ? `Keep value-led or mission-led offers ready for ${mostSensitive.label.toLowerCase()} if you still need to move price.`
-      : `The sensitivity spread is manageable enough to test a narrower price move before scaling.`,
-    `Do not generalize this readout to all channels. It only applies to ${cohortLabel.toLowerCase()} in ${channelLabel}.`
+    valueGroup
+      ? `Maintain or reduce price for ${valueGroup.label}. It is the first ladder to lose traffic in this ${cohortLabel.toLowerCase()} view (${valueGroup.orderImpactPct >= 0 ? '+' : ''}${valueGroup.orderImpactPct.toFixed(1)}% projected orders at the current move).`
+      : `Maintain the entry-value ladder. It remains the most exposed point of traffic loss in this view.`,
+    premiumGroup
+      ? `Shift pricing to ${premiumGroup.label}. It is carrying the strongest pricing headroom versus ${mostSensitive.label.toLowerCase()} in the selected channel.`
+      : `Shift pricing to the most resilient ladder, ${mostResilient.label}, before touching the value-led traffic base.`,
+    `Use targeted promotions instead of blanket increases. ${channelLabel} traffic for ${cohortLabel.toLowerCase()} is too uneven to support a one-size-fits-all price move.`
   ];
 
   const scopeEl = document.getElementById('acq-summary-scope');
@@ -484,6 +583,36 @@ function renderAcquisitionReadout({
   }
   setBulletList('acq-summary-bullets', summaryBullets);
   setBulletList('acq-action-bullets', actionBullets);
+
+  const optimalContextEl = document.getElementById('acq-optimal-context');
+  const optimalRangeEl = document.getElementById('acq-optimal-range');
+  const optimalSupportingEl = document.getElementById('acq-optimal-supporting');
+  const optimalNoteEl = document.getElementById('acq-optimal-note');
+
+  if (optimalContextEl) {
+    optimalContextEl.textContent = `${cohortLabel} | ${channelLabel}`;
+  }
+  if (optimalRangeEl) {
+    if (optimalPriceSuggestion) {
+      optimalRangeEl.textContent = `${formatCurrency(optimalPriceSuggestion.low)} - ${formatCurrency(optimalPriceSuggestion.high)}`;
+    } else {
+      optimalRangeEl.textContent = 'No range available';
+    }
+  }
+  if (optimalSupportingEl) {
+    if (optimalPriceSuggestion) {
+      const orderDirection = optimalPriceSuggestion.bestOrderChangePct >= 0 ? 'orders stable to up' : `${Math.abs(optimalPriceSuggestion.bestOrderChangePct).toFixed(1)}% order loss`;
+      const revenueDirection = optimalPriceSuggestion.bestRevenueChangePct >= 0
+        ? `${optimalPriceSuggestion.bestRevenueChangePct.toFixed(1)}% revenue lift`
+        : `${Math.abs(optimalPriceSuggestion.bestRevenueChangePct).toFixed(1)}% revenue downside`;
+      optimalSupportingEl.textContent = `${formatCurrency(optimalPriceSuggestion.bestPrice)} is the best single-point check in the current range, with ${orderDirection} and ${revenueDirection}.`;
+    } else {
+      optimalSupportingEl.textContent = 'No pricing band available.';
+    }
+  }
+  if (optimalNoteEl) {
+    optimalNoteEl.textContent = optimalPriceSuggestion?.note || 'Suggested range minimizes order loss while protecting revenue.';
+  }
 }
 
 function setSliderForChannel(channelData) {
@@ -515,10 +644,16 @@ function updateAcquisitionModel() {
   const cohortLabel = COHORT_LABELS[cohortSelect?.value] || COHORT_LABELS.baseline;
   const cohortMultiplier = Math.abs(toNumber(cohort.acquisition_elasticity, -COHORT_BASE_ELASTICITY)) / COHORT_BASE_ELASTICITY;
   const newPrice = toNumber(priceSlider.value);
-  const currentPrice = channelData.avgCheck;
-  const priceChangePct = ((newPrice - currentPrice) / currentPrice) * 100;
-  const baseElasticity = channelData.elasticity * cohortMultiplier;
-  const trafficImpactPct = baseElasticity * (priceChangePct / 100) * 100;
+  const optimalPriceSuggestion = findOptimalPriceSuggestion(channelData, cohortMultiplier);
+  const {
+    currentPrice,
+    priceChangePct,
+    baseElasticity,
+    trafficImpactPct,
+    projectedGroups,
+    projectedOrders,
+    netSalesImpact
+  } = projectAcquisitionOutcome(channelData, cohortMultiplier, newPrice);
 
   document.getElementById('acq-price-display').textContent = formatCurrency(newPrice);
   document.getElementById('acq-price-change').textContent = `${priceChangePct >= 0 ? '+' : ''}${priceChangePct.toFixed(1)}%`;
@@ -527,23 +662,6 @@ function updateAcquisitionModel() {
   const impactEl = document.getElementById('acq-impact');
   impactEl.textContent = `${trafficImpactPct >= 0 ? '+' : ''}${trafficImpactPct.toFixed(1)}%`;
   impactEl.className = `metric-value ${trafficImpactPct >= 0 ? 'text-success' : 'text-danger'}`;
-
-  const projectedGroups = channelData.groups.map(group => {
-    const adjustedElasticity = group.elasticity * cohortMultiplier;
-    const orderImpactPct = adjustedElasticity * (priceChangePct / 100) * 100;
-    const projectedOrders = Math.max(0, Math.round(group.baselineOrders * (1 + orderImpactPct / 100)));
-    const salesImpact = group.baselineSales * ((1 + orderImpactPct / 100) * (newPrice / currentPrice) - 1);
-    return {
-      ...group,
-      adjustedElasticity,
-      orderImpactPct,
-      projectedOrders,
-      salesImpact
-    };
-  });
-
-  const projectedOrders = projectedGroups.reduce((sum, group) => sum + group.projectedOrders, 0);
-  const netSalesImpact = projectedGroups.reduce((sum, group) => sum + group.salesImpact, 0);
   document.getElementById('acq-total-subs').textContent = `${formatNumber(projectedOrders)} / wk`;
 
   const revenueEl = document.getElementById('acq-total-revenue');
@@ -553,6 +671,7 @@ function updateAcquisitionModel() {
   renderAcquisitionReadout({
     channelData,
     cohortLabel,
+    optimalPriceSuggestion,
     priceChangePct,
     baseElasticity,
     trafficImpactPct,

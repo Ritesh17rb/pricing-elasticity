@@ -17,6 +17,123 @@ function updateSegmentDetailPanel(title, bodyHtml) {
     bodyEl.innerHTML = bodyHtml || '';
 }
 
+const SEGMENT_AXIS_META = {
+    acquisition: {
+        label: 'Acquisition',
+        helper: 'Price Sensitivity - Promo Driven',
+        positive: 'Low sensitivity',
+        neutral: 'Moderate sensitivity',
+        negative: 'Highly sensitive'
+    },
+    engagement: {
+        label: 'Engagement',
+        helper: 'Loyalty & Retention',
+        positive: 'Stable loyalty',
+        neutral: 'Watch closely',
+        negative: 'High repeat-loss risk'
+    },
+    monetization: {
+        label: 'Monetization',
+        helper: 'Basket Value & Spend',
+        positive: 'Basket headroom',
+        neutral: 'Mixed',
+        negative: 'High switching risk'
+    }
+};
+
+function getSegmentAxisMeta(axis) {
+    return SEGMENT_AXIS_META[axis] || SEGMENT_AXIS_META.engagement;
+}
+
+function getSegmentAxisSentiment(axis, elasticity) {
+    if (!Number.isFinite(elasticity)) return 'neutral';
+
+    if (axis === 'acquisition') {
+        const magnitude = Math.abs(elasticity);
+        if (magnitude >= 2.0) return 'negative';
+        if (magnitude >= 1.0) return 'neutral';
+        return 'positive';
+    }
+
+    if (axis === 'engagement') {
+        if (elasticity >= 1.5) return 'negative';
+        if (elasticity >= 0.7) return 'neutral';
+        return 'positive';
+    }
+
+    if (elasticity >= 1.3) return 'negative';
+    if (elasticity >= 0.8) return 'neutral';
+    return 'positive';
+}
+
+function getSegmentAxisColor(axis, elasticity) {
+    const sentiment = getSegmentAxisSentiment(axis, elasticity);
+    if (sentiment === 'negative') return '#dc2626';
+    if (sentiment === 'neutral') return '#d97706';
+    return '#16a34a';
+}
+
+function getSegmentAxisRiskLabel(axis, elasticity) {
+    const meta = getSegmentAxisMeta(axis);
+    const sentiment = getSegmentAxisSentiment(axis, elasticity);
+    return meta[sentiment] || meta.neutral;
+}
+
+function getSegmentAxisPair(axis) {
+    if (axis === 'acquisition') {
+        return {
+            xKey: 'acquisition',
+            yKey: 'engagement',
+            xLabel: 'Acquisition',
+            yLabel: 'Engagement',
+            xCategories: window.segmentEngine.axisDefinitions.acquisition,
+            yCategories: window.segmentEngine.axisDefinitions.engagement
+        };
+    }
+
+    if (axis === 'engagement') {
+        return {
+            xKey: 'engagement',
+            yKey: 'monetization',
+            xLabel: 'Engagement',
+            yLabel: 'Monetization',
+            xCategories: window.segmentEngine.axisDefinitions.engagement,
+            yCategories: window.segmentEngine.axisDefinitions.monetization
+        };
+    }
+
+    return {
+        xKey: 'monetization',
+        yKey: 'acquisition',
+        xLabel: 'Monetization',
+        yLabel: 'Acquisition',
+        xCategories: window.segmentEngine.axisDefinitions.monetization,
+        yCategories: window.segmentEngine.axisDefinitions.acquisition
+    };
+}
+
+function formatSegmentCurrency(value) {
+    return `$${(Number(value) || 0).toFixed(2)}`;
+}
+
+function formatSegmentPercent(value, digits = 1) {
+    return `${((Number(value) || 0) * 100).toFixed(digits)}%`;
+}
+
+function buildSegmentDetailHtml(summary, metrics = []) {
+    return `
+      <div class="segment-detail-panel-summary">${summary}</div>
+      <div class="segment-detail-metrics">
+        ${metrics.map(metric => `
+          <div class="segment-detail-metric">
+            <span class="segment-detail-metric-label">${metric.label}</span>
+            <span class="segment-detail-metric-value${metric.tone ? ` is-${metric.tone}` : ''}">${metric.value}</span>
+          </div>
+        `).join('')}
+      </div>
+    `;
+}
+
 /**
  * Render segment KPI dashboard cards
  * @param {string} containerId - DOM element ID
@@ -122,9 +239,7 @@ export function renderSegmentElasticityHeatmap(containerId, tier, filters = {}, 
         .style('display', 'flex')
         .style('justify-content', 'center');
 
-    // Get filtered segments
     const segments = window.segmentEngine.filterSegments(filters);
-
     if (!segments || segments.length === 0) {
         container.append('p')
             .attr('class', 'alert alert-warning')
@@ -132,62 +247,89 @@ export function renderSegmentElasticityHeatmap(containerId, tier, filters = {}, 
         return;
     }
 
-    // Filter segments for the selected tier
-    const tierSegments = segments.filter(s => s.tier === tier);
-
-    if (tierSegments.length === 0) {
+    const tierSegments = segments.filter(segment => segment.tier === tier);
+    if (!tierSegments.length) {
         container.append('p')
             .attr('class', 'alert alert-info')
             .text(`No ${tier} segments match the selected filters.`);
         return;
     }
 
-    // Prepare heatmap data
-    const heatmapData = [];
-    tierSegments.forEach(seg => {
-        // Use getElasticity which handles axis mapping and cohort adjustments
-        const elasticity = window.segmentEngine.getElasticity(tier, seg.compositeKey, axis);
+    const axisMeta = getSegmentAxisMeta(axis);
+    const pairMeta = getSegmentAxisPair(axis);
+    const totalCustomers = d3.sum(tierSegments, d => parseInt(d.customer_count || 0, 10));
+    const cellMap = new Map();
 
-        heatmapData.push({
-            compositeKey: seg.compositeKey,
-            acquisition: seg.acquisition,
-            engagement: seg.engagement,
-            monetization: seg.monetization,
-            elasticity: elasticity,
-            // Use cohort-adjusted KPIs from segment data
-            kpi: axis === 'engagement' ? seg.repeat_loss_rate :
-                 axis === 'monetization' ? seg.avg_order_value :
-                 seg.avg_cac,
-            customers: parseInt(seg.customer_count || 0)
+    tierSegments.forEach(segment => {
+        const xValue = segment[pairMeta.xKey];
+        const yValue = segment[pairMeta.yKey];
+        const customers = parseInt(segment.customer_count || 0, 10);
+        const elasticity = window.segmentEngine.getElasticity(tier, segment.compositeKey, axis) || 0;
+        const key = `${xValue}|${yValue}`;
+        const current = cellMap.get(key) || {
+            xValue,
+            yValue,
+            customers: 0,
+            weightedElasticity: 0,
+            weightedRepeatLoss: 0,
+            weightedAov: 0,
+            cohortCount: 0,
+            topCompositeKey: segment.compositeKey,
+            topCustomers: 0
+        };
+
+        current.customers += customers;
+        current.weightedElasticity += elasticity * customers;
+        current.weightedRepeatLoss += (parseFloat(segment.repeat_loss_rate) || 0) * customers;
+        current.weightedAov += (parseFloat(segment.avg_order_value) || 0) * customers;
+        current.cohortCount += 1;
+
+        if (customers > current.topCustomers) {
+            current.topCustomers = customers;
+            current.topCompositeKey = segment.compositeKey;
+        }
+
+        cellMap.set(key, current);
+    });
+
+    const heatmapData = [];
+    pairMeta.yCategories.forEach(yValue => {
+        pairMeta.xCategories.forEach(xValue => {
+            const aggregated = cellMap.get(`${xValue}|${yValue}`);
+            if (!aggregated) {
+                heatmapData.push({
+                    xValue,
+                    yValue,
+                    customers: 0,
+                    customerShare: 0,
+                    elasticity: null,
+                    repeatLoss: 0,
+                    avgOrderValue: 0,
+                    cohortCount: 0,
+                    compositeKey: null
+                });
+                return;
+            }
+
+            heatmapData.push({
+                xValue,
+                yValue,
+                customers: aggregated.customers,
+                customerShare: totalCustomers > 0 ? aggregated.customers / totalCustomers : 0,
+                elasticity: aggregated.customers > 0 ? aggregated.weightedElasticity / aggregated.customers : 0,
+                repeatLoss: aggregated.customers > 0 ? aggregated.weightedRepeatLoss / aggregated.customers : 0,
+                avgOrderValue: aggregated.customers > 0 ? aggregated.weightedAov / aggregated.customers : 0,
+                cohortCount: aggregated.cohortCount,
+                compositeKey: aggregated.topCompositeKey
+            });
         });
     });
 
-    // Set up dimensions
-    const margin = { top: 80, right: 260, bottom: 100, left: 150 };
-    const cellSize = 60;
-
-    // Determine axes based on selected analysis axis
-    let xCategories, yCategories, xLabel, yLabel;
-
-    if (axis === 'acquisition') {
-        xCategories = window.segmentEngine.axisDefinitions.acquisition;
-        yCategories = window.segmentEngine.axisDefinitions.engagement;
-        xLabel = 'Acquisition & Price Sensitivity';
-        yLabel = 'Loyalty & Repeat Risk';
-    } else if (axis === 'engagement') {
-        xCategories = window.segmentEngine.axisDefinitions.engagement;
-        yCategories = window.segmentEngine.axisDefinitions.monetization;
-        xLabel = 'Loyalty & Repeat Risk';
-        yLabel = 'Basket Value & Kit Depth';
-    } else {
-        xCategories = window.segmentEngine.axisDefinitions.monetization;
-        yCategories = window.segmentEngine.axisDefinitions.acquisition;
-        xLabel = 'Basket Value & Kit Depth';
-        yLabel = 'Acquisition & Price Sensitivity';
-    }
-
-    const width = xCategories.length * cellSize;
-    const height = yCategories.length * cellSize;
+    const margin = { top: 90, right: 180, bottom: 110, left: 180 };
+    const cellSize = 72;
+    const width = pairMeta.xCategories.length * cellSize;
+    const height = pairMeta.yCategories.length * cellSize;
+    const maxShare = d3.max(heatmapData, d => d.customerShare) || 0;
 
     const svg = container.append('svg')
         .attr('width', width + margin.left + margin.right)
@@ -195,39 +337,16 @@ export function renderSegmentElasticityHeatmap(containerId, tier, filters = {}, 
         .append('g')
         .attr('transform', `translate(${margin.left},${margin.top})`);
 
-    // Scales
     const xScale = d3.scaleBand()
-        .domain(xCategories)
+        .domain(pairMeta.xCategories)
         .range([0, width])
-        .padding(0.05);
+        .padding(0.08);
 
     const yScale = d3.scaleBand()
-        .domain(yCategories)
+        .domain(pairMeta.yCategories)
         .range([0, height])
-        .padding(0.05);
+        .padding(0.08);
 
-    // Color scale - axis-aware direction
-    const elasticityExtent = d3.extent(heatmapData, d => d.elasticity);
-
-    let colorScale;
-    if (axis === 'engagement') {
-        // Engagement (churn): POSITIVE values, higher = worse
-        // Domain: [low, high] maps to [green, red]
-        colorScale = d3.scaleSequential(d3.interpolateRdYlGn)
-            .domain([elasticityExtent[1], elasticityExtent[0]]);  // Reverse: high = red
-    } else if (axis === 'acquisition') {
-        // Acquisition: NEGATIVE values, more negative = worse
-        // Domain: [more negative, less negative] maps to [red, green]
-        colorScale = d3.scaleSequential(d3.interpolateRdYlGn)
-            .domain([elasticityExtent[0], elasticityExtent[1]]);  // More negative = red
-    } else {
-        // Monetization (migration): POSITIVE values, higher = more switching
-        // Domain: [low, high] maps to [green, red]
-        colorScale = d3.scaleSequential(d3.interpolateRdYlGn)
-            .domain([elasticityExtent[1], elasticityExtent[0]]);  // Reverse: high = red
-    }
-
-    // Create tooltip
     const tooltip = container.append('div')
         .attr('class', 'position-absolute bg-dark text-white p-2 rounded shadow-sm')
         .style('display', 'none')
@@ -235,40 +354,28 @@ export function renderSegmentElasticityHeatmap(containerId, tier, filters = {}, 
         .style('font-size', '12px')
         .style('z-index', '1000');
 
-    // Draw cells
     const cells = svg.selectAll('.heatmap-cell')
         .data(heatmapData)
         .join('g')
-        .attr('class', 'heatmap-cell');
-
-    // Get x/y coordinates based on axis
-    const getX = d => axis === 'acquisition' ? d.acquisition :
-                     axis === 'engagement' ? d.engagement : d.monetization;
-    const getY = d => axis === 'acquisition' ? d.engagement :
-                     axis === 'engagement' ? d.monetization : d.acquisition;
+        .attr('class', 'heatmap-cell')
+        .attr('transform', d => `translate(${xScale(d.xValue)},${yScale(d.yValue)})`);
 
     cells.append('rect')
-        .attr('x', d => xScale(getX(d)))
-        .attr('y', d => yScale(getY(d)))
         .attr('width', xScale.bandwidth())
         .attr('height', yScale.bandwidth())
-        .attr('fill', d => colorScale(d.elasticity))
-        .attr('stroke', '#fff')
-        .attr('stroke-width', 2)
-        .attr('rx', 4)
-        .style('cursor', 'pointer')
+        .attr('fill', d => d.elasticity === null ? '#e2e8f0' : getSegmentAxisColor(axis, d.elasticity))
+        .attr('fill-opacity', d => d.elasticity === null ? 0.35 : 0.18)
+        .attr('stroke', d => d.elasticity === null ? '#cbd5e1' : getSegmentAxisColor(axis, d.elasticity))
+        .attr('stroke-width', d => d.elasticity === null ? 1.2 : 2)
+        .attr('rx', 14)
+        .style('cursor', d => d.elasticity === null ? 'default' : 'pointer')
         .on('mouseenter', function(event, d) {
+            if (d.elasticity === null) return;
+
             d3.select(this)
-                .attr('stroke-width', 4)
-                .attr('stroke', '#000');
+                .attr('stroke-width', 3)
+                .attr('fill-opacity', 0.28);
 
-            const segmentSummary = window.segmentEngine.generateSegmentSummary(d.compositeKey, {
-                customer_count: d.customers,
-                repeat_loss_rate: axis === 'engagement' ? d.kpi : 0.12,
-                avg_order_value: axis === 'monetization' ? d.kpi : 20
-            });
-
-            // Calculate position relative to container
             const containerNode = container.node();
             const containerRect = containerNode.getBoundingClientRect();
             const x = event.clientX - containerRect.left;
@@ -279,20 +386,17 @@ export function renderSegmentElasticityHeatmap(containerId, tier, filters = {}, 
                 .style('left', (x + 15) + 'px')
                 .style('top', (y - 30) + 'px')
                 .html(`
-                    <strong>${window.segmentEngine.formatCompositeKey(d.compositeKey)}</strong><br>
-                    <em class="text-white-50" style="font-size: 11px;">${segmentSummary}</em><br>
+                    <strong>${window.segmentEngine.formatSegmentLabel(d.xValue)} x ${window.segmentEngine.formatSegmentLabel(d.yValue)}</strong><br>
+                    <em class="text-white-50" style="font-size: 11px;">${d.cohortCount} cohort combination${d.cohortCount === 1 ? '' : 's'} in this cell</em><br>
                     <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.2);">
-                        <strong>Elasticity:</strong> ${d.elasticity.toFixed(2)}<br>
-                        <strong>${axis === 'engagement' ? 'Repeat Loss' :
-                                axis === 'monetization' ? 'Avg Order Value' : 'CAC Sensitivity'}:</strong>
-                        ${axis === 'engagement' ? (d.kpi * 100).toFixed(2) + '%' :
-                          axis === 'monetization' ? '$' + d.kpi.toFixed(2) : d.kpi.toFixed(2)}<br>
-                        <strong>Customers:</strong> ${d.customers.toLocaleString()}
+                        <strong>${axisMeta.label} elasticity:</strong> ${d.elasticity.toFixed(2)}<br>
+                        <strong>Customers:</strong> ${d.customers.toLocaleString()} (${(d.customerShare * 100).toFixed(0)}%)<br>
+                        <strong>Repeat loss:</strong> ${formatSegmentPercent(d.repeatLoss)}<br>
+                        <strong>Average order value:</strong> ${formatSegmentCurrency(d.avgOrderValue)}
                     </div>
                 `);
         })
         .on('mousemove', function(event) {
-            // Calculate position relative to container
             const containerNode = container.node();
             const containerRect = containerNode.getBoundingClientRect();
             const x = event.clientX - containerRect.left;
@@ -302,46 +406,59 @@ export function renderSegmentElasticityHeatmap(containerId, tier, filters = {}, 
                 .style('left', (x + 15) + 'px')
                 .style('top', (y - 30) + 'px');
         })
-        .on('mouseleave', function() {
+        .on('mouseleave', function(event, d) {
             d3.select(this)
-                .attr('stroke-width', 2)
-                .attr('stroke', '#fff');
+                .attr('stroke-width', d.elasticity === null ? 1.2 : 2)
+                .attr('fill-opacity', d.elasticity === null ? 0.35 : 0.18);
 
             tooltip.style('display', 'none');
         })
         .on('click', function(event, d) {
-            const prettyKey = window.segmentEngine.formatCompositeKey(d.compositeKey);
-            const segmentSummary = window.segmentEngine.generateSegmentSummary(d.compositeKey, {
-                customer_count: d.customers,
-                repeat_loss_rate: axis === 'engagement' ? d.kpi : 0.12,
-                avg_order_value: axis === 'monetization' ? d.kpi : 20
-            });
+            if (d.elasticity === null) return;
 
             updateSegmentDetailPanel(
-                prettyKey,
-                `
-                  <div>${segmentSummary}</div>
-                  <div class="mt-1">
-                    <strong>Elasticity:</strong> ${d.elasticity.toFixed(2)}<br>
-                    <strong>Customers:</strong> ${d.customers.toLocaleString()}
-                  </div>
-                `
+                `${window.segmentEngine.formatSegmentLabel(d.xValue)} x ${window.segmentEngine.formatSegmentLabel(d.yValue)}`,
+                buildSegmentDetailHtml(
+                    `${getSegmentAxisRiskLabel(axis, d.elasticity)} with ${d.customers.toLocaleString()} customers in this cohort intersection.`,
+                    [
+                        { label: `${axisMeta.label} elasticity`, value: d.elasticity.toFixed(2), tone: getSegmentAxisSentiment(axis, d.elasticity) },
+                        { label: 'Customer share', value: `${(d.customerShare * 100).toFixed(0)}%` },
+                        { label: 'Repeat loss', value: formatSegmentPercent(d.repeatLoss), tone: d.repeatLoss >= 0.14 ? 'negative' : 'positive' },
+                        { label: 'Average order value', value: formatSegmentCurrency(d.avgOrderValue), tone: 'positive' }
+                    ]
+                )
             );
         });
 
-    // Add text values
+    cells.append('rect')
+        .attr('x', 8)
+        .attr('y', yScale.bandwidth() - 10)
+        .attr('width', d => maxShare > 0 ? Math.max(0, (d.customerShare / maxShare) * (xScale.bandwidth() - 16)) : 0)
+        .attr('height', 4)
+        .attr('rx', 999)
+        .attr('fill', d => d.elasticity === null ? '#cbd5e1' : getSegmentAxisColor(axis, d.elasticity))
+        .attr('opacity', d => d.elasticity === null ? 0.3 : 0.9);
+
     cells.append('text')
-        .attr('x', d => xScale(getX(d)) + xScale.bandwidth() / 2)
-        .attr('y', d => yScale(getY(d)) + yScale.bandwidth() / 2)
+        .attr('x', xScale.bandwidth() / 2)
+        .attr('y', yScale.bandwidth() / 2 - 6)
         .attr('text-anchor', 'middle')
         .attr('dominant-baseline', 'middle')
-        .attr('font-size', '11px')
+        .attr('font-size', '12px')
         .attr('font-weight', 'bold')
-        .attr('fill', d => d.elasticity < -1.8 ? '#fff' : '#000')
+        .attr('fill', d => d.elasticity === null ? '#94a3b8' : '#0f172a')
         .attr('pointer-events', 'none')
-        .text(d => d.elasticity.toFixed(2));
+        .text(d => d.elasticity === null ? 'No data' : d.elasticity.toFixed(2));
 
-    // X axis
+    cells.append('text')
+        .attr('x', xScale.bandwidth() / 2)
+        .attr('y', yScale.bandwidth() / 2 + 12)
+        .attr('text-anchor', 'middle')
+        .attr('font-size', '10px')
+        .attr('fill', d => d.elasticity === null ? '#94a3b8' : '#475569')
+        .attr('pointer-events', 'none')
+        .text(d => d.elasticity === null ? '' : `${(d.customerShare * 100).toFixed(0)}% share`);
+
     svg.append('g')
         .attr('transform', `translate(0,${height})`)
         .call(d3.axisBottom(xScale).tickFormat(d => window.segmentEngine.formatSegmentLabel(d)))
@@ -352,30 +469,26 @@ export function renderSegmentElasticityHeatmap(containerId, tier, filters = {}, 
         .attr('dy', '0.15em')
         .attr('fill', '#111827');
 
-    // Y axis
     svg.append('g')
         .call(d3.axisLeft(yScale).tickFormat(d => window.segmentEngine.formatSegmentLabel(d)))
         .selectAll('text')
         .attr('fill', '#111827');
 
-    // X axis label (push slightly below tick labels)
     svg.append('text')
         .attr('x', width / 2)
         .attr('y', height + margin.bottom - 2)
         .attr('text-anchor', 'middle')
         .attr('font-weight', 'bold')
-        .text(xLabel);
+        .text(`${pairMeta.xLabel} axis`);
 
-    // Y axis label (push further away from tick labels)
     svg.append('text')
         .attr('transform', 'rotate(-90)')
         .attr('x', -height / 2)
         .attr('y', -margin.left + 80)
         .attr('text-anchor', 'middle')
         .attr('font-weight', 'bold')
-        .text(yLabel);
+        .text(`${pairMeta.yLabel} axis`);
 
-    // Title
     const tierLabel = tier === 'ad_supported' ? 'Entry & Value' : tier === 'ad_free' ? 'Core & Premium' : tier.replace('_', ' ').toUpperCase();
     svg.append('text')
         .attr('x', width / 2)
@@ -383,56 +496,47 @@ export function renderSegmentElasticityHeatmap(containerId, tier, filters = {}, 
         .attr('text-anchor', 'middle')
         .attr('font-size', '16px')
         .attr('font-weight', 'bold')
-        .text(`${window.segmentEngine.axisLabels[axis]} – ${tierLabel}`);
+        .text(`${axisMeta.label} heatmap - ${tierLabel}`);
 
-    // Legend
-    const legendWidth = 20;
-    const legendHeight = height / 2;
     const legend = svg.append('g')
-        .attr('transform', `translate(${width + 60}, ${height / 4})`);
-
-    const legendScale = d3.scaleLinear()
-        .domain(colorScale.domain())
-        .range([legendHeight, 0]);
-
-    const legendAxis = d3.axisRight(legendScale)
-        .ticks(5)
-        .tickFormat(d => d.toFixed(1));
-
-    // Gradient
-    const defs = svg.append('defs');
-    const gradient = defs.append('linearGradient')
-        .attr('id', `legend-gradient-${containerId}`)
-        .attr('x1', '0%')
-        .attr('y1', '100%')
-        .attr('x2', '0%')
-        .attr('y2', '0%');
-
-    gradient.selectAll('stop')
-        .data(d3.range(0, 1.01, 0.01))
-        .join('stop')
-        .attr('offset', d => `${d * 100}%`)
-        .attr('stop-color', d => {
-            const value = legendScale.invert(legendHeight * (1 - d));
-            return colorScale(value);
-        });
-
-    legend.append('rect')
-        .attr('width', legendWidth)
-        .attr('height', legendHeight)
-        .style('fill', `url(#legend-gradient-${containerId})`);
-
-    legend.append('g')
-        .attr('transform', `translate(${legendWidth}, 0)`)
-        .call(legendAxis);
+        .attr('transform', `translate(${width + 35}, 30)`);
 
     legend.append('text')
-        .attr('x', legendWidth / 2)
-        .attr('y', -6)
-        .attr('text-anchor', 'middle')
-        .attr('font-size', '11px')
+        .attr('x', 0)
+        .attr('y', 0)
+        .attr('font-size', '12px')
         .attr('font-weight', 'bold')
-        .text('Elasticity scale');
+        .text('Risk scale');
+
+    [
+        { label: axisMeta.positive, color: '#16a34a' },
+        { label: axisMeta.neutral, color: '#d97706' },
+        { label: axisMeta.negative, color: '#dc2626' }
+    ].forEach((item, index) => {
+        legend.append('rect')
+            .attr('x', 0)
+            .attr('y', 18 + index * 24)
+            .attr('width', 14)
+            .attr('height', 14)
+            .attr('rx', 4)
+            .attr('fill', item.color)
+            .attr('fill-opacity', 0.18)
+            .attr('stroke', item.color);
+
+        legend.append('text')
+            .attr('x', 22)
+            .attr('y', 29 + index * 24)
+            .attr('font-size', '10px')
+            .attr('fill', '#334155')
+            .text(item.label);
+    });
+
+    legend.append('text')
+        .attr('x', 0)
+        .attr('y', 108)
+        .attr('font-size', '10px')
+        .attr('fill', '#64748b')
+        .text('Bottom bar = customer share');
 }
 
 /**
@@ -441,12 +545,14 @@ export function renderSegmentElasticityHeatmap(containerId, tier, filters = {}, 
  * @param {string} tier - Subscription tier
  * @param {string} highlightSegment - Optional segment composite key to highlight
  */
-export function render3AxisRadialChart(containerId, tier, highlightSegment = null) {
+export function render3AxisRadialChart(containerId, tier, axis = 'engagement', filteredSegments = null, highlightSegment = null) {
     const container = d3.select(`#${containerId}`);
     container.selectAll('*').remove();
 
-    // Get segments for the selected tier
-    const segments = window.segmentEngine.getSegmentsForTier(tier);
+    const axisMeta = getSegmentAxisMeta(axis);
+    const segments = Array.isArray(filteredSegments) && filteredSegments.length
+        ? filteredSegments
+        : window.segmentEngine.getSegmentsForTier(tier);
 
     if (!segments || segments.length === 0) {
         container.append('div')
@@ -459,11 +565,11 @@ export function render3AxisRadialChart(containerId, tier, highlightSegment = nul
     container.style('position', 'relative');
 
     // Dimensions
-    const width = 1000;
-    const height = 800;
+    const width = 920;
+    const height = 720;
     const centerX = width / 2;
     const centerY = height / 2;
-    const axisLength = 280;
+    const axisLength = 250;
 
     // Create SVG
     const svg = container.append('svg')
@@ -471,27 +577,30 @@ export function render3AxisRadialChart(containerId, tier, highlightSegment = nul
         .attr('height', height)
         .style('background', '#fafafa');
 
-    // Define three axes at 120° apart (retail framing)
+    // Define three axes at 120 degrees apart (retail framing)
     const axes = [
         {
-            name: 'Basket Value & Kit Depth',
+            name: 'Monetization',
+            helper: 'Basket Value & Spend',
             key: 'monetization',
             color: '#2563eb', // Blue
             angle: 90, // Vertical (up)
             segments: window.segmentEngine.axisDefinitions.monetization
         },
         {
-            name: 'Loyalty & Repeat Risk',
+            name: 'Engagement',
+            helper: 'Loyalty & Retention',
             key: 'engagement',
             color: '#22c55e', // Green
-            angle: 210, // Left diagonal (210°)
+            angle: 210, // Left diagonal (210 degrees)
             segments: window.segmentEngine.axisDefinitions.engagement
         },
         {
-            name: 'Acquisition Trigger & Price Sensitivity',
+            name: 'Acquisition',
+            helper: 'Price Sensitivity - Promo Driven',
             key: 'acquisition',
             color: '#ef4444', // Red
-            angle: 330, // Right diagonal (330°)
+            angle: 330, // Right diagonal (330 degrees)
             segments: window.segmentEngine.axisDefinitions.acquisition
         }
     ];
@@ -506,10 +615,12 @@ export function render3AxisRadialChart(containerId, tier, highlightSegment = nul
         .style('max-width', '300px');
 
     // Draw axes
+    const axisEndpoints = [];
     axes.forEach(axis => {
         const radians = (axis.angle * Math.PI) / 180;
         const endX = centerX + Math.cos(radians) * axisLength;
         const endY = centerY - Math.sin(radians) * axisLength;
+        axisEndpoints.push({ x: endX, y: endY, color: axis.color });
 
         // Axis line
         svg.append('line')
@@ -532,8 +643,16 @@ export function render3AxisRadialChart(containerId, tier, highlightSegment = nul
             .attr('text-anchor', 'middle')
             .attr('fill', axis.color)
             .attr('font-weight', 'bold')
-            .attr('font-size', '13px')
+            .attr('font-size', '14px')
             .text(axis.name);
+
+        svg.append('text')
+            .attr('x', labelX)
+            .attr('y', labelY + 16)
+            .attr('text-anchor', 'middle')
+            .attr('fill', '#475569')
+            .attr('font-size', '10px')
+            .text(axis.helper);
 
         // Plot segment markers along the axis
         axis.segments.forEach((segmentId, index) => {
@@ -569,52 +688,46 @@ export function render3AxisRadialChart(containerId, tier, highlightSegment = nul
         });
     });
 
-    // Plot actual customer segments as data points
-    // Group segments by their 3-axis position and aggregate
-    const segmentMap = new Map();
+    svg.append('polygon')
+        .attr('points', axisEndpoints.map(point => `${point.x},${point.y}`).join(' '))
+        .attr('fill', 'rgba(148, 163, 184, 0.05)')
+        .attr('stroke', '#cbd5e1')
+        .attr('stroke-width', 1.5)
+        .attr('stroke-dasharray', '6,6');
 
-    segments.forEach(seg => {
-        const key = seg.compositeKey;
-        if (!segmentMap.has(key)) {
-            segmentMap.set(key, {
-                compositeKey: key,
-                acquisition: seg.acquisition,
-                engagement: seg.engagement,
-                monetization: seg.monetization,
-                customer_count: parseInt(seg.customer_count) || 0,
-                repeat_loss_rate: parseFloat(seg.repeat_loss_rate) || 0,
-                avg_order_value: parseFloat(seg.avg_order_value) || 0
-            });
-        }
+    [0.25, 0.5, 0.75].forEach(level => {
+        const points = axisEndpoints.map(point => {
+            const x = centerX + (point.x - centerX) * level;
+            const y = centerY + (point.y - centerY) * level;
+            return `${x},${y}`;
+        }).join(' ');
+
+        svg.append('polygon')
+            .attr('points', points)
+            .attr('fill', 'none')
+            .attr('stroke', '#e2e8f0')
+            .attr('stroke-width', 1)
+            .attr('stroke-dasharray', '4,6');
     });
 
-    // Calculate positions for each segment in 3D space
-    const segmentPositions = Array.from(segmentMap.values()).map(seg => {
-        // Find index position on each axis
+    const segmentPositions = segments.map(seg => {
         const monetizationIdx = axes[0].segments.indexOf(seg.monetization);
         const engagementIdx = axes[1].segments.indexOf(seg.engagement);
         const acquisitionIdx = axes[2].segments.indexOf(seg.acquisition);
 
-        // Calculate ratios (0 to 1) for each axis
         const monetizationRatio = (monetizationIdx + 1) / (axes[0].segments.length + 1);
         const engagementRatio = (engagementIdx + 1) / (axes[1].segments.length + 1);
         const acquisitionRatio = (acquisitionIdx + 1) / (axes[2].segments.length + 1);
+        const totalRatio = monetizationRatio + engagementRatio + acquisitionRatio;
+        const weights = [
+            monetizationRatio / totalRatio,
+            engagementRatio / totalRatio,
+            acquisitionRatio / totalRatio
+        ];
 
-        // Calculate vector for each axis
-        const radians0 = (axes[0].angle * Math.PI) / 180;
-        const radians1 = (axes[1].angle * Math.PI) / 180;
-        const radians2 = (axes[2].angle * Math.PI) / 180;
-
-        // Sum the vectors (weighted by position on each axis)
-        const x = centerX +
-            Math.cos(radians0) * axisLength * monetizationRatio +
-            Math.cos(radians1) * axisLength * engagementRatio +
-            Math.cos(radians2) * axisLength * acquisitionRatio;
-
-        const y = centerY -
-            Math.sin(radians0) * axisLength * monetizationRatio -
-            Math.sin(radians1) * axisLength * engagementRatio -
-            Math.sin(radians2) * axisLength * acquisitionRatio;
+        const x = axisEndpoints.reduce((sum, point, index) => sum + (point.x * weights[index]), 0);
+        const y = axisEndpoints.reduce((sum, point, index) => sum + (point.y * weights[index]), 0);
+        const axisElasticity = window.segmentEngine.getElasticity(tier, seg.compositeKey, axis) || 0;
 
         return {
             ...seg,
@@ -622,7 +735,9 @@ export function render3AxisRadialChart(containerId, tier, highlightSegment = nul
             y,
             monetizationIdx,
             engagementIdx,
-            acquisitionIdx
+            acquisitionIdx,
+            axisElasticity,
+            axisRisk: getSegmentAxisRiskLabel(axis, axisElasticity)
         };
     });
 
@@ -630,11 +745,6 @@ export function render3AxisRadialChart(containerId, tier, highlightSegment = nul
     const radiusScale = d3.scaleSqrt()
         .domain([0, d3.max(segmentPositions, d => d.customer_count)])
         .range([3, 20]);
-
-    // Color scale based on repeat loss rate
-    const churnScale = d3.scaleSequential(d3.interpolateRdYlGn)
-        .domain([d3.max(segmentPositions, d => d.repeat_loss_rate),
-                 d3.min(segmentPositions, d => d.repeat_loss_rate)]);
 
     // Draw segment data points
     svg.selectAll('.segment-point')
@@ -644,10 +754,10 @@ export function render3AxisRadialChart(containerId, tier, highlightSegment = nul
         .attr('cx', d => d.x)
         .attr('cy', d => d.y)
         .attr('r', d => radiusScale(d.customer_count))
-        .attr('fill', d => churnScale(d.repeat_loss_rate))
+        .attr('fill', d => getSegmentAxisColor(axis, d.axisElasticity))
         .attr('stroke', '#fff')
         .attr('stroke-width', 2)
-        .attr('opacity', 0.7)
+        .attr('opacity', 0.78)
         .style('cursor', 'pointer')
         .on('mouseenter', function(event, d) {
             d3.select(this)
@@ -675,6 +785,8 @@ export function render3AxisRadialChart(containerId, tier, highlightSegment = nul
                     <strong>${segmentInfo}</strong><br>
                     <em class="text-white-50" style="font-size: 11px;">${segmentSummary}</em><br>
                     <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.2);">
+                        <strong>${axisMeta.label} elasticity:</strong> ${d.axisElasticity.toFixed(2)}<br>
+                        <strong>${axisMeta.label} posture:</strong> ${d.axisRisk}<br>
                         <strong>Customers:</strong> ${d.customer_count.toLocaleString()}<br>
                         <strong>Repeat Loss:</strong> ${(d.repeat_loss_rate * 100).toFixed(2)}%<br>
                         <strong>Avg Order Value:</strong> $${d.avg_order_value.toFixed(2)}
@@ -709,14 +821,15 @@ export function render3AxisRadialChart(containerId, tier, highlightSegment = nul
 
             updateSegmentDetailPanel(
                 prettyKey,
-                `
-                  <div>${segmentSummary}</div>
-                  <div class="mt-1">
-                    <strong>Customers:</strong> ${d.customer_count.toLocaleString()}<br>
-                    <strong>Repeat Loss:</strong> ${(d.repeat_loss_rate * 100).toFixed(2)}%<br>
-                    <strong>Avg Order Value:</strong> $${d.avg_order_value.toFixed(2)}
-                  </div>
-                `
+                buildSegmentDetailHtml(
+                    `${axisMeta.label} view: ${d.axisRisk}. ${segmentSummary}`,
+                    [
+                        { label: `${axisMeta.label} elasticity`, value: d.axisElasticity.toFixed(2), tone: getSegmentAxisSentiment(axis, d.axisElasticity) },
+                        { label: 'Customers', value: d.customer_count.toLocaleString() },
+                        { label: 'Repeat loss', value: formatSegmentPercent(d.repeat_loss_rate), tone: d.repeat_loss_rate >= 0.14 ? 'negative' : 'positive' },
+                        { label: 'Average order value', value: formatSegmentCurrency(d.avg_order_value), tone: 'positive' }
+                    ]
+                )
             );
         });
 
@@ -765,7 +878,7 @@ export function render3AxisRadialChart(containerId, tier, highlightSegment = nul
         .attr('y', 130)
         .attr('font-size', '10px')
         .attr('fill', '#666')
-        .text('Bubble color: Repeat-loss risk');
+        .text(`Bubble color: ${axisMeta.label.toLowerCase()} risk`);
 
     // Low (green)
     legend.append('circle')
@@ -778,7 +891,7 @@ export function render3AxisRadialChart(containerId, tier, highlightSegment = nul
         .attr('y', 148)
         .attr('font-size', '9px')
         .attr('fill', '#22c55e')
-        .text('Low (stable cohorts)');
+        .text(axisMeta.positive);
 
     // Medium (yellow)
     legend.append('circle')
@@ -791,7 +904,7 @@ export function render3AxisRadialChart(containerId, tier, highlightSegment = nul
         .attr('y', 168)
         .attr('font-size', '9px')
         .attr('fill', '#eab308')
-        .text('Medium (watch list)');
+        .text(axisMeta.neutral);
 
     // High (red)
     legend.append('circle')
@@ -804,7 +917,7 @@ export function render3AxisRadialChart(containerId, tier, highlightSegment = nul
         .attr('y', 188)
         .attr('font-size', '9px')
         .attr('fill', '#ef4444')
-        .text('High (retention risk)');
+        .text(axisMeta.negative);
 
     // Center title
     const tierLabel = tier === 'ad_supported'
@@ -820,7 +933,7 @@ export function render3AxisRadialChart(containerId, tier, highlightSegment = nul
         .attr('font-weight', 'bold')
         .attr('font-size', '16px')
         .attr('fill', '#333')
-        .text(`3-Axis Customer Cohorts – ${tierLabel}`);
+        .text(`3-Axis Customer Cohorts - ${tierLabel} - ${axisMeta.label}`);
 }
 
 /**
@@ -829,12 +942,16 @@ export function render3AxisRadialChart(containerId, tier, highlightSegment = nul
  * @param {string} tier - Subscription tier
  * @param {string} axis - Axis name ('engagement', 'acquisition', 'monetization')
  */
-export function renderSegmentScatterPlot(containerId, tier, axis = 'engagement') {
+export function renderSegmentScatterPlot(containerId, tier, axis = 'engagement', filteredSegments = null) {
     const container = d3.select(`#${containerId}`);
     container.selectAll('*').remove();
     container.style('position', 'relative');
 
-    const segments = window.segmentEngine.getSegmentsForTier(tier);
+    const axisMeta = getSegmentAxisMeta(axis);
+    const segments = Array.isArray(filteredSegments) && filteredSegments.length
+        ? filteredSegments
+        : window.segmentEngine.getSegmentsForTier(tier);
+
     if (!segments || segments.length === 0) {
         container.append('div')
             .attr('class', 'alert alert-warning')
@@ -842,17 +959,19 @@ export function renderSegmentScatterPlot(containerId, tier, axis = 'engagement')
         return;
     }
 
-    // Prepare data
-    const data = segments.map(seg => ({
-        compositeKey: seg.compositeKey,
-        customers: parseInt(seg.customer_count),
-        repeat_loss_rate: parseFloat(seg.repeat_loss_rate),
-        avg_order_value: parseFloat(seg.avg_order_value),
-        elasticity: window.segmentEngine.getElasticity(tier, seg.compositeKey, axis) || -2.0
-    }));
+    const data = segments.map(segment => {
+        const elasticity = window.segmentEngine.getElasticity(tier, segment.compositeKey, axis) || 0;
+        return {
+            compositeKey: segment.compositeKey,
+            customers: parseInt(segment.customer_count || 0, 10),
+            repeat_loss_rate: parseFloat(segment.repeat_loss_rate || 0),
+            avg_order_value: parseFloat(segment.avg_order_value || 0),
+            elasticity,
+            riskLabel: getSegmentAxisRiskLabel(axis, elasticity)
+        };
+    });
 
-    // Set up dimensions
-    const margin = { top: 40, right: 150, bottom: 60, left: 80 };
+    const margin = { top: 40, right: 180, bottom: 60, left: 80 };
     const width = 900 - margin.left - margin.right;
     const height = 600 - margin.top - margin.bottom;
 
@@ -862,7 +981,6 @@ export function renderSegmentScatterPlot(containerId, tier, axis = 'engagement')
         .append('g')
         .attr('transform', `translate(${margin.left},${margin.top})`);
 
-    // Scales
     const xScale = d3.scaleLinear()
         .domain([0, d3.max(data, d => d.customers)])
         .range([0, width])
@@ -875,14 +993,10 @@ export function renderSegmentScatterPlot(containerId, tier, axis = 'engagement')
         .range([height, 0])
         .nice();
 
-    const colorScale = d3.scaleSequential(d3.interpolateRdYlGn)
-        .domain([d3.max(data, d => d.repeat_loss_rate), d3.min(data, d => d.repeat_loss_rate)]);
-
     const radiusScale = d3.scaleSqrt()
         .domain([0, d3.max(data, d => d.avg_order_value)])
         .range([4, 15]);
 
-    // Axes
     svg.append('g')
         .attr('transform', `translate(0,${height})`)
         .call(d3.axisBottom(xScale).tickFormat(d => (d / 1000).toFixed(0) + 'K'));
@@ -890,7 +1004,6 @@ export function renderSegmentScatterPlot(containerId, tier, axis = 'engagement')
     svg.append('g')
         .call(d3.axisLeft(yScale));
 
-    // Axis labels
     svg.append('text')
         .attr('x', width / 2)
         .attr('y', height + 50)
@@ -904,26 +1017,44 @@ export function renderSegmentScatterPlot(containerId, tier, axis = 'engagement')
         .attr('y', -60)
         .attr('text-anchor', 'middle')
         .attr('font-weight', 'bold')
-        .text(axis === 'engagement'
-            ? 'Elasticity (repeat-loss impact)'
-            : axis === 'acquisition'
-                ? 'Elasticity (acquisition response)'
-                : 'Elasticity (channel migration)');
+        .text(`${axisMeta.label} elasticity`);
 
-    // Quadrant line
-    // Reference line at elasticity ~0 (no sensitivity)
-    if (yMin < 0 && yMax > 0) {
+    const referenceLines = axis === 'acquisition'
+        ? [
+            { value: -2.0, label: 'High sensitivity', color: '#dc2626' },
+            { value: -1.0, label: 'Moderate', color: '#d97706' }
+        ]
+        : axis === 'engagement'
+            ? [
+                { value: 1.5, label: 'High repeat-loss risk', color: '#dc2626' },
+                { value: 0.7, label: 'Moderate', color: '#d97706' }
+            ]
+            : [
+                { value: 1.3, label: 'High switching risk', color: '#dc2626' },
+                { value: 0.8, label: 'Moderate', color: '#d97706' }
+            ];
+
+    referenceLines.forEach(line => {
+        if (line.value < yMin || line.value > yMax) return;
+
         svg.append('line')
             .attr('x1', 0)
             .attr('x2', width)
-            .attr('y1', yScale(0))
-            .attr('y2', yScale(0))
-            .attr('stroke', '#ccc')
-            .attr('stroke-dasharray', '5,5')
+            .attr('y1', yScale(line.value))
+            .attr('y2', yScale(line.value))
+            .attr('stroke', line.color)
+            .attr('stroke-dasharray', '6,6')
             .attr('opacity', 0.5);
-    }
 
-    // Tooltip
+        svg.append('text')
+            .attr('x', width - 4)
+            .attr('y', yScale(line.value) - 6)
+            .attr('text-anchor', 'end')
+            .attr('font-size', '10px')
+            .attr('fill', line.color)
+            .text(line.label);
+    });
+
     const tooltip = container.append('div')
         .attr('class', 'position-absolute bg-dark text-white p-2 rounded shadow-sm')
         .style('display', 'none')
@@ -931,7 +1062,6 @@ export function renderSegmentScatterPlot(containerId, tier, axis = 'engagement')
         .style('font-size', '11px')
         .style('z-index', '1000');
 
-    // Plot points
     svg.selectAll('.segment-point')
         .data(data)
         .join('circle')
@@ -939,8 +1069,8 @@ export function renderSegmentScatterPlot(containerId, tier, axis = 'engagement')
         .attr('cx', d => xScale(d.customers))
         .attr('cy', d => yScale(d.elasticity))
         .attr('r', d => radiusScale(d.avg_order_value))
-        .attr('fill', d => colorScale(d.repeat_loss_rate))
-        .attr('opacity', 0.7)
+        .attr('fill', d => getSegmentAxisColor(axis, d.elasticity))
+        .attr('opacity', 0.78)
         .attr('stroke', '#fff')
         .attr('stroke-width', 1)
         .style('cursor', 'pointer')
@@ -958,7 +1088,8 @@ export function renderSegmentScatterPlot(containerId, tier, axis = 'engagement')
                 .html(`
                     <strong>${window.segmentEngine.formatCompositeKey(d.compositeKey)}</strong><br>
                     Customers: ${d.customers.toLocaleString()}<br>
-                    Elasticity (repeat loss): ${d.elasticity.toFixed(2)}<br>
+                    ${axisMeta.label} elasticity: ${d.elasticity.toFixed(2)}<br>
+                    ${axisMeta.label} posture: ${d.riskLabel}<br>
                     Repeat loss rate: ${(d.repeat_loss_rate * 100).toFixed(2)}%<br>
                     Avg Order Value: $${d.avg_order_value.toFixed(2)}
                 `);
@@ -973,30 +1104,24 @@ export function renderSegmentScatterPlot(containerId, tier, axis = 'engagement')
                 .style('top', y - 20 + 'px');
         })
         .on('mouseleave', function() {
-            d3.select(this).attr('opacity', 0.7).attr('stroke-width', 1);
+            d3.select(this).attr('opacity', 0.78).attr('stroke-width', 1);
             tooltip.style('display', 'none');
         })
         .on('click', function(event, d) {
-            const axisLabel = axis === 'engagement'
-                ? 'repeat loss'
-                : axis === 'acquisition'
-                    ? 'acquisition'
-                    : 'migration';
-
             updateSegmentDetailPanel(
                 window.segmentEngine.formatCompositeKey(d.compositeKey),
-                `
-                  <div>
-                    Customers: ${d.customers.toLocaleString()}<br>
-                    Elasticity (${axisLabel}): ${d.elasticity.toFixed(2)}<br>
-                    Repeat loss rate: ${(d.repeat_loss_rate * 100).toFixed(2)}%<br>
-                    Avg Order Value: $${d.avg_order_value.toFixed(2)}
-                  </div>
-                `
+                buildSegmentDetailHtml(
+                    `${axisMeta.label} view: ${d.riskLabel}. This cohort combines size and elasticity in one point.`,
+                    [
+                        { label: 'Customers', value: d.customers.toLocaleString() },
+                        { label: `${axisMeta.label} elasticity`, value: d.elasticity.toFixed(2), tone: getSegmentAxisSentiment(axis, d.elasticity) },
+                        { label: 'Repeat loss rate', value: formatSegmentPercent(d.repeat_loss_rate), tone: d.repeat_loss_rate >= 0.14 ? 'negative' : 'positive' },
+                        { label: 'Average order value', value: formatSegmentCurrency(d.avg_order_value), tone: 'positive' }
+                    ]
+                )
             );
         });
 
-    // Legend
     const legend = svg.append('g')
         .attr('transform', `translate(${width + 20}, 0)`);
 
@@ -1007,57 +1132,36 @@ export function renderSegmentScatterPlot(containerId, tier, axis = 'engagement')
         .attr('font-size', '12px')
         .text('Legend');
 
-    // Size legend
     legend.append('text')
         .attr('x', 0)
         .attr('y', 25)
         .attr('font-size', '10px')
         .text('Size: AOV');
 
-    // Color legend
     legend.append('text')
         .attr('x', 0)
         .attr('y', 80)
         .attr('font-size', '10px')
-        .text('Color: Repeat loss (green = low, yellow = medium, red = high)');
+        .text(`Color: ${axisMeta.label.toLowerCase()} risk`);
 
-    // Low (green)
-    legend.append('circle')
-        .attr('cx', 10)
-        .attr('cy', 95)
-        .attr('r', 5)
-        .attr('fill', '#22c55e');
-    legend.append('text')
-        .attr('x', 22)
-        .attr('y', 98)
-        .attr('font-size', '9px')
-        .text('Low retention risk');
+    [
+        { y: 95, color: '#22c55e', label: axisMeta.positive },
+        { y: 112, color: '#eab308', label: axisMeta.neutral },
+        { y: 129, color: '#ef4444', label: axisMeta.negative }
+    ].forEach(item => {
+        legend.append('circle')
+            .attr('cx', 10)
+            .attr('cy', item.y)
+            .attr('r', 5)
+            .attr('fill', item.color);
 
-    // Medium (yellow)
-    legend.append('circle')
-        .attr('cx', 10)
-        .attr('cy', 112)
-        .attr('r', 5)
-        .attr('fill', '#eab308');
-    legend.append('text')
-        .attr('x', 22)
-        .attr('y', 115)
-        .attr('font-size', '9px')
-        .text('Medium retention risk');
+        legend.append('text')
+            .attr('x', 22)
+            .attr('y', item.y + 3)
+            .attr('font-size', '9px')
+            .text(item.label);
+    });
 
-    // High (red)
-    legend.append('circle')
-        .attr('cx', 10)
-        .attr('cy', 129)
-        .attr('r', 5)
-        .attr('fill', '#ef4444');
-    legend.append('text')
-        .attr('x', 22)
-        .attr('y', 132)
-        .attr('font-size', '9px')
-        .text('High retention risk');
-
-    // Title
     const tierLabel = tier === 'ad_supported'
         ? 'Entry & Value'
         : tier === 'ad_free'
@@ -1070,7 +1174,7 @@ export function renderSegmentScatterPlot(containerId, tier, axis = 'engagement')
         .attr('text-anchor', 'middle')
         .attr('font-weight', 'bold')
         .attr('font-size', '14px')
-        .text(`Segment Analysis – ${tierLabel} cohorts`);
+        .text(`Segment Analysis - ${tierLabel} cohorts - ${axisMeta.label}`);
 }
 
 /**

@@ -108,7 +108,7 @@
         <div class="hero">
           <div>
             <h1>Yum Brands Portfolio Elasticity Studio</h1>
-            <p>Model how pricing moves across Yum Brands concepts affect demand, channel mix, sales, margin, and portfolio recapture using a multi-brand operating panel built from structured public-data proxies.</p>
+            <p>Analyze how customers respond to pricing and promotions, simulate business impact, and make smarter revenue and margin decisions.</p>
             <button class="btn btn-primary-custom btn-lg" onclick="goToStep(1)">
               Start Exploration <i class="bi bi-arrow-right ms-2"></i>
             </button>
@@ -122,142 +122,87 @@
   <div class="container">
     <div class="section-header section-header-split">
       <div class="section-header-main">
-        <div class="section-number">Step 1</div>
+        <div class="section-number">Step 2</div>
         <h2 class="section-title">
-          Current State Overview
+          Current Business Overview
           <button class="btn btn-sm btn-outline-info ms-2" data-bs-toggle="modal" data-bs-target="#methodology-modal-step1" title="View Methodology">
             <i class="bi bi-info-circle"></i>
           </button>
         </h2>
-        <p class="section-subtitle">Before exploring price elasticity, let's understand Yum Brands' current concept mix, channel posture, menu architecture, and key operating metrics.</p>
+        <p class="section-subtitle">After reviewing the data foundation, use this screen to understand the selected Yum brand's current traffic, order value, margin, channel posture, and pricing context.</p>
       </div>
     </div>
 
     <!-- Top Navigation -->
     <div class="section-header-nav">
-      <button class="btn btn-secondary-custom" onclick="goToStep(0)"><i class="bi bi-arrow-left me-2"></i> Back to Home</button>
-      <button class="btn btn-primary-custom" onclick="goToStep(2)">Next: Data Foundation <i class="bi bi-arrow-right ms-2"></i></button>
+      <button class="btn btn-secondary-custom" onclick="goToStep(1)"><i class="bi bi-arrow-left me-2"></i> Back to Data Explorer</button>
+      <button class="btn btn-primary-custom" onclick="goToStep(3)">Next: Customer Cohorts <i class="bi bi-arrow-right ms-2"></i></button>
     </div>
 
     <!-- Auto-Loading Progress -->
-    <div class="text-center my-4" id="load-data-section">
-      <div class="glass-card" style="padding: 2rem;">
-        <h5 class="mb-3">
-          <i class="bi bi-database me-2"></i>
-          Loading Data
-        </h5>
-        <p class="text-muted">Initializing elasticity models and loading the Yum Brands operating data foundation...</p>
+    <div id="load-data-section" aria-label="Loading Yum data foundation" role="status">
+      <div class="ld-aurora" aria-hidden="true">
+        <div class="ld-blob ld-blob-1"></div>
+        <div class="ld-blob ld-blob-2"></div>
+        <div class="ld-blob ld-blob-3"></div>
+      </div>
 
-        <!-- Progress Bar (shown by default) -->
-        <div id="loading-progress" class="mt-4" style="display: block !important; visibility: visible !important;">
-          <div class="mb-2">
-            <small id="loading-stage" class="d-block fw-semibold text-primary">Initializing...</small>
-          </div>
-          <div class="progress" style="height: 25px; background-color: rgba(0, 102, 255, 0.1); border: 1px solid rgba(0, 102, 255, 0.2);">
-            <div id="loading-progress-bar" class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
-                 role="progressbar" style="width: 5%; min-width: 5%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-              <span id="loading-percentage" class="fw-bold">0%</span>
-            </div>
-          </div>
+      <div class="ld-top-strip">
+        <div id="loading-progress-bar" class="ld-top-fill" role="progressbar"
+             style="width: 5%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+
+      <div class="ld-center">
+        <div class="ld-logo" aria-hidden="true">
+          <i class="bi bi-shop-window"></i>
+        </div>
+        <div class="ld-wordmark">Yum Elasticity Studio</div>
+        <div class="ld-sub">Portfolio Pricing Intelligence</div>
+
+        <div class="ld-stage-wrap">
+          <span id="loading-stage" class="ld-stage-text">Initializing...</span>
+          <span class="ld-cursor" aria-hidden="true"></span>
         </div>
 
-        <!-- Hidden load button as fallback -->
-        <button id="load-data-btn" class="btn btn-primary-custom mt-3" style="display: none;">
-          <i class="bi bi-cloud-download me-2"></i>
-          Load Data
-        </button>
+        <div class="ld-segs" aria-hidden="true">
+          <div class="ld-seg"></div>
+          <div class="ld-seg"></div>
+          <div class="ld-seg"></div>
+          <div class="ld-seg"></div>
+          <div class="ld-seg"></div>
+          <div class="ld-seg"></div>
+        </div>
+
+        <div id="loading-percentage" class="ld-pct">0%</div>
       </div>
+
+      <div id="loading-progress" style="display: none; visibility: hidden;" aria-hidden="true"></div>
+
+      <button id="load-data-btn" class="btn btn-primary-custom mt-3" style="display: none;">
+        <i class="bi bi-cloud-download me-2"></i>
+        Load Data
+      </button>
     </div>
 
     <!-- KPI Summary Cards -->
     <div id="kpi-section" style="display: none;">
       <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-3">
         <div class="d-flex align-items-end gap-3 flex-wrap">
-          <div>
-            <label for="yum-overview-brand-select" class="form-label fw-semibold mb-1">Brand View</label>
-            <select id="yum-overview-brand-select" class="form-select form-select-sm">
-              <option value="">Loading Yum concepts...</option>
-            </select>
-          </div>
-          <p class="small text-muted mb-0" id="yum-overview-brand-hint">Choose a Yum concept to refresh the Step 1 view.</p>
-        </div>
-      </div>
-
-      <div class="row g-4 mb-4">
-        <div class="col-xl-5">
-          <div class="card h-100 border-0 shadow-sm">
-            <div class="card-body">
-              <div class="small text-uppercase text-muted fw-semibold mb-2">AI-Generated Business Summary</div>
-              <ul class="small mb-0 ps-3" id="yum-business-summary">
-                <li>Loading current Yum business readout...</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="col-xl-4">
-          <div class="card h-100 border-0 shadow-sm">
-            <div class="card-body">
-              <div class="small text-uppercase text-muted fw-semibold mb-2">Recommended Next Actions</div>
-              <ul class="small mb-0 ps-3" id="yum-recommended-actions">
-                <li>Loading recommended actions...</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="col-xl-3">
-          <div class="card h-100 border-0 shadow-sm bg-body-tertiary">
-            <div class="card-body">
-              <div class="small text-uppercase text-muted fw-semibold mb-2">Data Backing This View</div>
-              <div class="small mb-2"><strong>Main grain:</strong> <code id="yum-data-grain">Loading...</code></div>
-              <div class="small mb-2"><strong>Latest modeled week:</strong> <span id="yum-data-latest-week">--</span></div>
-              <div class="small mb-2"><strong>Coverage:</strong> <span id="yum-data-coverage">--</span></div>
-              <div class="small mb-2"><strong>Core tables:</strong> <span id="yum-data-tables">--</span></div>
-              <div class="small text-muted" id="yum-data-quality-note">Validating generated panel quality...</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Channel Groups -->
-      <h5 class="mb-3" id="kpi-architecture-heading">Yum Brands Channel Architecture</h5>
-      <div class="row g-4 mb-5" id="yum-channel-mix-cards">
-        <div class="col-md-6 col-xl-3">
-          <div class="glass-card tier-card channel-card channel-card--drive-thru h-100">
-            <div class="channel-card-head">
-              <div class="channel-card-title-group">
-                <div class="channel-icon">
-                  <i class="bi bi-car-front"></i>
-                </div>
-                <div>
-                  <div class="tier-name">Drive-Thru</div>
-                  <div class="channel-subtitle">High-throughput anchor</div>
-                </div>
-              </div>
-              <div class="channel-mix-pill">Loading</div>
-            </div>
-            <div class="channel-metrics-grid">
-              <div class="channel-metric">
-                <span class="channel-metric-label">Average check</span>
-                <strong class="channel-metric-value">--</strong>
-              </div>
-              <div class="channel-metric">
-                <span class="channel-metric-label">Weekly orders</span>
-                <strong class="channel-metric-value">--</strong>
-              </div>
-            </div>
-            <div class="channel-items-section">
-              <div class="channel-items-label">Top items</div>
-              <div class="channel-chip-list">
-                <span class="channel-chip">Loading Yum portfolio channel metrics...</span>
+          <div class="yum-brand-picker">
+            <div class="small text-uppercase text-muted fw-semibold mb-2">Brand View</div>
+            <div id="yum-overview-brand-cards" class="yum-brand-card-grid" aria-label="Select Yum brand for Current Business Overview">
+              <div class="yum-brand-select-card is-loading">
+                <div class="yum-brand-select-card__name">Loading Yum concepts...</div>
               </div>
             </div>
           </div>
+          <p class="small text-muted mb-0" id="yum-overview-brand-hint">Choose a Yum concept to refresh the Current Business Overview.</p>
         </div>
       </div>
 
       <!-- KPI Metrics -->
-      <h5 class="mb-3" id="kpi-metrics-heading">Yum Brands Operating KPIs (Latest Week)</h5>
-      <div class="row g-3" id="kpi-cards">
+      <h5 class="mb-3" id="kpi-metrics-heading">Yum Brands Brand-wise Operating KPIs (Latest Week)</h5>
+      <div class="row g-3 mb-4" id="kpi-cards">
         <div class="col-md-3">
           <div class="card kpi-card h-100">
             <div class="card-body">
@@ -283,7 +228,7 @@
         <div class="col-md-3">
           <div class="card kpi-card h-100">
             <div class="card-body">
-              <div class="text-muted mb-2 small text-uppercase" id="kpi-aov-label">Average Check</div>
+              <div class="text-muted mb-2 small text-uppercase" id="kpi-aov-label">Average Order Value</div>
               <div class="fs-2 fw-bold" id="kpi-aov">--</div>
               <div class="small" id="kpi-aov-change">--</div>
             </div>
@@ -292,9 +237,116 @@
         <div class="col-md-3">
           <div class="card kpi-card h-100">
             <div class="card-body">
-            <div class="text-muted mb-2 small text-uppercase" id="kpi-churn-label">Contribution Margin Rate</div>
+              <div class="text-muted mb-2 small text-uppercase" id="kpi-churn-label">Contribution Margin Rate</div>
               <div class="fs-2 fw-bold" id="kpi-churn">--</div>
               <div class="small text-danger" id="kpi-churn-change">
+                <i class="bi bi-arrow-down"></i> --
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4 mb-4">
+        <div class="col-xl-6">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+              <div class="small text-uppercase text-muted fw-semibold mb-2">AI-Generated Business Summary</div>
+              <ul class="small mb-0 ps-3" id="yum-business-summary">
+                <li>Loading current Yum business readout...</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-6">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+              <div class="small text-uppercase text-muted fw-semibold mb-2">Recommended Next Actions</div>
+              <ul class="small mb-0 ps-3" id="yum-recommended-actions">
+                <li>Loading recommended actions...</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Channel Groups -->
+      <h5 class="mb-3" id="kpi-architecture-heading">Yum Brands Channel Architecture</h5>
+      <div class="row g-4 mb-5" id="yum-channel-mix-cards">
+        <div class="col-md-6 col-xl-3">
+          <div class="glass-card tier-card channel-card channel-card--drive-thru h-100">
+            <div class="channel-card-head">
+              <div class="channel-card-title-group">
+                <div class="channel-icon">
+                  <i class="bi bi-car-front"></i>
+                </div>
+                <div>
+                  <div class="tier-name">Drive-Thru</div>
+                  <div class="channel-subtitle">High-throughput anchor</div>
+                </div>
+              </div>
+              <div class="channel-mix-pill">Loading</div>
+            </div>
+            <div class="channel-metrics-grid">
+              <div class="channel-metric">
+                <span class="channel-metric-label">Average order value</span>
+                <strong class="channel-metric-value">--</strong>
+              </div>
+              <div class="channel-metric">
+                <span class="channel-metric-label">Weekly orders</span>
+                <strong class="channel-metric-value">--</strong>
+              </div>
+            </div>
+            <div class="channel-items-section">
+              <div class="channel-items-label">Top items</div>
+              <div class="channel-chip-list">
+                <span class="channel-chip">Loading Yum portfolio channel metrics...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Legacy KPI Metrics -->
+      <h5 class="mb-3" id="kpi-metrics-heading-legacy" style="display: none;">Yum Brands Operating KPIs (Latest Week)</h5>
+      <div class="row g-3" id="kpi-cards-legacy" style="display: none;">
+        <div class="col-md-3">
+          <div class="card kpi-card h-100">
+            <div class="card-body">
+              <div class="text-muted mb-2 small text-uppercase" id="kpi-customers-label-legacy">Weekly Orders</div>
+              <div class="fs-2 fw-bold" id="kpi-customers-legacy">--</div>
+              <div class="small text-success" id="kpi-customers-change-legacy">
+                <i class="bi bi-arrow-up"></i> --
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card kpi-card h-100">
+            <div class="card-body">
+              <div class="text-muted mb-2 small text-uppercase" id="kpi-revenue-label-legacy">Weekly Net Sales</div>
+              <div class="fs-2 fw-bold" id="kpi-revenue-legacy">--</div>
+              <div class="small text-success" id="kpi-revenue-change-legacy">
+                <i class="bi bi-arrow-up"></i> --
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card kpi-card h-100">
+            <div class="card-body">
+              <div class="text-muted mb-2 small text-uppercase" id="kpi-aov-label-legacy">Average Check</div>
+              <div class="fs-2 fw-bold" id="kpi-aov-legacy">--</div>
+              <div class="small" id="kpi-aov-change-legacy">--</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card kpi-card h-100">
+            <div class="card-body">
+            <div class="text-muted mb-2 small text-uppercase" id="kpi-churn-label-legacy">Contribution Margin Rate</div>
+              <div class="fs-2 fw-bold" id="kpi-churn-legacy">--</div>
+              <div class="small text-danger" id="kpi-churn-change-legacy">
                 <i class="bi bi-arrow-down"></i> --
               </div>
             </div>
@@ -307,6 +359,17 @@
         <div class="icon">💡</div>
         <h5 id="kpi-insight-title">Decision Context</h5>
       <p class="mb-0" id="kpi-insight-text">This dashboard tracks current Yum demand, realized price, margin quality, promo dependence, and elasticity posture from the generated operating panel. The details below explain why the summary and actions above are being recommended.</p>
+      </div>
+
+      <div class="card h-100 border-0 shadow-sm bg-body-tertiary mt-4">
+        <div class="card-body">
+          <div class="small text-uppercase text-muted fw-semibold mb-2">Data Backing This View</div>
+          <div class="small mb-2"><strong>Primary grains:</strong> <code id="yum-data-grain">Loading...</code></div>
+          <div class="small mb-2"><strong>Latest modeled week:</strong> <span id="yum-data-latest-week">--</span></div>
+          <div class="small mb-2"><strong>Coverage:</strong> <span id="yum-data-coverage">--</span></div>
+          <div class="small mb-2"><strong>Core tables:</strong> <span id="yum-data-tables">--</span></div>
+          <div class="small text-muted" id="yum-data-quality-note">Validating generated panel quality...</div>
+        </div>
       </div>
 
       <!-- Channel Promotions Simulator -->
@@ -460,7 +523,7 @@
   <div class="container">
     <div class="section-header section-header-split">
       <div class="section-header-main">
-        <div class="section-number">Step 2</div>
+        <div class="section-number">Step 1</div>
         <h2 class="section-title">Data Foundation Explorer</h2>
         <p class="section-subtitle">Start with the real Yum operating data that powers the elasticity analysis. Open the modeled foundation tables, inspect their shape, and show what the application is actually reading.</p>
       </div>
@@ -1005,7 +1068,7 @@
           <div class="tab-pane fade show active" id="acquisition-pane" role="tabpanel">
 
             <div class="row g-3 mb-4">
-              <div class="col-lg-7">
+              <div class="col-lg-4">
                 <div class="card border-0 shadow-sm h-100">
                   <div class="card-body">
                     <div class="small text-uppercase text-muted fw-semibold mb-2">Business Summary</div>
@@ -1016,7 +1079,18 @@
                   </div>
                 </div>
               </div>
-              <div class="col-lg-5">
+              <div class="col-lg-4">
+                <div class="card border-0 shadow-sm h-100">
+                  <div class="card-body">
+                    <div class="small text-uppercase text-muted fw-semibold mb-2">Optimal Price Suggestion</div>
+                    <div class="small text-muted mb-2" id="acq-optimal-context">Loading pricing band...</div>
+                    <div class="acq-optimal-range" id="acq-optimal-range">$0.00 - $0.00</div>
+                    <div class="small fw-semibold mt-2" id="acq-optimal-supporting">Loading rationale...</div>
+                    <div class="small text-muted mt-2" id="acq-optimal-note">Suggested range minimizes order loss while protecting revenue.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4">
                 <div class="card border-0 shadow-sm h-100">
                   <div class="card-body">
                     <div class="small text-uppercase text-muted fw-semibold mb-2">Recommended Next Actions</div>
@@ -1956,6 +2030,11 @@
               <option value="engagement" selected>Engagement</option>
               <option value="monetization">Monetization</option>
             </select>
+            <div class="small text-muted mt-2">
+              <div><strong>Acquisition:</strong> <span id="segment-axis-helper-acquisition">Price Sensitivity - Promo Driven</span></div>
+              <div><strong>Engagement:</strong> <span id="segment-axis-helper-engagement">Loyalty &amp; Retention</span></div>
+              <div><strong>Monetization:</strong> <span id="segment-axis-helper-monetization">Basket Value &amp; Spend</span></div>
+            </div>
           </div>
           <div class="col-md-4">
             <label class="form-label fw-bold">Visualization</label>
@@ -1963,49 +2042,74 @@
               <option value="heatmap">Heatmap</option>
               <option value="3axis" selected>3-Axis Framework</option>
               <option value="scatter">Scatter Plot</option>
-              <option value="channel">Channel View</option>
             </select>
           </div>
         </div>
 
-        <!-- Recommendation card: promo strategy by channel -->
-        <div id="step4-recommendation-card" class="alert alert-light border mb-4">
-          <div class="d-flex align-items-start">
-            <i class="bi bi-lightbulb text-warning fs-4 me-3"></i>
-            <div>
-              <strong class="text-body">Promo strategy:</strong>
-              <span class="text-body-secondary">Value-led missions and entry ladders usually show higher price elasticity, while premium and loyal missions are less elastic. Balance volume defense and margin protection by segment instead of using one blanket move.</span>
+        <div class="row g-3 mb-4">
+          <div class="col-lg-7">
+            <div id="segment-auto-insights-card" class="card border-0 shadow-sm h-100">
+              <div class="card-body">
+                <div class="small text-uppercase text-muted fw-semibold mb-2">Auto Insights</div>
+                <ul class="small mb-0 ps-3" id="segment-auto-insights-list">
+                  <li>Loading cohort insights...</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-5">
+            <div id="step4-recommendation-card" class="card border-0 shadow-sm h-100 bg-body-tertiary">
+              <div class="card-body">
+                <div class="d-flex align-items-start">
+                  <i class="bi bi-lightbulb text-warning fs-4 me-3"></i>
+                  <div>
+                    <div class="small text-uppercase text-muted fw-semibold mb-1">Recommended Action</div>
+                    <div class="small text-body" id="step4-recommendation-text">
+                      Loading recommendation...
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- Cohort Insights Banner -->
-        <div class="alert alert-info mb-4">
-          <i class="bi bi-info-circle me-2"></i>
-          <strong>Cohort Segmentation:</strong>
-          Customers are segmented by price sensitivity because pricing changes don't affect everyone the same way.
-          Promo-driven joiners have high acquisition elasticity. Routine refill buyers have low elasticity. Long-tenure loyalists have very low repeat loss.
-          <br><span class="small opacity-90">Heatmap, 3-axis, and scatter use your data: <code>segments.csv</code>, <code>segment_kpis.csv</code>, <code>segment_elasticity.json</code>.</span>
+        <div class="segment-framework-banner mb-4">
+          <div class="segment-framework-copy">
+            <div class="segment-framework-kicker">Cohort Framework</div>
+            <div class="segment-framework-title">Read pricing through customer behavior, not one average.</div>
+            <div class="segment-framework-note">This screen separates traffic response, loyalty risk, and basket value so each pricing action stays targeted.</div>
+          </div>
+          <div class="segment-framework-pills">
+            <span class="segment-framework-pill is-acquisition">Acquisition: Price Sensitivity - Promo Driven</span>
+            <span class="segment-framework-pill is-engagement">Engagement: Loyalty &amp; Retention</span>
+            <span class="segment-framework-pill is-monetization">Monetization: Basket Value &amp; Spend</span>
+          </div>
         </div>
 
         <!-- Filter Summary Stats -->
-        <div id="filter-summary" class="alert alert-light small mb-3">
-          <strong>Viewing:</strong> <span id="filter-stats">All segments</span>
+        <div id="filter-summary" class="segment-filter-summary mb-3">
+          <div class="segment-filter-summary-label">Viewing</div>
+          <div id="filter-stats" class="segment-filter-summary-value">All segments</div>
         </div>
 
         <!-- Cohort Filters (Pills) -->
         <div class="segment-filters mb-4">
           <div class="row g-3">
             <div class="col-md-4">
-              <label class="form-label fw-bold small text-uppercase">Acquisition Price Sensitivity:</label>
+              <label class="form-label fw-bold small text-uppercase">Acquisition</label>
+              <div class="small text-muted mb-2">Price Sensitivity - Promo Driven</div>
               <div id="acquisition-filters" class="filter-pills d-flex flex-wrap gap-2"></div>
             </div>
             <div class="col-md-4">
-              <label class="form-label fw-bold small text-uppercase">Loyalty &amp; Repeat Risk:</label>
+              <label class="form-label fw-bold small text-uppercase">Engagement</label>
+              <div class="small text-muted mb-2">Loyalty &amp; Retention</div>
               <div id="engagement-filters" class="filter-pills d-flex flex-wrap gap-2"></div>
             </div>
             <div class="col-md-4">
-              <label class="form-label fw-bold small text-uppercase">Basket Value &amp; Kit Depth:</label>
+              <label class="form-label fw-bold small text-uppercase">Monetization</label>
+              <div class="small text-muted mb-2">Basket Value &amp; Spend</div>
               <div id="monetization-filters" class="filter-pills d-flex flex-wrap gap-2"></div>
             </div>
           </div>
@@ -2029,19 +2133,25 @@
           </button>
         </div>
 
+        <div id="segment-viz-guide" class="segment-viz-guide mb-3">
+          <div class="segment-viz-guide-title">Loading visual guide...</div>
+        </div>
+
         <!-- Visualization Container -->
         <div id="segment-visualization-container">
           <!-- Elasticity Heatmap -->
           <div id="heatmap-view" class="chart-container">
-            <h3 class="h6 mb-2">Cohort Elasticity Heatmap</h3>
-            <p class="text-muted small mb-3">Price/promo sensitivity by cohort. Green = lower sensitivity, Red = higher sensitivity. Use to decide where to promote.</p>
+            <div class="segment-chart-head">
+              <h3 class="h6 mb-0">Cohort Elasticity Heatmap</h3>
+            </div>
             <div id="segment-elasticity-heatmap" class="rounded border bg-light bg-opacity-50 p-2"></div>
           </div>
 
           <!-- 3-Axis View -->
           <div id="3axis-view" class="chart-container" style="display: none;">
-            <h3 class="h6 mb-2">3-Axis Cohort Map</h3>
-            <p class="text-muted small mb-3">Bubble size = customer count; color = repeat-loss risk. Hover for cohort details.</p>
+            <div class="segment-chart-head">
+              <h3 class="h6 mb-0">3-Axis Cohort Map</h3>
+            </div>
             <div id="three-axis-radial-viz" class="rounded border bg-light bg-opacity-50 p-2"></div>
             <div class="mt-3">
               <button id="reset-3axis-btn" class="btn btn-sm btn-secondary">
@@ -2055,15 +2165,17 @@
 
           <!-- Scatter Plot View -->
           <div id="scatter-view" class="chart-container" style="display: none;">
-            <h3 class="h6 mb-2">Cohort Scatter: Customers vs Elasticity</h3>
-            <p class="text-muted small mb-3">X = customer count, Y = elasticity (repeat-loss impact). Bubble size = AOV, color = repeat-loss rate. Use to spot high-risk, high-size cohorts.</p>
+            <div class="segment-chart-head">
+              <h3 class="h6 mb-0">Cohort Scatter: Customers vs Elasticity</h3>
+            </div>
             <div id="segment-scatter-plot" class="rounded border bg-light bg-opacity-50 p-2"></div>
           </div>
 
           <!-- Channel View: all from elasticity-params by_channel -->
           <div id="channel-view" class="chart-container" style="display: none;">
-            <h3 class="h6 mb-2">Channel View</h3>
-            <p class="text-muted small mb-4">Elasticity and base price by channel from <code>elasticity-params.json</code>. Use this to tailor promotions by channel.</p>
+            <div class="segment-chart-head">
+              <h3 class="h6 mb-0">Channel View</h3>
+            </div>
             <div class="row g-4">
               <div class="col-12">
                 <h4 class="h6 text-uppercase text-muted mb-2">Bar: Elasticity by channel</h4>
@@ -2082,45 +2194,18 @@
 
           <!-- Selected Cohort Insight -->
           <div id="segment-detail-panel" class="mt-3">
-            <div class="card border-0 bg-body-tertiary">
+            <div class="card border-0 segment-detail-card">
               <div class="card-body py-2">
                 <div class="small text-muted mb-1" id="segment-detail-title">
-                  Hover or click a cohort in any chart to see a short insight here.
+                  Hover or click a cohort in any chart to see the readout here.
                 </div>
                 <div class="small" id="segment-detail-body"></div>
               </div>
             </div>
           </div>
 
-          <!-- Cohort / Customer Group Watchlist -->
-          <div id="segment-watchlist" class="mt-3">
-            <div class="card border-0 shadow-sm cohort-watchlist-card">
-              <div class="card-body p-3">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                  <h6 class="mb-0 text-body-emphasis">
-                    <i class="bi bi-shield-exclamation text-warning me-1"></i>
-                    Customer group watchlist
-                  </h6>
-                  <span class="badge rounded-pill bg-warning-subtle text-warning-emphasis" id="segment-watchlist-badge">Loading…</span>
-                </div>
-                <p class="small text-body-secondary mb-1">
-                  Shows the customer groups most at risk of not coming back.
-                </p>
-                <div class="d-flex flex-wrap align-items-center gap-2 mb-2 small text-body-secondary cohort-watchlist-legend">
-                  <span class="d-inline-flex align-items-center gap-1">
-                    <span class="cohort-legend-dot bg-success"></span> Fewer at risk
-                  </span>
-                  <span class="d-inline-flex align-items-center gap-1">
-                    <span class="cohort-legend-dot bg-warning"></span> Some at risk
-                  </span>
-                  <span class="d-inline-flex align-items-center gap-1">
-                    <span class="cohort-legend-dot bg-danger"></span> Many at risk
-                  </span>
-                </div>
-                <div id="segment-watchlist-body" class="cohort-watchlist-body"></div>
-              </div>
-            </div>
-          </div>
+
+
         </div>
       </div>
     </div>
@@ -2139,8 +2224,21 @@
         </div>
       </div>
       <div class="card-body">
+        <div class="segment-analysis-insight-banner mb-4">
+          <div class="d-flex justify-content-between align-items-start gap-3 flex-wrap">
+            <div>
+              <div class="segment-analysis-insight-kicker" id="segment-analysis-insight-kicker">Live pricing readout</div>
+              <h3 class="segment-analysis-insight-title mb-2" id="segment-analysis-insight-title">Loading cohort comparison insight...</h3>
+              <p class="segment-analysis-insight-text mb-0" id="segment-analysis-insight-text">
+                Waiting for segment comparison data.
+              </p>
+            </div>
+            <span class="segment-analysis-live-pill" id="segment-analysis-live-pill">Core &amp; Premium</span>
+          </div>
+        </div>
+
         <!-- Controls -->
-        <div class="row mb-4">
+        <div class="row g-3 mb-4">
           <div class="col-md-4">
             <label class="form-label fw-bold">Axis</label>
             <select id="compare-axis-select" class="form-select">
@@ -2148,6 +2246,7 @@
               <option value="engagement" selected>Engagement</option>
               <option value="monetization">Monetization</option>
             </select>
+            <div class="form-text" id="compare-axis-helper">Loyalty &amp; Retention</div>
           </div>
           <div class="col-md-4">
             <label class="form-label fw-bold">Channel Group</label>
@@ -2164,6 +2263,44 @@
               <option value="churn">Repeat Loss</option>
               <option value="aov">AOV</option>
             </select>
+          </div>
+        </div>
+
+        <div class="row g-3 mb-4">
+          <div class="col-lg-4">
+            <div class="segment-analysis-mini-card h-100">
+              <div class="segment-analysis-mini-title">Elasticity Guide</div>
+              <div class="segment-analysis-mini-note">Use the guide below to read the current axis correctly.</div>
+              <div class="segment-analysis-guide-grid mt-3" id="segment-elasticity-guide">
+                <div class="segment-analysis-guide-chip">
+                  <span class="segment-analysis-guide-label">High risk</span>
+                  <strong>Loading...</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="segment-analysis-highlight-card h-100">
+              <div class="segment-analysis-highlight-label">Highest Risk Segment</div>
+              <div id="segment-highlight-risk">
+                <div class="segment-analysis-highlight-name">Loading...</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="segment-analysis-highlight-card h-100">
+              <div class="segment-analysis-highlight-label">Best Pricing Opportunity</div>
+              <div id="segment-highlight-opportunity">
+                <div class="segment-analysis-highlight-name">Loading...</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="segment-analysis-decision-box mb-4">
+          <div class="segment-analysis-mini-title mb-3">Decision Summary</div>
+          <div id="segment-decision-summary">
+            <div class="segment-analysis-summary-line">Loading pricing guidance...</div>
           </div>
         </div>
 
@@ -2194,33 +2331,47 @@
           </div>
         <div class="card-body">
 
+          <div id="promo-dependency-banner" class="promo-dependency-banner mb-4">
+            <div class="promo-dependency-banner__kicker" id="promo-dependency-kicker">Loading promo dependency...</div>
+            <div class="promo-dependency-banner__title" id="promo-dependency-title">Pricing readiness is loading.</div>
+            <div class="promo-dependency-banner__copy" id="promo-dependency-copy">Loading modeled promotion dependency for the selected Yum brand.</div>
+            <div class="promo-dependency-banner__note" id="promo-dependency-note">Waiting for latest promo and channel readout.</div>
+          </div>
+
           <div class="row g-3 mb-4" id="promo-calendar-summary-row">
-            <div class="col-md-6 col-xl-3">
+            <div class="col-md-6 col-xl">
               <div class="promo-summary-card h-100">
                 <div class="promo-summary-label">Official Campaigns Tracked</div>
                 <div class="promo-summary-value" id="promo-summary-official-count">--</div>
                 <div class="promo-summary-note" id="promo-summary-official-note">Loading official campaign library...</div>
               </div>
             </div>
-            <div class="col-md-6 col-xl-3">
+            <div class="col-md-6 col-xl">
               <div class="promo-summary-card h-100">
                 <div class="promo-summary-label">Modeled Promo Windows</div>
                 <div class="promo-summary-value" id="promo-summary-modeled-count">--</div>
                 <div class="promo-summary-note" id="promo-summary-modeled-note">Loading modeled calendar coverage...</div>
               </div>
             </div>
-            <div class="col-md-6 col-xl-3">
+            <div class="col-md-6 col-xl">
               <div class="promo-summary-card h-100">
                 <div class="promo-summary-label">Average Discount</div>
                 <div class="promo-summary-value" id="promo-summary-discount">--</div>
                 <div class="promo-summary-note" id="promo-summary-discount-note">Loading weighted promo depth...</div>
               </div>
             </div>
-            <div class="col-md-6 col-xl-3">
+            <div class="col-md-6 col-xl">
               <div class="promo-summary-card h-100">
                 <div class="promo-summary-label">Primary Channel Pressure</div>
                 <div class="promo-summary-value" id="promo-summary-channel">--</div>
                 <div class="promo-summary-note" id="promo-summary-channel-note">Loading top channel cue...</div>
+              </div>
+            </div>
+            <div class="col-md-6 col-xl">
+              <div class="promo-summary-card h-100">
+                <div class="promo-summary-label">Promo Dependency</div>
+                <div class="promo-summary-value" id="promo-summary-dependency">--</div>
+                <div class="promo-summary-note" id="promo-summary-dependency-note">Loading promo-driven demand share...</div>
               </div>
             </div>
           </div>
@@ -2303,7 +2454,7 @@
           <!-- Event Type Filters -->
           <div class="row mb-4">
             <div class="col-md-12">
-              <div class="small text-uppercase text-muted fw-semibold mb-2">Modeled Promo Calendar Filters</div>
+              <div class="small text-uppercase text-muted fw-semibold mb-2">Promotion Calendar Filters</div>
               <div class="btn-group" role="group" aria-label="Event type filters">
                 <input type="checkbox" class="btn-check" id="filter-all" checked autocomplete="off">
                 <label class="btn btn-outline-primary btn-sm" for="filter-all">
@@ -2331,7 +2482,7 @@
           <!-- Timeline Visualization -->
           <div class="mb-4">
             <h6 class="fw-bold mb-3">
-              <i class="bi bi-clock-history me-2"></i>Modeled Weekly Promotion Timeline
+                  <i class="bi bi-clock-history me-2"></i>Campaign, Seasonal & Promo Timeline
             </h6>
             <div id="event-timeline" class="p-3 rounded" style="min-height: 300px;">
               <!-- Timeline will be rendered here -->
@@ -2344,7 +2495,7 @@
               <button class="btn btn-link p-0 text-decoration-none fw-bold" type="button"
                 data-bs-toggle="collapse" data-bs-target="#event-details-collapse"
                 aria-expanded="false" aria-controls="event-details-collapse">
-                <i class="bi bi-list-ul me-2"></i>Modeled Window Details
+                <i class="bi bi-list-ul me-2"></i>Calendar Event Details
                 <i class="bi bi-chevron-down ms-2 small"></i>
               </button>
             </h6>
@@ -2382,6 +2533,15 @@
             </div>
           </div>
 
+          <div id="promo-decision-box" class="promo-decision-box">
+            <div class="promo-decision-box__kicker">Recommended Pricing Action</div>
+            <div class="promo-decision-box__title" id="promo-decision-title">Loading recommendation...</div>
+            <div id="promo-decision-actions" class="promo-decision-box__actions">
+              <div class="promo-decision-action">Loading pricing recommendation...</div>
+            </div>
+            <div class="promo-decision-box__risk" id="promo-decision-risk">Risk readout loading...</div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -2397,14 +2557,14 @@
           <i class="bi bi-chat-dots me-2"></i>
           Ask Questions About The Yum Elasticity Story
         </h2>
-        <button id="chat-reset-btn" class="btn btn-sm btn-outline-secondary" type="button">
+        <button id="chat-reset-btn" class="btn btn-sm btn-outline-secondary assistant-chat-reset-btn" type="button">
           <i class="bi bi-arrow-counterclockwise me-1"></i>
           Reset
         </button>
       </div>
       <div class="card-body">
         <!-- Chat Messages -->
-        <div id="chat-messages" class="mb-3 border rounded p-3" style="height: 500px; overflow-y: auto;">
+        <div id="chat-messages" class="assistant-chat-feed assistant-chat-feed--full mb-3 border rounded p-3" data-chat-feed data-chat-variant="full" style="height: 500px; overflow-y: auto;">
           <div class="text-center text-muted mt-5">
             <i class="bi bi-robot display-4 mb-3"></i>
             <p><strong>Yum Elasticity Assistant</strong></p>
@@ -2414,8 +2574,8 @@
 
         <!-- Input -->
         <div class="input-group mb-3">
-          <input type="text" id="chat-input" class="form-control" placeholder="Ask about Yum elasticity: summarize, explain, compare, or recommend actions..." disabled />
-          <button id="chat-send-btn" class="btn btn-primary" disabled>
+          <input type="text" id="chat-input" class="form-control assistant-chat-input" placeholder="Ask about Yum elasticity: summarize, explain, compare, or recommend actions..." disabled />
+          <button id="chat-send-btn" class="btn btn-primary assistant-chat-send-btn" disabled>
             <i class="bi bi-send"></i> Send
           </button>
         </div>
@@ -2565,7 +2725,7 @@
           <div class="card mb-3">
             <div class="card-header"><strong>Average Order Value (AOV)</strong></div>
             <div class="card-body">
-              <code>Average Check = Total Revenue / Weekly Orders</code>
+              <code>Average Order Value = Total Revenue / Weekly Orders</code>
               <p class="small text-muted mt-2 mb-0">Calculated from the latest weekly store-channel operating panel</p>
             </div>
           </div>
@@ -3158,8 +3318,8 @@
                       <span class="steps-table-step-label">Step 1</span>
                     </span>
                     <span class="steps-table-body">
-                      <strong>Current State Overview</strong>
-                      <span class="text-muted">Start with the selected Yum brand's current demand, realized price, margin quality, and elasticity posture.</span>
+                      <strong>Data Foundation Explorer</strong>
+                      <span class="text-muted">Start with the real Yum operating datasets so the analysis is grounded in the tables the application actually uses.</span>
                     </span>
                   </button>
                   <button class="steps-table-row" type="button" data-step="2" style="--step-index: 2;">
@@ -3168,8 +3328,8 @@
                       <span class="steps-table-step-label">Step 2</span>
                     </span>
                     <span class="steps-table-body">
-                      <strong>Data Foundation Explorer</strong>
-                      <span class="text-muted">Open the real Yum operating datasets first so the analysis is clearly grounded in actual generated tables.</span>
+                      <strong>Current Business Overview</strong>
+                      <span class="text-muted">Move from the foundation into the current brand view for traffic, order value, margin, channels, and decision context.</span>
                     </span>
                   </button>
                   <button class="steps-table-row" type="button" data-step="3" style="--step-index: 3;">
@@ -3302,3 +3462,4 @@
 </body>
 
 </html>
+

@@ -5,7 +5,7 @@
  * Dependencies: data-loader.js, scenario-engine.js, charts.js
  */
 
-import { loadAllData, loadScenarios, getWeeklyData, loadElasticityParams, getChannelElasticityData } from './data-loader.js';
+import { loadAllData, loadScenarios, getWeeklyData, loadElasticityParams } from './data-loader.js';
 import {
   simulateScenario,
   simulateScenarioWithPyodide,
@@ -17,7 +17,6 @@ import { renderDemandCurve, renderElasticityHeatmap, renderTierMixShift, renderT
 import { initializeChat, configureLLM, sendMessage, clearHistory } from './chat.js';
 import { initializeDataViewer } from './data-viewer.js';
 import { renderSegmentKPICards, renderSegmentElasticityHeatmap, render3AxisRadialChart, renderSegmentScatterPlot, exportSVG } from './segment-charts.js';
-import { renderChannelElasticityBar, renderChannelElasticityHeatmap, renderChannelSummary } from './channel-charts.js';
 import { getAcquisitionCohorts, getChurnCohorts } from './cohort-aggregator.js';
 import { pyodideBridge } from './pyodide-bridge.js';
 import { initializeEventCalendar } from './event-calendar.js';
@@ -26,11 +25,16 @@ import { exportToPDF, exportToXLSX } from './decision-pack.js';
 import {
   loadYumFoundation,
   getYumFoundationSummary,
+  loadYumBrandDim,
+  loadYumBrandMarketNetwork,
+  loadYumBrandWeekSummary,
   loadYumMetadata,
   loadYumManifest,
   loadYumQAReport,
-  loadYumStoreItemWeekPanel,
-  loadYumStoreChannelWeekPanel
+  loadYumDataQualityChecks,
+  loadYumBrandMarketProductChannelWeekPanel,
+  loadYumBrandMarketChannelWeekPanel,
+  loadYumPromoCalendar
 } from './yum-data-loader.js';
 import { getBrandItemSummaries, simulateBrandPriceChange } from './yum-elasticity-model.js';
 import { initializeYumScenarioStudio } from './yum-scenario-studio.js';
@@ -57,6 +61,69 @@ let selectedScenarioByModel = {
   migration: null
 };
 
+const SCREEN_ASSISTANT_CONFIGS = [
+  {
+    sectionId: 'section-10',
+    title: 'AI Screen Assistant',
+    description: 'Ask what this foundation table proves, what is modeled, and what to inspect next before making pricing calls.',
+    prompts: [
+      'What are the most important Yum tables to inspect on this screen before trusting the elasticity outputs?',
+      'Summarize what this data foundation covers for the selected brand.',
+      'What data limitations or modeled assumptions should I keep in mind here?'
+    ]
+  },
+  {
+    sectionId: 'section-1',
+    title: 'AI Business Readout',
+    description: 'Turn the overview into a simpler business summary, risk readout, or next-step recommendation.',
+    prompts: [
+      'Summarize this current business overview in plain English.',
+      'What should I do this week based on the KPI, summary, and channel mix shown here?',
+      'Which order channels look strongest or weakest for pricing right now?'
+    ]
+  },
+  {
+    sectionId: 'section-6',
+    title: 'AI Cohort Assistant',
+    description: 'Ask which cohorts are most price-sensitive, where loyalty risk is concentrated, and how to target pricing.',
+    prompts: [
+      'Which customer cohorts on this screen are most price-sensitive?',
+      'Summarize the biggest loyalty and retention risks from this cohort view.',
+      'What pricing action fits the acquisition, engagement, and monetization pattern shown here?'
+    ]
+  },
+  {
+    sectionId: 'section-7',
+    title: 'AI Segment Comparison Assistant',
+    description: 'Use the selected axis and segment comparison to get a sharper pricing recommendation.',
+    prompts: [
+      'Explain the main pricing takeaway from this segment comparison.',
+      'Which segments are highest risk and which are the best pricing opportunity here?',
+      'Turn this comparison screen into a decision summary for leadership.'
+    ]
+  },
+  {
+    sectionId: 'section-3',
+    title: 'AI Acquisition Assistant',
+    description: 'Ask how to price by mission and channel without over-reading the modeled elasticity.',
+    prompts: [
+      'What is the optimal pricing action from this traffic acquisition screen?',
+      'Which missions or channels should avoid a price increase based on this screen?',
+      'Explain the optimal price suggestion and the recommended actions here.'
+    ]
+  },
+  {
+    sectionId: 'section-8',
+    title: 'AI Promotion Calendar Assistant',
+    description: 'Use the promo calendar, official campaigns, and tentpoles to pressure-test pricing decisions.',
+    prompts: [
+      'Summarize what this promotion calendar means for pricing this week.',
+      'Are broad price increases safe given the promo dependency and campaign timeline here?',
+      'What should I watch in the seasonal and tentpole calendar before changing price?'
+    ]
+  }
+];
+
 let currentResultByModel = {
   acquisition: null,
   churn: null,
@@ -79,6 +146,7 @@ let selectedScenario = selectedScenarioByModel[activeModelType];
 let savedScenarios = savedScenariosByModel[activeModelType];
 let currentResult = currentResultByModel[activeModelType];
 let availableYumBrands = [];
+let yumBrandProfiles = new Map();
 
 const CHANNEL_PRICE = {
   ad_supported: 24.0,
@@ -345,11 +413,11 @@ function toNumeric(value) {
 }
 
 function aggregateYumPanelRows(rows) {
-  const units = rows.reduce((sum, row) => sum + toNumeric(row.units), 0);
+  const units = rows.reduce((sum, row) => sum + getUnitsValue(row), 0);
   const sales = rows.reduce((sum, row) => sum + toNumeric(row.net_sales), 0);
   const margin = rows.reduce((sum, row) => sum + toNumeric(row.contribution_margin), 0);
-  const promoUnits = rows.reduce((sum, row) => sum + (String(row.promo_flag).toLowerCase() === 'true' ? toNumeric(row.units) : 0), 0);
-  const elasticityWeighted = rows.reduce((sum, row) => sum + (toNumeric(row.elasticity_prior) * toNumeric(row.units)), 0);
+  const promoUnits = rows.reduce((sum, row) => sum + (isPromoSupportedRow(row) ? getUnitsValue(row) : 0), 0);
+  const elasticityWeighted = rows.reduce((sum, row) => sum + (getElasticityValue(row) * getUnitsValue(row)), 0);
 
   return {
     units,
@@ -359,13 +427,13 @@ function aggregateYumPanelRows(rows) {
     marginRate: sales > 0 ? (margin / sales) * 100 : 0,
     promoMix: units > 0 ? (promoUnits / units) * 100 : 0,
     elasticity: units > 0 ? elasticityWeighted / units : 0,
-    itemCount: new Set(rows.map(row => row.item_id)).size
+    itemCount: new Set(rows.map(row => row.item_id || row.product_id)).size
   };
 }
 
 function aggregateStoreChannelRows(rows) {
-  const transactions = rows.reduce((sum, row) => sum + toNumeric(row.transaction_count_proxy), 0);
-  const units = rows.reduce((sum, row) => sum + toNumeric(row.menu_units), 0);
+  const transactions = rows.reduce((sum, row) => sum + getOrdersValue(row), 0);
+  const units = rows.reduce((sum, row) => sum + getUnitsValue(row), 0);
   const sales = rows.reduce((sum, row) => sum + toNumeric(row.net_sales), 0);
   const margin = rows.reduce((sum, row) => sum + toNumeric(row.contribution_margin), 0);
   return {
@@ -381,12 +449,12 @@ function aggregateStoreChannelRows(rows) {
 function getTopItemNames(rows, maxItems = 3) {
   const byItem = new Map();
   rows.forEach(row => {
-    const itemId = row.item_id;
+    const itemId = row.item_id || row.product_id;
     const existing = byItem.get(itemId) || {
-      itemName: row.item_name,
+      itemName: row.item_name || row.product_name,
       units: 0
     };
-    existing.units += toNumeric(row.units);
+    existing.units += getUnitsValue(row);
     byItem.set(itemId, existing);
   });
 
@@ -439,38 +507,134 @@ function setElementText(elementId, text) {
   }
 }
 
-function populateYumOverviewBrandSelect(brandIds = availableYumBrands) {
-  const select = document.getElementById('yum-overview-brand-select');
-  if (!select || !brandIds?.length) return;
+function getBrandProfile(brandId) {
+  return yumBrandProfiles.get(brandId) || null;
+}
 
-  select.innerHTML = brandIds
-    .map(brandId => `<option value="${brandId}">${getYumBrandLabel(brandId)}</option>`)
-    .join('');
+function buildYumBrandCardMeta(brandId) {
+  const profile = getBrandProfile(brandId);
+  if (!profile) {
+    return {
+      accent: '#2563eb',
+      eyebrow: 'Yum concept',
+      descriptor: 'Modeled elasticity and operating view.',
+      supporting: 'Portfolio pricing lens',
+      chips: [],
+      logoPath: `assets/brand-logos/${brandId}.svg`
+    };
+  }
+
+  const dayparts = String(profile.core_dayparts ?? '')
+    .split(',')
+    .map((token) => formatTitleCase(token))
+    .filter(Boolean);
+
+  return {
+    accent: profile.brand_color || '#2563eb',
+    eyebrow: formatDescriptorText(profile.portfolio_role) || 'Yum concept',
+    descriptor: [
+      formatTitleCase(profile.cuisine_focus),
+      formatDescriptorText(profile.service_model)
+    ].filter(Boolean).join(' | '),
+    supporting: dayparts.length ? `Core in ${joinNaturalList(dayparts.slice(0, 2))}` : 'Elasticity-ready concept view',
+    chips: [
+      formatTitleCase(profile.value_positioning),
+      formatCurrencyRange(toNumeric(profile.typical_check_low), toNumeric(profile.typical_check_high))
+    ].filter(Boolean),
+    logoPath: `assets/brand-logos/${brandId}.svg`
+  };
+}
+
+function syncYumOverviewBrandCards(brandId) {
+  const cards = document.querySelectorAll('.yum-brand-select-card[data-brand-id]');
+  cards.forEach((card) => {
+    card.classList.toggle('is-active', card.dataset.brandId === brandId);
+    card.setAttribute('aria-pressed', card.dataset.brandId === brandId ? 'true' : 'false');
+  });
+}
+
+function populateYumOverviewBrandCards(brandIds = availableYumBrands) {
+  const container = document.getElementById('yum-overview-brand-cards');
+  if (!container || !brandIds?.length) return;
 
   const selectedBrandId = brandIds.includes(getSelectedYumBrandId())
     ? getSelectedYumBrandId()
     : brandIds[0];
 
-  select.value = selectedBrandId;
+  container.innerHTML = brandIds
+    .map((brandId) => {
+      const meta = buildYumBrandCardMeta(brandId);
+      const label = getYumBrandLabel(brandId);
+      const chipMarkup = (meta.chips || [])
+        .map((chip) => `<span class="yum-brand-select-card__chip">${escapeHtml(chip)}</span>`)
+        .join('');
+
+      return `
+        <button
+          type="button"
+          class="yum-brand-select-card ${brandId === selectedBrandId ? 'is-active' : ''}"
+          data-brand-id="${brandId}"
+          aria-pressed="${brandId === selectedBrandId ? 'true' : 'false'}"
+          style="--brand-accent: ${meta.accent};"
+        >
+          <div class="yum-brand-select-card__glow" aria-hidden="true"></div>
+          <div class="yum-brand-select-card__top">
+            <div class="yum-brand-select-card__brand">
+              <div class="yum-brand-select-card__logo-wrap">
+                <img
+                  src="${meta.logoPath}"
+                  alt="${escapeHtml(label)} logo"
+                  class="yum-brand-select-card__logo"
+                  loading="lazy"
+                >
+              </div>
+              <div class="yum-brand-select-card__title-block">
+                <div class="yum-brand-select-card__name">${label}</div>
+                <div class="yum-brand-select-card__descriptor">${escapeHtml(meta.descriptor)}</div>
+              </div>
+            </div>
+            <span class="yum-brand-select-card__state">${brandId === selectedBrandId ? 'Selected' : 'View'}</span>
+          </div>
+          <div class="yum-brand-select-card__meta">
+            <div class="yum-brand-select-card__eyebrow">${escapeHtml(meta.eyebrow)}</div>
+            <div class="yum-brand-select-card__supporting">${escapeHtml(meta.supporting)}</div>
+          </div>
+          <div class="yum-brand-select-card__chips">
+            ${chipMarkup}
+          </div>
+        </button>
+      `;
+    })
+    .join('');
+
+  syncYumOverviewBrandCards(selectedBrandId);
 }
 
 function updateYumOverviewBrandHint(brandId) {
   const hint = document.getElementById('yum-overview-brand-hint');
   if (!hint) return;
-  hint.textContent = `Showing ${getYumBrandLabel(brandId)} in Step 1. Change the brand here or in Step 2 to refresh the elasticity view.`;
+  const profile = getBrandProfile(brandId);
+  const role = formatDescriptorText(profile?.portfolio_role);
+  hint.textContent = role
+    ? `${getYumBrandLabel(brandId)} is using the Yum weekly rollup, channel panel, product panel, and campaign calendar. ${role}.`
+    : `Showing ${getYumBrandLabel(brandId)} using the Yum weekly rollup, channel panel, product panel, and campaign calendar.`;
 }
 
 function initializeYumOverviewBrandControl() {
-  const select = document.getElementById('yum-overview-brand-select');
-  if (!select || select.dataset.bound === 'true') return;
+  const container = document.getElementById('yum-overview-brand-cards');
+  if (!container || container.dataset.bound === 'true') return;
 
   if (!window.yumSelectedBrandId) {
     window.yumSelectedBrandId = DEFAULT_YUM_BRAND_ID;
   }
 
-  select.addEventListener('change', async () => {
-    const brandId = setSelectedYumBrandId(select.value, 'overview');
-    if (dataLoaded) {
+  container.addEventListener('click', async (event) => {
+    const card = event.target.closest('.yum-brand-select-card[data-brand-id]');
+    if (!card) return;
+    const priorBrandId = getSelectedYumBrandId();
+    const brandId = setSelectedYumBrandId(card.dataset.brandId, 'overview');
+    syncYumOverviewBrandCards(brandId);
+    if (dataLoaded && priorBrandId !== brandId) {
       await loadKPIs(brandId);
     }
   });
@@ -478,16 +642,14 @@ function initializeYumOverviewBrandControl() {
   window.addEventListener('yum-brand-change', async (event) => {
     const brandId = event.detail?.brandId;
     if (!brandId) return;
-    if (select.value !== brandId && availableYumBrands.includes(brandId)) {
-      select.value = brandId;
-    }
+    syncYumOverviewBrandCards(brandId);
     updateYumOverviewBrandHint(brandId);
     if (dataLoaded && event.detail?.source !== 'overview') {
       await loadKPIs(brandId);
     }
   });
 
-  select.dataset.bound = 'true';
+  container.dataset.bound = 'true';
 }
 
 function formatWeekLabel(weekStart) {
@@ -499,6 +661,71 @@ function formatWeekLabel(weekStart) {
     day: 'numeric',
     year: 'numeric'
   });
+}
+
+function normalizeChannelKey(row) {
+  return row?.channel || row?.channel_id || 'unknown';
+}
+
+function formatDescriptorText(value) {
+  return String(value ?? '')
+    .replace(/_/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function formatTitleCase(value) {
+  return formatDescriptorText(value)
+    .split(' ')
+    .filter(Boolean)
+    .map((token) => token.charAt(0).toUpperCase() + token.slice(1).toLowerCase())
+    .join(' ');
+}
+
+function joinNaturalList(values = []) {
+  const items = values.filter(Boolean);
+  if (!items.length) return '';
+  if (items.length === 1) return items[0];
+  if (items.length === 2) return `${items[0]} and ${items[1]}`;
+  return `${items.slice(0, -1).join(', ')}, and ${items[items.length - 1]}`;
+}
+
+function formatDelimitedValues(value, delimiter = ',') {
+  return joinNaturalList(
+    String(value ?? '')
+      .split(delimiter)
+      .map(token => formatDescriptorText(token).toLowerCase())
+      .filter(Boolean)
+  );
+}
+
+function formatCurrencyRange(low, high) {
+  if (!Number.isFinite(low) && !Number.isFinite(high)) return 'N/A';
+  if (Number.isFinite(low) && Number.isFinite(high)) {
+    return `${formatCurrency(low)} to ${formatCurrency(high)}`;
+  }
+  return Number.isFinite(low) ? `Above ${formatCurrency(low)}` : `Up to ${formatCurrency(high)}`;
+}
+
+function getOrdersValue(row) {
+  return toNumeric(row?.orders_proxy ?? row?.transaction_count_proxy);
+}
+
+function getUnitsValue(row) {
+  return toNumeric(row?.unit_volume ?? row?.units ?? row?.menu_units);
+}
+
+function getElasticityValue(row) {
+  const candidates = [row?.effective_elasticity, row?.elasticity_prior, row?.base_elasticity];
+  const match = candidates.find(value => Number.isFinite(Number(value)));
+  return Number.isFinite(Number(match)) ? Number(match) : 0;
+}
+
+function isPromoSupportedRow(row) {
+  if (row?.promo_depth_pct !== undefined && row?.promo_depth_pct !== null && row?.promo_depth_pct !== '') {
+    return toNumeric(row.promo_depth_pct) > 0;
+  }
+  return String(row?.promo_flag).toLowerCase() === 'true';
 }
 
 function escapeHtml(value) {
@@ -514,12 +741,12 @@ function renderYumBrandChannelCards(itemRows, storeChannelRows, brandId) {
   const container = document.getElementById('yum-channel-mix-cards');
   if (!container) return;
 
-  const channelOrder = sortYumChannels(storeChannelRows.map(row => row.channel));
+  const channelOrder = sortYumChannels(storeChannelRows.map(row => normalizeChannelKey(row)));
   const channelDescriptors = {
-    drive_thru: 'High-throughput anchor',
-    dine_in: 'Dine-in and counter occasions',
-    carryout: 'Off-premise carryout demand',
-    pickup_app: 'Owned digital convenience',
+    drive_thru: 'High-throughput anchor lane',
+    dine_in: 'In-store occasion builder',
+    carryout: 'Off-premise carryout lane',
+    pickup_app: 'Owned digital convenience lane',
     delivery: 'Off-premise premium basket'
   };
   const channelIcons = {
@@ -533,14 +760,23 @@ function renderYumBrandChannelCards(itemRows, storeChannelRows, brandId) {
   const totalSales = storeChannelRows.reduce((sum, row) => sum + toNumeric(row.net_sales), 0);
   const channelCards = channelOrder
     .map(channel => {
-      const scopedStoreChannelRows = storeChannelRows.filter(row => row.channel === channel);
+      const scopedStoreChannelRows = storeChannelRows.filter(row => normalizeChannelKey(row) === channel);
       if (scopedStoreChannelRows.length === 0) return null;
-      const scopedItemRows = itemRows.filter(row => row.channel === channel);
+      const scopedItemRows = itemRows.filter(row => normalizeChannelKey(row) === channel);
       const aggregate = aggregateStoreChannelRows(scopedStoreChannelRows);
       const topItems = getTopItemNames(scopedItemRows, 3)
         .map(item => `<span class="channel-chip">${escapeHtml(item)}</span>`)
         .join('');
       const salesMix = totalSales > 0 ? (aggregate.sales / totalSales) * 100 : 0;
+      const promoMix = scopedStoreChannelRows.reduce(
+        (sum, row) => sum + (toNumeric(row.promo_mix_pct) * getUnitsValue(row)),
+        0
+      ) / Math.max(scopedStoreChannelRows.reduce((sum, row) => sum + getUnitsValue(row), 0), 1);
+      const subtitle = channel === 'delivery' && aggregate.marginRate < 40
+        ? 'Premium basket with lower margin conversion'
+        : channel === 'pickup_app'
+          ? 'Owned digital lane with cleaner economics'
+          : channelDescriptors[channel] || `${brandLabel} order channel`;
       return `
         <div class="col-md-6 col-xl-3">
           <div class="glass-card tier-card channel-card channel-card--${channel.replace('_', '-')} h-100">
@@ -551,14 +787,14 @@ function renderYumBrandChannelCards(itemRows, storeChannelRows, brandId) {
                 </div>
                 <div>
                   <div class="tier-name">${formatChannelLabel(channel)}</div>
-                  <div class="channel-subtitle">${channelDescriptors[channel] || `${brandLabel} order channel`}</div>
+                  <div class="channel-subtitle">${subtitle}</div>
                 </div>
               </div>
               <div class="channel-mix-pill">${salesMix.toFixed(1)}% sales mix</div>
             </div>
             <div class="channel-metrics-grid">
               <div class="channel-metric">
-                <span class="channel-metric-label">Average check</span>
+                <span class="channel-metric-label">Average order value</span>
                 <strong class="channel-metric-value">${formatCurrency(aggregate.avgCheck)}</strong>
               </div>
               <div class="channel-metric">
@@ -567,9 +803,9 @@ function renderYumBrandChannelCards(itemRows, storeChannelRows, brandId) {
               </div>
             </div>
             <div class="channel-items-section">
-              <div class="channel-items-label">Top items</div>
+              <div class="channel-items-label">Top products | ${promoMix.toFixed(1)}% promo mix</div>
               <div class="channel-chip-list">
-                ${topItems}
+                ${topItems || '<span class="channel-chip">No product rows in latest week</span>'}
               </div>
             </div>
           </div>
@@ -597,7 +833,7 @@ function rollupChannels(storeChannelRows = []) {
   const byChannel = new Map();
 
   storeChannelRows.forEach(row => {
-    const channel = row.channel || 'unknown';
+    const channel = normalizeChannelKey(row);
     const existing = byChannel.get(channel) || {
       channel,
       sales: 0,
@@ -609,9 +845,9 @@ function rollupChannels(storeChannelRows = []) {
       weightedPremiumMix: 0
     };
 
-    const menuUnits = toNumeric(row.menu_units);
+    const menuUnits = getUnitsValue(row);
     existing.sales += toNumeric(row.net_sales);
-    existing.orders += toNumeric(row.transaction_count_proxy);
+    existing.orders += getOrdersValue(row);
     existing.margin += toNumeric(row.contribution_margin);
     existing.menuUnits += menuUnits;
     existing.weightedPromoMix += toNumeric(row.promo_mix_pct) * menuUnits;
@@ -636,17 +872,17 @@ function getElasticityWatchItems(itemRows = [], count = 2) {
   const byItem = new Map();
 
   itemRows.forEach(row => {
-    const key = row.item_id;
+    const key = row.item_id || row.product_id;
     const existing = byItem.get(key) || {
-      itemName: row.item_name,
+      itemName: row.item_name || row.product_name,
       sales: 0,
       units: 0,
       elasticityWeighted: 0
     };
-    const units = toNumeric(row.units);
+    const units = getUnitsValue(row);
     existing.sales += toNumeric(row.net_sales);
     existing.units += units;
-    existing.elasticityWeighted += toNumeric(row.elasticity_prior) * units;
+    existing.elasticityWeighted += getElasticityValue(row) * units;
     byItem.set(key, existing);
   });
 
@@ -661,8 +897,36 @@ function getElasticityWatchItems(itemRows = [], count = 2) {
     .map(item => item.itemName);
 }
 
+function getTopGroupMix(rows = [], field, count = 2) {
+  const byGroup = new Map();
+
+  rows.forEach((row) => {
+    const key = formatDescriptorText(row?.[field]) || 'unknown';
+    const existing = byGroup.get(key) || { key, sales: 0, units: 0 };
+    existing.sales += toNumeric(row.net_sales);
+    existing.units += getUnitsValue(row);
+    byGroup.set(key, existing);
+  });
+
+  const totalSales = [...byGroup.values()].reduce((sum, row) => sum + row.sales, 0);
+
+  return [...byGroup.values()]
+    .map((entry) => ({
+      ...entry,
+      share: totalSales > 0 ? (entry.sales / totalSales) * 100 : 0
+    }))
+    .sort((left, right) => right.sales - left.sales)
+    .slice(0, count);
+}
+
+function getDatasetCheck(qaReport, dataQualityChecks = [], datasetName) {
+  return qaReport?.dataset_checks?.[datasetName] || dataQualityChecks.find(row => row.dataset_name === datasetName) || null;
+}
+
 function renderYumOverviewNarrative({
   brandLabel,
+  brandProfile,
+  latestBrandWeek,
   latestAggregate,
   latestItemAggregate,
   latestWeek,
@@ -672,122 +936,192 @@ function renderYumOverviewNarrative({
   marginRateChangePts,
   latestStoreChannelRows,
   latestItemRows,
+  latestPromoRows,
   foundationSummary,
   metadata,
   manifest,
-  qaReport
+  qaReport,
+  dataQualityChecks
 }) {
   const channels = rollupChannels(latestStoreChannelRows);
   const topChannel = channels[0];
   const marginLeader = [...channels].sort((left, right) => right.marginRate - left.marginRate)[0];
   const watchItems = getElasticityWatchItems(latestItemRows, 2);
-  const salesDirection = salesChangePct > 0 ? 'up' : salesChangePct < 0 ? 'down' : 'flat';
-  const promoDependence = latestItemAggregate.promoMix > 20 ? 'meaningfully promotion-supported' : 'not heavily promotion-dependent';
-  const coreChecks = [
-    qaReport?.dataset_checks?.brand_market_product_channel_week_panel,
-    qaReport?.dataset_checks?.brand_market_channel_week_panel
-  ].filter(Boolean);
+  const topFamilies = getTopGroupMix(latestItemRows, 'product_family', 2);
+  const activeOffers = [...new Set((latestPromoRows || []).map(row => row.offer_name).filter(Boolean))];
+  const checkLow = toNumeric(brandProfile?.typical_check_low);
+  const checkHigh = toNumeric(brandProfile?.typical_check_high);
+  const checkRange = formatCurrencyRange(checkLow, checkHigh);
+  const avgCheckStatus = Number.isFinite(checkLow) && latestAggregate.avgCheck < checkLow
+    ? 'below'
+    : Number.isFinite(checkHigh) && latestAggregate.avgCheck > checkHigh
+      ? 'above'
+      : 'within';
+  const familyLeadText = topFamilies.length
+    ? joinNaturalList(topFamilies.map(family => `${family.key} (${family.share.toFixed(0)}% of product sales)`))
+    : 'Current product mix';
+  const salesDirection = salesChangePct > 0.15 ? 'up' : salesChangePct < -0.15 ? 'down' : 'flat';
+  const orderDirection = transactionsChangePct > 0.15 ? 'up' : transactionsChangePct < -0.15 ? 'down' : 'flat';
+  const relevantDatasets = [
+    'brand_dim',
+    'brand_week_summary',
+    'brand_market_channel_week_panel',
+    'brand_market_product_channel_week_panel',
+    'promo_calendar'
+  ];
+  const coreChecks = relevantDatasets
+    .map(datasetName => getDatasetCheck(qaReport, dataQualityChecks, datasetName))
+    .filter(Boolean);
   const duplicateKeys = coreChecks.reduce((sum, check) => sum + toNumeric(check.duplicate_key_count), 0);
   const missingRequired = coreChecks.reduce((sum, check) => sum + toNumeric(check.missing_required_count), 0);
+  const grainSummary = [
+    `brand_week_summary: ${metadata?.datasets?.['processed/brand_week_summary.csv']?.grain || 'week_start x brand_id'}`,
+    `brand_market_channel_week_panel: ${metadata?.datasets?.['processed/brand_market_channel_week_panel.csv']?.grain || 'week_start x brand_id x market_id x channel_id'}`,
+    `brand_market_product_channel_week_panel: ${metadata?.datasets?.['processed/brand_market_product_channel_week_panel.csv']?.grain || manifest?.main_grain || 'week_start x brand_id x market_id x product_id x channel_id'}`
+  ].join(' | ');
+  const dataCoverage = [
+    `${foundationSummary?.stores || 0} store proxies`,
+    `${foundationSummary?.markets || 0} markets`,
+    `${foundationSummary?.items || 0} products`,
+    `${(foundationSummary?.panelRows || 0).toLocaleString()} product-channel rows`
+  ].join(' | ');
+  const campaignSummary = activeOffers.length
+    ? `Active campaigns this week include ${joinNaturalList(activeOffers.slice(0, 2))}${activeOffers.length > 2 ? ` plus ${activeOffers.length - 2} more` : ''}.`
+    : 'No latest-week campaign rows are active in the loaded promo calendar.';
+  const topChannelShare = topChannel ? (topChannel.sales / Math.max(latestAggregate.sales, 1)) * 100 : 0;
+  const rangeText = checkRange !== 'N/A' ? `${avgCheckStatus} the modeled ${checkRange} average-order-value band` : 'loaded without a modeled average-order-value band';
 
   const summaryBullets = [
-    `${brandLabel} net sales are ${salesDirection} ${Math.abs(salesChangePct).toFixed(1)}% versus the prior week on ${formatSignedNumber(transactionsChangePct, 1)}% order change. Average check is ${formatCurrency(latestAggregate.avgCheck)} and margin rate is ${formatPercent(latestAggregate.marginRate)}.`,
+    `${brandLabel} delivered ${formatCurrency(latestAggregate.sales)} in sales from ${formatNumber(Math.round(latestAggregate.transactions))} orders last week. Average order value was ${formatCurrency(latestAggregate.avgCheck)}, which is ${rangeText}.`,
     topChannel
-      ? `${formatChannelLabel(topChannel.channel)} is the largest channel at ${((topChannel.sales / Math.max(latestAggregate.sales, 1)) * 100).toFixed(1)}% of latest-week sales, while ${formatChannelLabel(marginLeader.channel)} carries the strongest margin rate at ${formatPercent(marginLeader.marginRate)}.`
-      : `${brandLabel} latest-week demand is loaded and ready for elasticity review.`,
-    `Weighted menu elasticity is ${latestItemAggregate.elasticity.toFixed(2)} across ${latestItemAggregate.itemCount} active items. ${latestItemAggregate.promoMix.toFixed(1)}% of units sold under promo support, so current demand is ${promoDependence}.`
+      ? `${formatChannelLabel(topChannel.channel)} is the biggest order channel at ${topChannelShare.toFixed(1)}% of sales. ${formatChannelLabel(marginLeader.channel)} has the strongest margin at ${formatPercent(marginLeader.marginRate)}.`
+      : `${brandLabel} latest-week demand is loaded and ready for review.`,
+    `${familyLeadText} are driving the current menu mix. Overall price sensitivity is ${latestItemAggregate.elasticity.toFixed(2)}, and ${latestItemAggregate.promoMix.toFixed(1)}% of units are currently supported by promos.`
   ];
 
-  if (watchItems.length) {
-    summaryBullets.push(`${watchItems.join(' and ')} are the highest-priority items to watch before taking a broad price move.`);
-  }
+  summaryBullets.push(
+    activeOffers.length
+      ? campaignSummary
+      : watchItems.length
+        ? `Watch ${joinNaturalList(watchItems)} first before changing prices broadly.`
+        : campaignSummary
+  );
 
   const actionBullets = [
-    watchItems.length
-      ? `Protect the most elastic demand pockets first. Review ${watchItems.join(' and ')} before taking a broad price move across the brand.`
-      : `Protect the most elastic demand pockets before taking a broad price move across the brand.`,
     topChannel && marginLeader
-      ? `Use channel-specific actions instead of one brand-wide move. ${formatChannelLabel(topChannel.channel)} is carrying volume while ${formatChannelLabel(marginLeader.channel)} is carrying margin quality.`
-      : `Keep the pricing action scoped by channel rather than forcing one brand-wide move.`,
-    latestItemAggregate.promoMix > 20
-      ? `Audit promo-backed demand before reducing support or adding more price. ${latestItemAggregate.promoMix.toFixed(1)}% of units are still moving with active promotion.`
-      : `Promo dependence is low enough to test cleaner pricing in resilient channels before adding more discount support.`
+      ? `Start with the channel cards below. Protect ${formatChannelLabel(topChannel.channel)} traffic and use ${formatChannelLabel(marginLeader.channel)} as the margin guardrail.`
+      : `Start with the channel cards below and keep the first pricing move channel-specific rather than brand-wide.`,
+    `Use the KPI tiles above as the guardrail. Orders are ${orderDirection}, sales are ${salesDirection}, average order value is ${formatSignedNumber(avgCheckChangePct, 1)}% versus prior week, and margin rate moved ${formatSignedNumber(marginRateChangePts, 1)} pp.`,
+    watchItems.length
+      ? `Review ${joinNaturalList(watchItems)} before touching the full price ladder. They are the most exposed products in the current data.`
+      : `Use the loaded product-channel panel to identify the most elastic products before widening any price action.`,
+    `Use the data backing section below to confirm coverage, campaigns, and data quality before locking a recommendation.`
   ];
 
   setListItems('yum-business-summary', summaryBullets);
   setListItems('yum-recommended-actions', actionBullets);
-  setElementText('yum-data-grain', metadata?.main_grain || manifest?.main_grain || 'week_start x brand x market x item x channel');
+  setElementText('kpi-insight-title', `${brandLabel} decision context`);
+  setElementText('yum-data-grain', grainSummary);
   setElementText('yum-data-latest-week', formatWeekLabel(foundationSummary?.latestWeek || qaReport?.latest_week || latestWeek));
-  setElementText(
-    'yum-data-coverage',
-    `${foundationSummary?.stores || 0} stores | ${foundationSummary?.markets || 0} markets | ${foundationSummary?.items || 0} items | ${(foundationSummary?.panelRows || 0).toLocaleString()} panel rows`
-  );
-  setElementText(
-    'yum-data-tables',
-    'store_channel_week_panel, store_item_week_panel, promo_calendar'
-  );
+  setElementText('yum-data-coverage', dataCoverage);
+  setElementText('yum-data-tables', relevantDatasets.join(', '));
   setElementText(
     'yum-data-quality-note',
-    `Core generated panels show ${duplicateKeys} duplicate keys and ${missingRequired} missing required fields. Latest week loaded: ${formatWeekLabel(foundationSummary?.latestWeek || qaReport?.latest_week || latestWeek)}.`
+    `Current Business Overview is built from ${brandLabel} brand, weekly, channel, product, and promo datasets. Core panels show ${duplicateKeys} duplicate keys and ${missingRequired} missing required fields; latest loaded week is ${formatWeekLabel(foundationSummary?.latestWeek || qaReport?.latest_week || latestWeek)}.`
   );
   setElementText(
     'kpi-insight-text',
-    `Latest ${brandLabel} week: ${formatWeekLabel(latestWeek)}. Prior-week change in average check is ${formatSignedNumber(avgCheckChangePct, 1)}% and margin rate change is ${formatSignedNumber(marginRateChangePts, 1)} pp. Use the summary and actions above first, then validate them against the detailed channel cards and KPIs below.`
+    `Average order value is the same thing as average check: net sales divided by orders. Read this screen top to bottom. The KPI row shows the latest week, the summary and actions explain what changed, and the channel cards show where traffic and margin are sitting.`
   );
 }
 
 // Load KPI data
 async function loadKPIs(selectedBrandId = getSelectedYumBrandId()) {
   try {
-    const [yumItemPanel, yumStoreChannelPanel, metadata, manifest, qaReport] = await Promise.all([
-      loadYumStoreItemWeekPanel(),
-      loadYumStoreChannelWeekPanel(),
+    const [brandDim, brandMarketNetwork, brandWeekSummary, yumItemPanel, yumStoreChannelPanel, yumPromoCalendar, metadata, manifest, qaReport, dataQualityChecks] = await Promise.all([
+      loadYumBrandDim(),
+      loadYumBrandMarketNetwork(),
+      loadYumBrandWeekSummary(),
+      loadYumBrandMarketProductChannelWeekPanel(),
+      loadYumBrandMarketChannelWeekPanel(),
+      loadYumPromoCalendar(),
       loadYumMetadata(),
       loadYumManifest(),
-      loadYumQAReport()
+      loadYumQAReport(),
+      loadYumDataQualityChecks()
     ]);
 
+    yumBrandProfiles = new Map(brandDim.map(row => [row.brand_id, row]));
     availableYumBrands = sortYumBrandIds([
+      ...brandDim.map(row => row.brand_id),
+      ...brandWeekSummary.map(row => row.brand_id),
       ...yumItemPanel.map(row => row.brand_id),
       ...yumStoreChannelPanel.map(row => row.brand_id)
     ]);
 
     if (!availableYumBrands.length) {
-      throw new Error('No Yum brand rows available for Step 1 KPIs.');
+      throw new Error('No Yum brand rows available for Current Business Overview KPIs.');
     }
 
     const brandId = availableYumBrands.includes(selectedBrandId) ? selectedBrandId : availableYumBrands[0];
     const foundationSummary = await getYumFoundationSummary(brandId);
     window.yumSelectedBrandId = brandId;
-    populateYumOverviewBrandSelect(availableYumBrands);
+    populateYumOverviewBrandCards(availableYumBrands);
     updateYumOverviewBrandHint(brandId);
 
     const brandItemRows = yumItemPanel.filter(row => row.brand_id === brandId);
     const brandStoreChannelRows = yumStoreChannelPanel.filter(row => row.brand_id === brandId);
+    const brandWeekRows = brandWeekSummary.filter(row => row.brand_id === brandId);
+    const brandProfile = yumBrandProfiles.get(brandId) || null;
 
-    if (brandItemRows.length === 0 || brandStoreChannelRows.length === 0) {
-      throw new Error(`No ${getYumBrandLabel(brandId)} operating panel rows available for Step 1 KPIs.`);
+    if (brandItemRows.length === 0 || brandStoreChannelRows.length === 0 || brandWeekRows.length === 0) {
+      throw new Error(`No ${getYumBrandLabel(brandId)} operating panel rows available for Current Business Overview KPIs.`);
     }
 
-    const weeks = [...new Set(brandStoreChannelRows.map(row => row.week_start))].sort();
+    const weeks = [...new Set(brandWeekRows.map(row => row.week_start))].sort();
     const latestWeek = weeks[weeks.length - 1];
     const priorWeek = weeks.length > 1 ? weeks[weeks.length - 2] : latestWeek;
     const latestItemRows = brandItemRows.filter(row => row.week_start === latestWeek);
     const latestStoreChannelRows = brandStoreChannelRows.filter(row => row.week_start === latestWeek);
-    const priorStoreChannelRows = brandStoreChannelRows.filter(row => row.week_start === priorWeek);
-
-    const latestAggregate = aggregateStoreChannelRows(latestStoreChannelRows);
-    const priorAggregate = aggregateStoreChannelRows(priorStoreChannelRows);
+    const latestBrandWeek = brandWeekRows.find(row => row.week_start === latestWeek) || null;
+    const priorBrandWeek = brandWeekRows.find(row => row.week_start === priorWeek) || latestBrandWeek;
+    const latestPromoRows = yumPromoCalendar.filter(row => row.brand_id === brandId && row.week_start === latestWeek);
+    const channelAggregate = aggregateStoreChannelRows(latestStoreChannelRows);
+    const priorChannelRows = brandStoreChannelRows.filter(row => row.week_start === priorWeek);
+    const priorChannelAggregate = aggregateStoreChannelRows(priorChannelRows);
+    const latestAggregate = {
+      ...channelAggregate,
+      transactions: toNumeric(latestBrandWeek?.system_orders) || channelAggregate.transactions,
+      sales: toNumeric(latestBrandWeek?.system_sales) || channelAggregate.sales,
+      avgCheck: toNumeric(latestBrandWeek?.avg_check) || channelAggregate.avgCheck,
+      margin: toNumeric(latestBrandWeek?.contribution_margin) || channelAggregate.margin,
+      marginRate: toNumeric(latestBrandWeek?.contribution_margin_pct) > 0
+        ? toNumeric(latestBrandWeek.contribution_margin_pct) * 100
+        : channelAggregate.marginRate
+    };
+    const priorAggregate = {
+      ...priorChannelAggregate,
+      transactions: toNumeric(priorBrandWeek?.system_orders) || priorChannelAggregate.transactions,
+      sales: toNumeric(priorBrandWeek?.system_sales) || priorChannelAggregate.sales,
+      avgCheck: toNumeric(priorBrandWeek?.avg_check) || priorChannelAggregate.avgCheck,
+      margin: toNumeric(priorBrandWeek?.contribution_margin) || priorChannelAggregate.margin,
+      marginRate: toNumeric(priorBrandWeek?.contribution_margin_pct) > 0
+        ? toNumeric(priorBrandWeek.contribution_margin_pct) * 100
+        : priorChannelAggregate.marginRate
+    };
     const latestItemAggregate = aggregateYumPanelRows(latestItemRows);
     const brandLabel = getYumBrandLabel(brandId);
+    const storeCoverage = brandMarketNetwork
+      .filter(row => row.brand_id === brandId)
+      .reduce((sum, row) => sum + toNumeric(row.store_count_proxy), 0);
 
     renderYumBrandChannelCards(latestItemRows, latestStoreChannelRows, brandId);
 
     setElementText('kpi-architecture-heading', `${brandLabel} Order Channels`);
-    setElementText('kpi-metrics-heading', `${brandLabel} Operating KPIs (Week of ${formatWeekLabel(latestWeek)})`);
+    setElementText('kpi-metrics-heading', `${brandLabel} Brand-wise Operating KPIs (Week of ${formatWeekLabel(latestWeek)})`);
     setElementText('kpi-customers-label', 'Weekly Orders');
     setElementText('kpi-revenue-label', 'Weekly Net Sales');
-    setElementText('kpi-aov-label', 'Average Check');
+    setElementText('kpi-aov-label', 'Average Order Value');
     setElementText('kpi-churn-label', 'Contribution Margin Rate');
     setElementText('kpi-customers', formatNumber(Math.round(latestAggregate.transactions)));
     setElementText('kpi-revenue', formatCurrency(latestAggregate.sales));
@@ -823,7 +1157,10 @@ async function loadKPIs(selectedBrandId = getSelectedYumBrandId()) {
     );
 
     renderYumOverviewNarrative({
+      brandId,
       brandLabel,
+      brandProfile,
+      latestBrandWeek,
       latestAggregate,
       latestItemAggregate,
       latestWeek,
@@ -833,13 +1170,16 @@ async function loadKPIs(selectedBrandId = getSelectedYumBrandId()) {
       marginRateChangePts,
       latestStoreChannelRows,
       latestItemRows,
+      latestPromoRows,
       foundationSummary: {
         ...foundationSummary,
+        stores: storeCoverage || foundationSummary.stores,
         brandId
       },
       metadata,
       manifest,
-      qaReport
+      qaReport,
+      dataQualityChecks
     });
   } catch (error) {
     console.error('Error loading KPIs:', error);
@@ -1458,7 +1798,6 @@ async function loadData() {
       initializeSegmentComparison();
       // initializeFilterPresets(); // Removed - Quick Presets feature removed from UI
       initializeExportButtons();
-    updateCohortWatchlist();
     }
 
     // Initialize Event Calendar (RFP-aligned: Slide 12)
@@ -1494,6 +1833,195 @@ async function loadData() {
     // Reset after 3 seconds
     await new Promise(resolve => setTimeout(resolve, 3000));
     progressContainer.style.display = 'none';
+    btn.style.display = 'inline-block';
+    btn.disabled = false;
+  }
+}
+
+async function loadDataStyled() {
+  const btn = document.getElementById('load-data-btn');
+  const progressContainer = document.getElementById('loading-progress');
+  const progressBar = document.getElementById('loading-progress-bar');
+  const progressText = document.querySelector('.ld-pct') || document.getElementById('loading-percentage');
+  const stageText = document.getElementById('loading-stage');
+  const segments = Array.from(document.querySelectorAll('.ld-seg'));
+
+  if (!btn || !progressBar || !progressText || !stageText) {
+    console.error('Loading UI elements not found');
+    return;
+  }
+
+  btn.style.display = 'none';
+  if (progressContainer) {
+    progressContainer.style.display = 'none';
+    progressContainer.style.visibility = 'hidden';
+  }
+  document.body.classList.add('app-loading-step');
+
+  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+  const easeOutCubic = (value) => 1 - Math.pow(1 - value, 3);
+  const updateProgress = (value) => {
+    const progress = Math.max(0, Math.min(100, value));
+    const displayProgress = Math.max(progress, 5);
+    progressBar.style.width = `${displayProgress}%`;
+    progressBar.setAttribute('aria-valuenow', String(Math.round(progress)));
+    progressText.textContent = `${Math.round(progress)}%`;
+    if (progress >= 84) {
+      progressBar.classList.add('ld-progress-done');
+    } else {
+      progressBar.classList.remove('ld-progress-done');
+    }
+  };
+  const setActiveSegment = (index) => {
+    if (!segments.length) return;
+    segments.forEach((segment, segmentIndex) => {
+      segment.classList.remove('ld-seg-active', 'ld-seg-done');
+      if (segmentIndex < index) segment.classList.add('ld-seg-done');
+      if (segmentIndex === index) segment.classList.add('ld-seg-active');
+    });
+  };
+  const animateStage = (fromValue, toValue, label, activeIndex, duration = 360) => new Promise((resolve) => {
+    const start = performance.now();
+    stageText.textContent = label;
+    setActiveSegment(activeIndex);
+
+    const tick = (now) => {
+      const elapsed = Math.min(1, (now - start) / duration);
+      const nextValue = fromValue + ((toValue - fromValue) * easeOutCubic(elapsed));
+      updateProgress(nextValue);
+      if (elapsed < 1) {
+        requestAnimationFrame(tick);
+      } else {
+        resolve(toValue);
+      }
+    };
+
+    requestAnimationFrame(tick);
+  });
+
+  const stages = [
+    { progress: 10, text: 'Opening Yum data foundation...', pause: 140 },
+    {
+      progress: 28,
+      text: 'Building weekly KPI baselines...',
+      task: async () => {
+        await loadKPIs();
+      }
+    },
+    {
+      progress: 48,
+      text: 'Loading pricing scenarios and segment inputs...',
+      task: async () => {
+        await loadScenariosData();
+        populateElasticityModelTabs();
+        if (window.segmentEngine) {
+          const segmentDataLoaded = await window.segmentEngine.loadSegmentData();
+          if (!segmentDataLoaded) {
+            console.error('Failed to load segmentation data');
+          }
+        } else {
+          console.error('Segmentation engine not available');
+        }
+      }
+    },
+    {
+      progress: 68,
+      text: 'Preparing elasticity views and current-state workspace...',
+      task: async () => {
+        await loadElasticityAnalytics();
+      }
+    },
+    {
+      progress: 84,
+      text: 'Connecting AI guidance to loaded context...',
+      task: async () => {
+        await initializeChatContext();
+      }
+    },
+    {
+      progress: 96,
+      text: 'Finalizing explorer surfaces...',
+      task: async () => {
+        initializeDataViewer();
+        await initializeYumFoundationWorkspace();
+        await initializeYumScenarioStudio();
+      }
+    },
+    { progress: 100, text: 'Data foundation ready.', pause: 220 }
+  ];
+
+  try {
+    updateProgress(0);
+    setActiveSegment(0);
+
+    let currentProgress = 0;
+    for (let i = 0; i < stages.length; i++) {
+      const stage = stages[i];
+      currentProgress = await animateStage(
+        currentProgress,
+        stage.progress,
+        stage.text,
+        Math.min(i, Math.max(segments.length - 1, 0))
+      );
+
+      if (stage.task) {
+        await stage.task();
+      }
+
+      if (stage.pause) {
+        await delay(stage.pause);
+      }
+    }
+
+    segments.forEach((segment) => {
+      segment.classList.remove('ld-seg-active');
+      segment.classList.add('ld-seg-done');
+    });
+
+    await delay(420);
+
+    const loadDataSection = document.getElementById('load-data-section');
+    const kpiSection = document.getElementById('kpi-section');
+    document.body.classList.remove('app-loading-step');
+    if (loadDataSection) loadDataSection.style.display = 'none';
+    if (kpiSection) kpiSection.style.display = 'block';
+
+    if (window.segmentEngine && window.segmentEngine.isDataLoaded()) {
+      initializeSegmentationSection();
+      initializeSegmentComparison();
+      initializeExportButtons();
+    }
+
+    try {
+      await initializeEventCalendar();
+      console.log('Event Calendar initialized');
+    } catch (error) {
+      console.error('Event Calendar initialization failed:', error);
+    }
+
+    initializePopovers();
+    dataLoaded = true;
+
+    if (window.goToStep && typeof window.goToStep === 'function') {
+      const targetStep = Number.isInteger(window.postLoadStep) ? window.postLoadStep : 1;
+      window.postLoadStep = null;
+      window.goToStep(targetStep);
+    }
+
+    initializePyodideModels().then((success) => {
+      if (success) {
+        console.log('Pyodide Python models ready to use');
+      } else {
+        console.log('Pyodide initialization failed, using JavaScript fallback');
+      }
+    });
+  } catch (error) {
+    console.error('Error loading data:', error);
+    progressBar.classList.remove('ld-progress-done');
+    progressBar.style.background = 'linear-gradient(90deg, #dc2626, #f97316)';
+    stageText.textContent = `Error loading data: ${error.message}`;
+    document.body.classList.remove('app-loading-step');
+    await delay(3000);
     btn.style.display = 'inline-block';
     btn.disabled = false;
   }
@@ -1593,22 +2121,303 @@ function clearScenarios() {
   }
 }
 
+function createScreenAssistantMarkup(config) {
+  const promptButtons = config.prompts
+    .map((prompt) => `<button class="btn btn-sm btn-outline-secondary suggested-query" type="button" disabled>${prompt}</button>`)
+    .join('');
+
+  return `
+    <div class="screen-assistant-card mt-5" data-chat-panel data-chat-screen="${config.sectionId}">
+      <div class="screen-assistant-card__header">
+        <div>
+          <div class="screen-assistant-card__eyebrow">AI Chatbot Assistant</div>
+          <h5 class="screen-assistant-card__title mb-1">${config.title}</h5>
+          <p class="screen-assistant-card__copy mb-0">${config.description}</p>
+        </div>
+        <button class="btn btn-sm btn-outline-primary" type="button" data-open-full-chat="true">
+          <i class="bi bi-box-arrow-up-right me-1"></i> Open Full Assistant
+        </button>
+      </div>
+      <div class="assistant-chat-feed assistant-chat-feed--compact" data-chat-feed data-chat-variant="compact"></div>
+      <div class="input-group mt-3">
+        <input type="text" class="form-control assistant-chat-input" placeholder="Ask for a summary, risk readout, or recommendation from this screen..." disabled />
+        <button class="btn btn-primary assistant-chat-send-btn" type="button" disabled>
+          <i class="bi bi-stars me-1"></i> Ask AI
+        </button>
+      </div>
+      <div class="screen-assistant-card__chips mt-3">
+        ${promptButtons}
+      </div>
+    </div>
+  `;
+}
+
+function initializeBottomAssistants() {
+  SCREEN_ASSISTANT_CONFIGS.forEach((config) => {
+    const container = document.querySelector(`#${config.sectionId} > .container`);
+    if (!container || container.querySelector(`[data-chat-screen="${config.sectionId}"]`)) return;
+    container.insertAdjacentHTML('beforeend', createScreenAssistantMarkup(config));
+  });
+}
+
+function cleanAssistantText(value) {
+  return String(value || '').replace(/\s+/g, ' ').trim();
+}
+
+function getElementOwnText(element) {
+  if (!element) return '';
+  const clone = element.cloneNode(true);
+  clone.querySelectorAll('button').forEach((button) => button.remove());
+  return cleanAssistantText(clone.textContent);
+}
+
+function getTextById(id) {
+  return cleanAssistantText(document.getElementById(id)?.textContent || '');
+}
+
+function getListTexts(id, limit = 4) {
+  return Array.from(document.querySelectorAll(`#${id} li`))
+    .map((item) => cleanAssistantText(item.textContent))
+    .filter(Boolean)
+    .slice(0, limit);
+}
+
+function getSelectedOptionText(id) {
+  const select = document.getElementById(id);
+  if (!select) return '';
+  return cleanAssistantText(select.options?.[select.selectedIndex]?.text || select.value || '');
+}
+
+function getActivePillTexts(containerId, limit = 6) {
+  return Array.from(document.querySelectorAll(`#${containerId} .filter-pill.active`))
+    .map((pill) => cleanAssistantText(pill.textContent))
+    .filter(Boolean)
+    .slice(0, limit);
+}
+
+function getCheckedFilterTexts(containerSelector) {
+  return Array.from(document.querySelectorAll(`${containerSelector} input[type="checkbox"]:checked`))
+    .map((input) => {
+      const label = document.querySelector(`label[for="${input.id}"]`);
+      return cleanAssistantText(label?.textContent || input.id);
+    })
+    .filter(Boolean);
+}
+
+function getSectionMeta(sectionId) {
+  const section = document.getElementById(sectionId);
+  if (!section) return null;
+  return {
+    stepLabel: getElementOwnText(section.querySelector('.section-number')),
+    title: getElementOwnText(section.querySelector('.section-title')),
+    subtitle: cleanAssistantText(section.querySelector('.section-subtitle')?.textContent || '')
+  };
+}
+
+function buildDataExplorerContext() {
+  const activeDataset = cleanAssistantText(document.querySelector('.dataset-item.active span')?.textContent || '');
+  const lines = [];
+  if (activeDataset) lines.push(`Selected dataset: ${activeDataset}`);
+  if (getTextById('dataset-title')) lines.push(`Dataset title: ${getTextById('dataset-title')}`);
+  if (getTextById('dataset-description')) lines.push(`Dataset description: ${getTextById('dataset-description')}`);
+  if (getTextById('dataset-records') || getTextById('dataset-columns') || getTextById('dataset-date-range')) {
+    lines.push(`Dataset shape: ${[getTextById('dataset-records'), getTextById('dataset-columns'), getTextById('dataset-date-range')].filter(Boolean).join(' | ')}`);
+  }
+  if (getTextById('dataset-chart-caption')) lines.push(`Current quick visual: ${getTextById('dataset-chart-caption')}`);
+  return lines;
+}
+
+function buildOverviewContext() {
+  const activeBrand = cleanAssistantText(document.querySelector('#yum-overview-brand-cards .yum-brand-select-card.is-active .yum-brand-select-card__name')?.textContent || '');
+  const kpis = [
+    `${getTextById('kpi-customers-label')}: ${getTextById('kpi-customers')} (${getTextById('kpi-customers-change')})`,
+    `${getTextById('kpi-revenue-label')}: ${getTextById('kpi-revenue')} (${getTextById('kpi-revenue-change')})`,
+    `${getTextById('kpi-aov-label')}: ${getTextById('kpi-aov')} (${getTextById('kpi-aov-change')})`,
+    `${getTextById('kpi-churn-label')}: ${getTextById('kpi-churn')} (${getTextById('kpi-churn-change')})`
+  ].filter((line) => !line.includes(':  ()'));
+
+  const lines = [];
+  if (activeBrand) lines.push(`Selected brand: ${activeBrand}`);
+  if (kpis.length) lines.push(`KPIs: ${kpis.join(' | ')}`);
+  const summaryBullets = getListTexts('yum-business-summary');
+  if (summaryBullets.length) lines.push(`AI summary bullets: ${summaryBullets.join(' || ')}`);
+  const actionBullets = getListTexts('yum-recommended-actions');
+  if (actionBullets.length) lines.push(`Recommended actions: ${actionBullets.join(' || ')}`);
+  if (getTextById('kpi-insight-text')) lines.push(`Decision context: ${getTextById('kpi-insight-text')}`);
+  if (getTextById('yum-data-coverage')) lines.push(`Data coverage: ${getTextById('yum-data-coverage')}`);
+  if (getTextById('yum-data-quality-note')) lines.push(`Data quality note: ${getTextById('yum-data-quality-note')}`);
+  return lines;
+}
+
+function buildCohortContext() {
+  const lines = [
+    `Selected axis: ${getSelectedOptionText('segment-axis-select')}`,
+    `Selected visualization: ${getSelectedOptionText('segment-viz-select')}`,
+    `Filter summary: ${getTextById('filter-stats')}`
+  ].filter(Boolean);
+
+  const activeFilters = [
+    ...getActivePillTexts('acquisition-filters'),
+    ...getActivePillTexts('engagement-filters'),
+    ...getActivePillTexts('monetization-filters')
+  ];
+  if (activeFilters.length) lines.push(`Active cohort filters: ${activeFilters.join(', ')}`);
+
+  const insights = getListTexts('segment-auto-insights-list');
+  if (insights.length) lines.push(`Auto insights: ${insights.join(' || ')}`);
+  if (getTextById('step4-recommendation-text')) lines.push(`Recommended action: ${getTextById('step4-recommendation-text')}`);
+  if (getTextById('segment-detail-body')) lines.push(`Focused cohort detail: ${getTextById('segment-detail-body')}`);
+  return lines;
+}
+
+function buildSegmentComparisonContext() {
+  const lines = [
+    `Selected axis: ${getSelectedOptionText('compare-axis-select')} (${getTextById('compare-axis-helper')})`,
+    `Selected channel group: ${getSelectedOptionText('compare-tier-select')}`,
+    `Sort order: ${getSelectedOptionText('compare-sort-select')}`
+  ].filter(Boolean);
+
+  if (getTextById('segment-analysis-insight-title')) {
+    lines.push(`Insight banner: ${getTextById('segment-analysis-insight-title')} | ${getTextById('segment-analysis-insight-text')}`);
+  }
+  if (getTextById('segment-highlight-risk')) lines.push(`Highest risk segment: ${getTextById('segment-highlight-risk')}`);
+  if (getTextById('segment-highlight-opportunity')) lines.push(`Best pricing opportunity: ${getTextById('segment-highlight-opportunity')}`);
+  const decisionSummary = Array.from(document.querySelectorAll('#segment-decision-summary .segment-analysis-summary-line'))
+    .map((line) => cleanAssistantText(line.textContent))
+    .filter(Boolean);
+  if (decisionSummary.length) lines.push(`Decision summary: ${decisionSummary.join(' || ')}`);
+  return lines;
+}
+
+function buildAcquisitionContext() {
+  const lines = [
+    `Selected cohort: ${getSelectedOptionText('acq-cohort-select')}`,
+    `Selected order channel: ${getSelectedOptionText('acq-tier-select')}`,
+    `Current price test: ${getTextById('acq-price-display')} (${getTextById('acq-price-change')})`,
+    `Elasticity coefficient: ${getTextById('acq-elasticity')}`,
+    `Traffic impact: ${getTextById('acq-impact')}`,
+    `Projected weekly orders: ${getTextById('acq-total-subs')}`,
+    `Revenue impact: ${getTextById('acq-total-revenue')}`
+  ].filter(Boolean);
+
+  if (getTextById('acq-optimal-range')) {
+    lines.push(`Optimal price suggestion: ${getTextById('acq-optimal-context')} | ${getTextById('acq-optimal-range')} | ${getTextById('acq-optimal-supporting')} | ${getTextById('acq-optimal-note')}`);
+  }
+  const summaryBullets = getListTexts('acq-summary-bullets');
+  if (summaryBullets.length) lines.push(`Screen summary: ${summaryBullets.join(' || ')}`);
+  const actionBullets = getListTexts('acq-action-bullets');
+  if (actionBullets.length) lines.push(`Recommended next actions: ${actionBullets.join(' || ')}`);
+  return lines;
+}
+
+function buildPromotionContext() {
+  const lines = [];
+  if (getTextById('event-count-badge')) lines.push(`Visible timeline event count: ${getTextById('event-count-badge')}`);
+  if (getTextById('promo-dependency-kicker')) {
+    lines.push(`Promo dependency banner: ${getTextById('promo-dependency-kicker')} | ${getTextById('promo-dependency-title')} | ${getTextById('promo-dependency-copy')} | ${getTextById('promo-dependency-note')}`);
+  }
+
+  const summaryCards = [
+    `Official campaigns tracked: ${getTextById('promo-summary-official-count')} (${getTextById('promo-summary-official-note')})`,
+    `Modeled promo windows: ${getTextById('promo-summary-modeled-count')} (${getTextById('promo-summary-modeled-note')})`,
+    `Average discount: ${getTextById('promo-summary-discount')} (${getTextById('promo-summary-discount-note')})`,
+    `Primary channel pressure: ${getTextById('promo-summary-channel')} (${getTextById('promo-summary-channel-note')})`,
+    `Promo dependency: ${getTextById('promo-summary-dependency')} (${getTextById('promo-summary-dependency-note')})`
+  ].filter((line) => !line.includes(':  ()'));
+  if (summaryCards.length) lines.push(`Summary cards: ${summaryCards.join(' | ')}`);
+
+  const strategyReadout = getListTexts('promo-strategy-readout');
+  if (strategyReadout.length) lines.push(`Campaign strategy readout: ${strategyReadout.join(' || ')}`);
+  if (getTextById('campaign-patterns-readout')) lines.push(`Official campaign pattern note: ${getTextById('campaign-patterns-readout')}`);
+  const checkedFilters = getCheckedFilterTexts('#event-calendar-section .btn-group');
+  if (checkedFilters.length) lines.push(`Active timeline filters: ${checkedFilters.join(', ')}`);
+  if (getTextById('promo-decision-title')) {
+    lines.push(`Decision recommendation: ${getTextById('promo-decision-title')} | ${getTextById('promo-decision-risk')}`);
+  }
+  return lines;
+}
+
+function buildScreenContext(sectionId) {
+  const meta = getSectionMeta(sectionId);
+  if (!meta) return '';
+
+  let details = [];
+  switch (sectionId) {
+    case 'section-10':
+      details = buildDataExplorerContext();
+      break;
+    case 'section-1':
+      details = buildOverviewContext();
+      break;
+    case 'section-6':
+      details = buildCohortContext();
+      break;
+    case 'section-7':
+      details = buildSegmentComparisonContext();
+      break;
+    case 'section-3':
+      details = buildAcquisitionContext();
+      break;
+    case 'section-8':
+      details = buildPromotionContext();
+      break;
+    default:
+      details = [];
+  }
+
+  return [
+    `Active step: ${meta.stepLabel} - ${meta.title}`,
+    meta.subtitle ? `Screen purpose: ${meta.subtitle}` : '',
+    ...details
+  ].filter(Boolean).join('\n');
+}
+
+function resolveChatContextSectionId(preferredInput = null) {
+  const panel = preferredInput?.closest?.('[data-chat-panel]');
+  if (panel?.dataset.chatScreen) {
+    return panel.dataset.chatScreen;
+  }
+
+  const activeSectionId = document.querySelector('.section.active')?.id || window.yumCurrentSectionId || null;
+  if (activeSectionId === 'section-9') {
+    return window.yumChatPinnedScreenId || window.yumLastAnalysisSectionId || 'section-9';
+  }
+
+  return activeSectionId;
+}
+
+function setAssistantInputsDisabled(disabled) {
+  document.querySelectorAll('.assistant-chat-input, .assistant-chat-send-btn, .suggested-query').forEach((node) => {
+    node.disabled = disabled;
+  });
+}
+
+function getChatInputElement(preferredInput = null) {
+  if (preferredInput && preferredInput instanceof HTMLElement) return preferredInput;
+  const activeElement = document.activeElement;
+  if (activeElement instanceof HTMLElement && activeElement.classList.contains('assistant-chat-input')) {
+    return activeElement;
+  }
+  return document.getElementById('chat-input') || document.querySelector('.assistant-chat-input');
+}
+
 // Handle chat message send
-async function handleChatSend() {
-  const input = document.getElementById('chat-input');
+async function handleChatSend(preferredInput = null) {
+  const input = getChatInputElement(preferredInput);
+  if (!input) return;
   const message = input.value.trim();
 
   if (!message) return;
 
   input.value = '';
-  input.disabled = true;
-  document.getElementById('chat-send-btn').disabled = true;
+  setAssistantInputsDisabled(true);
+  const contextSectionId = resolveChatContextSectionId(input);
+  const contextBlock = contextSectionId ? buildScreenContext(contextSectionId) : '';
 
   try {
-    await sendMessage(message);
+    await sendMessage(message, { contextBlock });
   } finally {
-    input.disabled = false;
-    document.getElementById('chat-send-btn').disabled = false;
+    setAssistantInputsDisabled(false);
     input.focus();
   }
 }
@@ -1744,10 +2553,258 @@ function initializePopovers() {
 
 // ========== Segmentation Section Functions ==========
 
+const SEGMENT_AXIS_HELPERS = {
+  acquisition: 'Price Sensitivity - Promo Driven',
+  engagement: 'Loyalty & Retention',
+  monetization: 'Basket Value & Spend'
+};
+
+const SEGMENT_AXIS_VIS_META = {
+  acquisition: {
+    label: 'Acquisition',
+    positive: 'Low sensitivity',
+    neutral: 'Moderate',
+    negative: 'Highly sensitive'
+  },
+  engagement: {
+    label: 'Engagement',
+    positive: 'Stable loyalty',
+    neutral: 'Mixed retention',
+    negative: 'High repeat-loss risk'
+  },
+  monetization: {
+    label: 'Monetization',
+    positive: 'Basket headroom',
+    neutral: 'Watch closely',
+    negative: 'High basket risk'
+  }
+};
+
+function setSegmentAxisHelperText() {
+  setElementText('segment-axis-helper-acquisition', SEGMENT_AXIS_HELPERS.acquisition);
+  setElementText('segment-axis-helper-engagement', SEGMENT_AXIS_HELPERS.engagement);
+  setElementText('segment-axis-helper-monetization', SEGMENT_AXIS_HELPERS.monetization);
+}
+
+function formatShare(value, total) {
+  if (!Number.isFinite(value) || !Number.isFinite(total) || total <= 0) return '0%';
+  return `${((value / total) * 100).toFixed(0)}%`;
+}
+
+function getSegmentAxisSentiment(axis, value) {
+  if (!Number.isFinite(value)) return 'neutral';
+
+  if (axis === 'acquisition') {
+    const magnitude = Math.abs(value);
+    if (magnitude >= 2.0) return 'negative';
+    if (magnitude >= 1.0) return 'neutral';
+    return 'positive';
+  }
+
+  if (axis === 'engagement') {
+    if (value >= 1.5) return 'negative';
+    if (value >= 0.7) return 'neutral';
+    return 'positive';
+  }
+
+  if (value >= 1.3) return 'negative';
+  if (value >= 0.8) return 'neutral';
+  return 'positive';
+}
+
+function renderSegmentVisualizationGuide(vizType, axis, tierSegments, aggregatedKPIs) {
+  const container = document.getElementById('segment-viz-guide');
+  if (!container) return;
+
+  const axisMeta = SEGMENT_AXIS_VIS_META[axis] || SEGMENT_AXIS_VIS_META.engagement;
+  const totalCustomers = Number(aggregatedKPIs?.total_customers || 0);
+  const repeatLoss = Number(aggregatedKPIs?.weighted_repeat_loss || 0);
+  const aov = Number(aggregatedKPIs?.weighted_aov || 0);
+  const totalSegments = Array.isArray(tierSegments) ? tierSegments.length : 0;
+
+  const guideByViz = {
+    heatmap: {
+      title: `${axisMeta.label} heatmap guide`,
+      copy: `Each cell combines two cohort dimensions and rolls up the matching customers into one decision tile. This avoids the over-plotted view and keeps the color scale aligned to the active ${axisMeta.label.toLowerCase()} axis.`,
+      items: [
+        { label: 'Cell meaning', value: 'One tile = one cohort intersection, weighted by customer count.' },
+        { label: 'Primary read', value: `Color shows ${axisMeta.label.toLowerCase()} risk. Tile labels show weighted elasticity.` },
+        { label: 'Support metric', value: totalCustomers ? `${formatNumber(totalCustomers)} customers across ${totalSegments} visible cohort combinations.` : 'Waiting for cohort data.' }
+      ]
+    },
+    '3axis': {
+      title: '3-axis map guide',
+      copy: 'The map now uses the filtered cohort set and keeps points inside a consistent 3-axis frame. Bubble size shows customer base, and color follows the active axis risk instead of always showing repeat loss.',
+      items: [
+        { label: 'Bubble size', value: 'Larger bubbles = larger customer base.' },
+        { label: 'Bubble color', value: `${axisMeta.negative} to ${axisMeta.positive}, based on the active axis.` },
+        { label: 'Current view', value: totalCustomers ? `${formatNumber(totalCustomers)} customers with ${formatPercent(repeatLoss, 1)} repeat loss and ${formatCurrency(aov)} AOV.` : 'Waiting for cohort data.' }
+      ]
+    },
+    scatter: {
+      title: `${axisMeta.label} scatter guide`,
+      copy: 'This scatter isolates the active elasticity axis. It is meant to answer which cohorts are both large enough to matter and risky enough to change the pricing recommendation.',
+      items: [
+        { label: 'X axis', value: 'Customer count for each filtered cohort combination.' },
+        { label: 'Y axis', value: `${axisMeta.label} elasticity for the selected channel group.` },
+        { label: 'Bubble size', value: `Average order value, currently ${formatCurrency(aov)} on a weighted basis.` }
+      ]
+    },
+    channel: {
+      title: 'Channel readout guide',
+      copy: 'This view is kept separate from the cohort maps. Use it to compare channel posture and then bring the pricing decision back to the cohort views for who-to-protect and where-to-push.',
+      items: [
+        { label: 'Bar chart', value: 'Compares elasticity across channels.' },
+        { label: 'Heatmap', value: 'Shows where channel risk clusters by channel group.' },
+        { label: 'Use with', value: 'Pair this with cohort views before making a broad price move.' }
+      ]
+    }
+  };
+
+  const guide = guideByViz[vizType] || guideByViz.heatmap;
+  container.innerHTML = `
+    <div class="segment-viz-guide-title">${guide.title}</div>
+    <div class="segment-viz-guide-copy">${guide.copy}</div>
+    <div class="segment-viz-guide-grid">
+      ${guide.items.map(item => `
+        <div class="segment-viz-guide-item">
+          <div class="segment-viz-guide-label">${item.label}</div>
+          <div class="segment-viz-guide-value">${item.value}</div>
+        </div>
+      `).join('')}
+    </div>
+    <div class="segment-viz-guide-scale">
+      <span class="segment-viz-guide-chip is-positive">${axisMeta.positive}</span>
+      <span class="segment-viz-guide-chip is-neutral">${axisMeta.neutral}</span>
+      <span class="segment-viz-guide-chip is-negative">${axisMeta.negative}</span>
+    </div>
+  `;
+}
+
+function aggregateSegmentsByAxis(segments, tier, axisKey) {
+  const axisMap = new Map();
+
+  segments.forEach((segment) => {
+    const key = segment[axisKey];
+    const customers = parseFloat(segment.customer_count || 0);
+    const repeatLoss = parseFloat(segment.repeat_loss_rate || 0);
+    const aov = parseFloat(segment.avg_order_value || 0);
+    const promoRate = parseFloat(segment.promo_redemption_rate || 0);
+    const acquisitionElasticity = Math.abs(window.segmentEngine.getElasticity(tier, segment.compositeKey, 'acquisition') || 0);
+
+    const current = axisMap.get(key) || {
+      key,
+      label: window.segmentEngine.formatSegmentLabel(key),
+      customers: 0,
+      weightedRepeatLoss: 0,
+      weightedAov: 0,
+      weightedPromoRate: 0,
+      weightedAcquisitionElasticity: 0
+    };
+
+    current.customers += customers;
+    current.weightedRepeatLoss += repeatLoss * customers;
+    current.weightedAov += aov * customers;
+    current.weightedPromoRate += promoRate * customers;
+    current.weightedAcquisitionElasticity += acquisitionElasticity * customers;
+    axisMap.set(key, current);
+  });
+
+  return [...axisMap.values()]
+    .map((entry) => ({
+      ...entry,
+      repeatLoss: entry.customers > 0 ? entry.weightedRepeatLoss / entry.customers : 0,
+      avgOrderValue: entry.customers > 0 ? entry.weightedAov / entry.customers : 0,
+      promoRate: entry.customers > 0 ? entry.weightedPromoRate / entry.customers : 0,
+      acquisitionElasticity: entry.customers > 0 ? entry.weightedAcquisitionElasticity / entry.customers : 0
+    }))
+    .sort((left, right) => right.customers - left.customers);
+}
+
+function setSegmentInsightContent(insights = [], recommendationText = 'No recommendation available yet.') {
+  setListItems('segment-auto-insights-list', insights);
+  setElementText('step4-recommendation-text', recommendationText);
+}
+
+function updateSegmentInsightCards(tierSegments, tier, aggregatedKPIs) {
+  if (!window.segmentEngine || !tierSegments?.length) {
+    setSegmentInsightContent(
+      ['No cohorts match the current filters. Widen the filters to rebuild the cohort readout.'],
+      'Recommended action: Clear or widen filters before making a pricing decision.'
+    );
+    return;
+  }
+
+  const totalCustomers = tierSegments.reduce((sum, segment) => sum + parseFloat(segment.customer_count || 0), 0);
+  const overallRepeatLoss = parseFloat(aggregatedKPIs?.weighted_repeat_loss || 0);
+  const overallAov = parseFloat(aggregatedKPIs?.weighted_aov || 0);
+
+  const acquisitionGroups = aggregateSegmentsByAxis(tierSegments, tier, 'acquisition');
+  const engagementGroups = aggregateSegmentsByAxis(tierSegments, tier, 'engagement');
+
+  const highSensitivityCustomers = tierSegments.reduce((sum, segment) => {
+    const customers = parseFloat(segment.customer_count || 0);
+    const acquisitionElasticity = Math.abs(window.segmentEngine.getElasticity(tier, segment.compositeKey, 'acquisition') || 0);
+    const promoRate = parseFloat(segment.promo_redemption_rate || 0);
+    return sum + ((acquisitionElasticity >= 1.8 || promoRate >= 0.18) ? customers : 0);
+  }, 0);
+
+  const highSensitivityShare = totalCustomers > 0 ? (highSensitivityCustomers / totalCustomers) * 100 : 0;
+  const topPriceSensitiveGroup = acquisitionGroups
+    .filter(group => group.acquisitionElasticity >= 1.8 || group.promoRate >= 0.18)
+    .sort((left, right) => (right.customers * right.acquisitionElasticity) - (left.customers * left.acquisitionElasticity))[0] || acquisitionGroups[0];
+
+  const atRiskEngagementGroups = engagementGroups
+    .filter(group => group.repeatLoss >= Math.max(overallRepeatLoss * 1.05, 0.12))
+    .sort((left, right) => (right.customers * right.repeatLoss) - (left.customers * left.repeatLoss));
+
+  const resilientPricingGroups = engagementGroups
+    .filter(group => group.repeatLoss <= Math.max(overallRepeatLoss * 0.9, 0.1) && group.avgOrderValue >= overallAov)
+    .sort((left, right) => (right.avgOrderValue * right.customers) - (left.avgOrderValue * left.customers));
+
+  const avoidGroups = [];
+  if (topPriceSensitiveGroup) {
+    avoidGroups.push(topPriceSensitiveGroup.label);
+  }
+  if (atRiskEngagementGroups[0] && !avoidGroups.includes(atRiskEngagementGroups[0].label)) {
+    avoidGroups.push(atRiskEngagementGroups[0].label);
+  }
+
+  const focusGroup = resilientPricingGroups.find(group => !avoidGroups.includes(group.label))
+    || engagementGroups
+      .slice()
+      .sort((left, right) => (left.repeatLoss - right.repeatLoss) || (right.avgOrderValue - left.avgOrderValue))
+      .find(group => !avoidGroups.includes(group.label))
+    || resilientPricingGroups[0]
+    || engagementGroups[0];
+
+  const insights = [
+    highSensitivityShare >= 30
+      ? `${highSensitivityShare.toFixed(0)}% of customers are in highly price-sensitive cohorts. Avoid broad price increases.`
+      : `${highSensitivityShare.toFixed(0)}% of customers are in highly price-sensitive cohorts. Pricing can stay targeted instead of broad-based.`,
+    topPriceSensitiveGroup
+      ? `${topPriceSensitiveGroup.label} is the biggest sensitivity watch-out, representing ${formatShare(topPriceSensitiveGroup.customers, totalCustomers)} of customers with ${topPriceSensitiveGroup.acquisitionElasticity.toFixed(2)} acquisition elasticity.`
+      : 'No single price-sensitive cohort dominates the current mix.',
+    focusGroup
+      ? `${focusGroup.label} is the best pricing focus cohort right now, with ${formatCurrency(focusGroup.avgOrderValue)} average order value and ${(focusGroup.repeatLoss * 100).toFixed(1)}% repeat-loss risk.`
+      : 'No resilient cohort stands out clearly enough yet to concentrate pricing.'
+  ];
+
+  const recommendationText = avoidGroups.length && focusGroup
+    ? `Recommended action: Avoid price increases for ${joinNaturalList(avoidGroups)}. Focus pricing on ${focusGroup.label}.`
+    : highSensitivityShare >= 30
+      ? 'Recommended action: Avoid broad price increases and keep pricing changes narrow until the most price-sensitive cohorts are stabilized.'
+      : 'Recommended action: Use cohort-level pricing instead of one blanket move, and prioritize the most resilient cohorts first.';
+
+  setSegmentInsightContent(insights, recommendationText);
+}
+
 /**
  * Initialize the segmentation section
  */
 function initializeSegmentationSection() {
+  setSegmentAxisHelperText();
+
   // Populate filter pills for each axis
   populateFilterPills(
     'acquisition-filters',
@@ -1865,7 +2922,6 @@ function populateFilterPills(containerId, values, axisType) {
 /**
  * Update segment visualization based on current filters and selections.
  * Cohort views use segment data (segments.csv, segment_kpis.csv, segment_elasticity.json).
- * Channel View uses only elasticity-params.json by_channel (your data).
  */
 function updateSegmentVisualization() {
   const tier = document.getElementById('segment-tier-select').value;
@@ -1875,45 +2931,6 @@ function updateSegmentVisualization() {
   const heatmapView = document.getElementById('heatmap-view');
   const threeAxisView = document.getElementById('3axis-view');
   const scatterView = document.getElementById('scatter-view');
-  const channelView = document.getElementById('channel-view');
-
-  // Channel View: built only from our data (elasticity-params.json by_channel)
-  if (vizType === 'channel') {
-    if (heatmapView) heatmapView.style.display = 'none';
-    if (threeAxisView) threeAxisView.style.display = 'none';
-    if (scatterView) scatterView.style.display = 'none';
-    if (channelView) channelView.style.display = 'block';
-
-    getChannelElasticityData()
-      .then(data => {
-        if (document.getElementById('channel-elasticity-bar')) {
-          renderChannelElasticityBar('channel-elasticity-bar', data);
-        }
-        if (document.getElementById('channel-elasticity-heatmap')) {
-          renderChannelElasticityHeatmap('channel-elasticity-heatmap', data);
-        }
-        if (document.getElementById('channel-summary')) {
-          renderChannelSummary('channel-summary', data);
-        }
-      })
-      .catch(error => {
-        console.warn('Channel elasticity data failed:', error);
-        if (channelView) {
-          channelView.innerHTML =
-            '<p class="text-muted">Load data in Step 1 to see channel charts.</p>';
-        }
-      });
-
-    const kpiDashboard = document.getElementById('segment-kpi-dashboard');
-    if (kpiDashboard) {
-      kpiDashboard.innerHTML =
-        '<p class="text-muted small mb-0">Channel View uses <code>elasticity-params.json</code> (by_channel) for each channel.</p>';
-    }
-    return;
-  }
-
-  // Hide channel view when not selected
-  if (channelView) channelView.style.display = 'none';
 
   // Cohort views require segment engine and data
   if (!window.segmentEngine || !window.segmentEngine.isDataLoaded()) {
@@ -1924,8 +2941,13 @@ function updateSegmentVisualization() {
     const kpiDashboard = document.getElementById('segment-kpi-dashboard');
     if (kpiDashboard) {
       kpiDashboard.innerHTML =
-        '<div class="alert alert-warning mb-0"><i class="bi bi-exclamation-triangle me-2"></i>Cohort data not loaded. Load data in Step 1, or use <strong>Channel View</strong> for elasticity by channel.</div>';
+        '<div class="alert alert-warning mb-0"><i class="bi bi-exclamation-triangle me-2"></i>Cohort data not loaded. Load the data foundation first to use this screen.</div>';
     }
+    setSegmentInsightContent(
+      ['Cohort data is not loaded yet, so cohort-specific insights are unavailable.'],
+      'Recommended action: Load cohort data before using this screen for pricing decisions.'
+    );
+    renderSegmentVisualizationGuide(vizType, axis, [], null);
     return;
   }
 
@@ -1947,6 +2969,9 @@ function updateSegmentVisualization() {
 
   // Render KPI cards
   renderSegmentKPICards('segment-kpi-dashboard', aggregatedKPIs);
+  updateSegmentInsightCards(tierSegments, tier, aggregatedKPIs);
+  renderSegmentVisualizationGuide(vizType, axis, tierSegments, aggregatedKPIs);
+  updateFilterSummary();
 
   // Show/hide views based on visualization type
   if (vizType === 'heatmap') {
@@ -1958,16 +2983,15 @@ function updateSegmentVisualization() {
     if (heatmapView) heatmapView.style.display = 'none';
     if (threeAxisView) threeAxisView.style.display = 'block';
     if (scatterView) scatterView.style.display = 'none';
-    render3AxisRadialChart('three-axis-radial-viz', tier, null);
+    render3AxisRadialChart('three-axis-radial-viz', tier, axis, tierSegments, null);
   } else if (vizType === 'scatter') {
     if (heatmapView) heatmapView.style.display = 'none';
     if (threeAxisView) threeAxisView.style.display = 'none';
     if (scatterView) scatterView.style.display = 'block';
-    renderSegmentScatterPlot('segment-scatter-plot', tier, axis);
+    renderSegmentScatterPlot('segment-scatter-plot', tier, axis, tierSegments);
   }
 
   // Refresh watchlist whenever visualization updates
-  updateCohortWatchlist();
 }
 
 /**
@@ -1994,79 +3018,384 @@ function clearAllFilters() {
 
   // Update visualization
   updateSegmentVisualization();
-  updateCohortWatchlist();
 }
 
 /**
  * Render segment comparison table
  */
-function renderSegmentComparisonTable() {
-  const axis = document.getElementById('compare-axis-select').value;
-  const tier = document.getElementById('compare-tier-select').value;
-  const sortBy = document.getElementById('compare-sort-select').value;
+const SEGMENT_COMPARISON_AXIS_META = {
+  acquisition: {
+    title: 'Acquisition',
+    helper: 'Price Sensitivity - Promo Driven',
+    chartLabel: 'Absolute Price Sensitivity',
+    guide: [
+      { label: 'Highly sensitive', threshold: '< -2.0', note: 'High risk. Avoid broad price increases and keep promo support in place.' },
+      { label: 'Moderate', threshold: '-2.0 to -1.0', note: 'Use selective pricing with channel or cohort support.' },
+      { label: 'Low sensitivity', threshold: '> -1.0', note: 'Safer for disciplined pricing if demand remains healthy.' }
+    ]
+  },
+  engagement: {
+    title: 'Engagement',
+    helper: 'Loyalty & Retention',
+    chartLabel: 'Repeat-Loss Elasticity',
+    guide: [
+      { label: 'High risk', threshold: '> 1.5', note: 'High repeat-loss risk. Protect loyalty and avoid blanket price moves.' },
+      { label: 'Moderate', threshold: '0.7 to 1.5', note: 'Mixed sensitivity. Use targeted pricing with retention support.' },
+      { label: 'Low sensitivity', threshold: '< 0.7', note: 'Stable repeat behavior. Better candidates for selective pricing.' }
+    ]
+  },
+  monetization: {
+    title: 'Monetization',
+    helper: 'Basket Value & Spend',
+    chartLabel: 'Basket / Migration Elasticity',
+    guide: [
+      { label: 'High risk', threshold: '> 1.3', note: 'High migration risk. Protect value cues before testing price.' },
+      { label: 'Moderate', threshold: '0.8 to 1.3', note: 'Some switching risk. Test with focused offers only.' },
+      { label: 'Low sensitivity', threshold: '< 0.8', note: 'Stronger basket behavior. Best area for measured pricing tests.' }
+    ]
+  }
+};
 
-  // Get segments with cohort adjustments already applied
+function getSegmentComparisonAxisMeta(axis) {
+  return SEGMENT_COMPARISON_AXIS_META[axis] || SEGMENT_COMPARISON_AXIS_META.engagement;
+}
+
+function getSegmentComparisonTierLabel(tier) {
+  return tier === 'ad_supported' ? 'Entry & Value' : 'Core & Premium';
+}
+
+function getSegmentComparisonRiskLevel(axis, elasticity) {
+  if (axis === 'engagement') {
+    return elasticity < 0.7 ? 'Low' : (elasticity < 1.5 ? 'Medium' : 'High');
+  }
+
+  if (axis === 'acquisition') {
+    const absElasticity = Math.abs(elasticity);
+    return absElasticity < 1.0 ? 'Low' : (absElasticity < 2.0 ? 'Medium' : 'High');
+  }
+
+  if (axis === 'monetization') {
+    return elasticity < 0.8 ? 'Low' : (elasticity < 1.3 ? 'Medium' : 'High');
+  }
+
+  return 'Medium';
+}
+
+function getSegmentComparisonRiskScore(item, axis) {
+  if (axis === 'acquisition') {
+    return (Math.abs(item.elasticity) * 100) + ((item.promo_redemption_rate || 0) * 25) + ((item.repeat_loss_rate || 0) * 15);
+  }
+
+  if (axis === 'engagement') {
+    return (item.elasticity * 100) + ((item.repeat_loss_rate || 0) * 120) - ((item.avg_order_value || 0) * 0.4);
+  }
+
+  return (item.elasticity * 100) - ((item.avg_order_value || 0) * 1.4) + ((item.repeat_loss_rate || 0) * 40);
+}
+
+function getSegmentComparisonOpportunityScore(item, axis) {
+  if (axis === 'acquisition') {
+    return ((3 - Math.abs(item.elasticity)) * 100) + ((item.customers || 0) / 100) + ((item.avg_order_value || 0) * 0.4);
+  }
+
+  if (axis === 'engagement') {
+    return ((2 - item.elasticity) * 100) + (((0.22 - (item.repeat_loss_rate || 0)) * 100)) + ((item.customers || 0) / 120);
+  }
+
+  return ((2 - item.elasticity) * 100) + ((item.avg_order_value || 0) * 2.5) + ((item.customers || 0) / 150);
+}
+
+function getSegmentComparisonTopRisk(comparisonData, axis, count = 1) {
+  return [...comparisonData]
+    .sort((a, b) => getSegmentComparisonRiskScore(b, axis) - getSegmentComparisonRiskScore(a, axis))
+    .slice(0, count);
+}
+
+function getSegmentComparisonTopOpportunities(comparisonData, axis, count = 1) {
+  return [...comparisonData]
+    .sort((a, b) => getSegmentComparisonOpportunityScore(b, axis) - getSegmentComparisonOpportunityScore(a, axis))
+    .slice(0, count);
+}
+
+function formatSegmentComparisonLabelList(items, count = 2) {
+  const labels = items
+    .slice(0, count)
+    .map(item => item.label)
+    .filter(Boolean);
+
+  if (!labels.length) return 'the selected cohorts';
+  if (labels.length === 1) return labels[0];
+  if (labels.length === 2) return `${labels[0]} and ${labels[1]}`;
+  return `${labels.slice(0, -1).join(', ')}, and ${labels[labels.length - 1]}`;
+}
+
+function getWeightedComparisonAverage(comparisonData, field) {
+  const totalCustomers = comparisonData.reduce((sum, item) => sum + (item.customers || 0), 0);
+  if (!totalCustomers) return 0;
+
+  return comparisonData.reduce((sum, item) => {
+    return sum + ((item[field] || 0) * (item.customers || 0));
+  }, 0) / totalCustomers;
+}
+
+function buildSegmentComparisonData(axis, tier) {
+  if (!window.segmentEngine || !window.segmentEngine.isDataLoaded()) {
+    return [];
+  }
+
   const segments = window.segmentEngine.getSegmentsForTier(tier);
-  const axisSegments = [...new Set(segments.map(s => s[axis]))];
+  const axisSegments = [...new Set(segments.map(segment => segment[axis]))];
 
-  // Aggregate by axis
-  const comparisonData = axisSegments.map(segmentId => {
-    const matching = segments.filter(s => s[axis] === segmentId);
-    const totalCustomers = matching.reduce((sum, s) => sum + parseInt(s.customer_count), 0);
-    const avgRepeatLoss = matching.reduce((sum, s) => sum + (parseFloat(s.repeat_loss_rate) * parseInt(s.customer_count)), 0) / totalCustomers;
-    const avgOrderValue = matching.reduce((sum, s) => sum + (parseFloat(s.avg_order_value) * parseInt(s.customer_count)), 0) / totalCustomers;
+  return axisSegments.map(segmentId => {
+    const matching = segments.filter(segment => segment[axis] === segmentId);
+    const totalCustomers = matching.reduce((sum, segment) => sum + (parseInt(segment.customer_count, 10) || 0), 0);
 
-    // Get elasticity from segment_elasticity.json (with cohort multiplier applied)
-    const elasticity = window.segmentEngine.getElasticity(tier, matching[0].compositeKey, axis);
+    const weightedAverage = (field) => {
+      if (!totalCustomers) return 0;
+      return matching.reduce((sum, segment) => {
+        return sum + ((parseFloat(segment[field]) || 0) * (parseInt(segment.customer_count, 10) || 0));
+      }, 0) / totalCustomers;
+    };
 
-    // Calculate axis-aware risk level
-    let risk_level;
-    if (axis === 'engagement') {
-      // Engagement (churn) elasticity is POSITIVE - higher = more risky
-      // Realistic thresholds based on actual business impact:
-      // Low: < 0.7 (churn increases < 70% when price doubles - very sticky)
-      // Medium: 0.7 - 1.5 (70-150% churn increase - moderate risk)
-      // High: > 1.5 (> 150% churn increase - very risky)
-      risk_level = elasticity < 0.7 ? 'Low' : (elasticity < 1.5 ? 'Medium' : 'High');
-    } else if (axis === 'acquisition') {
-      // Acquisition elasticity is NEGATIVE - more negative = more risky
-      // Low: > -1.2 (inelastic)
-      // Medium: -1.8 to -1.2
-      // High: < -1.8 (very elastic)
-      const absElasticity = Math.abs(elasticity);
-      risk_level = absElasticity < 1.2 ? 'Low' : (absElasticity < 1.8 ? 'Medium' : 'High');
-    } else if (axis === 'monetization') {
-      // Monetization (migration) - higher upgrade willingness
-      // Low: < 0.8 (sticky to current tier)
-      // Medium: 0.8 - 1.3
-      // High: > 1.3 (very likely to switch tiers)
-      risk_level = elasticity < 0.8 ? 'Low' : (elasticity < 1.3 ? 'Medium' : 'High');
-    } else {
-      // Fallback for unknown axis
-      risk_level = 'Medium';
-    }
+    const weightedElasticity = totalCustomers
+      ? matching.reduce((sum, segment) => {
+        const elasticity = window.segmentEngine.getElasticity(tier, segment.compositeKey, axis) || 0;
+        return sum + (elasticity * (parseInt(segment.customer_count, 10) || 0));
+      }, 0) / totalCustomers
+      : 0;
 
     return {
       segment: segmentId,
       label: window.segmentEngine.formatSegmentLabel(segmentId),
       customers: totalCustomers,
-      repeat_loss_rate: avgRepeatLoss,
-      avg_order_value: avgOrderValue,
-      elasticity: elasticity || -2.0,
-      risk_level: risk_level
+      repeat_loss_rate: weightedAverage('repeat_loss_rate'),
+      avg_order_value: weightedAverage('avg_order_value'),
+      promo_redemption_rate: weightedAverage('promo_redemption_rate'),
+      elasticity: weightedElasticity,
+      risk_level: getSegmentComparisonRiskLevel(axis, weightedElasticity)
     };
   });
+}
 
-  // Sort
+function sortSegmentComparisonData(comparisonData, sortBy, axis) {
   comparisonData.sort((a, b) => {
-    switch(sortBy) {
-      case 'elasticity': return a.elasticity - b.elasticity;
-      case 'customers': return b.customers - a.customers;
-      case 'churn': return b.repeat_loss_rate - a.repeat_loss_rate;
-      case 'aov': return b.avg_order_value - a.avg_order_value;
-      default: return 0;
+    switch (sortBy) {
+      case 'elasticity':
+        return axis === 'acquisition' ? a.elasticity - b.elasticity : b.elasticity - a.elasticity;
+      case 'customers':
+        return b.customers - a.customers;
+      case 'churn':
+        return b.repeat_loss_rate - a.repeat_loss_rate;
+      case 'aov':
+        return b.avg_order_value - a.avg_order_value;
+      default:
+        return 0;
     }
   });
+}
+
+function buildSegmentComparisonInsightBanner(axis, comparisonData, highestRisk, bestOpportunity) {
+  const highRiskCount = comparisonData.filter(item => item.risk_level === 'High').length;
+  const lowRiskCount = comparisonData.filter(item => item.risk_level === 'Low').length;
+  const weightedAov = getWeightedComparisonAverage(comparisonData, 'avg_order_value');
+
+  if (axis === 'acquisition') {
+    const title = highRiskCount === comparisonData.length
+      ? 'All acquisition segments are reading as highly price sensitive'
+      : `${highRiskCount} of ${comparisonData.length} acquisition segments are highly price sensitive`;
+    const text = `${highestRisk.label} is the most exposed entry cohort, while ${bestOpportunity.label} is the steadiest place to hold the line. Avoid broad price increases and keep promotional support focused on the most promo-driven shoppers.`;
+    return { title, text };
+  }
+
+  if (axis === 'engagement') {
+    const title = 'Engagement segments need targeted pricing, not a blanket move';
+    const text = `${bestOpportunity.label} is the most stable loyalty cohort in this view, while ${highestRisk.label} shows the greatest repeat-loss risk. Keep retention-first pricing for the sensitive segments and use selective pricing only where loyalty is holding.`;
+    return { title, text };
+  }
+
+  const title = `${lowRiskCount} of ${comparisonData.length} monetization segments are low-risk basket segments`;
+  const text = `${bestOpportunity.label} has the strongest pricing headroom, supported by average order value near ${formatCurrency(weightedAov)}. ${highestRisk.label} still needs value cues, so keep changes measured instead of pushing the whole basket architecture at once.`;
+  return { title, text };
+}
+
+function getSegmentComparisonHighlightMetric(axis, item, type) {
+  if (type === 'risk') {
+    if (axis === 'acquisition') {
+      return `Elasticity ${item.elasticity.toFixed(2)} | Promo response ${formatPercent(item.promo_redemption_rate, 1)}`;
+    }
+
+    if (axis === 'engagement') {
+      return `Repeat-loss elasticity ${item.elasticity.toFixed(2)} | Repeat loss ${formatPercent(item.repeat_loss_rate, 1)}`;
+    }
+
+    return `Elasticity ${item.elasticity.toFixed(2)} | AOV ${formatCurrency(item.avg_order_value)}`;
+  }
+
+  if (axis === 'acquisition') {
+    return `Lowest sensitivity in the current view | ${formatNumber(item.customers)} customers`;
+  }
+
+  if (axis === 'engagement') {
+    return `Most stable repeat base | ${formatPercent(item.repeat_loss_rate, 1)} repeat loss`;
+  }
+
+  return `Best basket-value headroom | AOV ${formatCurrency(item.avg_order_value)}`;
+}
+
+function getSegmentComparisonHighlightDetail(axis, item, type) {
+  if (type === 'risk') {
+    if (axis === 'acquisition') {
+      return 'Avoid broad price increases here. Protect traffic with value-led promotions and entry-point offers.';
+    }
+
+    if (axis === 'engagement') {
+      return 'Lead with retention and loyalty protection here before testing any price movement.';
+    }
+
+    return 'Keep value cues and bundle framing in place before testing basket-level pricing changes.';
+  }
+
+  if (axis === 'acquisition') {
+    return 'If pricing needs to move, start with the least promo-dependent acquisition segment first.';
+  }
+
+  if (axis === 'engagement') {
+    return 'This is the cleanest loyalty cohort for selective pricing without broad repeat-loss pressure.';
+  }
+
+  return 'This segment shows the clearest room for measured price tests with lower churn risk.';
+}
+
+function buildSegmentDecisionSummaryLine(axis, tier, selectedAxis) {
+  const comparisonData = buildSegmentComparisonData(axis, tier);
+  const meta = getSegmentComparisonAxisMeta(axis);
+
+  if (!comparisonData.length) {
+    return `
+      <div class="segment-analysis-summary-line${selectedAxis === axis ? ' is-active' : ''}">
+        <div class="segment-analysis-summary-axis">${meta.title}</div>
+        <div>Segment guidance will appear here once the cohort data is loaded.</div>
+      </div>
+    `;
+  }
+
+  const riskSegments = getSegmentComparisonTopRisk(comparisonData, axis, 2);
+  const opportunitySegments = getSegmentComparisonTopOpportunities(comparisonData, axis, 2);
+  let sentence = '';
+
+  if (axis === 'acquisition') {
+    sentence = `Avoid price increases for ${formatSegmentComparisonLabelList(riskSegments)}. Keep promotional support in place and use ${formatSegmentComparisonLabelList(opportunitySegments, 1)} as the safest segment for any disciplined pricing hold.`;
+  } else if (axis === 'engagement') {
+    sentence = `Apply selective pricing for ${formatSegmentComparisonLabelList(opportunitySegments)}. Protect ${formatSegmentComparisonLabelList(riskSegments)} with loyalty and retention-led offers instead of blanket price moves.`;
+  } else {
+    sentence = `Increase prices selectively for ${formatSegmentComparisonLabelList(opportunitySegments)} where basket value is strongest. Keep visible value cues for ${formatSegmentComparisonLabelList(riskSegments)} while basket risk stays elevated.`;
+  }
+
+  return `
+    <div class="segment-analysis-summary-line${selectedAxis === axis ? ' is-active' : ''}">
+      <div class="segment-analysis-summary-axis">${meta.title}</div>
+      <div>${sentence}</div>
+    </div>
+  `;
+}
+
+function renderSegmentComparisonNarrative(axis, tier, comparisonData) {
+  const meta = getSegmentComparisonAxisMeta(axis);
+  const tierLabel = getSegmentComparisonTierLabel(tier);
+  const helperEl = document.getElementById('compare-axis-helper');
+  const kickerEl = document.getElementById('segment-analysis-insight-kicker');
+  const titleEl = document.getElementById('segment-analysis-insight-title');
+  const textEl = document.getElementById('segment-analysis-insight-text');
+  const livePillEl = document.getElementById('segment-analysis-live-pill');
+  const guideEl = document.getElementById('segment-elasticity-guide');
+  const riskEl = document.getElementById('segment-highlight-risk');
+  const opportunityEl = document.getElementById('segment-highlight-opportunity');
+  const decisionEl = document.getElementById('segment-decision-summary');
+
+  if (helperEl) helperEl.textContent = meta.helper;
+  if (kickerEl) kickerEl.textContent = `${meta.title} pricing readout`;
+  if (livePillEl) livePillEl.textContent = `${tierLabel} view`;
+
+  if (!comparisonData.length) {
+    if (titleEl) titleEl.textContent = 'No segment comparison data available';
+    if (textEl) textEl.textContent = 'Load the data foundation first to generate the comparison narrative.';
+    if (guideEl) {
+      guideEl.innerHTML = `
+        <div class="segment-analysis-guide-chip">
+          <div>
+            <span class="segment-analysis-guide-label">Waiting for data</span>
+            <span class="segment-analysis-guide-note">The elasticity guide will update from the active axis.</span>
+          </div>
+        </div>
+      `;
+    }
+    if (riskEl) {
+      riskEl.innerHTML = '<div class="segment-analysis-highlight-name">No data</div>';
+    }
+    if (opportunityEl) {
+      opportunityEl.innerHTML = '<div class="segment-analysis-highlight-name">No data</div>';
+    }
+    if (decisionEl) {
+      decisionEl.innerHTML = `
+        <div class="segment-analysis-summary-line">
+          <div>Load the data foundation first to generate pricing guidance.</div>
+        </div>
+      `;
+    }
+    return;
+  }
+
+  const highestRisk = getSegmentComparisonTopRisk(comparisonData, axis, 1)[0];
+  const bestOpportunity = getSegmentComparisonTopOpportunities(comparisonData, axis, 1)[0];
+  const banner = buildSegmentComparisonInsightBanner(axis, comparisonData, highestRisk, bestOpportunity);
+
+  if (titleEl) titleEl.textContent = banner.title;
+  if (textEl) textEl.textContent = banner.text;
+
+  if (guideEl) {
+    guideEl.innerHTML = meta.guide.map(item => `
+      <div class="segment-analysis-guide-chip">
+        <div>
+          <span class="segment-analysis-guide-label">${item.label}</span>
+          <span class="segment-analysis-guide-note">${item.note}</span>
+        </div>
+        <strong>${item.threshold}</strong>
+      </div>
+    `).join('');
+  }
+
+  if (riskEl && highestRisk) {
+    riskEl.innerHTML = `
+      <div class="segment-analysis-highlight-name">${highestRisk.label}</div>
+      <div class="segment-analysis-highlight-metric">${getSegmentComparisonHighlightMetric(axis, highestRisk, 'risk')}</div>
+      <div class="segment-analysis-highlight-detail">${getSegmentComparisonHighlightDetail(axis, highestRisk, 'risk')}</div>
+      <span class="segment-analysis-highlight-tag is-risk">${highestRisk.risk_level} risk</span>
+    `;
+  }
+
+  if (opportunityEl && bestOpportunity) {
+    opportunityEl.innerHTML = `
+      <div class="segment-analysis-highlight-name">${bestOpportunity.label}</div>
+      <div class="segment-analysis-highlight-metric">${getSegmentComparisonHighlightMetric(axis, bestOpportunity, 'opportunity')}</div>
+      <div class="segment-analysis-highlight-detail">${getSegmentComparisonHighlightDetail(axis, bestOpportunity, 'opportunity')}</div>
+      <span class="segment-analysis-highlight-tag is-opportunity">Pricing opportunity</span>
+    `;
+  }
+
+  if (decisionEl) {
+    decisionEl.innerHTML = ['acquisition', 'engagement', 'monetization']
+      .map(summaryAxis => buildSegmentDecisionSummaryLine(summaryAxis, tier, axis))
+      .join('');
+  }
+}
+
+function renderSegmentComparisonTable() {
+  const axis = document.getElementById('compare-axis-select').value;
+  const tier = document.getElementById('compare-tier-select').value;
+  const sortBy = document.getElementById('compare-sort-select').value;
+  const comparisonData = buildSegmentComparisonData(axis, tier);
+  sortSegmentComparisonData(comparisonData, sortBy, axis);
+  renderSegmentComparisonNarrative(axis, tier, comparisonData);
 
   // Render table
   const container = document.getElementById('segment-comparison-table');
@@ -2106,14 +3435,18 @@ function renderSegmentComparisonTable() {
   `;
 
   // Render chart
-  renderSegmentComparisonChart(comparisonData);
+  renderSegmentComparisonChart(comparisonData, axis);
 }
 
 /**
  * Render comparison chart (Chart.js bar chart)
  */
-function renderSegmentComparisonChart(data) {
+function renderSegmentComparisonChart(data, axis) {
   const ctx = document.getElementById('segment-comparison-chart');
+  const axisMeta = getSegmentComparisonAxisMeta(axis);
+  const chartValues = axis === 'acquisition'
+    ? data.map(item => Math.abs(item.elasticity))
+    : data.map(item => item.elasticity);
 
   if (window.comparisonChart) {
     window.comparisonChart.destroy();
@@ -2124,8 +3457,8 @@ function renderSegmentComparisonChart(data) {
     data: {
       labels: data.map(d => d.label),
       datasets: [{
-        label: 'Price Elasticity',
-        data: data.map(d => Math.abs(d.elasticity)),
+        label: axisMeta.chartLabel,
+        data: chartValues,
         backgroundColor: data.map(d =>
           d.risk_level === 'High' ? '#dc3545' : (d.risk_level === 'Medium' ? '#ffc107' : '#28a745')
         ),
@@ -2140,14 +3473,17 @@ function renderSegmentComparisonChart(data) {
         legend: { display: false },
         tooltip: {
           callbacks: {
-            label: (context) => `Elasticity: ${context.parsed.y.toFixed(2)}`
+            label: (context) => {
+              const item = data[context.dataIndex];
+              return [`Elasticity: ${item.elasticity.toFixed(2)}`, `Risk: ${item.risk_level}`];
+            }
           }
         }
       },
       scales: {
         y: {
           beginAtZero: true,
-          title: { display: true, text: 'Absolute Elasticity' }
+          title: { display: true, text: axisMeta.chartLabel }
         }
       }
     }
@@ -2297,86 +3633,6 @@ window.selectSegmentFromSearch = function(segmentId) {
 };
 
 /**
- * Update the Cohort Watchlist (top at-risk cohorts) based on current filters & tier
- */
-function updateCohortWatchlist() {
-  const badge = document.getElementById('segment-watchlist-badge');
-  const body = document.getElementById('segment-watchlist-body');
-  if (!badge || !body || !window.segmentEngine || !window.segmentEngine.isDataLoaded()) return;
-
-  const tier = document.getElementById('segment-tier-select')?.value || 'ad_free';
-  const filters = {
-    acquisition: getActivePillValues('acquisition-filters'),
-    engagement: getActivePillValues('engagement-filters'),
-    monetization: getActivePillValues('monetization-filters')
-  };
-
-  const segments = window.segmentEngine.filterSegments(filters).filter(s => s.tier === tier);
-  if (!segments.length) {
-    badge.textContent = '0';
-    body.innerHTML = `
-      <div class="text-center py-3 text-body-secondary small">
-        <i class="bi bi-inbox fs-4 d-block mb-1"></i>
-        No cohorts match the current filters.
-      </div>
-    `;
-    return;
-  }
-
-  const scored = segments.map(seg => {
-    const customers = parseInt(seg.customer_count || 0);
-    const repeatLoss = parseFloat(seg.repeat_loss_rate || 0);
-    const score = customers * repeatLoss;
-    return {
-      compositeKey: seg.compositeKey,
-      label: window.segmentEngine.formatCompositeKey(seg.compositeKey),
-      customers,
-      repeatLoss,
-      score
-    };
-  });
-
-  scored.sort((a, b) => b.score - a.score);
-  const top = scored.slice(0, 5);
-
-  badge.textContent = `Top ${top.length} at risk`;
-
-  function repeatLossBarColor(pct) {
-    if (pct < 12) return 'success';
-    if (pct < 18) return 'warning';
-    return 'danger';
-  }
-
-  body.innerHTML = top.map((item, i) => {
-    const rank = i + 1;
-    const pct = item.repeatLoss * 100;
-    const barColor = repeatLossBarColor(pct);
-    const parts = item.label.split(/\s*\|\s*/).filter(Boolean);
-    return `
-      <div class="cohort-watchlist-item d-flex align-items-start gap-2 py-2 border-bottom border-body-secondary border-opacity-25 ${rank === top.length ? 'border-0 pb-0' : ''} ${rank === 1 ? 'pt-0' : ''}" title="Customer group: ${item.label}&#10;Customers: ${item.customers.toLocaleString()}&#10;At risk of not coming back: ${pct.toFixed(1)}%">
-        <span class="cohort-rank badge rounded-circle flex-shrink-0 ${rank <= 2 ? 'bg-danger' : rank === 3 ? 'bg-warning text-dark' : 'bg-secondary'}" title="Place in this list (1 = highest risk)">${rank}</span>
-        <div class="flex-grow-1 min-w-0">
-          <div class="small fw-semibold text-body-emphasis mb-1">
-            ${parts.map(p => p.trim()).join(' · ')}
-          </div>
-          <div class="d-flex align-items-center gap-2 small mb-1">
-            <div class="flex-grow-1">
-              <div class="progress rounded-pill" style="height: 8px;" title="Share of this group at risk of not coming back">
-                <div class="progress-bar bg-${barColor}" role="progressbar" style="width: ${Math.min(pct * 4, 100)}%;" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="25"></div>
-              </div>
-            </div>
-            <span class="badge bg-${barColor}-subtle text-${barColor}-emphasis" title="Percent of this group at risk">${pct.toFixed(1)}% at risk</span>
-          </div>
-          <div class="small text-body-secondary">
-            About ${item.customers.toLocaleString()} customers in this group.
-          </div>
-        </div>
-      </div>
-    `;
-  }).join('');
-}
-
-/**
  * Update filter summary stats
  */
 function updateFilterSummary() {
@@ -2391,14 +3647,17 @@ function updateFilterSummary() {
   const tierSegments = filteredSegments.filter(s => s.tier === tier);
 
   const totalSubs = tierSegments.reduce((sum, s) => sum + parseInt(s.customer_count || 0), 0);
+  const activeAxis = document.getElementById('segment-axis-select')?.value || 'engagement';
+  const axisLabel = SEGMENT_AXIS_VIS_META[activeAxis]?.label || 'Engagement';
+  const tierLabel = tier === 'ad_supported' ? 'Entry & Value' : 'Core & Premium';
+  const activeFilterCount = Object.values(filters).reduce((sum, values) => sum + values.length, 0);
 
   const statsElement = document.getElementById('filter-stats');
   if (tierSegments.length === window.segmentEngine.getSegmentsForTier(tier).length) {
-    statsElement.textContent = 'All segments';
+    statsElement.innerHTML = `${tierLabel} cohorts | ${axisLabel} axis | ${formatNumber(totalSubs)} customers | No cohort filters applied`;
   } else {
     statsElement.innerHTML = `
-      ${tierSegments.length} segments,
-      ${totalSubs.toLocaleString()} customers
+      ${tierLabel} cohorts | ${axisLabel} axis | ${tierSegments.length} cohort combinations | ${formatNumber(totalSubs)} customers | ${activeFilterCount} active filter${activeFilterCount === 1 ? '' : 's'}
     `;
   }
 }
@@ -2484,9 +3743,6 @@ function initializeExportButtons() {
       case 'scatter':
         containerId = 'segment-scatter-plot';
         break;
-      case 'channel':
-        containerId = 'channel-elasticity-bar';
-        break;
       default:
         containerId = 'segment-elasticity-heatmap';
     }
@@ -2500,6 +3756,8 @@ async function init() {
     window.yumSelectedBrandId = DEFAULT_YUM_BRAND_ID;
   }
 
+  initializeBottomAssistants();
+
   // Add event listeners
   document.getElementById('load-data-btn')?.addEventListener('click', loadData);
   // Old simulate-btn and save-scenario-btn removed - using tabbed interface now
@@ -2509,32 +3767,49 @@ async function init() {
 
   // Chat event listeners
   document.getElementById('configure-llm')?.addEventListener('click', configureLLM);
-  document.getElementById('chat-send-btn')?.addEventListener('click', handleChatSend);
-  document.getElementById('chat-reset-btn')?.addEventListener('click', () => {
-    clearHistory();
-    const input = document.getElementById('chat-input');
-    if (input) {
-      input.value = '';
-      input.focus();
+  document.addEventListener('click', (event) => {
+    const sendButton = event.target.closest('.assistant-chat-send-btn');
+    if (sendButton) {
+      const panel = sendButton.closest('[data-chat-panel]') || document;
+      const input = panel.querySelector('.assistant-chat-input') || document.getElementById('chat-input');
+      handleChatSend(input);
+      return;
+    }
+
+    const resetButton = event.target.closest('.assistant-chat-reset-btn');
+    if (resetButton) {
+      clearHistory();
+      document.querySelectorAll('.assistant-chat-input').forEach((input) => {
+        input.value = '';
+      });
+      document.getElementById('chat-input')?.focus();
+      return;
+    }
+
+    const suggestedQuery = event.target.closest('.suggested-query');
+    if (suggestedQuery) {
+      const query = suggestedQuery.textContent.trim();
+      const panel = suggestedQuery.closest('[data-chat-panel]') || document;
+      const input = panel.querySelector('.assistant-chat-input') || document.getElementById('chat-input');
+      if (!input) return;
+      input.value = query;
+      handleChatSend(input);
+      return;
+    }
+
+    const openFullChatButton = event.target.closest('[data-open-full-chat]');
+    if (openFullChatButton) {
+      window.yumChatPinnedScreenId = openFullChatButton.closest('[data-chat-panel]')?.dataset.chatScreen || window.yumLastAnalysisSectionId || null;
+      window.goToStep?.(7);
     }
   });
-  const chatInput = document.getElementById('chat-input');
-  if (chatInput) {
-    chatInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        handleChatSend();
-      }
-    });
-  }
 
-  // Suggested query buttons
-  document.querySelectorAll('.suggested-query').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const query = btn.textContent.trim();
-      document.getElementById('chat-input').value = query;
-      handleChatSend();
-    });
+  document.addEventListener('keypress', (event) => {
+    const chatInput = event.target.closest('.assistant-chat-input');
+    if (chatInput && event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      handleChatSend(chatInput);
+    }
   });
 
   // Initialize popovers (will be initialized again after data loads)
@@ -2547,7 +3822,7 @@ async function init() {
   document.getElementById('save-edited-scenario-btn')?.addEventListener('click', saveEditedScenario);
 
   // Make loadData available globally so it can be called when navigating to step 1
-  window.loadAppData = loadData;
+  window.loadAppData = loadDataStyled;
   window.dataLoaded = false;
 }
 
@@ -3754,3 +5029,4 @@ function displayTop3Scenarios(top3) {
   // Scroll to results
   container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
+
