@@ -20,21 +20,21 @@ function updateSegmentDetailPanel(title, bodyHtml) {
 const SEGMENT_AXIS_META = {
     acquisition: {
         label: 'Acquisition',
-        helper: 'Price Sensitivity - Promo Driven',
+        helper: 'New or occasional customers driven by promotions and price sensitivity',
         positive: 'Low sensitivity',
         neutral: 'Moderate sensitivity',
         negative: 'Highly sensitive'
     },
     engagement: {
         label: 'Engagement',
-        helper: 'Loyalty & Retention',
+        helper: 'Repeat behavior, loyalty strength, and retention risk',
         positive: 'Stable loyalty',
         neutral: 'Watch closely',
         negative: 'High repeat-loss risk'
     },
     monetization: {
         label: 'Monetization',
-        helper: 'Basket Value & Spend',
+        helper: 'Basket size, upsell behavior, and premium add-ons',
         positive: 'Basket headroom',
         neutral: 'Mixed',
         negative: 'High switching risk'
@@ -134,16 +134,26 @@ function buildSegmentDetailHtml(summary, metrics = []) {
     `;
 }
 
+function getTierDisplayLabel(tier) {
+    return tier === 'ad_supported'
+        ? 'Entry & Value Meals'
+        : tier === 'ad_free'
+            ? 'Core & Premium Meals'
+            : String(tier || '').replace(/_/g, ' ');
+}
+
 /**
  * Render segment KPI dashboard cards
  * @param {string} containerId - DOM element ID
  * @param {Object} aggregatedKPIs - From segmentEngine.aggregateKPIs()
  */
-export function renderSegmentKPICards(containerId, aggregatedKPIs) {
+export function renderSegmentKPICards(containerId, aggregatedKPIs, overrideKPIs = null) {
     const container = d3.select(`#${containerId}`);
     container.selectAll('*').remove();
 
-    if (!aggregatedKPIs || aggregatedKPIs.total_customers === 0) {
+    const resolvedKPIs = overrideKPIs || aggregatedKPIs;
+
+    if (!resolvedKPIs || resolvedKPIs.total_customers === 0) {
         container.append('p')
             .attr('class', 'text-muted text-center')
             .text('No segments match the selected filters.');
@@ -164,31 +174,31 @@ export function renderSegmentKPICards(containerId, aggregatedKPIs) {
     const kpiData = [
         {
             label: 'Total Customers',
-            value: safeNumber(aggregatedKPIs.total_customers, 0).toLocaleString(),
+            value: safeNumber(resolvedKPIs.total_customers, 0).toLocaleString(),
             icon: 'bi-people-fill',
             color: '#667eea'
         },
         {
             label: 'Repeat Loss Rate',
-            value: `${(safeNumber(aggregatedKPIs.weighted_repeat_loss, 0) * 100).toFixed(2)}%`,
+            value: `${(safeNumber(resolvedKPIs.weighted_repeat_loss, 0) * 100).toFixed(1)}%`,
             icon: 'bi-graph-down-arrow',
             color: '#f093fb'
         },
         {
             label: 'Avg Order Value',
-            value: `$${safeNumber(aggregatedKPIs.weighted_aov, 0).toFixed(2)}`,
+            value: `$${safeNumber(resolvedKPIs.weighted_aov, 0).toFixed(1)}`,
             icon: 'bi-currency-dollar',
             color: '#4facfe'
         },
         {
             label: 'Units / Order',
-            value: safeNumber(aggregatedKPIs.weighted_units, 0).toFixed(2),
+            value: safeNumber(resolvedKPIs.weighted_units, 0).toFixed(1),
             icon: 'bi-basket2',
             color: '#43e97b'
         },
         {
             label: 'Cohorts',
-            value: safeNumber(aggregatedKPIs.segment_count, 0),
+            value: safeNumber(resolvedKPIs.segment_count, 0),
             icon: 'bi-diagram-3-fill',
             color: '#fa709a'
         }
@@ -489,7 +499,7 @@ export function renderSegmentElasticityHeatmap(containerId, tier, filters = {}, 
         .attr('font-weight', 'bold')
         .text(`${pairMeta.yLabel} axis`);
 
-    const tierLabel = tier === 'ad_supported' ? 'Entry & Value' : tier === 'ad_free' ? 'Core & Premium' : tier.replace('_', ' ').toUpperCase();
+    const tierLabel = getTierDisplayLabel(tier);
     svg.append('text')
         .attr('x', width / 2)
         .attr('y', -margin.top / 2)
@@ -497,6 +507,14 @@ export function renderSegmentElasticityHeatmap(containerId, tier, filters = {}, 
         .attr('font-size', '16px')
         .attr('font-weight', 'bold')
         .text(`${axisMeta.label} heatmap - ${tierLabel}`);
+
+    svg.append('text')
+        .attr('x', width / 2)
+        .attr('y', -margin.top / 2 + 18)
+        .attr('text-anchor', 'middle')
+        .attr('font-size', '11px')
+        .attr('fill', '#64748b')
+        .text('Elasticity Score (>1 = high sensitivity, <1 = stable demand)');
 
     const legend = svg.append('g')
         .attr('transform', `translate(${width + 35}, 30)`);
@@ -581,7 +599,7 @@ export function render3AxisRadialChart(containerId, tier, axis = 'engagement', f
     const axes = [
         {
             name: 'Monetization',
-            helper: 'Basket Value & Spend',
+            helper: 'Basket size, upsell behavior, and premium add-ons',
             key: 'monetization',
             color: '#2563eb', // Blue
             angle: 90, // Vertical (up)
@@ -589,7 +607,7 @@ export function render3AxisRadialChart(containerId, tier, axis = 'engagement', f
         },
         {
             name: 'Engagement',
-            helper: 'Loyalty & Retention',
+            helper: 'Repeat behavior, loyalty strength, and retention risk',
             key: 'engagement',
             color: '#22c55e', // Green
             angle: 210, // Left diagonal (210 degrees)
@@ -597,7 +615,7 @@ export function render3AxisRadialChart(containerId, tier, axis = 'engagement', f
         },
         {
             name: 'Acquisition',
-            helper: 'Price Sensitivity - Promo Driven',
+            helper: 'New or occasional customers driven by promotions and price sensitivity',
             key: 'acquisition',
             color: '#ef4444', // Red
             angle: 330, // Right diagonal (330 degrees)
@@ -741,6 +759,18 @@ export function render3AxisRadialChart(containerId, tier, axis = 'engagement', f
         };
     });
 
+    const highlightedLabels = new Set([
+        'Family Ritual Loyalist',
+        'Deal-Seeking Customer',
+        'Group Occasion Buyer'
+    ]);
+
+    segmentPositions.forEach((segment) => {
+        segment.isHighlighted = highlightedLabels.has(window.segmentEngine.formatSegmentLabel(segment.acquisition))
+            || highlightedLabels.has(window.segmentEngine.formatSegmentLabel(segment.engagement))
+            || highlightedLabels.has(window.segmentEngine.formatSegmentLabel(segment.monetization));
+    });
+
     // Determine radius scale based on customer count
     const radiusScale = d3.scaleSqrt()
         .domain([0, d3.max(segmentPositions, d => d.customer_count)])
@@ -755,14 +785,14 @@ export function render3AxisRadialChart(containerId, tier, axis = 'engagement', f
         .attr('cy', d => d.y)
         .attr('r', d => radiusScale(d.customer_count))
         .attr('fill', d => getSegmentAxisColor(axis, d.axisElasticity))
-        .attr('stroke', '#fff')
-        .attr('stroke-width', 2)
-        .attr('opacity', 0.78)
+        .attr('stroke', d => d.isHighlighted ? '#0f172a' : '#fff')
+        .attr('stroke-width', d => d.isHighlighted ? 3 : 2)
+        .attr('opacity', d => d.isHighlighted ? 0.95 : 0.78)
         .style('cursor', 'pointer')
         .on('mouseenter', function(event, d) {
             d3.select(this)
                 .attr('opacity', 1)
-                .attr('stroke-width', 3);
+                .attr('stroke-width', d.isHighlighted ? 4 : 3);
 
             const segmentInfo = window.segmentEngine.formatCompositeKey(d.compositeKey);
             const segmentSummary = window.segmentEngine.generateSegmentSummary(d.compositeKey, {
@@ -804,10 +834,10 @@ export function render3AxisRadialChart(containerId, tier, axis = 'engagement', f
                 .style('left', (x + 15) + 'px')
                 .style('top', (y - 30) + 'px');
         })
-        .on('mouseleave', function() {
+        .on('mouseleave', function(event, d) {
             d3.select(this)
-                .attr('opacity', 0.7)
-                .attr('stroke-width', 2);
+                .attr('opacity', d.isHighlighted ? 0.95 : 0.78)
+                .attr('stroke-width', d.isHighlighted ? 3 : 2);
 
             tooltip.style('display', 'none');
         })
@@ -920,11 +950,7 @@ export function render3AxisRadialChart(containerId, tier, axis = 'engagement', f
         .text(axisMeta.negative);
 
     // Center title
-    const tierLabel = tier === 'ad_supported'
-        ? 'Entry & Value Cohorts'
-        : tier === 'ad_free'
-            ? 'Core & Premium Cohorts'
-            : tier.replace('_', ' ').toUpperCase();
+    const tierLabel = getTierDisplayLabel(tier);
 
     svg.append('text')
         .attr('x', centerX)
@@ -934,6 +960,14 @@ export function render3AxisRadialChart(containerId, tier, axis = 'engagement', f
         .attr('font-size', '16px')
         .attr('fill', '#333')
         .text(`3-Axis Customer Cohorts - ${tierLabel} - ${axisMeta.label}`);
+
+    svg.append('text')
+        .attr('x', centerX)
+        .attr('y', 50)
+        .attr('text-anchor', 'middle')
+        .attr('font-size', '11px')
+        .attr('fill', '#64748b')
+        .text('Highlights: Family Ritual Loyalist | Deal-Seeking Customer | Group Occasion Buyer');
 }
 
 /**
@@ -992,6 +1026,9 @@ export function renderSegmentScatterPlot(containerId, tier, axis = 'engagement',
         .domain([yMin, yMax])
         .range([height, 0])
         .nice();
+
+    const xMid = (d3.max(data, d => d.customers) || 0) / 2;
+    const yThreshold = axis === 'acquisition' ? -1.5 : axis === 'engagement' ? 1.1 : 1.0;
 
     const radiusScale = d3.scaleSqrt()
         .domain([0, d3.max(data, d => d.avg_order_value)])
@@ -1054,6 +1091,47 @@ export function renderSegmentScatterPlot(containerId, tier, axis = 'engagement',
             .attr('fill', line.color)
             .text(line.label);
     });
+
+    if (xMid > 0) {
+        svg.append('line')
+            .attr('x1', xScale(xMid))
+            .attr('x2', xScale(xMid))
+            .attr('y1', 0)
+            .attr('y2', height)
+            .attr('stroke', '#94a3b8')
+            .attr('stroke-dasharray', '4,6')
+            .attr('opacity', 0.55);
+    }
+
+    if (yThreshold >= yMin && yThreshold <= yMax) {
+        svg.append('line')
+            .attr('x1', 0)
+            .attr('x2', width)
+            .attr('y1', yScale(yThreshold))
+            .attr('y2', yScale(yThreshold))
+            .attr('stroke', '#94a3b8')
+            .attr('stroke-dasharray', '4,6')
+            .attr('opacity', 0.55);
+    }
+
+    const quadrantLabels = [
+        { label: 'High Risk, High Impact', x: width * 0.74, y: height * 0.2 },
+        { label: 'Low Risk, High Value', x: width * 0.74, y: height * 0.84 },
+        { label: 'Low Impact Segments', x: width * 0.18, y: height * 0.2 },
+        { label: 'Stable Base', x: width * 0.18, y: height * 0.84 }
+    ];
+
+    svg.selectAll('.quadrant-label')
+        .data(quadrantLabels)
+        .join('text')
+        .attr('class', 'quadrant-label')
+        .attr('x', d => d.x)
+        .attr('y', d => d.y)
+        .attr('text-anchor', 'middle')
+        .attr('font-size', '10px')
+        .attr('font-weight', 'bold')
+        .attr('fill', '#64748b')
+        .text(d => d.label);
 
     const tooltip = container.append('div')
         .attr('class', 'position-absolute bg-dark text-white p-2 rounded shadow-sm')
@@ -1162,11 +1240,7 @@ export function renderSegmentScatterPlot(containerId, tier, axis = 'engagement',
             .text(item.label);
     });
 
-    const tierLabel = tier === 'ad_supported'
-        ? 'Entry & Value'
-        : tier === 'ad_free'
-            ? 'Core & Premium'
-            : tier.replace('_', ' ').toUpperCase();
+    const tierLabel = getTierDisplayLabel(tier);
 
     svg.append('text')
         .attr('x', width / 2)

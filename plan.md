@@ -1,356 +1,439 @@
-# Pizza Hut Pricing Studio Transformation Plan
+Pizza Hut Pricing Elasticity Studio (Landing Screen)
+Update Text: 
+“Understand how customers respond to menu pricing, combos, and promotions — and optimize revenue, orders, and margins”.
+Current State Overview
+Update Text below Current State Overview:
+“Before optimizing pricing, let’s understand the current menu structure, pricing tiers, and key business metrics driving orders, revenue, and margins.”
+
+Price Architecture Cards:
+Card 1: Entry Value & Solo Meals (Traffic Builder)
+Update From: $6.99
+Update Anchor Items with: Personal Pan Pizza | Pizza Hut Melts | 2-Topping Medium Pizza Deal | Breadsticks
+Update Description with: “Typically priced between $6.99 and $11.99, this segment drives trial and impulse orders. Value deals and combo meals play a key role in maintaining order volume and entry-level conversion.”
+Card 2: Family Bundles & Premium (Revenue Driver)
+Update from: $14.99
+Update Anchor Items with: Large 1-Topping Pizza | Big Dinner Box | Stuffed Crust Pizza | Supreme / Specialty Pizzas
+Update Description with: “Priced between $14.99 and $34.99, this segment drives the majority of revenue. Larger pizzas, bundles, and premium crust options dominate, with delivery and group occasions contributing heavily.”
+
+Key Performance Metrics (Week of Dec 29, 2025)
+Weekly Orders = 12,462 (Too small for a US Pizza Hut view, Feels like single-store / small region, not scalable) Replace it with: ~85,000 – 150,000 weekly orders
+Weekly Net Sales = $257K (Doesn’t align with US Pizza Hut weekly sales). Replace with: $1.8M – $3.2M
+AOV = $20.67 (Keep as it is, this is realistic)
+Contribution Margin = 46.1% (Slightly on the higher side) Replace with: 28%-26%
+
+The Pricing Question
+Pizza Hut delivered approximately $2.1M in weekly sales across ~100K orders, with an average order value of ~$20.
+Nearly 60% of orders are driven by promotions, particularly across entry-level and combo meals — highlighting strong price sensitivity in key segments.
+While the value tier drives traffic and order volume, the family and premium tiers contribute the majority of revenue and margin.
+With orders declining week-over-week and AOV increasing, a clear trade-off is emerging between pricing and demand.
+The key question is:
+Can pricing be optimized to improve margin without impacting order volumes — especially within promotion-driven segments?
+Data Explorer
+Update Text below Data Explorer: “This is the unified data foundation powering the pricing engine — combining menu, pricing, promotions, channels, and performance into a single, analysis-ready view.”
+
+Please update any column names that have “proxy” in them. 
+Example: orders_proxy replace with orders.
+Example: income_band_proxy replace with income_band.
+
+Event Calendar
+
+Update Text below Event Calendar: “Track pricing actions, promotions, and seasonal events — and understand how they impact orders, revenue, and customer behavior. This creates the foundation for accurate elasticity modeling and scenario simulation.”
+
+Update Campaign detail log table with the below data:
+
+Date
+Event
+Campaign / Window
+Channels
+Output
+Notes
+Mar 22, 2026
+Digital & Loyalty
+Pizza Hut Melts – Lunch Carryout Campaign
+Carryout
+$14.2K sales | 1,900 orders
+Focused on weekday lunch traffic; strong response from value-seeking cohorts
+Mar 1, 2026
+Premium & Innovation
+Spring Menu Launch (New Crust & Flavors)
+Delivery, Carryout
+$2.3M sales | 113K orders
+AI-simulated based on historical innovation launches and seasonal demand uplift
+Feb 22, 2026
+Menu Pricing
+Large Pizza Price Reduction
+Delivery, Carryout
+$46.6K sales | 2,400 orders
+Price reduced from ~$21.25 → $19.35 (~9%) to recover declining order volume
+Feb 1, 2026
+Menu Pricing
+Medium Pizza Value Reset
+Delivery, Carryout
+$48.8K sales | 2,500 orders
+Adjusted pricing across core SKUs to improve entry price perception
+Jan 11, 2026
+Menu Pricing
+Large Pizza Price Reduction
+Delivery, Carryout
+$48.0K sales | 2,450 orders
+Continued pricing correction to stabilize demand after holiday period
+Jan 11, 2026
+Value & Bundle
+Big Dinner Box – NFL Playoffs Promo
+Delivery
+$160.0K sales | 10.0K orders
+High-volume bundle optimized for game-day occasions
+Jan 4, 2026
+Value & Bundle
+$10 Tastemaker Repricing
+Delivery, Carryout
+$2.3M sales | 117K orders
+AI-modeled using elasticity signals from prior value campaigns
+Dec 21, 2025
+Premium & Innovation
+Stuffed Crust Holiday Promotion
+Delivery
+$56.8K sales | 2,400 orders
+Observed uplift from premium product bundling during holidays
+Nov 23, 2025
+Menu Pricing
+Large Pizza Price Reduction
+Delivery, Carryout
+$46.3K sales | 2,350 orders
+Tactical price drop ahead of holiday demand peak
+Nov 2, 2025
+Occasion & Seasonal
+Holiday Family Bundle Promotion
+Delivery, Carryout
+$2.4M sales | 121K orders
+Seasonal bundles driving family-sized orders and higher ticket sizes
+Nov 2, 2025
+Menu Pricing
+Large Pizza Price Reduction
+Delivery, Carryout
+$46.6K sales | 2,360 orders
+Reinforced price positioning before holiday promotional push
+Oct 12, 2025
+Menu Pricing
+Large Pizza Price Adjustment
+Delivery, Carryout
+$49.6K sales | 2,500 orders
+Minor pricing optimization to balance margin and demand
+Sep 28, 2025
+Menu Pricing
+Large Pizza Price Increase
+Delivery, Carryout
+$48.6K sales | 2,300 orders
+~10% price increase tested; slight demand softening observed
+Sep 21, 2025
+Menu Pricing
+Large Pizza Price Reduction
+Delivery, Carryout
+$48.5K sales | 2,450 orders
+Immediate rollback after elasticity-driven demand drop
+Sep 7, 2025
+Menu Pricing
+Large Pizza Price Increase
+Delivery, Carryout
+$49.4K sales | 2,350 orders
+Initial price increase test to evaluate elasticity thresholds
+Aug 31, 2025
+Value & Bundle
+Big Dinner Box – Game Day Promo
+Delivery
+$267.0K sales | 16.4K orders
+High-performing sports event bundle campaign
+Aug 31, 2025
+Menu Pricing
+Large Pizza Price Reduction
+Delivery, Carryout
+$49.3K sales | 2,480 orders
+Price correction following earlier demand dip
+Aug 17, 2025
+Digital & Loyalty
+Hut Rewards Summer Carryout Boost
+Carryout
+$4.1K sales | 500 orders
+Loyalty-driven traffic boost for off-peak periods
+Aug 3, 2025
+Occasion & Seasonal
+Football Season Kickoff Bundle
+Delivery
+$3.6M sales | 181K orders
+Major seasonal spike driven by sports viewing occasions
+Jul 20, 2025
+Digital & Loyalty
+Hut Rewards Summer Carryout Boost
+Carryout
+$4.0K sales | 490 orders
+Repeat campaign with stable engagement from loyalty users
+Jun 22, 2025
+Digital & Loyalty
+Hut Rewards Summer Carryout Boost
+Carryout
+$4.2K sales | 510 orders
+Strong engagement from app-based ordering segment
+May 18, 2025
+Digital & Loyalty
+Pizza Hut Melts – Lunch Carryout Campaign
+Carryout
+$14.5K sales | 2,000 orders
+Lunch-focused value offering driving weekday traffic
+May 4, 2025
+Occasion & Seasonal
+Summer Traffic Builder Promotion
+Delivery
+$3.3M sales | 160K orders
+Seasonal demand uplift supported by bundled value deals
+Apr 20, 2025
+Digital & Loyalty
+Pizza Hut Melts – Lunch Carryout Campaign
+Carryout
+$14.3K sales | 1,950 orders
+Entry-level value offering targeting price-sensitive customers
+
+
+Update Campaign Output Summary Cards with the below data:
+
+1. Spring Menu Launch (Premium & Innovation)
+Type: Modeled
+Window: Mar 1, 2026 – Apr 26, 2026
+Flights: 1
+Supported sales: ~$2.3M
+Supported volume: ~113K orders
+Avg discount: ~8%
+Realized price: ~$20.50
+Focus: Premium & Innovation
+Channels: Delivery, Carryout
+2. $10 Tastemaker Repricing (Value & Bundle)
+Type: Modeled
+Window: Jan 4, 2026 – Feb 22, 2026
+Flights: 1
+Supported sales: ~$2.3M
+Supported volume: ~117K orders
+Avg discount: ~25%
+Realized price: ~$19.60
+Focus: Value & Bundle
+Channels: Delivery, Carryout
+3. Stuffed Crust Holiday Promotion (Premium & Innovation)
+Type: Observed
+Window: Dec 21, 2025 – Dec 31, 2025
+Flights: 1
+Supported sales: ~$56.8K
+Supported volume: ~2.4K orders
+Avg discount: ~10%
+Realized price: ~$23.50
+Focus: Premium & Innovation
+Channels: Delivery
+4. Big Dinner Box – Game Day Promo (Value & Bundle)
+Type: Mixed
+Window: Aug 31, 2025 – Feb 22, 2026
+Flights: 2
+Supported sales: ~$427K
+Supported volume: ~26.5K orders
+Avg discount: ~30%
+Realized price: ~$16.20
+Focus: Value & Bundle
+Channels: Delivery
+5. Hut Rewards Summer Carryout Boost (Digital & Loyalty)
+Type: Observed
+Window: Jun 22, 2025 – Aug 17, 2025
+Flights: 3
+Supported sales: ~$12.3K
+Supported volume: ~1.5K orders
+Avg discount: ~15%
+Realized price: ~$8.20
+Focus: Digital & Loyalty
+Channels: Carryout
+6. Pizza Hut Melts – Lunch Carryout Campaign (Digital & Loyalty)
+Type: Mixed
+Window: Apr 20, 2025 – Mar 22, 2026
+Flights: 3
+Supported sales: ~$43K
+Supported volume: ~5.8K orders
+Avg discount: ~20%
+Realized price: ~$7.50
+Focus: Digital & Loyalty
+Channels: Carryout
+Customer Cohorts & Elasticity
+Update text below Customer Cohorts & Elasticity: “Understand how different customer cohorts respond to pricing — and identify where to increase price, protect volume, or drive premium spend.”
+
+Change the Label: Channel Group and replace with “Price Tier”
+Change the values under “Price Tier”: 
+Replace Entry & Value with “Entry & Value Meals”. Also add a tool tip: “Includes traffic-driving offers, personal meals, and discount-led purchases.”
+Replace Core & Premium with “Core & Premium Meals”. Also add a tool tip: “Includes full-price pizzas, bundles, and higher-value family orders.”
+
+Change the text under the Axis: 
+Replace with:
+Acquisition:
+ New or occasional customers driven by promotions and price sensitivity
+Engagement:
+ Repeat behavior, loyalty strength, and retention risk
+Monetization:
+ Basket size, upsell behavior, and premium add-ons
+Update Auto-insights (For Channel Group = Core & Premium)
+76% of customers are promotion-sensitive, indicating high reliance on value-led pricing.
+‘Group Occasion Buyers’ and ‘Deal-Seeking Customers’ show the highest acquisition elasticity — price increases here will directly impact traffic.
+Family Ritual Loyalists deliver the highest AOV of $41.64 and 8.1% repeat-loss risk— ideal cohort for premium pricing and upsell strategies.
+Updated Recommended Action (For Channel Group = Core & Premium)
+“Avoid price increases for Deal-Seeking and Occasion-based cohorts, where elasticity is highest. Focus pricing optimization on Family Ritual Loyalists and Basket Builders to improve margin without volume loss.”
+Updated Auto-Insights (For Channel Group = Entry & Value) 
+A majority of customers in the Value tier are promotion-driven, indicating high sensitivity to price changes and discount dependency.
+Deal-Seeking Customers and Weekly Pizza Habit segments show the highest acquisition elasticity — price increases here are likely to directly impact order volume.
+While this tier drives traffic, average order values remain low, limiting margin upside without effective upsell or bundling strategies.
+Updated Recommended Action (For Channel Group = Entry & Value)
+“Avoid broad price increases in the Value tier, especially for Deal-Seeking and Habit-driven customers. Instead, focus on optimizing bundle structures and targeted promotions to drive higher basket value without impacting traffic.”
+Cohort Name Updates & KPI card values: (Update values wherever you see GREEN color)
+Baseline (All Cohorts)
+Metric
+Value
+Total Customers
+113,734
+Repeat Loss Rate
+15.8%
+AOV
+$30.8
+Units / Order
+2.1
+Cohorts
+125
+
+Acquisition Cohorts
+Original Cohort
+Updated Cohort Name
+Customers
+Repeat Loss %
+AOV ($)
+Units
+Game-Day First Try
+NA
+22,000
+18.5%
+28.5
+2.0
+Weekly Meal Routine
+Habitual Value Seeker
+24,500
+12.0%
+31.0
+2.2
+Group Occasion Buyer
+NA
+23,000
+15.5%
+34.0
+2.4
+Digital Discovery Guest
+Digital Promo Explorer
+22,500
+17.5%
+30.5
+2.1
+Value Offer Triggered
+Deal Seeking Customer
+21,500
+20.0% 🔴
+27.5
+2.0
+
+Engagement Cohorts
+Original
+Updated Name
+Customers
+Repeat Loss %
+AOV
+Units
+Family Ritual Loyalist
+NA
+24,500
+10.5% 🟢
+33.5
+2.2
+Value Bundle Shopper
+NA
+23,500
+14.5%
+30.5
+2.2
+Coupon-Driven Guest
+Coupon-Driven Customer
+21,500
+20.5% 🔴
+29.5
+2.1
+Occasional Craving Guest
+Occasional Indulger
+21,500
+16.5%
+30.5
+2.1
+Channel Switcher
+Channel Flexible Customer
+22,500
+17.0%
+30.5
+2.1
+
+Monetization Cohorts
+Original
+Updated Name
+Customers
+Repeat Loss %
+AOV
+Units
+Single Pizza Order
+Single Item Buyer
+22,500
+15.8%
+26.0
+1.7
+Multi-Item Builder
+Multi-Item Basket Builder
+23,500
+15.5%
+34.0
+2.5
+Bundle Buyer
+NA
+23,800
+15.5%
+31.5
+2.3
+Premium Add-On
+Premium Upsell Buyer
+22,000
+15.7%
+35.5
+2.3
+Side Sampler
+Sides & Add-On Explorer
+21,500
+15.8%
+27.5
+1.9
+
+
+3-Axis Cohort Map
+❌ Minor Fix
+Labels too small / cluttered
+✅ Improve
+Highlight top 3 cohorts:
+Family Ritual Loyalist
+Deal-Seeking Customer
+Group Occasion Buyer
+HeatMap
+❌ Issues
+Numbers (0.5, 1.03 etc.) not explained clearly
+User doesn’t know what “good vs bad” is
+✅ Fix
+Add label:
+Elasticity Score ( >1 = high sensitivity, <1 = stable demand )
+Scatter Plot
+❌ Improvement
+Add quadrant labels
+✅ Add:
+Top-right: High Risk, High Impact
+Bottom-right: Low Risk, High Value
+Top-left: Low Impact Segments
+Bottom-left: Stable Base
 
-## Objective
-
-Turn the root `yumbrands` application into a Pizza Hut-specific pricing studio that visually follows the `pricingstudio` interaction model while removing streaming-era language from the live experience and replacing the current multi-brand foundation with a realistic Pizza Hut operating dataset.
-
-## Product Direction
-
-- Keep the overall visual shell, pacing, and progressive disclosure pattern close to `pricingstudio`.
-- Make the business story specific to Pizza Hut rather than a multi-brand Yum command center.
-- Treat the experience as a strategic pricing and promotion simulator for Pizza Hut U.S.
-- Favor credible, public-data-style modeling over fake dashboards with unexplained numbers.
-
-## Official-Source Grounding
-
-The transformed app should be anchored to public Pizza Hut and Yum facts, then extended with transparent modeled assumptions.
-
-### Facts to reflect in the build
-
-- Pizza Hut should be framed as a delivery, carryout, and dine-in pizza brand.
-- U.S. digital/app ordering should matter materially.
-- The menu ladder should be built around recognizable Pizza Hut categories rather than generic restaurant placeholders.
-- Family-share occasions and sports-night attach behavior should matter more than solo subscription-style retention logic.
-- Yum affiliation should be acknowledged in metadata and documentation, but the active UI should be Pizza Hut-first.
-
-### What will remain modeled
-
-- Market-level demand volumes
-- Channel-level order mix
-- Price elasticities
-- Promo lift curves
-- Retention / repeat-visit sensitivity
-- Product substitution and bundle tradeoffs
-- Scenario outputs and executive recommendations
-
-## Target Experience
-
-The active root app should mirror the `pricingstudio` structure, but with Pizza Hut content.
-
-### Home
-
-- Pizza Hut pricing studio hero
-- Clear business promise: price, promo, traffic, margin, and channel mix decisions
-- No streaming, subscriber, ARPU, or tier language
-
-### Step 1. Current Business Overview
-
-- Pizza Hut operating snapshot
-- Orders, net sales, average check, contribution margin
-- Channel mix and promo dependency
-- Pizza Hut-specific business summary
-
-### Step 2. Data Explorer
-
-- Public-data-style Pizza Hut foundation tables
-- Clear data dictionary and provenance notes
-- Explicit separation between official facts and modeled assumptions
-
-### Step 3. Event / Promo Calendar
-
-- Seasonal demand windows
-- Sports and family-share demand pulses
-- Pizza Hut deal cadence and campaign windows
-
-### Step 4. Customer Cohorts
-
-- Replace streaming cohorts with Pizza Hut buying missions:
-  - value lunch seekers
-  - family bundle loyalists
-  - digital carryout regulars
-  - delivery convenience users
-  - premium crust upgraders
-  - sports-night wing attachers
-  - promo-only lapsers
-  - high-value weekend hosts
-
-### Step 5. Segment Elasticity Comparison
-
-- Compare cohorts by price sensitivity, check, promo dependence, channel mix, and margin quality
-- Explain where pricing headroom is real and where value optics must be protected
-
-### Step 6. Traffic Acquisition Elasticity
-
-- Replace “subscriber acquisition” framing with order traffic acquisition
-- Evaluate price changes against order volume, net sales, and contribution margin
-- Highlight mission/channel combinations where price can move without collapsing traffic
-
-### Step 7. Repeat-Visit Loss
-
-- Replace churn framing with repeat-visit loss / lapse risk
-- Keep time-lag behavior if the chart remains useful, but rename it to restaurant language
-- Make the output useful for price change rollouts after promotions
-
-### Step 8. Channel Migration
-
-- Replace tier migration with order-channel migration
-- Focus on carryout, pickup/app, delivery, and dine-in shifts
-- Show how price architecture pushes orders between channels and changes margin
-
-### Step 9. AI Decision Support
-
-- Pizza Hut-specific prompts
-- No streaming prompts, no portfolio prompts, no Taco Bell defaults
-- Summaries should reference Pizza Hut menu ladders, promo pressure, and channel mix
-
-## Data Foundation Plan
-
-## 1. Scope
-
-- Replace the active multi-brand foundation with a Pizza Hut-only foundation for the root app.
-- Keep the grain transparent and business-usable.
-- Avoid synthetic noise without business meaning.
-
-## 2. Grain
-
-Primary panel:
-
-- `week_start x market_id x channel_id x item_id`
-
-Supporting rollups:
-
-- weekly brand summary
-- market summary
-- channel summary
-- item summary
-- campaign calendar
-- cohort summary
-- substitution matrix
-
-## 3. Pizza Hut entities
-
-### Markets
-
-Use a realistic U.S. market sample rather than all possible geographies.
-
-- Los Angeles
-- Dallas-Fort Worth
-- Chicago
-- Atlanta
-- New York City
-- Miami
-- Phoenix
-- Denver
-- Seattle
-- Nashville
-- Minneapolis
-- Charlotte
-
-### Channels
-
-- delivery
-- carryout
-- pickup_app
-- dine_in
-
-Drive-thru should not be active for Pizza Hut.
-
-### Menu ladder
-
-The product set should be recognizably Pizza Hut and easy to reason about:
-
-- Personal Pan Pizza
-- Medium One-Topping Pizza
-- Large One-Topping Pizza
-- Original Stuffed Crust / premium pizza ladder
-- Melts
-- Wings
-- Breadsticks / cheese sticks style attach
-- Big Dinner Box / family bundle
-- Pasta / pasta bakes
-- Dessert item
-
-### Occasion groups
-
-- solo value meal
-- core meal
-- family share
-- sports / party occasion
-- snack / attach
-
-## 4. Metrics to generate
-
-For each row:
-
-- list price
-- realized price
-- promo depth
-- unit volume
-- gross sales
-- net sales
-- contribution margin percent
-- contribution margin dollars
-- elasticity prior
-- effective elasticity
-- digital affinity
-- promo sensitivity
-- quality / confidence score
-
-Derived summaries:
-
-- weekly orders
-- weekly sales
-- average check
-- digital mix
-- delivery mix
-- promo-supported mix
-- margin rate
-- market price index
-- attach rate
-
-## 5. Cohort system
-
-Replace all streaming cohorts with Pizza Hut-specific cohorts and coefficients.
-
-Acquisition / traffic cohorts:
-
-- family value loyalists
-- app-first convenience seekers
-- weeknight dinner planners
-- lunch solo savers
-- premium pizza occasion buyers
-- game-day shareable shoppers
-- discount-driven returners
-- low-frequency high-ticket hosts
-
-Retention / repeat-loss cohorts:
-
-- promo-conditioned
-- convenience anchored
-- value anchored
-- premium loyal
-- lapse-prone
-- family ritual
-
-Channel migration cohorts:
-
-- delivery default
-- carryout optimizers
-- digital pickup switchers
-- dine-in social users
-
-## 6. Scenario library
-
-Prebuilt scenarios should be Pizza Hut-specific:
-
-- measured carryout price increase
-- premium crust price step-up
-- value lunch protection
-- delivery fee / premium pressure test
-- wing attach promotion
-- family bundle reprice
-- digital pickup incentive
-- broad list-price increase with retention guardrail
-
-## 7. Modeling rules
-
-- Delivery should carry the highest check and the lowest margin rate.
-- Pickup/app should have better margin than delivery and strong digital adoption.
-- Carryout should be price-competitive and important to value perception.
-- Dine-in should be smaller in mix but not zero.
-- Family bundles should have lower elasticity than solo items.
-- Premium crust items should have stronger check but lower traffic elasticity tolerance.
-- Attach items should improve order economics more than traffic growth.
-- Promo depth should temporarily increase units while compressing margin.
-
-## Implementation Plan
-
-## Phase 1. Planning and file ownership
-
-Files to update first:
-
-- `plan.md`
-- `README.md`
-- `scripts/build_yum_foundation.py` or replacement generator
-- `js/yum-data-loader.js`
-- `js/yum-brand-utils.js`
-- `js/app.js`
-- `js/acquisition-simple.js`
-- `js/churn-simple.js`
-- `js/migration-simple.js`
-- `js/step-navigation.js`
-- `index.html`
-
-## Phase 2. Build the Pizza Hut foundation
-
-- Refactor the generator into a Pizza Hut-focused build path.
-- Remove Taco Bell-first defaults.
-- Reduce brand metadata to Pizza Hut only for the active root app.
-- Regenerate processed CSVs and JSON metadata.
-- Validate row counts, null checks, and field consistency.
-
-## Phase 3. Rewire the app to Pizza Hut
-
-- Make Pizza Hut the default and only active brand.
-- Remove brand picker dependencies from the active flow where possible.
-- Update loaders to read the Pizza Hut-focused data contract.
-- Ensure charts and KPI cards use Pizza Hut field names.
-
-## Phase 4. Replace the shell content
-
-- Make the root `index.html` follow the `pricingstudio` section order and language style.
-- Replace every user-facing Yum portfolio description with Pizza Hut business framing.
-- Keep the same quality bar for navigation, hero, cards, and chart sections.
-
-## Phase 5. Scrub streaming remnants
-
-Active files must not expose:
-
-- streaming
-- subscriber / subscribers
-- churn in streaming context
-- ARPU
-- SVOD / OTT
-- content release calendar
-- Ad-Lite / Ad-Free tier copy
-- Netflix / Hulu / Disney references
-
-If a reused technical module still uses legacy internal variable names, the user-facing text must still be corrected. If the module remains central to the active app, the variable names and comments should also be cleaned.
-
-## Phase 6. Documentation refresh
-
-- Rewrite the repo summary around Pizza Hut pricing strategy
-- Explain what is official vs modeled
-- Document dataset grain and scenario logic
-- Remove obsolete streaming and portfolio claims from the root docs
-
-## QA and Verification
-
-## Functional checks
-
-- root app loads without broken imports
-- Pizza Hut data appears in KPI cards
-- scenario modules use Pizza Hut copy
-- step navigation still works
-- no empty chart containers on first render
-
-## Content checks
-
-- no visible streaming words in the live root app
-- no Taco Bell-first defaults in the live root app
-- no multi-brand portfolio story in the active root flow unless explicitly framed as Yum ownership context
-
-## Data checks
-
-- metadata matches generated files
-- processed files are internally consistent
-- market, item, and channel counts match the Pizza Hut scope
-- scenario inputs fall within realistic ranges
-
-## Definition of done
-
-- The root app looks and feels like the `pricingstudio` experience.
-- The active business story is Pizza Hut-specific.
-- The live data foundation is Pizza Hut-focused and realistically modeled.
-- Official-source facts are reflected where appropriate.
-- The active root code path is free of streaming copy and Taco Bell-first defaults.

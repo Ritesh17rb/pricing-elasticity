@@ -65,8 +65,8 @@ const DEFAULT_SYSTEM_PROMPT = `You are the Pizza Hut Analyst for the Pizza Hut P
 - Average Repeat Loss Rate: {currentChurn}
 
 **Elasticity Reference Points:**
-- Entry & Value ladder: {elasticityAdSupported}
-- Core & Premium ladder: {elasticityAdFree}
+- Entry & Value Meals ladder: {elasticityAdSupported}
+- Core & Premium Meals ladder: {elasticityAdFree}
 
 **Available Scenarios:**
 {availableScenarios}
@@ -554,8 +554,8 @@ Main Grain: week_start x brand_id x market_id x product_id x channel_id`;
         const avgAOV = (totalAOV / totalSegments).toFixed(2);
 
         segmentSummary = `${totalSegments} behavioral segments across 2 modeled Pizza Hut demand ladders:
-- Entry & Value: ${tierCounts['ad_supported'] || 0} segments
-- Core & Premium: ${tierCounts['ad_free'] || 0} segments
+- Entry & Value Meals: ${tierCounts['ad_supported'] || 0} segments
+- Core & Premium Meals: ${tierCounts['ad_free'] || 0} segments
 Total Customers: ${totalCustomers.toLocaleString()}
 Avg Repeat Loss: ${avgRepeatLoss}%
 Avg Order Value: $${avgAOV}`;
@@ -678,7 +678,7 @@ function getToolDefinitions() {
             tier: {
               type: "string",
               enum: ["ad_supported", "ad_free"],
-              description: "The modeled demand ladder to adjust (ad_supported = Entry & Value, ad_free = Core & Premium)"
+              description: "The modeled demand ladder to adjust (ad_supported = Entry & Value Meals, ad_free = Core & Premium Meals)"
             },
             price_change: {
               type: "number",

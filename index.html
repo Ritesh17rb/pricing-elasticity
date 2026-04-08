@@ -109,7 +109,7 @@
         <div class="hero">
           <div>
             <h1>Pizza Hut Pricing Elasticity Studio</h1>
-            <p>Analyze how customers respond to pricing and promotions, simulate business impact, and make smarter revenue and margin decisions.</p>
+            <p>Understand how customers respond to menu pricing, combos, and promotions - and optimize revenue, orders, and margins.</p>
             <button class="btn btn-primary-custom btn-lg" onclick="goToStep(1)">
               Start Exploration <i class="bi bi-arrow-right ms-2"></i>
             </button>
@@ -130,7 +130,7 @@
             <i class="bi bi-info-circle"></i>
           </button>
         </h2>
-        <p class="section-subtitle">Before exploring Pizza Hut price elasticity, review the current price architecture and the latest business performance guardrails.</p>
+        <p class="section-subtitle">Before optimizing pricing, let's understand the current menu structure, pricing tiers, and key business metrics driving orders, revenue, and margins.</p>
       </div>
     </div>
 
@@ -258,7 +258,7 @@
       <div class="section-header-main">
         <div class="section-number">Step 2</div>
         <h2 class="section-title">Data Explorer</h2>
-        <p class="section-subtitle">Explore the Pizza Hut datasets that power the pricing studio. Inspect the current weekly, channel, menu, and promotion foundations directly.</p>
+        <p class="section-subtitle">This is the unified data foundation powering the pricing engine - combining menu, pricing, promotions, channels, and performance into a single, analysis-ready view.</p>
       </div>
     </div>
 
@@ -312,7 +312,7 @@
 
   </section>
 
-  <!-- Section 5: Channel Mix Migration -->
+  <!-- Section 5: Order Channel Migration -->
   <section class="section" id="section-5">
   <div class="container">
     <div class="section-header section-header-split">
@@ -346,7 +346,7 @@
             <i class="bi bi-info-circle"></i>
           </button>
         </h2>
-        <p class="section-subtitle">Analyze customer cohorts and their differential responses to pricing changes. Explore behavioral cohorts and elasticity patterns.</p>
+        <p class="section-subtitle">Understand how different customer cohorts respond to pricing - and identify where to increase price, protect volume, or drive premium spend.</p>
       </div>
     </div>
 
@@ -385,7 +385,7 @@
       <div class="section-header-main">
         <div class="section-number">Step 3</div>
         <h2 class="section-title">Event Calendar</h2>
-        <p class="section-subtitle">Track important events and their impact on business metrics. Understand how external factors influence order behavior.</p>
+        <p class="section-subtitle">Track pricing actions, promotions, and seasonal events - and understand how they impact orders, revenue, and customer behavior. This creates the foundation for accurate elasticity modeling and scenario simulation.</p>
       </div>
     </div>
 
@@ -795,18 +795,18 @@
 
                   <!-- Cohort Selection -->
                   <div class="mb-4">
-                  <label class="form-label fw-semibold">Select Cohort</label>
+                  <label class="form-label fw-semibold">Select Visit Mission</label>
                   <select class="form-select" id="acq-cohort-select">
-                    <option value="baseline">All Cohorts (Baseline)</option>
-                    <option value="brand_loyal">Brand Loyal</option>
-                    <option value="value_conscious">Value Conscious</option>
-                    <option value="deal_seeker">Deal Seeker</option>
-                    <option value="trend_driven">Trend Driven</option>
-                    <option value="channel_switcher">Channel Switcher</option>
-                    <option value="premium_loyal">Premium Loyal</option>
-                    <option value="at_risk">At Risk</option>
+                    <option value="baseline">All Visit Missions</option>
+                    <option value="brand_loyal">Family Ritual Loyalists</option>
+                    <option value="value_conscious">Value Bundle Shoppers</option>
+                    <option value="deal_seeker">Coupon-Driven Guests</option>
+                    <option value="trend_driven">Premium Crust Explorers</option>
+                    <option value="channel_switcher">Digital Channel Switchers</option>
+                    <option value="premium_loyal">Premium Pizza Loyalists</option>
+                    <option value="at_risk">Lapse-Risk Guests</option>
                   </select>
-                  <small class="text-muted">Switch cohorts to see dramatic elasticity differences!</small>
+                  <small class="text-muted">Switch visit missions to compare how different Pizza Hut demand pockets react.</small>
                 </div>
 
                                     <!-- Tier Selection -->
@@ -975,18 +975,18 @@
 
                   <!-- Cohort Selection -->
                   <div class="mb-4">
-                    <label class="form-label fw-semibold">Select Cohort</label>
+                    <label class="form-label fw-semibold">Select Visit Mission</label>
                     <select class="form-select" id="churn-cohort-select">
-                      <option value="baseline">All Cohorts (Baseline)</option>
-                      <option value="brand_loyal">Brand Loyal - Delayed Ramp</option>
-                      <option value="value_conscious">Value Conscious - Moderate</option>
-                      <option value="deal_seeker">Deal Seeker - Sharp Spike!</option>
-                      <option value="trend_driven">Trend Driven - Conditional</option>
-                      <option value="channel_switcher">Channel Switcher</option>
-                      <option value="premium_loyal">Premium Loyal - Gentle Slope</option>
-                      <option value="at_risk">At Risk - Accelerating</option>
+                      <option value="baseline">All Visit Missions</option>
+                      <option value="brand_loyal">Family Ritual Loyalists</option>
+                      <option value="value_conscious">Value Bundle Shoppers</option>
+                      <option value="deal_seeker">Coupon-Driven Guests</option>
+                      <option value="trend_driven">Premium Crust Explorers</option>
+                      <option value="channel_switcher">Carryout / App Switchers</option>
+                      <option value="premium_loyal">Premium Pizza Loyalists</option>
+                      <option value="at_risk">Lapse-Risk Guests</option>
                     </select>
-                    <small class="text-muted">Watch curves change shape and cross as you switch cohorts!</small>
+                    <small class="text-muted">Compare how repeat-visit loss builds by visit mission after a price move.</small>
                   </div>
 
                                     <!-- Price Increase Slider -->
@@ -1001,10 +1001,10 @@
 
                   <!-- Tier Selection (Button Group) -->
                   <div class="mb-4">
-                    <label class="form-label fw-semibold">Current Channel Price</label>
+                    <label class="form-label fw-semibold">Select Menu Ladder</label>
                     <div class="d-flex gap-2">
-                      <button class="btn btn-sm btn-outline-primary tier-btn active" data-group="value_entry">Entry &amp; Value</button>
-                      <button class="btn btn-sm btn-outline-primary tier-btn" data-group="core_premium">Core &amp; Premium</button>
+                      <button class="btn btn-sm btn-outline-primary tier-btn active" data-group="value_entry">Entry &amp; Value Meals</button>
+                      <button class="btn btn-sm btn-outline-primary tier-btn" data-group="core_premium">Core &amp; Premium Meals</button>
                     </div>
                   </div>
 
@@ -1166,29 +1166,29 @@
 
           </div>
 
-          <!-- TAB 3: Channel Mix Migration -->
+          <!-- TAB 3: Order Channel Migration -->
           <div class="tab-pane fade" id="migration-pane" role="tabpanel">
 
             <div class="row g-4">
               <!-- Left Column: Controls -->
               <div class="col-lg-5">
                 <div class="glass-card">
-                  <h5 class="mb-4"><i class="bi bi-sliders me-2"></i>Adjust Channel Group Prices</h5>
+                  <h5 class="mb-4"><i class="bi bi-sliders me-2"></i>Adjust Channel Checks</h5>
 
                   <!-- Cohort Selection -->
                   <div class="mb-4">
-                    <label class="form-label fw-semibold">Select Cohort</label>
+                    <label class="form-label fw-semibold">Select Visit Mission</label>
                     <select class="form-select" id="mig-cohort-select">
-                      <option value="baseline">All Cohorts (Baseline)</option>
-                      <option value="brand_loyal">Brand Loyal</option>
-                      <option value="value_conscious">Value Conscious</option>
-                      <option value="deal_seeker">Deal Seeker</option>
-                      <option value="trend_driven">Trend Driven</option>
-                      <option value="channel_switcher">Channel Switcher - High Asymmetry!</option>
-                      <option value="premium_loyal">Premium Loyal - Upgrade-Willing</option>
-                      <option value="at_risk">At Risk</option>
+                      <option value="baseline">All Visit Missions</option>
+                      <option value="brand_loyal">Family Ritual Loyalists</option>
+                      <option value="value_conscious">Value Bundle Shoppers</option>
+                      <option value="deal_seeker">Coupon-Driven Guests</option>
+                      <option value="trend_driven">Premium Crust Explorers</option>
+                      <option value="channel_switcher">Carryout / App Switchers</option>
+                      <option value="premium_loyal">Premium Pizza Loyalists</option>
+                      <option value="at_risk">Lapse-Risk Guests</option>
                     </select>
-                    <small class="text-muted">See crossover point shift with different cohorts!</small>
+                    <small class="text-muted">See how delivery and owned-channel demand shift by visit mission.</small>
                   </div>
 
                                     <!-- Delivery price slider -->
@@ -1627,7 +1627,7 @@
                   data-bs-custom-class="ml-popover"
                   data-bs-html="true"
                   data-bs-title="<i class='bi bi-cpu me-2'></i>ML Methodology: Multi-Scenario Comparison"
-                  data-bs-content="<strong>Algorithm:</strong> Pareto optimization and multi-objective ranking<br><br><strong>Metrics Normalized:</strong><br>• Net sales impact (% change)<br>• Weekly order growth (% change)<br>• Repeat loss (% change)<br>• AOV (% change)<br>• Contribution value proxy<br><br><strong>Ranking Method:</strong><br>Weighted scoring based on business priorities<br><br><strong>Radar Chart:</strong><br>5-dimensional representation using min-max normalization<br><br><strong>Trade-off Analysis:</strong><br>Scatter plot showing net sales versus weekly order growth with Pareto frontier<br><br><strong>Sensitivity:</strong> Monte Carlo simulation with 10,000 iterations per scenario">
+                  data-bs-content="<strong>Algorithm:</strong> Pareto optimization and multi-objective ranking<br><br><strong>Metrics Normalized:</strong><br>• Net sales impact (% change)<br>• Weekly order growth (% change)<br>• Repeat loss (% change)<br>• AOV (% change)<br>• Contribution value<br><br><strong>Ranking Method:</strong><br>Weighted scoring based on business priorities<br><br><strong>Radar Chart:</strong><br>5-dimensional representation using min-max normalization<br><br><strong>Trade-off Analysis:</strong><br>Scatter plot showing net sales versus weekly order growth with Pareto frontier<br><br><strong>Sensitivity:</strong> Monte Carlo simulation with 10,000 iterations per scenario">
             <i class="bi bi-info-circle text-primary"></i>
           </button>
         </h2>
@@ -1693,7 +1693,7 @@
               Customer Cohorts & Elasticity
             </h2>
             <p class="small text-muted mb-0">
-              Pricing changes don't affect everyone the same way
+              Understand how different customer cohorts respond to pricing - and where to protect traffic versus expand margin.
             </p>
           </div>
         </div>
@@ -1702,11 +1702,17 @@
         <!-- Control Panel -->
         <div class="row g-3 mb-4">
           <div class="col-md-4">
-            <label class="form-label fw-bold">Channel Group</label>
+            <label class="form-label fw-bold d-flex align-items-center gap-2">
+              <span>Price Tier</span>
+              <button type="button" class="btn btn-sm btn-link p-0 text-decoration-none" id="segment-tier-tooltip-trigger" data-bs-toggle="tooltip" data-bs-placement="top" title="Includes full-price pizzas, bundles, and higher-value family orders.">
+                <i class="bi bi-info-circle"></i>
+              </button>
+            </label>
             <select id="segment-tier-select" class="form-select">
-              <option value="ad_supported">Entry &amp; Value</option>
-              <option value="ad_free" selected>Core &amp; Premium</option>
+              <option value="ad_supported">Entry &amp; Value Meals</option>
+              <option value="ad_free" selected>Core &amp; Premium Meals</option>
             </select>
+            <div class="small text-muted mt-2" id="segment-tier-helper">Includes full-price pizzas, bundles, and higher-value family orders.</div>
           </div>
           <div class="col-md-4">
             <label class="form-label fw-bold">Axis</label>
@@ -1716,9 +1722,9 @@
               <option value="monetization">Monetization</option>
             </select>
             <div class="small text-muted mt-2">
-              <div><strong>Acquisition:</strong> <span id="segment-axis-helper-acquisition">Price Sensitivity - Promo Driven</span></div>
-              <div><strong>Engagement:</strong> <span id="segment-axis-helper-engagement">Loyalty &amp; Retention</span></div>
-              <div><strong>Monetization:</strong> <span id="segment-axis-helper-monetization">Basket Value &amp; Spend</span></div>
+              <div><strong>Acquisition:</strong> <span id="segment-axis-helper-acquisition">New or occasional customers driven by promotions and price sensitivity</span></div>
+              <div><strong>Engagement:</strong> <span id="segment-axis-helper-engagement">Repeat behavior, loyalty strength, and retention risk</span></div>
+              <div><strong>Monetization:</strong> <span id="segment-axis-helper-monetization">Basket size, upsell behavior, and premium add-ons</span></div>
             </div>
           </div>
           <div class="col-md-4">
@@ -1764,12 +1770,12 @@
           <div class="segment-framework-copy">
             <div class="segment-framework-kicker">Cohort Framework</div>
             <div class="segment-framework-title">Read pricing through customer behavior, not one average.</div>
-            <div class="segment-framework-note">This screen separates traffic response, loyalty risk, and basket value so each pricing action stays targeted.</div>
+            <div class="segment-framework-note">Understand how different customer cohorts respond to pricing - and identify where to increase price, protect volume, or drive premium spend.</div>
           </div>
           <div class="segment-framework-pills">
-            <span class="segment-framework-pill is-acquisition">Acquisition: Price Sensitivity - Promo Driven</span>
-            <span class="segment-framework-pill is-engagement">Engagement: Loyalty &amp; Retention</span>
-            <span class="segment-framework-pill is-monetization">Monetization: Basket Value &amp; Spend</span>
+            <span class="segment-framework-pill is-acquisition">Acquisition: New or occasional customers driven by promotions and price sensitivity</span>
+            <span class="segment-framework-pill is-engagement">Engagement: Repeat behavior, loyalty strength, and retention risk</span>
+            <span class="segment-framework-pill is-monetization">Monetization: Basket size, upsell behavior, and premium add-ons</span>
           </div>
         </div>
 
@@ -1784,17 +1790,17 @@
           <div class="row g-3">
             <div class="col-md-4">
               <label class="form-label fw-bold small text-uppercase">Acquisition</label>
-              <div class="small text-muted mb-2">Price Sensitivity - Promo Driven</div>
+              <div class="small text-muted mb-2">New or occasional customers driven by promotions and price sensitivity</div>
               <div id="acquisition-filters" class="filter-pills d-flex flex-wrap gap-2"></div>
             </div>
             <div class="col-md-4">
               <label class="form-label fw-bold small text-uppercase">Engagement</label>
-              <div class="small text-muted mb-2">Loyalty &amp; Retention</div>
+              <div class="small text-muted mb-2">Repeat behavior, loyalty strength, and retention risk</div>
               <div id="engagement-filters" class="filter-pills d-flex flex-wrap gap-2"></div>
             </div>
             <div class="col-md-4">
               <label class="form-label fw-bold small text-uppercase">Monetization</label>
-              <div class="small text-muted mb-2">Basket Value &amp; Spend</div>
+              <div class="small text-muted mb-2">Basket size, upsell behavior, and premium add-ons</div>
               <div id="monetization-filters" class="filter-pills d-flex flex-wrap gap-2"></div>
             </div>
           </div>
@@ -1867,11 +1873,11 @@
                 <div id="channel-elasticity-bar"></div>
               </div>
               <div class="col-12">
-                <h4 class="h6 text-uppercase text-muted mb-2">Heatmap: Channel × Elasticity &amp; group</h4>
+                <h4 class="h6 text-uppercase text-muted mb-2">Heatmap: Channel × Price-Tier Sensitivity</h4>
                 <div id="channel-elasticity-heatmap"></div>
               </div>
               <div class="col-12">
-                <h4 class="h6 text-uppercase text-muted mb-2">Menu ladder summary (elasticity &amp; mix)</h4>
+                <h4 class="h6 text-uppercase text-muted mb-2">Price-tier summary (elasticity &amp; mix)</h4>
                 <div id="channel-summary"></div>
               </div>
             </div>
@@ -1918,7 +1924,7 @@
                 Waiting for segment comparison data.
               </p>
             </div>
-            <span class="segment-analysis-live-pill" id="segment-analysis-live-pill">Core &amp; Premium</span>
+            <span class="segment-analysis-live-pill" id="segment-analysis-live-pill">Core &amp; Premium Meals view</span>
           </div>
         </div>
 
@@ -1931,13 +1937,13 @@
               <option value="engagement" selected>Engagement</option>
               <option value="monetization">Monetization</option>
             </select>
-            <div class="form-text" id="compare-axis-helper">Loyalty &amp; Retention</div>
+            <div class="form-text" id="compare-axis-helper">Repeat behavior, loyalty strength, and retention risk</div>
           </div>
           <div class="col-md-4">
-            <label class="form-label fw-bold">Channel Group</label>
+            <label class="form-label fw-bold">Price Tier</label>
             <select id="compare-tier-select" class="form-select">
-              <option value="ad_supported">Entry &amp; Value</option>
-              <option value="ad_free" selected>Core &amp; Premium</option>
+              <option value="ad_supported">Entry &amp; Value Meals</option>
+              <option value="ad_free" selected>Core &amp; Premium Meals</option>
             </select>
           </div>
           <div class="col-md-4">
@@ -2179,7 +2185,7 @@
 
             <!-- Tier Selection (readonly) -->
             <div class="mb-3">
-              <label class="form-label fw-bold">Channel Group</label>
+              <label class="form-label fw-bold">Price Tier</label>
               <input type="text" class="form-control" id="edit-tier" readonly>
             </div>
 
@@ -2283,7 +2289,7 @@
           <div class="card mb-3">
             <div class="card-header"><strong>Weekly Orders</strong></div>
             <div class="card-body">
-              <code>Weekly Orders = Sum of transaction_count_proxy across the latest Pizza Hut week</code>
+              <code>Weekly Orders = Sum of orders across the latest Pizza Hut week</code>
               <p class="small text-muted mt-2 mb-0">Built from the current store-channel operating panel for the active Pizza Hut view.</p>
             </div>
           </div>
@@ -2310,33 +2316,6 @@
               <code>Contribution Margin Rate = Contribution Margin / Weekly Net Sales</code>
               <p class="small text-muted mt-2 mb-0">Uses the latest modeled Pizza Hut week to show margin posture after fulfillment and promo pressure.</p>
             </div>
-          </div>
-
-          <div class="d-none">
-
-          <div class="card mb-3">
-            <div class="card-header"><strong>Average Order Value (AOV)</strong></div>
-            <div class="card-body">
-              <code>Average Order Value = Total Revenue / Weekly Orders</code>
-              <p class="small text-muted mt-2 mb-0">Calculated from the latest weekly store-channel operating panel</p>
-            </div>
-          </div>
-
-          <div class="card mb-3">
-            <div class="card-header"><strong>Customer Lifetime Value (LTV)</strong></div>
-            <div class="card-body">
-              <code>LTV = AOV × Average Tenure (months) × (1 - Repeat Loss Rate)</code>
-              <p class="small text-muted mt-2 mb-0">Discounted over 24-month horizon at 5% annual rate</p>
-            </div>
-          </div>
-
-          <div class="card mb-3">
-            <div class="card-header"><strong>Repeat Loss Rate</strong></div>
-            <div class="card-body">
-              <code>Monthly Repeat Loss = Lapsed Customers / Active Customers (30-day window)</code>
-              <p class="small text-muted mt-2 mb-0">Smoothed with 90-day moving average</p>
-            </div>
-          </div>
           </div>
 
           <h6 class="mb-3 mt-4"><i class="bi bi-lightbulb me-2"></i> Key Assumptions</h6>
@@ -2573,7 +2552,7 @@
     </div>
   </div>
 
-  <!-- Step 5: Channel Mix Migration -->
+  <!-- Step 5: Order Channel Migration -->
   <div class="modal fade" id="methodology-modal-step5" tabindex="-1" aria-labelledby="methodology-modal-step5-label" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-scrollable">
       <div class="modal-content">

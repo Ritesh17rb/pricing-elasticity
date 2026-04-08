@@ -436,7 +436,7 @@ function createScenariosSheet(scenarios) {
   const data = [
     ['All Scenarios'],
     [],
-    ['ID', 'Name', 'Channel Group', 'Price', 'Revenue %', 'Orders %', 'Repeat Loss pp', 'AOV %']
+    ['ID', 'Name', 'Price Tier', 'Price', 'Revenue %', 'Orders %', 'Repeat Loss pp', 'AOV %']
   ];
 
   scenarios.forEach(s => {

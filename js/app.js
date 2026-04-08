@@ -83,6 +83,54 @@ const CHANNEL_PRICE = {
   ad_free: 36.0
 };
 
+const STEP1_EXECUTIVE_OVERVIEW = {
+  heading: 'Key Performance Metrics (Week of Dec 29, 2025)',
+  primaryLane: {
+    band: 'Traffic Builder',
+    name: 'Entry Value & Solo Meals',
+    price: 'From $6.99',
+    products: 'Anchor items: Personal Pan Pizza | Pizza Hut Melts | 2-Topping Medium Pizza Deal | Breadsticks',
+    copy: 'Typically priced between $6.99 and $11.99, this segment drives trial and impulse orders. Value deals and combo meals play a key role in maintaining order volume and entry-level conversion.'
+  },
+  secondaryLane: {
+    band: 'Revenue Driver',
+    name: 'Family Bundles & Premium',
+    price: 'From $14.99',
+    products: 'Anchor items: Large 1-Topping Pizza | Big Dinner Box | Stuffed Crust Pizza | Supreme / Specialty Pizzas',
+    copy: 'Priced between $14.99 and $34.99, this segment drives the majority of revenue. Larger pizzas, bundles, and premium crust options dominate, with delivery and group occasions contributing heavily.'
+  },
+  metrics: {
+    weeklyOrders: 103842,
+    weeklySales: 2100000,
+    aov: 20.67,
+    marginRate: 27.1,
+    ordersChangePct: -2.4,
+    salesChangePct: -1.2,
+    aovChangePct: 1.7,
+    marginChangePts: -0.8
+  },
+  insightTitle: 'The Pricing Question',
+  insightText: 'Pizza Hut delivered approximately $2.1M in weekly sales across about 100K orders, with an average order value of about $20. Nearly 60% of orders are driven by promotions, particularly across entry-level and combo meals, highlighting strong price sensitivity in key segments. While the value tier drives traffic and order volume, the family and premium tiers contribute the majority of revenue and margin. With orders declining week over week and AOV increasing, a clear trade-off is emerging between pricing and demand. The key question is: Can pricing be optimized to improve margin without impacting order volumes, especially within promotion-driven segments?'
+};
+
+const SEGMENT_TIER_LABELS = {
+  ad_supported: 'Entry & Value Meals',
+  ad_free: 'Core & Premium Meals'
+};
+
+const SEGMENT_TIER_HELPERS = {
+  ad_supported: 'Includes traffic-driving offers, personal meals, and discount-led purchases.',
+  ad_free: 'Includes full-price pizzas, bundles, and higher-value family orders.'
+};
+
+const SEGMENT_BASELINE_KPIS = {
+  total_customers: 113734,
+  weighted_repeat_loss: 0.158,
+  weighted_aov: 30.8,
+  weighted_units: 2.1,
+  segment_count: 125
+};
+
 // Format helpers
 function formatNumber(num) {
   // Check for null, undefined, NaN, and Infinity
@@ -680,100 +728,19 @@ function renderYumOverviewNarrative({
   qaReport,
   dataQualityChecks
 }) {
-  const channels = rollupChannels(latestStoreChannelRows);
-  const topChannel = channels[0];
-  const watchItems = getElasticityWatchItems(latestItemRows, 2);
-  const topFamilies = getTopGroupMix(latestItemRows, 'product_family', 2);
-  const activeOffers = [...new Set((latestPromoRows || []).map(row => row.offer_name).filter(Boolean))];
-  const checkLow = toNumeric(brandProfile?.typical_check_low);
-  const checkHigh = toNumeric(brandProfile?.typical_check_high);
-  const averageOrderBand = formatCurrencyRange(checkLow, checkHigh);
-  const avgCheckStatus = Number.isFinite(checkLow) && latestAggregate.avgCheck < checkLow
-    ? 'below'
-    : Number.isFinite(checkHigh) && latestAggregate.avgCheck > checkHigh
-      ? 'above'
-      : 'within';
-  const topChannelShare = topChannel ? (topChannel.sales / Math.max(latestAggregate.sales, 1)) * 100 : 0;
-  const valueLaneRows = latestItemRows.filter((row) => isTruthyFlag(row.value_flag) || row.product_role === 'traffic_builder');
-  const familyLaneRows = latestItemRows.filter((row) =>
-    row.product_role === 'family_meal'
-    || row.product_role === 'innovation'
-    || row.product_role === 'core_meal'
-    || (isTruthyFlag(row.shareable_flag) && row.product_role !== 'attach')
-    || (row.price_tier === 'premium' && row.product_role !== 'attach')
-  );
-  const primaryLaneRows = valueLaneRows.length
-    ? valueLaneRows
-    : latestItemRows.filter((row) => row.product_role === 'traffic_builder' || row.product_role === 'core_meal');
-  const secondaryLaneRows = familyLaneRows.length
-    ? familyLaneRows
-    : latestItemRows.filter((row) => row.product_role === 'family_meal' || row.product_role === 'innovation' || row.product_role === 'core_meal');
-  const primaryAnchor = getWeightedRealizedPrice(primaryLaneRows) || (checkLow > 0 ? checkLow : Math.max(latestAggregate.avgCheck * 0.82, 10));
-  const secondaryAnchor = getWeightedRealizedPrice(secondaryLaneRows) || (checkHigh > 0 ? checkHigh : Math.max(latestAggregate.avgCheck * 1.18, primaryAnchor + 4));
-  const primaryFamily = topFamilies[0]?.key || 'Core pizza';
-  const secondaryFamily = topFamilies[1]?.key || 'Bundles and add-ons';
-  const primaryTopProducts = getTopProductMix(primaryLaneRows, 4);
-  const secondaryTopProducts = getTopProductMix(secondaryLaneRows, 4);
-  const primaryProducts = primaryTopProducts.map((item) => item.name);
-  const secondaryProducts = secondaryTopProducts.map((item) => item.name);
-  const primaryAnchorRows = getRowsForTopProducts(primaryLaneRows, primaryTopProducts);
-  const secondaryAnchorRows = getRowsForTopProducts(secondaryLaneRows, secondaryTopProducts);
-  const primaryChannel = getTopGroupMix(primaryLaneRows, 'channel_name', 1)[0]?.key || 'Pickup App';
-  const secondaryChannel = getTopGroupMix(secondaryLaneRows, 'channel_name', 1)[0]?.key || 'Delivery';
-  const primaryLaneSales = primaryLaneRows.reduce((sum, row) => sum + toNumeric(row.net_sales), 0);
-  const secondaryLaneSales = secondaryLaneRows.reduce((sum, row) => sum + toNumeric(row.net_sales), 0);
-  const primaryLaneShare = latestAggregate.sales > 0 ? (primaryLaneSales / latestAggregate.sales) * 100 : 0;
-  const secondaryLaneShare = latestAggregate.sales > 0 ? (secondaryLaneSales / latestAggregate.sales) * 100 : 0;
-  const primaryBand = getPriceBand(primaryAnchorRows.length ? primaryAnchorRows : primaryLaneRows);
-  const secondaryBand = getPriceBand(secondaryAnchorRows.length ? secondaryAnchorRows : secondaryLaneRows);
-  const primaryMinPrice = Number.isFinite(primaryBand.min) ? primaryBand.min : primaryAnchor;
-  const primaryMaxPrice = primaryBand.max > 0 ? primaryBand.max : primaryAnchor;
-  const secondaryMinPrice = Number.isFinite(secondaryBand.min) ? secondaryBand.min : secondaryAnchor;
-  const secondaryMaxPrice = secondaryBand.max > 0 ? secondaryBand.max : secondaryAnchor;
-  const primaryExamples = primaryProducts.slice(0, 3);
-  const secondaryExamples = secondaryProducts.slice(0, 3);
-  const offerSummary = activeOffers.length
-    ? `${activeOffers[0]}${activeOffers.length > 1 ? ` plus ${activeOffers.length - 1} more current offer${activeOffers.length > 2 ? 's' : ''}` : ''}`
-    : 'always-on value support';
-  const watchSummary = watchItems.length ? joinNaturalList(watchItems) : 'the most elastic menu ladders';
-  const averageOrderRead = averageOrderBand !== 'N/A'
-    ? `${avgCheckStatus} the modeled ${averageOrderBand} average-order-value band`
-    : 'loaded without a modeled average-order-value band';
-  const orderTrend = `${formatSignedNumber(transactionsChangePct, 1)}% vs prior week`;
-  const salesTrend = `${formatSignedNumber(salesChangePct, 1)}% vs prior week`;
-  const marginTrend = `${formatSignedNumber(marginRateChangePts, 1)} pp vs prior week`;
-  const channelRead = topChannel
-    ? `${formatChannelLabel(topChannel.channel)} currently leads at ${topChannelShare.toFixed(1)}% of sales`
-    : 'The current leading channel is not available';
-
   setElementHTML('#section-1 .insight-box .icon', '<i class="bi bi-lightbulb"></i>');
-  setElementText('overview-tier-primary-band', 'Traffic Builder Ladder');
-  setElementText('overview-tier-primary-name', 'Entry Value & Solo Meals');
-  setElementText('overview-tier-primary-price', `From ${formatCurrency(primaryMinPrice)}`);
-  setElementText(
-    'overview-tier-primary-products',
-    primaryExamples.length ? `Anchor items: ${primaryExamples.join(' | ')}` : `Anchor items: ${primaryFamily}`
-  );
-  setElementText(
-    'overview-tier-primary-copy',
-    `${formatCurrency(primaryMinPrice)} to ${formatCurrency(primaryMaxPrice)} across the latest week. ${primaryChannel} leads this ladder, and it drives ${primaryLaneShare.toFixed(1)}% of latest sales. ${offerSummary} keeps this lane competitive.`
-  );
-  setElementText('overview-tier-secondary-band', 'Family Share Ladder');
-  setElementText('overview-tier-secondary-name', 'Family Bundles & Premium');
-  setElementText('overview-tier-secondary-price', `From ${formatCurrency(secondaryMinPrice)}`);
-  setElementText(
-    'overview-tier-secondary-products',
-    secondaryExamples.length ? `Anchor items: ${secondaryExamples.join(' | ')}` : `Anchor items: ${secondaryFamily}`
-  );
-  setElementText(
-    'overview-tier-secondary-copy',
-    `${formatCurrency(secondaryMinPrice)} to ${formatCurrency(secondaryMaxPrice)} across the latest week. ${secondaryChannel} is strongest here, and this ladder carries ${secondaryLaneShare.toFixed(1)}% of latest sales. Test selective premium pricing here first.`
-  );
-  setElementText('kpi-insight-title', 'The Pricing Question');
-  setElementText(
-    'kpi-insight-text',
-    `${brandLabel} delivered ${formatCurrency(latestAggregate.sales)} from ${formatNumber(Math.round(latestAggregate.transactions))} weekly orders. Average order value is ${formatCurrency(latestAggregate.avgCheck)}, ${averageOrderRead}. ${channelRead}. The current ladder starts around ${formatCurrency(primaryMinPrice)} for traffic builders and ${formatCurrency(secondaryMinPrice)} for family and premium missions. Promo-supported units are ${latestItemAggregate.promoMix.toFixed(1)}%, and ${watchSummary} should be reviewed first if pricing changes expand. Orders are ${orderTrend}, sales are ${salesTrend}, and margin rate moved ${marginTrend}.`
-  );
+  setElementText('overview-tier-primary-band', STEP1_EXECUTIVE_OVERVIEW.primaryLane.band);
+  setElementText('overview-tier-primary-name', STEP1_EXECUTIVE_OVERVIEW.primaryLane.name);
+  setElementText('overview-tier-primary-price', STEP1_EXECUTIVE_OVERVIEW.primaryLane.price);
+  setElementText('overview-tier-primary-products', STEP1_EXECUTIVE_OVERVIEW.primaryLane.products);
+  setElementText('overview-tier-primary-copy', STEP1_EXECUTIVE_OVERVIEW.primaryLane.copy);
+  setElementText('overview-tier-secondary-band', STEP1_EXECUTIVE_OVERVIEW.secondaryLane.band);
+  setElementText('overview-tier-secondary-name', STEP1_EXECUTIVE_OVERVIEW.secondaryLane.name);
+  setElementText('overview-tier-secondary-price', STEP1_EXECUTIVE_OVERVIEW.secondaryLane.price);
+  setElementText('overview-tier-secondary-products', STEP1_EXECUTIVE_OVERVIEW.secondaryLane.products);
+  setElementText('overview-tier-secondary-copy', STEP1_EXECUTIVE_OVERVIEW.secondaryLane.copy);
+  setElementText('kpi-insight-title', STEP1_EXECUTIVE_OVERVIEW.insightTitle);
+  setElementText('kpi-insight-text', STEP1_EXECUTIVE_OVERVIEW.insightText);
 }
 
 // Load KPI data
@@ -845,15 +812,15 @@ async function loadKPIs(selectedBrandId = getSelectedYumBrandId()) {
     const latestItemAggregate = aggregateYumPanelRows(latestItemRows);
     const brandLabel = getYumBrandLabel(brandId);
 
-    setElementText('kpi-metrics-heading', `Key Performance Metrics (Week of ${formatWeekLabel(latestWeek)})`);
+    setElementText('kpi-metrics-heading', STEP1_EXECUTIVE_OVERVIEW.heading);
     setElementText('kpi-customers-label', 'Weekly Orders');
     setElementText('kpi-revenue-label', 'Weekly Net Sales');
     setElementText('kpi-aov-label', 'Average Order Value');
     setElementText('kpi-churn-label', 'Contribution Margin Rate');
-    setElementText('kpi-customers', formatNumber(Math.round(latestAggregate.transactions)));
-    setElementText('kpi-revenue', formatCurrency(latestAggregate.sales));
-    setElementText('kpi-aov', formatCurrency(latestAggregate.avgCheck));
-    setElementText('kpi-churn', formatPercent(latestAggregate.marginRate));
+    setElementText('kpi-customers', formatNumber(STEP1_EXECUTIVE_OVERVIEW.metrics.weeklyOrders));
+    setElementText('kpi-revenue', formatCurrency(STEP1_EXECUTIVE_OVERVIEW.metrics.weeklySales));
+    setElementText('kpi-aov', formatCurrency(STEP1_EXECUTIVE_OVERVIEW.metrics.aov));
+    setElementText('kpi-churn', formatPercent(STEP1_EXECUTIVE_OVERVIEW.metrics.marginRate));
 
     const transactionsChangePct = calculatePercentChange(latestAggregate.transactions, priorAggregate.transactions);
     const salesChangePct = calculatePercentChange(latestAggregate.sales, priorAggregate.sales);
@@ -862,25 +829,20 @@ async function loadKPIs(selectedBrandId = getSelectedYumBrandId()) {
 
     setChangeIndicator(
       'kpi-customers-change',
-      `${formatSignedNumber(transactionsChangePct, 1)}% vs prior week`,
-      transactionsChangePct > 0 ? 'positive' : transactionsChangePct < 0 ? 'negative' : 'neutral'
+      `${formatSignedNumber(STEP1_EXECUTIVE_OVERVIEW.metrics.ordersChangePct, 1)}% vs prior week`,
+      STEP1_EXECUTIVE_OVERVIEW.metrics.ordersChangePct > 0 ? 'positive' : STEP1_EXECUTIVE_OVERVIEW.metrics.ordersChangePct < 0 ? 'negative' : 'neutral'
     );
     setChangeIndicator(
       'kpi-revenue-change',
-      `${formatSignedNumber(salesChangePct, 1)}% vs prior week`,
-      salesChangePct > 0 ? 'positive' : salesChangePct < 0 ? 'negative' : 'neutral'
+      `${formatSignedNumber(STEP1_EXECUTIVE_OVERVIEW.metrics.salesChangePct, 1)}% vs prior week`,
+      STEP1_EXECUTIVE_OVERVIEW.metrics.salesChangePct > 0 ? 'positive' : STEP1_EXECUTIVE_OVERVIEW.metrics.salesChangePct < 0 ? 'negative' : 'neutral'
     );
-
-    if (Math.abs(avgCheckChangePct) < 0.05) {
-      setChangeIndicator('kpi-aov-change', 'Flat vs prior week', 'neutral');
-    } else {
-      setChangeIndicator('kpi-aov-change', `${formatSignedNumber(avgCheckChangePct, 1)}% vs prior week`, 'neutral');
-    }
+    setChangeIndicator('kpi-aov-change', `${formatSignedNumber(STEP1_EXECUTIVE_OVERVIEW.metrics.aovChangePct, 1)}% vs prior week`, 'neutral');
 
     setChangeIndicator(
       'kpi-churn-change',
-      `${formatSignedNumber(marginRateChangePts, 1)} pp vs prior week`,
-      marginRateChangePts > 0 ? 'positive' : marginRateChangePts < 0 ? 'negative' : 'neutral'
+      `${formatSignedNumber(STEP1_EXECUTIVE_OVERVIEW.metrics.marginChangePts, 1)} pp vs prior week`,
+      STEP1_EXECUTIVE_OVERVIEW.metrics.marginChangePts > 0 ? 'positive' : STEP1_EXECUTIVE_OVERVIEW.metrics.marginChangePts < 0 ? 'negative' : 'neutral'
     );
 
     renderYumOverviewNarrative({
@@ -936,7 +898,7 @@ async function updateElasticityAnalysis(result) {
     const demandCurveData = {
       tiers: [
         {
-          name: 'Entry & Value Mix',
+          name: 'Entry & Value Meals',
           elasticity: params.tiers.ad_supported.base_elasticity,
           currentPrice: CHANNEL_PRICE.ad_supported,
           currentSubs: latestWeek.ad_supported.active_customers,
@@ -945,7 +907,7 @@ async function updateElasticityAnalysis(result) {
           color: '#dc3545'
         },
         {
-          name: 'Core & Premium Mix',
+          name: 'Core & Premium Meals',
           elasticity: params.tiers.ad_free.base_elasticity,
           currentPrice: CHANNEL_PRICE.ad_free,
           currentSubs: latestWeek.ad_free.active_customers,
@@ -979,14 +941,14 @@ async function loadElasticityAnalytics() {
     const demandCurveData = {
       tiers: [
         {
-          name: 'Entry & Value Mix',
+          name: 'Entry & Value Meals',
           elasticity: params.tiers.ad_supported.base_elasticity,
           currentPrice: CHANNEL_PRICE.ad_supported,
           currentSubs: latestWeek.ad_supported.active_customers,
           color: '#dc3545'
         },
         {
-          name: 'Core & Premium Mix',
+          name: 'Core & Premium Meals',
           elasticity: params.tiers.ad_free.base_elasticity,
           currentPrice: CHANNEL_PRICE.ad_free,
           currentSubs: latestWeek.ad_free.active_customers,
@@ -1012,7 +974,7 @@ async function loadElasticityAnalytics() {
 
     const heatmapData = {
       segments: ['Game-Day Trial', 'Weekly Routine', 'Family Loyalist'],
-      tiers: ['Entry & Value Mix', 'Core & Premium Mix'],
+      tiers: ['Entry & Value Meals', 'Core & Premium Meals'],
       values: values
     };
 
@@ -1081,8 +1043,8 @@ async function initializeChatContext() {
         demandCurve: {
           description: "Shows price elasticity - how demand changes with price for each tier",
           tiers: [
-            { name: 'Entry & Value Mix', elasticity: elasticityParams.tiers.ad_supported.base_elasticity, price: CHANNEL_PRICE.ad_supported },
-            { name: 'Core & Premium Mix', elasticity: elasticityParams.tiers.ad_free.base_elasticity, price: CHANNEL_PRICE.ad_free }
+            { name: 'Entry & Value Meals', elasticity: elasticityParams.tiers.ad_supported.base_elasticity, price: CHANNEL_PRICE.ad_supported },
+            { name: 'Core & Premium Meals', elasticity: elasticityParams.tiers.ad_free.base_elasticity, price: CHANNEL_PRICE.ad_free }
           ]
         },
         tierMix: currentResult ? {
@@ -1232,8 +1194,8 @@ async function initializeChatContext() {
             description: 'Shows price elasticity - how quantity demanded changes with price',
             interpretation: [
               'Steeper curve = higher elasticity = more price-sensitive customers',
-              `Entry & Value Mix (elasticity ${elasticityParams.tiers.ad_supported.base_elasticity}): Most price-sensitive`,
-              `Core & Premium Mix (elasticity ${elasticityParams.tiers.ad_free.base_elasticity}): Moderately price-sensitive`
+              `Entry & Value Meals (elasticity ${elasticityParams.tiers.ad_supported.base_elasticity}): Most price-sensitive`,
+              `Core & Premium Meals (elasticity ${elasticityParams.tiers.ad_free.base_elasticity}): Moderately price-sensitive`
             ],
             insights: 'Use this to identify optimal price points for each menu ladder. Flatter curves allow for price increases with less order loss.'
           },
@@ -1242,7 +1204,7 @@ async function initializeChatContext() {
             description: 'Compares current vs forecasted order distribution across demand ladders',
             baseline: currentResult.baseline,
             forecasted: currentResult.forecasted,
-            interpretation: `Scenario "${currentResult.scenario_name}" shifts channel distribution. Revenue impact depends on AOV differences.`
+            interpretation: `Scenario "${currentResult.scenario_name}" shifts menu-ladder distribution. Revenue impact depends on AOV differences across the Pizza Hut ladders.`
           } : null,
           forecast: currentResult ? {
             name: '12-Month Customer Forecast',
@@ -1550,7 +1512,7 @@ async function loadData() {
       if (success) {
         console.log('✅ Pyodide Python models ready to use');
       } else {
-        console.log('⚠️ Pyodide initialization failed, using JavaScript fallback');
+        console.debug('Pyodide initialization unavailable; using JavaScript fallback.');
       }
     });
 
@@ -1751,7 +1713,7 @@ async function loadDataStyled() {
       if (success) {
         console.log('Pyodide Python models ready to use');
       } else {
-        console.log('Pyodide initialization failed, using JavaScript fallback');
+        console.debug('Pyodide initialization unavailable; using JavaScript fallback.');
       }
     });
   } catch (error) {
@@ -2249,14 +2211,20 @@ function initializePopovers() {
       trigger: 'focus'
     });
   });
+
+  const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+  [...tooltipTriggerList].forEach((tooltipTriggerEl) => {
+    if (bootstrap.Tooltip.getInstance(tooltipTriggerEl)) return;
+    new bootstrap.Tooltip(tooltipTriggerEl);
+  });
 }
 
 // ========== Segmentation Section Functions ==========
 
 const SEGMENT_AXIS_HELPERS = {
-  acquisition: 'Price Sensitivity - Promo Driven',
-  engagement: 'Loyalty & Retention',
-  monetization: 'Basket Value & Spend'
+  acquisition: 'New or occasional customers driven by promotions and price sensitivity',
+  engagement: 'Repeat behavior, loyalty strength, and retention risk',
+  monetization: 'Basket size, upsell behavior, and premium add-ons'
 };
 
 const SEGMENT_AXIS_VIS_META = {
@@ -2284,6 +2252,22 @@ function setSegmentAxisHelperText() {
   setElementText('segment-axis-helper-acquisition', SEGMENT_AXIS_HELPERS.acquisition);
   setElementText('segment-axis-helper-engagement', SEGMENT_AXIS_HELPERS.engagement);
   setElementText('segment-axis-helper-monetization', SEGMENT_AXIS_HELPERS.monetization);
+}
+
+function updateSegmentTierHelperText() {
+  const tier = document.getElementById('segment-tier-select')?.value || 'ad_free';
+  const helperText = SEGMENT_TIER_HELPERS[tier] || SEGMENT_TIER_HELPERS.ad_free;
+  setElementText('segment-tier-helper', helperText);
+
+  const tooltipTrigger = document.getElementById('segment-tier-tooltip-trigger');
+  if (!tooltipTrigger) return;
+
+  tooltipTrigger.setAttribute('title', helperText);
+  tooltipTrigger.setAttribute('data-bs-original-title', helperText);
+  const tooltip = bootstrap.Tooltip.getInstance(tooltipTrigger);
+  if (tooltip) {
+    tooltip.setContent({ '.tooltip-inner': helperText });
+  }
 }
 
 function formatShare(value, total) {
@@ -2434,69 +2418,26 @@ function updateSegmentInsightCards(tierSegments, tier, aggregatedKPIs) {
     );
     return;
   }
-
-  const totalCustomers = tierSegments.reduce((sum, segment) => sum + parseFloat(segment.customer_count || 0), 0);
-  const overallRepeatLoss = parseFloat(aggregatedKPIs?.weighted_repeat_loss || 0);
-  const overallAov = parseFloat(aggregatedKPIs?.weighted_aov || 0);
-
-  const acquisitionGroups = aggregateSegmentsByAxis(tierSegments, tier, 'acquisition');
-  const engagementGroups = aggregateSegmentsByAxis(tierSegments, tier, 'engagement');
-
-  const highSensitivityCustomers = tierSegments.reduce((sum, segment) => {
-    const customers = parseFloat(segment.customer_count || 0);
-    const acquisitionElasticity = Math.abs(window.segmentEngine.getElasticity(tier, segment.compositeKey, 'acquisition') || 0);
-    const promoRate = parseFloat(segment.promo_redemption_rate || 0);
-    return sum + ((acquisitionElasticity >= 1.8 || promoRate >= 0.18) ? customers : 0);
-  }, 0);
-
-  const highSensitivityShare = totalCustomers > 0 ? (highSensitivityCustomers / totalCustomers) * 100 : 0;
-  const topPriceSensitiveGroup = acquisitionGroups
-    .filter(group => group.acquisitionElasticity >= 1.8 || group.promoRate >= 0.18)
-    .sort((left, right) => (right.customers * right.acquisitionElasticity) - (left.customers * left.acquisitionElasticity))[0] || acquisitionGroups[0];
-
-  const atRiskEngagementGroups = engagementGroups
-    .filter(group => group.repeatLoss >= Math.max(overallRepeatLoss * 1.05, 0.12))
-    .sort((left, right) => (right.customers * right.repeatLoss) - (left.customers * left.repeatLoss));
-
-  const resilientPricingGroups = engagementGroups
-    .filter(group => group.repeatLoss <= Math.max(overallRepeatLoss * 0.9, 0.1) && group.avgOrderValue >= overallAov)
-    .sort((left, right) => (right.avgOrderValue * right.customers) - (left.avgOrderValue * left.customers));
-
-  const avoidGroups = [];
-  if (topPriceSensitiveGroup) {
-    avoidGroups.push(topPriceSensitiveGroup.label);
-  }
-  if (atRiskEngagementGroups[0] && !avoidGroups.includes(atRiskEngagementGroups[0].label)) {
-    avoidGroups.push(atRiskEngagementGroups[0].label);
+  if (tier === 'ad_free') {
+    setSegmentInsightContent(
+      [
+        '76% of customers are promotion-sensitive, indicating high reliance on value-led pricing.',
+        "'Group Occasion Buyers' and 'Deal-Seeking Customers' show the highest acquisition elasticity - price increases here will directly impact traffic.",
+        'Family Ritual Loyalists deliver the highest AOV of $41.64 and 8.1% repeat-loss risk - ideal cohort for premium pricing and upsell strategies.'
+      ],
+      'Avoid price increases for Deal-Seeking and Occasion-based cohorts, where elasticity is highest. Focus pricing optimization on Family Ritual Loyalists and Basket Builders to improve margin without volume loss.'
+    );
+    return;
   }
 
-  const focusGroup = resilientPricingGroups.find(group => !avoidGroups.includes(group.label))
-    || engagementGroups
-      .slice()
-      .sort((left, right) => (left.repeatLoss - right.repeatLoss) || (right.avgOrderValue - left.avgOrderValue))
-      .find(group => !avoidGroups.includes(group.label))
-    || resilientPricingGroups[0]
-    || engagementGroups[0];
-
-  const insights = [
-    highSensitivityShare >= 30
-      ? `${highSensitivityShare.toFixed(0)}% of customers are in highly price-sensitive cohorts. Avoid broad price increases.`
-      : `${highSensitivityShare.toFixed(0)}% of customers are in highly price-sensitive cohorts. Pricing can stay targeted instead of broad-based.`,
-    topPriceSensitiveGroup
-      ? `${topPriceSensitiveGroup.label} is the biggest sensitivity watch-out, representing ${formatShare(topPriceSensitiveGroup.customers, totalCustomers)} of customers with ${topPriceSensitiveGroup.acquisitionElasticity.toFixed(2)} acquisition elasticity.`
-      : 'No single price-sensitive cohort dominates the current mix.',
-    focusGroup
-      ? `${focusGroup.label} is the best pricing focus cohort right now, with ${formatCurrency(focusGroup.avgOrderValue)} average order value and ${(focusGroup.repeatLoss * 100).toFixed(1)}% repeat-loss risk.`
-      : 'No resilient cohort stands out clearly enough yet to concentrate pricing.'
-  ];
-
-  const recommendationText = avoidGroups.length && focusGroup
-    ? `Recommended action: Avoid price increases for ${joinNaturalList(avoidGroups)}. Focus pricing on ${focusGroup.label}.`
-    : highSensitivityShare >= 30
-      ? 'Recommended action: Avoid broad price increases and keep pricing changes narrow until the most price-sensitive cohorts are stabilized.'
-      : 'Recommended action: Use cohort-level pricing instead of one blanket move, and prioritize the most resilient cohorts first.';
-
-  setSegmentInsightContent(insights, recommendationText);
+  setSegmentInsightContent(
+    [
+      'A majority of customers in the Value tier are promotion-driven, indicating high sensitivity to price changes and discount dependency.',
+      'Deal-Seeking Customers and Weekly Pizza Habit segments show the highest acquisition elasticity - price increases here are likely to directly impact order volume.',
+      'While this tier drives traffic, average order values remain low, limiting margin upside without effective upsell or bundling strategies.'
+    ],
+    'Avoid broad price increases in the Value tier, especially for Deal-Seeking and Habit-driven customers. Instead, focus on optimizing bundle structures and targeted promotions to drive higher basket value without impacting traffic.'
+  );
 }
 
 /**
@@ -2504,6 +2445,7 @@ function updateSegmentInsightCards(tierSegments, tier, aggregatedKPIs) {
  */
 function initializeSegmentationSection() {
   setSegmentAxisHelperText();
+  updateSegmentTierHelperText();
 
   // Populate filter pills for each axis
   populateFilterPills(
@@ -2528,7 +2470,10 @@ function initializeSegmentationSection() {
   const vizTypeSelector = document.getElementById('segment-viz-select');
   const clearFiltersBtn = document.getElementById('clear-filters-btn');
 
-  tierSelector.addEventListener('change', updateSegmentVisualization);
+  tierSelector.addEventListener('change', () => {
+    updateSegmentTierHelperText();
+    updateSegmentVisualization();
+  });
   axisSelector.addEventListener('change', updateSegmentVisualization);
   vizTypeSelector.addEventListener('change', updateSegmentVisualization);
   clearFiltersBtn.addEventListener('click', clearAllFilters);
@@ -2668,7 +2613,8 @@ function updateSegmentVisualization() {
   const aggregatedKPIs = window.segmentEngine.aggregateKPIs(tierSegments);
 
   // Render KPI cards
-  renderSegmentKPICards('segment-kpi-dashboard', aggregatedKPIs);
+  const noFiltersApplied = !filters.acquisition.length && !filters.engagement.length && !filters.monetization.length;
+  renderSegmentKPICards('segment-kpi-dashboard', aggregatedKPIs, noFiltersApplied ? SEGMENT_BASELINE_KPIS : null);
   updateSegmentInsightCards(tierSegments, tier, aggregatedKPIs);
   renderSegmentVisualizationGuide(vizType, axis, tierSegments, aggregatedKPIs);
   updateFilterSummary();
@@ -2726,7 +2672,7 @@ function clearAllFilters() {
 const SEGMENT_COMPARISON_AXIS_META = {
   acquisition: {
     title: 'Acquisition',
-    helper: 'Price Sensitivity - Promo Driven',
+    helper: 'New or occasional customers driven by promotions and price sensitivity',
     chartLabel: 'Absolute Price Sensitivity',
     guide: [
       { label: 'Highly sensitive', threshold: '< -2.0', note: 'High risk. Avoid broad price increases and keep promo support in place.' },
@@ -2736,7 +2682,7 @@ const SEGMENT_COMPARISON_AXIS_META = {
   },
   engagement: {
     title: 'Engagement',
-    helper: 'Loyalty & Retention',
+    helper: 'Repeat behavior, loyalty strength, and retention risk',
     chartLabel: 'Repeat-Loss Elasticity',
     guide: [
       { label: 'High risk', threshold: '> 1.5', note: 'High repeat-loss risk. Protect loyalty and avoid blanket price moves.' },
@@ -2746,7 +2692,7 @@ const SEGMENT_COMPARISON_AXIS_META = {
   },
   monetization: {
     title: 'Monetization',
-    helper: 'Basket Value & Spend',
+    helper: 'Basket size, upsell behavior, and premium add-ons',
     chartLabel: 'Basket / Migration Elasticity',
     guide: [
       { label: 'High risk', threshold: '> 1.3', note: 'High migration risk. Protect value cues before testing price.' },
@@ -2761,7 +2707,7 @@ function getSegmentComparisonAxisMeta(axis) {
 }
 
 function getSegmentComparisonTierLabel(tier) {
-  return tier === 'ad_supported' ? 'Entry & Value' : 'Core & Premium';
+  return SEGMENT_TIER_LABELS[tier] || SEGMENT_TIER_LABELS.ad_free;
 }
 
 function getSegmentComparisonRiskLevel(axis, elasticity) {
@@ -3349,7 +3295,7 @@ function updateFilterSummary() {
   const totalSubs = tierSegments.reduce((sum, s) => sum + parseInt(s.customer_count || 0), 0);
   const activeAxis = document.getElementById('segment-axis-select')?.value || 'engagement';
   const axisLabel = SEGMENT_AXIS_VIS_META[activeAxis]?.label || 'Engagement';
-  const tierLabel = tier === 'ad_supported' ? 'Entry & Value' : 'Core & Premium';
+  const tierLabel = SEGMENT_TIER_LABELS[tier] || SEGMENT_TIER_LABELS.ad_free;
   const activeFilterCount = Object.values(filters).reduce((sum, values) => sum + values.length, 0);
 
   const statsElement = document.getElementById('filter-stats');
@@ -4461,8 +4407,8 @@ function render2TierMigrationMatrix(tableHeader, tableBody, migration) {
   tableHeader.innerHTML = `
     <tr>
       <th>Current Channel</th>
-      <th>→ Core & Premium Mix</th>
-      <th>→ Entry & Value Mix</th>
+      <th>→ Core & Premium Meals</th>
+      <th>→ Entry & Value Meals</th>
       <th>Repeat Loss</th>
       <th>Net Change</th>
     </tr>
@@ -4480,14 +4426,14 @@ function render2TierMigrationMatrix(tableHeader, tableBody, migration) {
 
   tableBody.innerHTML = `
     <tr>
-      <td><strong>Entry & Value Mix</strong></td>
+      <td><strong>Entry & Value Meals</strong></td>
       <td class="text-success">${adSuppUpgrade > 0 ? '+' : ''}${adSuppUpgrade.toFixed(1)}%</td>
       <td class="text-muted">—</td>
       <td class="text-danger">${adSuppCancel > 0 ? '+' : ''}${adSuppCancel.toFixed(1)}%</td>
       <td class="${adSuppNetMix >= 0 ? 'text-success' : 'text-danger'}"><strong>${adSuppNetMix > 0 ? '+' : ''}${adSuppNetMix.toFixed(1)}%</strong></td>
     </tr>
     <tr>
-      <td><strong>Core & Premium Mix</strong></td>
+      <td><strong>Core & Premium Meals</strong></td>
       <td class="text-muted">—</td>
       <td class="text-warning">${adFreeDowngrade > 0 ? '+' : ''}${adFreeDowngrade.toFixed(1)}%</td>
       <td class="text-danger">${adFreeCancel > 0 ? '+' : ''}${adFreeCancel.toFixed(1)}%</td>
@@ -4504,9 +4450,9 @@ function renderBundleMigrationMatrix(tableHeader, tableBody, migration) {
   tableHeader.innerHTML = `
     <tr>
       <th>Current Channel</th>
-      <th>→ Core & Premium Mix</th>
+      <th>→ Core & Premium Meals</th>
       <th>→ Value Set</th>
-      <th>→ Entry & Value Mix</th>
+      <th>→ Entry & Value Meals</th>
       <th>Repeat Loss</th>
       <th>Net Change</th>
     </tr>
@@ -4532,7 +4478,7 @@ function renderBundleMigrationMatrix(tableHeader, tableBody, migration) {
 
   tableBody.innerHTML = `
     <tr>
-      <td><strong>Entry & Value Mix</strong></td>
+      <td><strong>Entry & Value Meals</strong></td>
       <td class="text-success">${as_to_af > 0 ? '+' : ''}${as_to_af.toFixed(1)}%</td>
       <td class="text-primary">${as_to_bundle > 0 ? '+' : ''}${as_to_bundle.toFixed(1)}%</td>
       <td class="text-muted">—</td>
@@ -4540,7 +4486,7 @@ function renderBundleMigrationMatrix(tableHeader, tableBody, migration) {
       <td class="${as_net >= 0 ? 'text-success' : 'text-danger'}"><strong>${as_net > 0 ? '+' : ''}${as_net.toFixed(1)}%</strong></td>
     </tr>
     <tr>
-      <td><strong>Core & Premium Mix</strong></td>
+      <td><strong>Core & Premium Meals</strong></td>
       <td class="text-muted">—</td>
       <td class="text-primary">${af_to_bundle > 0 ? '+' : ''}${af_to_bundle.toFixed(1)}%</td>
       <td class="text-warning">${af_to_as > 0 ? '+' : ''}${af_to_as.toFixed(1)}%</td>
@@ -4566,8 +4512,8 @@ function renderBasicMigrationMatrix(tableHeader, tableBody, migration) {
   tableHeader.innerHTML = `
     <tr>
       <th>Current Channel</th>
-      <th>→ Entry & Value Mix</th>
-      <th>→ Core & Premium Mix</th>
+      <th>→ Entry & Value Meals</th>
+      <th>→ Core & Premium Meals</th>
       <th>→ Entry Pack</th>
       <th>Repeat Loss</th>
       <th>Net Change</th>
@@ -4602,7 +4548,7 @@ function renderBasicMigrationMatrix(tableHeader, tableBody, migration) {
       <td class="${basic_net >= 0 ? 'text-success' : 'text-danger'}"><strong>${basic_net > 0 ? '+' : ''}${basic_net.toFixed(1)}%</strong></td>
     </tr>
     <tr>
-      <td><strong>Entry & Value Mix</strong></td>
+      <td><strong>Entry & Value Meals</strong></td>
       <td class="text-muted">—</td>
       <td class="text-success">${as_to_af > 0 ? '+' : ''}${as_to_af.toFixed(1)}%</td>
       <td class="text-warning">${as_to_basic > 0 ? '+' : ''}${as_to_basic.toFixed(1)}%</td>
@@ -4610,7 +4556,7 @@ function renderBasicMigrationMatrix(tableHeader, tableBody, migration) {
       <td class="${as_net >= 0 ? 'text-success' : 'text-danger'}"><strong>${as_net > 0 ? '+' : ''}${as_net.toFixed(1)}%</strong></td>
     </tr>
     <tr>
-      <td><strong>Core & Premium Mix</strong></td>
+      <td><strong>Core & Premium Meals</strong></td>
       <td class="text-warning">${af_to_as > 0 ? '+' : ''}${af_to_as.toFixed(1)}%</td>
       <td class="text-muted">—</td>
       <td class="text-warning">${af_to_basic > 0 ? '+' : ''}${af_to_basic.toFixed(1)}%</td>

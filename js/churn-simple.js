@@ -8,8 +8,8 @@ import { getSelectedYumBrandId, getYumBrandLabel } from './yum-brand-utils.js';
 import { formatCurrency, formatNumber } from './utils.js';
 
 const GROUP_CONFIG = [
-  { key: 'value_entry', label: 'Entry & Value' },
-  { key: 'core_premium', label: 'Core & Premium' }
+  { key: 'value_entry', label: 'Entry & Value Meals' },
+  { key: 'core_premium', label: 'Core & Premium Meals' }
 ];
 const COHORT_LABELS = {
   baseline: 'All Visit Missions',

@@ -625,7 +625,7 @@ export function renderTierMixShift(containerId, data, options = {}) {
 
   // Prepare data
   const tiers = ['ad_supported', 'ad_free'];
-  const tierLabels = ['Entry & Value', 'Core & Premium'];
+  const tierLabels = ['Entry & Value Meals', 'Core & Premium Meals'];
   const colors = ['#dc3545', '#ffc107'];
 
   const chartData = [

@@ -1,959 +1,156 @@
-import {
-  loadYumBrandMarketProductChannelWeekPanel,
-  loadYumCalendarWeekDim,
-  loadYumPromoCalendar,
-  loadYumStoreChannelWeekPanel,
-} from './yum-data-loader.js';
-import { getSelectedYumBrandId, getYumChannelLabel } from './yum-brand-utils.js';
-import { formatCurrency, formatNumber } from './utils.js';
-
 const DAY_MS = 24 * 60 * 60 * 1000;
 const ROLLING_WINDOW_DAYS = 364;
-const CATEGORY_ORDER = [
-  'menu_pricing',
-  'value_bundle',
-  'digital_loyalty',
-  'premium_innovation',
-  'occasion_seasonal',
-];
-
+const CATEGORY_ORDER = ['menu_pricing', 'value_bundle', 'digital_loyalty', 'premium_innovation', 'occasion_seasonal'];
 const CATEGORY_CONFIG = {
-  menu_pricing: {
-    label: 'Menu Pricing',
-    badgeClass: 'bg-success',
-    markerClass: 'event-price',
-    filterId: 'filter-menu-pricing',
-  },
-  value_bundle: {
-    label: 'Value & Bundle',
-    badgeClass: 'bg-info',
-    markerClass: 'event-promo',
-    filterId: 'filter-value-bundle',
-  },
-  digital_loyalty: {
-    label: 'Digital & Loyalty',
-    badgeClass: 'bg-primary',
-    markerClass: 'event-promo',
-    filterId: 'filter-digital-loyalty',
-  },
-  premium_innovation: {
-    label: 'Premium & Innovation',
-    badgeClass: 'bg-secondary',
-    markerClass: 'event-content',
-    filterId: 'filter-premium-innovation',
-  },
-  occasion_seasonal: {
-    label: 'Occasion & Seasonal',
-    badgeClass: 'bg-warning text-dark',
-    markerClass: 'event-seasonal',
-    filterId: 'filter-occasion-seasonal',
-  },
+  menu_pricing: { label: 'Menu Pricing', badgeClass: 'bg-success', markerClass: 'event-price', filterId: 'filter-menu-pricing' },
+  value_bundle: { label: 'Value & Bundle', badgeClass: 'bg-info', markerClass: 'event-promo', filterId: 'filter-value-bundle' },
+  digital_loyalty: { label: 'Digital & Loyalty', badgeClass: 'bg-primary', markerClass: 'event-promo', filterId: 'filter-digital-loyalty' },
+  premium_innovation: { label: 'Premium & Innovation', badgeClass: 'bg-secondary', markerClass: 'event-content', filterId: 'filter-premium-innovation' },
+  occasion_seasonal: { label: 'Occasion & Seasonal', badgeClass: 'bg-warning text-dark', markerClass: 'event-seasonal', filterId: 'filter-occasion-seasonal' }
 };
-
-const activeFilters = CATEGORY_ORDER.reduce((filters, categoryId) => {
-  filters[categoryId] = true;
-  return filters;
-}, {});
-
-let promoRows = [];
-let productRows = [];
-let storeRows = [];
-let calendarWeekRows = [];
+const activeFilters = Object.fromEntries(CATEGORY_ORDER.map((id) => [id, true]));
 let allEvents = [];
 let promoCampaigns = [];
 let filtersBound = false;
-let brandListenerBound = false;
 
-function toNumber(value) {
-  const parsed = Number(value);
-  return Number.isFinite(parsed) ? parsed : 0;
-}
+const EVENT_ROWS = `
+2026-03-22|digital_loyalty|Mixed|Pizza Hut Melts - Lunch Carryout Campaign|Carryout|14200|1900|$14.2K sales | 1,900 orders|Focused on weekday lunch traffic; strong response from value-seeking cohorts|2026-03-22|2026-03-22|7.47|20|Pizza Hut Melts | Personal Pan Pizza | Breadsticks|Lunch carryout traffic|||
+2026-03-01|premium_innovation|Modeled|Spring Menu Launch (New Crust & Flavors)|Delivery, Carryout|2300000|113000|$2.3M sales | 113K orders|AI-simulated based on historical innovation launches and seasonal demand uplift|2026-03-01|2026-04-26|20.50|8|Stuffed Crust Pizza | Supreme Pizza | New Crust Flavors|Premium menu innovation|||
+2026-02-22|menu_pricing|Modeled|Large Pizza Price Reduction|Delivery, Carryout|46600|2400|$46.6K sales | 2,400 orders|Price reduced from about $21.25 to $19.35 (about 9%) to recover declining order volume|2026-02-22|2026-02-22|||Large 1-Topping Pizza | Specialty Pizzas|Core pizza price reset|21.25|19.35|-0.0894
+2026-02-01|menu_pricing|Modeled|Medium Pizza Value Reset|Delivery, Carryout|48800|2500|$48.8K sales | 2,500 orders|Adjusted pricing across core SKUs to improve entry price perception|2026-02-01|2026-02-01|||2-Topping Medium Pizza Deal | Medium Pan Pizza|Entry price perception|18.75|17.95|-0.0427
+2026-01-11|menu_pricing|Modeled|Large Pizza Price Reduction|Delivery, Carryout|48000|2450|$48.0K sales | 2,450 orders|Continued pricing correction to stabilize demand after holiday period|2026-01-11|2026-01-11|||Large 1-Topping Pizza | Stuffed Crust Pizza|Post-holiday recovery pricing|20.75|19.60|-0.0554
+2026-01-11|value_bundle|Mixed|Big Dinner Box - NFL Playoffs Promo|Delivery|160000|10000|$160.0K sales | 10.0K orders|High-volume bundle optimized for game-day occasions|2026-01-11|2026-01-11|16.00|30|Big Dinner Box | Wings | Breadsticks|Game-day bundle|||
+2026-01-04|value_bundle|Modeled|$10 Tastemaker Repricing|Delivery, Carryout|2300000|117000|$2.3M sales | 117K orders|AI-modeled using elasticity signals from prior value campaigns|2026-01-04|2026-02-22|19.60|25|$10 Tastemaker | Breadsticks | 2-Liter Soda|Value ladder repricing|||
+2025-12-21|premium_innovation|Observed|Stuffed Crust Holiday Promotion|Delivery|56800|2400|$56.8K sales | 2,400 orders|Observed uplift from premium product bundling during holidays|2025-12-21|2025-12-31|23.50|10|Stuffed Crust Pizza | Supreme Pizza|Holiday premium bundle|||
+2025-11-23|menu_pricing|Observed|Large Pizza Price Reduction|Delivery, Carryout|46300|2350|$46.3K sales | 2,350 orders|Tactical price drop ahead of holiday demand peak|2025-11-23|2025-11-23|||Large 1-Topping Pizza | Specialty Pizzas|Holiday lead-in pricing|20.95|19.70|-0.0597
+2025-11-02|occasion_seasonal|Observed|Holiday Family Bundle Promotion|Delivery, Carryout|2400000|121000|$2.4M sales | 121K orders|Seasonal bundles driving family-sized orders and higher ticket sizes|2025-11-02|2025-11-30|19.83||Big Dinner Box | Family Pasta Bundle | Large Specialty Pizza|Holiday family occasions|||
+2025-11-02|menu_pricing|Observed|Large Pizza Price Reduction|Delivery, Carryout|46600|2360|$46.6K sales | 2,360 orders|Reinforced price positioning before holiday promotional push|2025-11-02|2025-11-02|||Large 1-Topping Pizza | Stuffed Crust Pizza|Holiday value positioning|20.80|19.75|-0.0505
+2025-10-12|menu_pricing|Observed|Large Pizza Price Adjustment|Delivery, Carryout|49600|2500|$49.6K sales | 2,500 orders|Minor pricing optimization to balance margin and demand|2025-10-12|2025-10-12|||Large 1-Topping Pizza | Supreme Pizza|Margin-demand balancing|19.45|19.85|0.0206
+2025-09-28|menu_pricing|Observed|Large Pizza Price Increase|Delivery, Carryout|48600|2300|$48.6K sales | 2,300 orders|About 10% price increase tested; slight demand softening observed|2025-09-28|2025-09-28|||Large 1-Topping Pizza | Large Specialty Pizza|Elasticity threshold test|19.35|21.29|0.1003
+2025-09-21|menu_pricing|Observed|Large Pizza Price Reduction|Delivery, Carryout|48500|2450|$48.5K sales | 2,450 orders|Immediate rollback after elasticity-driven demand drop|2025-09-21|2025-09-21|||Large 1-Topping Pizza | Large Specialty Pizza|Price rollback|21.29|19.80|-0.0700
+2025-09-07|menu_pricing|Observed|Large Pizza Price Increase|Delivery, Carryout|49400|2350|$49.4K sales | 2,350 orders|Initial price increase test to evaluate elasticity thresholds|2025-09-07|2025-09-07|||Large 1-Topping Pizza | Stuffed Crust Pizza|Initial elasticity test|19.45|21.10|0.0848
+2025-08-31|value_bundle|Observed|Big Dinner Box - Game Day Promo|Delivery|267000|16400|$267.0K sales | 16.4K orders|High-performing sports event bundle campaign|2025-08-31|2025-08-31|16.28|30|Big Dinner Box | Wings | Breadsticks|Game-day bundle|||
+2025-08-31|menu_pricing|Observed|Large Pizza Price Reduction|Delivery, Carryout|49300|2480|$49.3K sales | 2,480 orders|Price correction following earlier demand dip|2025-08-31|2025-08-31|||Large 1-Topping Pizza | Supreme Pizza|Price correction|20.90|19.88|-0.0488
+2025-08-17|digital_loyalty|Observed|Hut Rewards Summer Carryout Boost|Carryout|4100|500|$4.1K sales | 500 orders|Loyalty-driven traffic boost for off-peak periods|2025-08-17|2025-08-17|8.20|15|Carryout Deal | Personal Pan Pizza | Breadsticks|Loyalty carryout support|||
+2025-08-03|occasion_seasonal|Observed|Football Season Kickoff Bundle|Delivery|3600000|181000|$3.6M sales | 181K orders|Major seasonal spike driven by sports viewing occasions|2025-08-03|2025-08-31|19.89||Big Dinner Box | Wings | Large 1-Topping Pizza|Sports season occasion|||
+2025-07-20|digital_loyalty|Observed|Hut Rewards Summer Carryout Boost|Carryout|4000|490|$4.0K sales | 490 orders|Repeat campaign with stable engagement from loyalty users|2025-07-20|2025-07-20|8.16|15|Carryout Deal | Pizza Hut Melts | Breadsticks|Loyalty carryout support|||
+2025-06-22|digital_loyalty|Observed|Hut Rewards Summer Carryout Boost|Carryout|4200|510|$4.2K sales | 510 orders|Strong engagement from app-based ordering segment|2025-06-22|2025-06-22|8.24|15|Carryout Deal | Personal Pan Pizza | Breadsticks|Loyalty carryout support|||
+2025-05-18|digital_loyalty|Observed|Pizza Hut Melts - Lunch Carryout Campaign|Carryout|14500|2000|$14.5K sales | 2,000 orders|Lunch-focused value offering driving weekday traffic|2025-05-18|2025-05-18|7.25|20|Pizza Hut Melts | Personal Pan Pizza | Breadsticks|Lunch carryout traffic|||
+2025-05-04|occasion_seasonal|Observed|Summer Traffic Builder Promotion|Delivery|3300000|160000|$3.3M sales | 160K orders|Seasonal demand uplift supported by bundled value deals|2025-05-04|2025-06-01|20.63||Big Dinner Box | $10 Tastemaker | Breadsticks|Summer demand uplift|||
+2025-04-20|digital_loyalty|Observed|Pizza Hut Melts - Lunch Carryout Campaign|Carryout|14300|1950|$14.3K sales | 1,950 orders|Entry-level value offering targeting price-sensitive customers|2025-04-20|2025-04-20|7.33|20|Pizza Hut Melts | Personal Pan Pizza | Breadsticks|Lunch carryout traffic|||
+`.trim();
 
-function parseDate(dateStr) {
-  if (!dateStr) return null;
-  const date = new Date(`${dateStr}T00:00:00`);
-  return Number.isNaN(date.getTime()) ? null : date;
-}
+const CAMPAIGN_ROWS = `
+Spring Menu Launch|Modeled|2026-03-01|2026-04-26|1|2300000|113000|8|20.50|Premium & Innovation|Delivery, Carryout
+$10 Tastemaker Repricing|Modeled|2026-01-04|2026-02-22|1|2300000|117000|25|19.60|Value & Bundle|Delivery, Carryout
+Stuffed Crust Holiday Promotion|Observed|2025-12-21|2025-12-31|1|56800|2400|10|23.50|Premium & Innovation|Delivery
+Big Dinner Box - Game Day Promo|Mixed|2025-08-31|2026-02-22|2|427000|26500|30|16.20|Value & Bundle|Delivery
+Hut Rewards Summer Carryout Boost|Observed|2025-06-22|2025-08-17|3|12300|1500|15|8.20|Digital & Loyalty|Carryout
+Pizza Hut Melts - Lunch Carryout Campaign|Mixed|2025-04-20|2026-03-22|3|43000|5800|20|7.50|Digital & Loyalty|Carryout
+`.trim();
 
-function toDateKey(date) {
-  return date.toISOString().slice(0, 10);
-}
+function parseDate(value) { const d = new Date(`${value}T00:00:00`); return Number.isNaN(d.getTime()) ? null : d; }
+function formatDate(value) { const d = parseDate(value); return d ? d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : '-'; }
+function money(value) { return `$${Number(value || 0).toLocaleString(undefined, { maximumFractionDigits: 1, minimumFractionDigits: Number(value || 0) % 1 ? 1 : 0 })}`; }
+function pct(value) { return `${Number(value || 0).toFixed(0)}%`; }
+function signedPct(value) { const n = Number(value || 0) * 100; return `${n > 0 ? '+' : ''}${n.toFixed(1)}%`; }
+function rollingBounds() { const end = new Date(); end.setHours(0,0,0,0); const start = new Date(end); start.setDate(start.getDate() - ROLLING_WINDOW_DAYS); return { start, end }; }
+function config(id) { return CATEGORY_CONFIG[id]; }
 
-function shiftDateString(dateStr, days) {
-  const date = parseDate(dateStr);
-  if (!date) return dateStr;
-  date.setDate(date.getDate() + days);
-  return toDateKey(date);
-}
-
-function diffDays(leftDateStr, rightDateStr) {
-  const left = parseDate(leftDateStr);
-  const right = parseDate(rightDateStr);
-  if (!left || !right) return Number.POSITIVE_INFINITY;
-  return Math.round((right - left) / DAY_MS);
-}
-
-function formatDate(dateStr) {
-  const date = parseDate(dateStr);
-  if (!date) return '-';
-  return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-}
-
-function formatPercent(value) {
-  return `${toNumber(value).toFixed(1)}%`;
-}
-
-function formatSignedPercent(value) {
-  const pct = toNumber(value) * 100;
-  return `${pct > 0 ? '+' : ''}${pct.toFixed(1)}%`;
-}
-
-function formatSignedCurrency(value) {
-  const amount = toNumber(value);
-  return `${amount > 0 ? '+' : ''}${formatCurrency(amount)}`;
-}
-
-function titleCase(value) {
-  return String(value || '')
-    .replace(/_/g, ' ')
-    .replace(/\b\w/g, (char) => char.toUpperCase())
-    .trim();
-}
-
-function normalize(value) {
-  return String(value || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
-}
-
-function splitHeadlineItems(value) {
-  return String(value || '')
-    .split('|')
-    .map((item) => item.trim())
-    .filter(Boolean);
-}
-
-function getChannels(scope) {
-  return String(scope || '')
-    .split(',')
-    .map((part) => part.trim())
-    .filter(Boolean);
-}
-
-function buildProductIndex(rows) {
-  const index = new Map();
-  rows.forEach((row) => {
-    const key = `${row.week_start}|${row.market_id}|${row.channel_id}`;
-    const bucket = index.get(key) || [];
-    bucket.push(row);
-    index.set(key, bucket);
-  });
-  return index;
-}
-
-function getRollingWindowBounds() {
-  const end = new Date();
-  end.setHours(0, 0, 0, 0);
-  const start = new Date(end);
-  start.setDate(start.getDate() - ROLLING_WINDOW_DAYS);
-  return { start, end };
-}
-
-function getCategoryConfig(categoryId) {
-  return CATEGORY_CONFIG[categoryId] || {
-    label: titleCase(categoryId),
-    badgeClass: 'bg-secondary',
-    markerClass: 'event-content',
-    filterId: null,
-  };
-}
-
-function mapOfferTypeToCategory(offerType) {
-  if (offerType === 'family_bundle') return 'value_bundle';
-  if (offerType === 'digital_value' || offerType === 'loyalty_offer') return 'digital_loyalty';
-  if (offerType === 'premium_ladder') return 'premium_innovation';
-  return 'value_bundle';
-}
-
-function getTheme(offerType) {
-  if (offerType === 'family_bundle') return 'Bundle-led family traffic';
-  if (offerType === 'digital_value' || offerType === 'loyalty_offer') return 'Digital and loyalty demand';
-  if (offerType === 'premium_ladder') return 'Premium and innovation trade-up';
-  return 'Promotion';
-}
-
-function getPromoSupportRows(promo, productIndex, scopedProductRows) {
-  const channels = getChannels(promo.channel_scope);
-  const sourceRows = channels.length
-    ? channels.flatMap((channel) => productIndex.get(`${promo.week_start}|${promo.market_id}|${channel}`) || [])
-    : scopedProductRows.filter((row) => row.week_start === promo.week_start && row.market_id === promo.market_id);
-  const headlineItems = splitHeadlineItems(promo.headline_items);
-  const exactRows = sourceRows.filter((row) => headlineItems.some((item) => normalize(item) === normalize(row.product_name)));
-  if (exactRows.length) return exactRows;
-
-  return sourceRows.filter((row) => {
-    if (promo.offer_type === 'family_bundle') return row.product_role === 'family_meal' || row.product_family === 'bundles' || row.shareable_flag === 'true';
-    if (promo.offer_type === 'digital_value' || promo.offer_type === 'loyalty_offer') return row.product_role === 'traffic_builder' || row.value_flag === 'true';
-    if (promo.offer_type === 'premium_ladder') return row.product_role === 'innovation' || row.price_tier === 'premium';
-    return false;
-  });
-}
-
-function getTopKeys(metricMap, limit = 3) {
-  return [...metricMap.entries()]
-    .sort((left, right) => right[1] - left[1])
-    .slice(0, limit)
-    .map(([key]) => key);
-}
-
-function shiftEventIntoRollingWindow(event, bounds) {
-  const originalDate = parseDate(event.date);
-  if (!originalDate) return null;
-
-  const shiftedDate = new Date(originalDate);
-  let offsetDays = 0;
-  while (shiftedDate < bounds.start) {
-    shiftedDate.setDate(shiftedDate.getDate() + 364);
-    offsetDays += 364;
-  }
-
-  if (shiftedDate > bounds.end) return null;
-
-  return {
-    ...event,
-    date: toDateKey(shiftedDate),
-    start_date: event.start_date ? shiftDateString(event.start_date, offsetDays) : toDateKey(shiftedDate),
-    end_date: event.end_date ? shiftDateString(event.end_date, offsetDays) : toDateKey(shiftedDate),
-    source_date: event.date,
-    source_status: offsetDays > 0 ? 'Modeled from prior-year Pizza Hut pattern' : 'Observed in Pizza Hut data',
-  };
-}
-
-function getTopProducts(rows, limit = 3) {
-  const itemSales = new Map();
-  rows.forEach((row) => {
-    itemSales.set(row.product_name, (itemSales.get(row.product_name) || 0) + toNumber(row.net_sales));
-  });
-  return getTopKeys(itemSales, limit);
-}
-
-function getTopStoreChannels(rows, limit = 2) {
-  const channelSales = new Map();
-  rows.forEach((row) => {
-    const label = row.channel_name || getYumChannelLabel(row.channel);
-    channelSales.set(label, (channelSales.get(label) || 0) + toNumber(row.net_sales));
-  });
-  return getTopKeys(channelSales, limit);
-}
-
-function buildPromoEventsForBrand(brandId) {
-  const scopedPromoRows = promoRows.filter((row) => row.brand_id === brandId);
-  const scopedProductRows = productRows.filter((row) => row.brand_id === brandId);
-  const productIndex = buildProductIndex(scopedProductRows);
-  const weeklyGroups = new Map();
-
-  scopedPromoRows.forEach((promo) => {
-    const supportRows = getPromoSupportRows(promo, productIndex, scopedProductRows);
-    const key = [promo.offer_name, promo.channel_scope, promo.offer_type, promo.week_start].join('|');
-    const bucket = weeklyGroups.get(key) || {
-      offer_name: promo.offer_name,
-      offer_type: promo.offer_type,
-      week_start: promo.week_start,
-      notes: new Set(),
-      markets: new Set(),
-      channels: new Set(),
-      anchorSales: new Map(),
-      supported_sales: 0,
-      supported_units: 0,
-      discount_weighted_sum: 0,
-      price_weighted_sum: 0,
-      weight: 0,
-    };
-
-    const sales = supportRows.reduce((sum, row) => sum + toNumber(row.net_sales), 0);
-    const units = supportRows.reduce((sum, row) => sum + toNumber(row.unit_volume), 0);
-    const weight = Math.max(units, 1);
-    const weightedPrice = supportRows.reduce((sum, row) => sum + (toNumber(row.realized_price) * Math.max(toNumber(row.unit_volume), 1)), 0);
-
-    bucket.notes.add(promo.notes || 'Promotion window from Pizza Hut modeled calendar.');
-    bucket.markets.add(promo.market_id);
-    getChannels(promo.channel_scope).forEach((channelId) => bucket.channels.add(getYumChannelLabel(channelId)));
-    bucket.supported_sales += sales;
-    bucket.supported_units += units;
-    bucket.discount_weighted_sum += toNumber(promo.avg_discount_pct) * weight;
-    bucket.price_weighted_sum += weightedPrice;
-    bucket.weight += weight;
-
-    supportRows.forEach((row) => {
-      bucket.anchorSales.set(row.product_name, (bucket.anchorSales.get(row.product_name) || 0) + toNumber(row.net_sales));
-    });
-
-    weeklyGroups.set(key, bucket);
-  });
-
-  const weeklyEvents = [...weeklyGroups.values()]
-    .map((bucket) => ({
-      offer_name: bucket.offer_name,
-      offer_type: bucket.offer_type,
-      date: bucket.week_start,
-      supported_sales: bucket.supported_sales,
-      supported_units: bucket.supported_units,
-      avg_realized_price: bucket.weight > 0 ? bucket.price_weighted_sum / bucket.weight : 0,
-      discount_pct: bucket.weight > 0 ? bucket.discount_weighted_sum / bucket.weight : 0,
-      channels: [...bucket.channels].join(', ') || 'All Channels',
-      anchor_items: getTopKeys(bucket.anchorSales, 3).join(' | '),
-      market_count: bucket.markets.size,
-      notes: [...bucket.notes].join(' '),
-    }))
-    .sort((left, right) => left.date.localeCompare(right.date));
-
-  const windows = [];
-  const groupedByOffer = new Map();
-
-  weeklyEvents.forEach((event) => {
-    const key = `${event.offer_name}|${event.offer_type}|${event.channels}`;
-    const bucket = groupedByOffer.get(key) || [];
-    bucket.push(event);
-    groupedByOffer.set(key, bucket);
-  });
-
-  groupedByOffer.forEach((events, key) => {
-    const [offerName, offerType, channels] = key.split('|');
-    const sortedEvents = [...events].sort((left, right) => left.date.localeCompare(right.date));
-    let currentWindow = null;
-
-    sortedEvents.forEach((event) => {
-      const canExtend = currentWindow && diffDays(currentWindow.end_date, event.date) <= 21;
-      if (!canExtend) {
-        if (currentWindow) windows.push(currentWindow);
-        currentWindow = {
-          event_id: `promo_${offerName}_${event.date}`.replace(/[^a-z0-9_]+/gi, '_').toLowerCase(),
-          category_id: mapOfferTypeToCategory(offerType),
-          title: offerName,
-          event_type: getCategoryConfig(mapOfferTypeToCategory(offerType)).label,
-          tier: getTheme(offerType),
-          date: event.date,
-          start_date: event.date,
-          end_date: event.date,
-          channels,
-          notes: new Set([event.notes]),
-          anchor_items: new Map(),
-          supported_sales: 0,
-          supported_units: 0,
-          discount_weighted_sum: 0,
-          price_weighted_sum: 0,
-          weight: 0,
-          market_count: 0,
-        };
-      }
-
-      currentWindow.end_date = event.date;
-      currentWindow.supported_sales += event.supported_sales;
-      currentWindow.supported_units += event.supported_units;
-      currentWindow.discount_weighted_sum += event.discount_pct * Math.max(event.supported_units, 1);
-      currentWindow.price_weighted_sum += event.avg_realized_price * Math.max(event.supported_units, 1);
-      currentWindow.weight += Math.max(event.supported_units, 1);
-      currentWindow.market_count = Math.max(currentWindow.market_count, event.market_count);
-      currentWindow.notes.add(event.notes);
-      splitHeadlineItems(event.anchor_items).forEach((item) => {
-        currentWindow.anchor_items.set(item, (currentWindow.anchor_items.get(item) || 0) + 1);
-      });
-    });
-
-    if (currentWindow) windows.push(currentWindow);
-  });
-
-  return windows.map((window) => ({
-    event_id: window.event_id,
-    category_id: window.category_id,
-    event_type: getCategoryConfig(window.category_id).label,
-    title: window.title,
-    tier: window.tier,
-    date: window.date,
-    start_date: window.start_date,
-    end_date: window.end_date,
-    channels: window.channels,
-    notes: [...window.notes].join(' '),
-    anchor_items: getTopKeys(window.anchor_items, 3).join(' | '),
-    supported_sales: window.supported_sales,
-    supported_units: window.supported_units,
-    avg_realized_price: window.weight > 0 ? window.price_weighted_sum / window.weight : 0,
-    discount_pct: window.weight > 0 ? window.discount_weighted_sum / window.weight : 0,
-    market_count: window.market_count,
-    window_weeks: Math.max(1, Math.round(diffDays(window.start_date, window.end_date) / 7) + 1),
-  }));
-}
-
-function buildMenuPricingEventsForBrand(brandId) {
-  const scopedRows = productRows.filter((row) => row.brand_id === brandId);
-  const weeklyProductMap = new Map();
-
-  scopedRows.forEach((row) => {
-    const channelLabel = getYumChannelLabel(row.channel_id);
-    const key = `${row.product_name}|${row.week_start}`;
-    const bucket = weeklyProductMap.get(key) || {
-      product_name: row.product_name,
-      week_start: row.week_start,
-      product_role: row.product_role,
-      price_tier: row.price_tier,
-      units: 0,
-      sales: 0,
-      price_weighted_sum: 0,
-      channels: new Map(),
-    };
-    const units = toNumber(row.unit_volume);
-    const weight = Math.max(units, 1);
-    bucket.units += units;
-    bucket.sales += toNumber(row.net_sales);
-    bucket.price_weighted_sum += toNumber(row.realized_price) * weight;
-    bucket.channels.set(channelLabel, (bucket.channels.get(channelLabel) || 0) + toNumber(row.net_sales));
-    weeklyProductMap.set(key, bucket);
-  });
-
-  const perProductSeries = new Map();
-  [...weeklyProductMap.values()].forEach((bucket) => {
-    const series = perProductSeries.get(bucket.product_name) || [];
-    series.push({
-      week_start: bucket.week_start,
-      product_name: bucket.product_name,
-      product_role: bucket.product_role,
-      price_tier: bucket.price_tier,
-      units: bucket.units,
-      sales: bucket.sales,
-      avg_realized_price: bucket.units > 0 ? bucket.price_weighted_sum / bucket.units : 0,
-      channels: getTopKeys(bucket.channels, 2).join(', '),
-    });
-    perProductSeries.set(bucket.product_name, series);
-  });
-
-  const candidates = [];
-  perProductSeries.forEach((series, productName) => {
-    const sortedSeries = [...series].sort((left, right) => left.week_start.localeCompare(right.week_start));
-    for (let index = 1; index < sortedSeries.length; index += 1) {
-      const previous = sortedSeries[index - 1];
-      const current = sortedSeries[index];
-      if (!previous.avg_realized_price) continue;
-      const delta = current.avg_realized_price - previous.avg_realized_price;
-      const deltaPct = delta / previous.avg_realized_price;
-      const impactScore = Math.abs(delta) * Math.max(current.units, 1);
-      if (Math.abs(delta) < 0.1 || Math.abs(deltaPct) < 0.015) continue;
-
-      candidates.push({
-        event_id: `menu_price_${productName}_${current.week_start}`.replace(/[^a-z0-9_]+/gi, '_').toLowerCase(),
-        category_id: 'menu_pricing',
-        event_type: getCategoryConfig('menu_pricing').label,
-        title: `${productName} ${delta > 0 ? 'price step-up' : 'price reset'}`,
-        tier: `${titleCase(current.product_role || 'core')} | ${titleCase(current.price_tier || 'priced')}`,
-        date: current.week_start,
-        start_date: current.week_start,
-        end_date: current.week_start,
-        channels: current.channels || 'All Channels',
-        notes: `Weighted realized price moved from ${formatCurrency(previous.avg_realized_price)} to ${formatCurrency(current.avg_realized_price)} on ${productName}.`,
-        anchor_items: productName,
-        supported_sales: current.sales,
-        supported_units: current.units,
-        avg_realized_price: current.avg_realized_price,
-        price_from: previous.avg_realized_price,
-        price_to: current.avg_realized_price,
-        price_change_amount: delta,
-        price_change_pct: deltaPct,
-        impact_score: impactScore,
-      });
-    }
-  });
-
-  const strongestByWeek = new Map();
-  candidates.forEach((candidate) => {
-    const existing = strongestByWeek.get(candidate.date);
-    if (!existing || candidate.impact_score > existing.impact_score) {
-      strongestByWeek.set(candidate.date, candidate);
-    }
-  });
-
-  return [...strongestByWeek.values()]
-    .sort((left, right) => right.impact_score - left.impact_score)
-    .slice(0, 10)
-    .sort((left, right) => left.date.localeCompare(right.date));
-}
-
-function getWindowCategory(windowName, row) {
-  const normalizedWindow = normalize(windowName);
-  if (normalizedWindow.includes('innovation')) return 'premium_innovation';
-  if (normalizedWindow.includes('value')) return 'value_bundle';
-  if (normalizedWindow.includes('holiday') || normalizedWindow.includes('football') || row.holiday_proxy_flag === 'true' || row.sports_peak_flag === 'true') {
-    return 'occasion_seasonal';
-  }
-  return 'occasion_seasonal';
-}
-
-function buildCalendarWindowEventsForBrand(brandId) {
-  const flaggedRows = calendarWeekRows
-    .filter((row) => row.portfolio_event_window || row.holiday_proxy_flag === 'true' || row.sports_peak_flag === 'true')
-    .sort((left, right) => left.week_start.localeCompare(right.week_start));
-
-  const windows = [];
-  let currentWindow = null;
-
-  flaggedRows.forEach((row) => {
-    const windowName = row.portfolio_event_window || `${row.season_label || 'seasonal'} demand window`;
-    const categoryId = getWindowCategory(windowName, row);
-    const signalKey = [
-      windowName,
-      row.holiday_proxy_flag === 'true' ? 'holiday' : '',
-      row.sports_peak_flag === 'true' ? 'sports' : '',
-    ].join('|');
-
-    const canExtend = currentWindow
-      && currentWindow.signal_key === signalKey
-      && diffDays(currentWindow.end_date, row.week_start) <= 7;
-
-    if (!canExtend) {
-      if (currentWindow) windows.push(currentWindow);
-      currentWindow = {
-        event_id: `calendar_${windowName}_${row.week_start}`.replace(/[^a-z0-9_]+/gi, '_').toLowerCase(),
-        signal_key: signalKey,
-        category_id: categoryId,
-        title: titleCase(windowName),
-        date: row.week_start,
-        start_date: row.week_start,
-        end_date: row.week_start,
-        signals: new Set(),
-      };
-    }
-
-    currentWindow.end_date = row.week_start;
-    currentWindow.signals.add(titleCase(row.season_label));
-    if (row.holiday_proxy_flag === 'true') currentWindow.signals.add('Holiday demand');
-    if (row.sports_peak_flag === 'true') currentWindow.signals.add('Sports viewing');
-  });
-
-  if (currentWindow) windows.push(currentWindow);
-
-  const scopedStoreRows = storeRows.filter((row) => row.brand_id === brandId);
-  const scopedProductRows = productRows.filter((row) => row.brand_id === brandId);
-
-  return windows.map((window) => {
-    const windowStoreRows = scopedStoreRows.filter((row) => row.week_start >= window.start_date && row.week_start <= window.end_date);
-    const windowProductRows = scopedProductRows.filter((row) => row.week_start >= window.start_date && row.week_start <= window.end_date);
-    const supportedSales = windowStoreRows.reduce((sum, row) => sum + toNumber(row.net_sales), 0);
-    const supportedTransactions = windowStoreRows.reduce((sum, row) => sum + toNumber(row.transaction_count_proxy), 0);
-    const avgCheckWeightedSum = windowStoreRows.reduce((sum, row) => sum + (toNumber(row.avg_check_proxy) * Math.max(toNumber(row.transaction_count_proxy), 1)), 0);
-    const avgCheckWeight = windowStoreRows.reduce((sum, row) => sum + Math.max(toNumber(row.transaction_count_proxy), 1), 0);
-
+function parseEvents() {
+  return EVENT_ROWS.split('\n').map((line, index) => {
+    const [date, category_id, source_status, title, channels, sales, orders, output_display, notes, start_date, end_date, avg_realized_price, discount_pct, anchor_items, tier, price_from, price_to, price_change_pct] = line.split('|').map((part) => part.trim());
+    const priceFrom = Number(price_from);
+    const priceTo = Number(price_to);
     return {
-      event_id: window.event_id,
-      category_id: window.category_id,
-      event_type: getCategoryConfig(window.category_id).label,
-      title: window.title,
-      tier: [...window.signals].join(' | '),
-      date: window.date,
-      start_date: window.start_date,
-      end_date: window.end_date,
-      channels: getTopStoreChannels(windowStoreRows).join(', ') || 'All Channels',
-      notes: 'Calendar-driven Pizza Hut demand window built from the operating calendar and seasonal store signals.',
-      anchor_items: getTopProducts(windowProductRows).join(' | '),
-      supported_sales: supportedSales,
-      supported_units: supportedTransactions,
-      avg_realized_price: avgCheckWeight > 0 ? avgCheckWeightedSum / avgCheckWeight : 0,
-      window_weeks: Math.max(1, Math.round(diffDays(window.start_date, window.end_date) / 7) + 1),
-      signal_labels: [...window.signals],
+      event_id: `event_${index + 1}`,
+      date, category_id, source_status, title, channels, output_display, notes, start_date, end_date, anchor_items, tier,
+      supported_sales: Number(sales), supported_units: Number(orders), avg_realized_price: Number(avg_realized_price || 0), discount_pct: Number(discount_pct || 0),
+      price_from: Number.isFinite(priceFrom) ? priceFrom : null,
+      price_to: Number.isFinite(priceTo) ? priceTo : null,
+      price_change_pct: price_change_pct ? Number(price_change_pct) : null,
+      price_change_amount: Number.isFinite(priceFrom) && Number.isFinite(priceTo) ? priceTo - priceFrom : null
     };
   });
 }
 
-function dedupeEvents(events) {
-  const deduped = new Map();
-  events.forEach((event) => {
-    const key = [event.category_id, event.title, event.date].join('|');
-    const existing = deduped.get(key);
-    if (!existing || toNumber(event.supported_sales) > toNumber(existing.supported_sales)) {
-      deduped.set(key, event);
-    }
-  });
-  return [...deduped.values()].sort((left, right) => left.date.localeCompare(right.date));
-}
-
-function buildPromoCampaigns(promoEvents) {
-  const grouped = new Map();
-
-  promoEvents.forEach((event) => {
-    const bucket = grouped.get(event.title) || {
-      campaign_name: event.title,
-      start_date: event.start_date,
-      end_date: event.end_date,
-      channels: new Set(),
-      categories: new Set(),
-      windows: 0,
-      supported_sales: 0,
-      supported_units: 0,
-      discount_weighted_sum: 0,
-      price_weighted_sum: 0,
-      weight: 0,
-      modeled_count: 0,
-      observed_count: 0,
-    };
-
-    bucket.start_date = event.start_date < bucket.start_date ? event.start_date : bucket.start_date;
-    bucket.end_date = event.end_date > bucket.end_date ? event.end_date : bucket.end_date;
-    event.channels.split(',').map((channel) => channel.trim()).filter(Boolean).forEach((channel) => bucket.channels.add(channel));
-    bucket.categories.add(getCategoryConfig(event.category_id).label);
-    bucket.windows += 1;
-    bucket.supported_sales += toNumber(event.supported_sales);
-    bucket.supported_units += toNumber(event.supported_units);
-    bucket.discount_weighted_sum += toNumber(event.discount_pct) * Math.max(toNumber(event.supported_units), 1);
-    bucket.price_weighted_sum += toNumber(event.avg_realized_price) * Math.max(toNumber(event.supported_units), 1);
-    bucket.weight += Math.max(toNumber(event.supported_units), 1);
-    if (String(event.source_status).startsWith('Modeled')) bucket.modeled_count += 1;
-    else bucket.observed_count += 1;
-    grouped.set(event.title, bucket);
-  });
-
-  return [...grouped.values()]
-    .map((campaign, index) => ({
-      campaign_id: `campaign_${String(index + 1).padStart(2, '0')}`,
-      campaign_name: campaign.campaign_name,
-      start_date: campaign.start_date,
-      end_date: campaign.end_date,
-      channels: [...campaign.channels],
-      categories: [...campaign.categories],
-      windows: campaign.windows,
-      supported_sales: campaign.supported_sales,
-      supported_units: campaign.supported_units,
-      discount_pct: campaign.weight > 0 ? campaign.discount_weighted_sum / campaign.weight : 0,
-      avg_realized_price: campaign.weight > 0 ? campaign.price_weighted_sum / campaign.weight : 0,
-      status: campaign.modeled_count > 0 && campaign.observed_count === 0 ? 'Modeled' : (campaign.modeled_count > 0 ? 'Mixed' : 'Observed'),
-    }))
-    .sort((left, right) => right.start_date.localeCompare(left.start_date));
-}
-
-function filterEvents() {
-  return allEvents.filter((event) => activeFilters[event.category_id]);
-}
-
-function updateEventCountBadge() {
-  const badge = document.getElementById('event-count-badge');
-  if (!badge) return;
-  const filteredEvents = filterEvents();
-  const modeledCount = filteredEvents.filter((event) => String(event.source_status).startsWith('Modeled')).length;
-  const observedCount = filteredEvents.length - modeledCount;
-  badge.textContent = `${filteredEvents.length} events (${observedCount} observed, ${modeledCount} modeled)`;
-}
-
-function buildTimelineMarkers(startDate, endDate) {
-  const start = new Date(startDate);
-  const end = new Date(endDate);
-  const totalDays = Math.max(1, Math.round((end - start) / DAY_MS));
-  return [0, 0.33, 0.66, 1].map((ratio) => {
-    const markerDate = new Date(start);
-    markerDate.setDate(markerDate.getDate() + Math.round(totalDays * ratio));
-    return {
-      label: markerDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
-      left: `${(ratio * 100).toFixed(2)}%`,
-    };
+function parseCampaigns() {
+  return CAMPAIGN_ROWS.split('\n').map((line, index) => {
+    const [campaign_name, status, start_date, end_date, windows, sales, orders, discount_pct, avg_realized_price, category, channels] = line.split('|').map((part) => part.trim());
+    return { campaign_id: `campaign_${index + 1}`, campaign_name, status, start_date, end_date, windows: Number(windows), supported_sales: Number(sales), supported_units: Number(orders), discount_pct: Number(discount_pct), avg_realized_price: Number(avg_realized_price), categories: [category], channels: channels.split(',').map((part) => part.trim()) };
   });
 }
 
-function attachTimelineGeometry(events, bounds) {
-  const lanePositions = [4, -20, 28];
-  const laneLastPercent = lanePositions.map(() => -999);
-  const totalDays = Math.max(1, Math.round((bounds.end - bounds.start) / DAY_MS));
-
-  return [...events]
-    .sort((left, right) => left.date.localeCompare(right.date))
-    .map((event) => {
-      const eventDate = parseDate(event.date);
-      const positionPercent = Math.max(0, Math.min(100, (((eventDate - bounds.start) / DAY_MS) / totalDays) * 100));
-      let laneIndex = 0;
-      while (laneIndex < laneLastPercent.length && Math.abs(positionPercent - laneLastPercent[laneIndex]) < 4) {
-        laneIndex += 1;
-      }
-      if (laneIndex >= lanePositions.length) laneIndex = lanePositions.length - 1;
-      laneLastPercent[laneIndex] = positionPercent;
-      return {
-        ...event,
-        positionPercent,
-        markerTop: lanePositions[laneIndex],
-      };
-    });
+function filteredEvents() { return allEvents.filter((event) => activeFilters[event.category_id]); }
+function eventSummary(event) {
+  if (event.output_display) return event.output_display;
+  if (event.price_change_amount !== null) return `${signedPct(event.price_change_pct)} to ${money(event.price_to)} | ${money(event.supported_sales)} sales`;
+  if (event.discount_pct) return `${pct(event.discount_pct)} off | ${money(event.supported_sales)} sales`;
+  return `${money(event.supported_sales)} sales | ${Math.round(event.supported_units).toLocaleString()} orders`;
 }
 
-function renderEventTimeline() {
-  const container = document.getElementById('event-timeline');
-  if (!container) return;
-
-  const filteredEvents = filterEvents();
-  if (!filteredEvents.length) {
-    container.innerHTML = '<div class="text-center text-muted">No events match the current filters</div>';
-    return;
-  }
-
-  const bounds = getRollingWindowBounds();
-  const displayEvents = attachTimelineGeometry(filteredEvents, bounds);
-  const visibleCategories = CATEGORY_ORDER.filter((categoryId) => filteredEvents.some((event) => event.category_id === categoryId));
-  const markers = buildTimelineMarkers(bounds.start, bounds.end);
-
-  let html = '<div class="timeline-slider-container">';
-  html += '<div class="d-flex flex-wrap justify-content-center gap-3 mb-3">';
-  visibleCategories.forEach((categoryId) => {
-    const config = getCategoryConfig(categoryId);
-    html += `
-      <div class="d-flex align-items-center">
-        <div class="timeline-event ${config.markerClass}" style="position: static; transform: none;"></div>
-        <span class="ms-2 small">${config.label}</span>
-      </div>
-    `;
-  });
-  html += '</div>';
-  html += '<div class="timeline-years">';
-  markers.forEach((marker) => {
-    html += `<div class="timeline-year-marker" style="left: ${marker.left};">${marker.label}</div>`;
-  });
-  html += '</div>';
-  html += '<div class="timeline-track">';
-  displayEvents.forEach((event) => {
-    const config = getCategoryConfig(event.category_id);
-    html += `
-      <div class="timeline-event ${config.markerClass}"
-           style="left: ${event.positionPercent}%; top: calc(50% + ${event.markerTop}px);"
-           data-event-id="${event.event_id}"
-           title="${event.title} | ${formatDate(event.date)}">
-      </div>
-    `;
-  });
-  html += '</div>';
-  html += '<div class="timeline-details mt-4" id="timeline-details" style="display: none;"></div>';
-  html += '</div>';
-
-  container.innerHTML = html;
-  container.querySelectorAll('.timeline-event[data-event-id]').forEach((marker) => {
-    marker.addEventListener('click', () => {
-      const event = filteredEvents.find((row) => row.event_id === marker.dataset.eventId);
-      if (event) showEventDetails(event);
-    });
-  });
+function updateBadge() {
+  const badge = document.getElementById('event-count-badge'); if (!badge) return;
+  const list = filteredEvents();
+  const counts = ['Observed', 'Mixed', 'Modeled'].map((status) => list.filter((event) => event.source_status === status).length);
+  badge.textContent = `${list.length} events (${counts[0]} observed, ${counts[1]} mixed, ${counts[2]} modeled)`;
 }
 
-function buildOutputSummary(event) {
-  if (event.category_id === 'menu_pricing') {
-    return `${formatSignedPercent(event.price_change_pct)} to ${formatCurrency(event.price_to)} | ${formatCurrency(event.supported_sales)} sales`;
-  }
-  if (toNumber(event.discount_pct) > 0) {
-    return `${formatPercent(event.discount_pct)} off | ${formatCurrency(event.supported_sales)} sales`;
-  }
-  if (toNumber(event.supported_units) > 0) {
-    return `${formatCurrency(event.supported_sales)} sales | ${formatNumber(Math.round(event.supported_units))} volume`;
-  }
-  return formatCurrency(event.supported_sales);
-}
-
-function showEventDetails(event) {
-  const detailsPanel = document.getElementById('timeline-details');
-  if (!detailsPanel) return;
-
-  const category = getCategoryConfig(event.category_id);
+function showDetails(event) {
+  const panel = document.getElementById('timeline-details'); if (!panel) return;
+  const category = config(event.category_id);
   const metrics = [
-    { label: 'Timing', value: event.start_date && event.end_date && event.start_date !== event.end_date ? `${formatDate(event.start_date)} to ${formatDate(event.end_date)}` : formatDate(event.date) },
-    { label: 'Channels', value: event.channels || 'All Channels' },
-    { label: 'Supported sales', value: formatCurrency(event.supported_sales) },
-    { label: 'Supported volume', value: formatNumber(Math.round(event.supported_units || 0)) },
+    ['Timing', event.start_date !== event.end_date ? `${formatDate(event.start_date)} to ${formatDate(event.end_date)}` : formatDate(event.date)],
+    ['Channels', event.channels],
+    ['Supported sales', money(event.supported_sales)],
+    ['Supported volume', `${Math.round(event.supported_units).toLocaleString()} orders`]
   ];
-
-  if (event.category_id === 'menu_pricing') {
-    metrics.push({ label: 'Price move', value: `${formatSignedCurrency(event.price_change_amount)} (${formatSignedPercent(event.price_change_pct)})` });
-    metrics.push({ label: 'Current price', value: formatCurrency(event.price_to) });
-  } else if (toNumber(event.discount_pct) > 0) {
-    metrics.push({ label: 'Discount', value: formatPercent(event.discount_pct) });
-    metrics.push({ label: 'Realized price', value: formatCurrency(event.avg_realized_price) });
-  } else {
-    metrics.push({ label: 'Window length', value: `${event.window_weeks || 1} week${(event.window_weeks || 1) === 1 ? '' : 's'}` });
-    metrics.push({ label: 'Avg ticket', value: formatCurrency(event.avg_realized_price) });
-  }
-
-  const anchorItems = splitHeadlineItems(event.anchor_items);
-
-  detailsPanel.innerHTML = `
-    <div class="glass-card p-4">
-      <div class="d-flex justify-content-between align-items-start mb-3">
-        <div>
-          <div class="mb-2">
-            <span class="badge ${category.badgeClass} me-2">${category.label}</span>
-            <span class="badge bg-light text-dark">${event.source_status}</span>
-          </div>
-          <h5 class="mb-1">${event.title}</h5>
-          <div class="text-muted small">${event.tier || 'Pizza Hut campaign window'}</div>
-        </div>
-        <button type="button" class="btn-close" aria-label="Close" onclick="document.getElementById('timeline-details').style.display='none'"></button>
-      </div>
-      <p class="mb-3">${event.notes || 'No campaign description available.'}</p>
-      <div class="row g-3 mb-3">
-        ${metrics.map((metric) => `
-          <div class="col-md-4">
-            <div class="border rounded p-3 h-100">
-              <div class="small text-uppercase text-muted fw-semibold mb-1">${metric.label}</div>
-              <div class="small fw-semibold">${metric.value}</div>
-            </div>
-          </div>
-        `).join('')}
-      </div>
-      ${anchorItems.length ? `
-        <div class="small">
-          <span class="text-uppercase text-muted fw-semibold me-2">Anchor items</span>
-          ${anchorItems.map((item) => `<span class="badge bg-light text-dark me-1">${item}</span>`).join('')}
-        </div>
-      ` : ''}
-    </div>
-  `;
-  detailsPanel.style.display = 'block';
+  if (event.price_change_amount !== null) { metrics.push(['Price move', `${event.price_change_amount > 0 ? '+' : ''}${money(event.price_change_amount)} (${signedPct(event.price_change_pct)})`], ['Realized price', money(event.price_to)]); }
+  else if (event.discount_pct) { metrics.push(['Avg discount', pct(event.discount_pct)], ['Realized price', money(event.avg_realized_price)]); }
+  panel.innerHTML = `<div class="glass-card p-4"><div class="d-flex justify-content-between align-items-start mb-3"><div><div class="mb-2"><span class="badge ${category.badgeClass} me-2">${category.label}</span><span class="badge bg-light text-dark">${event.source_status}</span></div><h5 class="mb-1">${event.title}</h5><div class="text-muted small">${event.tier}</div></div><button type="button" class="btn-close" aria-label="Close" onclick="document.getElementById('timeline-details').style.display='none'"></button></div><p class="mb-3">${event.notes}</p><div class="row g-3 mb-3">${metrics.map(([label, value]) => `<div class="col-md-4"><div class="border rounded p-3 h-100"><div class="small text-uppercase text-muted fw-semibold mb-1">${label}</div><div class="small fw-semibold">${value}</div></div></div>`).join('')}</div><div class="small"><span class="text-uppercase text-muted fw-semibold me-2">Anchor items</span>${event.anchor_items.split(' | ').map((item) => `<span class="badge bg-light text-dark me-1">${item}</span>`).join('')}</div></div>`;
+  panel.style.display = 'block';
 }
 
-function renderEventTable() {
-  const tbody = document.getElementById('event-table-body');
-  if (!tbody) return;
-
-  const filteredEvents = filterEvents().sort((left, right) => right.date.localeCompare(left.date));
-  if (!filteredEvents.length) {
-    tbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted">No events match the current filters</td></tr>';
-    return;
-  }
-
-  tbody.innerHTML = filteredEvents.map((event) => {
-    const category = getCategoryConfig(event.category_id);
-    return `
-      <tr data-event-id="${event.event_id}" style="cursor: pointer;">
-        <td class="text-nowrap">${event.start_date && event.end_date && event.start_date !== event.end_date ? formatDate(event.start_date) : formatDate(event.date)}</td>
-        <td><span class="badge ${category.badgeClass}">${category.label}</span></td>
-        <td>
-          <div class="fw-semibold">${event.title}</div>
-          <div class="small text-muted">${event.source_status}</div>
-        </td>
-        <td class="small">${event.channels || 'All Channels'}</td>
-        <td class="small">${buildOutputSummary(event)}</td>
-        <td class="small">${event.notes || '-'}</td>
-      </tr>
-    `;
-  }).join('');
-
-  tbody.querySelectorAll('tr[data-event-id]').forEach((row) => {
-    row.addEventListener('click', () => {
-      const event = filteredEvents.find((candidate) => candidate.event_id === row.dataset.eventId);
-      if (event) showEventDetails(event);
-    });
-  });
+function renderTimeline() {
+  const root = document.getElementById('event-timeline'); if (!root) return;
+  const list = filteredEvents(); if (!list.length) { root.innerHTML = '<div class="text-center text-muted">No events match the current filters</div>'; return; }
+  const bounds = rollingBounds(); const totalDays = Math.max(1, Math.round((bounds.end - bounds.start) / DAY_MS)); const lanes = [4, -20, 28]; const last = lanes.map(() => -999);
+  const items = [...list].sort((a,b) => a.date.localeCompare(b.date)).map((event) => { const pos = Math.max(0, Math.min(100, (((parseDate(event.date) - bounds.start) / DAY_MS) / totalDays) * 100)); let lane = 0; while (lane < last.length && Math.abs(pos - last[lane]) < 4) lane += 1; if (lane >= lanes.length) lane = lanes.length - 1; last[lane] = pos; return { ...event, positionPercent: pos, markerTop: lanes[lane] }; });
+  const markers = [0, 0.33, 0.66, 1].map((ratio) => { const date = new Date(bounds.start); date.setDate(date.getDate() + Math.round(totalDays * ratio)); return `<div class="timeline-year-marker" style="left:${(ratio * 100).toFixed(2)}%;">${date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</div>`; }).join('');
+  root.innerHTML = `<div class="timeline-slider-container"><div class="d-flex flex-wrap justify-content-center gap-3 mb-3">${CATEGORY_ORDER.filter((id) => list.some((event) => event.category_id === id)).map((id) => `<div class="d-flex align-items-center"><div class="timeline-event ${config(id).markerClass}" style="position: static; transform: none;"></div><span class="ms-2 small">${config(id).label}</span></div>`).join('')}</div><div class="timeline-years">${markers}</div><div class="timeline-track">${items.map((event) => `<div class="timeline-event ${config(event.category_id).markerClass}" style="left:${event.positionPercent}%;top:calc(50% + ${event.markerTop}px);" data-event-id="${event.event_id}" title="${event.title} | ${formatDate(event.date)}"></div>`).join('')}</div><div class="timeline-details mt-4" id="timeline-details" style="display:none;"></div></div>`;
+  root.querySelectorAll('.timeline-event[data-event-id]').forEach((node) => node.addEventListener('click', () => { const event = list.find((item) => item.event_id === node.dataset.eventId); if (event) showDetails(event); }));
 }
 
-function renderPromoCards() {
-  const container = document.getElementById('promo-cards-container');
-  if (!container) return;
-
-  if (!promoCampaigns.length) {
-    container.innerHTML = '<div class="col-12 text-center text-muted">No campaign output summaries available</div>';
-    return;
-  }
-
-  const statusClass = {
-    Observed: 'success',
-    Mixed: 'warning',
-    Modeled: 'secondary',
-  };
-
-  container.innerHTML = promoCampaigns.map((campaign) => `
-    <div class="col-md-6 col-lg-4 mb-3">
-      <div class="card h-100">
-        <div class="card-header bg-${statusClass[campaign.status] || 'primary'} text-white">
-          <div class="d-flex justify-content-between align-items-center">
-            <h6 class="mb-0">${campaign.campaign_name}</h6>
-            <span class="badge bg-light text-dark">${campaign.status}</span>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="mb-2"><strong>Window:</strong> ${formatDate(campaign.start_date)} to ${formatDate(campaign.end_date)}</div>
-          <div class="mb-2"><strong>Flights:</strong> ${campaign.windows}</div>
-          <div class="mb-2"><strong>Supported sales:</strong> ${formatCurrency(campaign.supported_sales)}</div>
-          <div class="mb-2"><strong>Supported volume:</strong> ${formatNumber(Math.round(campaign.supported_units))}</div>
-          <div class="mb-2"><strong>Avg discount:</strong> ${formatPercent(campaign.discount_pct)}</div>
-          <div class="mb-2"><strong>Realized price:</strong> ${formatCurrency(campaign.avg_realized_price)}</div>
-          <div class="mt-3 small text-muted">
-            <strong>Focus:</strong> ${campaign.categories.map((category) => `<span class="badge bg-light text-dark me-1">${category}</span>`).join('')}
-          </div>
-          <div class="mt-2 small text-muted">
-            <strong>Channels:</strong> ${campaign.channels.map((channel) => `<span class="badge bg-light text-dark me-1">${channel}</span>`).join('')}
-          </div>
-        </div>
-      </div>
-    </div>
-  `).join('');
+function renderTable() {
+  const tbody = document.getElementById('event-table-body'); if (!tbody) return;
+  const list = filteredEvents().sort((a,b) => b.date.localeCompare(a.date));
+  tbody.innerHTML = list.length ? list.map((event) => `<tr data-event-id="${event.event_id}" style="cursor:pointer;"><td class="text-nowrap">${formatDate(event.date)}</td><td><span class="badge ${config(event.category_id).badgeClass}">${config(event.category_id).label}</span></td><td><div class="fw-semibold">${event.title}</div><div class="small text-muted">${event.source_status}</div></td><td class="small">${event.channels}</td><td class="small">${eventSummary(event)}</td><td class="small">${event.notes}</td></tr>`).join('') : '<tr><td colspan="6" class="text-center text-muted">No events match the current filters</td></tr>';
+  tbody.querySelectorAll('tr[data-event-id]').forEach((row) => row.addEventListener('click', () => { const event = list.find((item) => item.event_id === row.dataset.eventId); if (event) showDetails(event); }));
 }
 
-function setupEventFilters() {
+function renderCards() {
+  const root = document.getElementById('promo-cards-container'); if (!root) return;
+  const statusClass = { Observed: 'success', Mixed: 'warning', Modeled: 'secondary' };
+  root.innerHTML = promoCampaigns.map((campaign) => `<div class="col-md-6 col-lg-4 mb-3"><div class="card h-100"><div class="card-header bg-${statusClass[campaign.status] || 'primary'} text-white"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0">${campaign.campaign_name}</h6><span class="badge bg-light text-dark">${campaign.status}</span></div></div><div class="card-body"><div class="mb-2"><strong>Window:</strong> ${formatDate(campaign.start_date)} to ${formatDate(campaign.end_date)}</div><div class="mb-2"><strong>Flights:</strong> ${campaign.windows}</div><div class="mb-2"><strong>Supported sales:</strong> ${money(campaign.supported_sales)}</div><div class="mb-2"><strong>Supported volume:</strong> ${Math.round(campaign.supported_units).toLocaleString()} orders</div><div class="mb-2"><strong>Avg discount:</strong> ${pct(campaign.discount_pct)}</div><div class="mb-2"><strong>Realized price:</strong> ${money(campaign.avg_realized_price)}</div><div class="mt-3 small text-muted"><strong>Focus:</strong> ${campaign.categories.map((item) => `<span class="badge bg-light text-dark me-1">${item}</span>`).join('')}</div><div class="mt-2 small text-muted"><strong>Channels:</strong> ${campaign.channels.map((item) => `<span class="badge bg-light text-dark me-1">${item}</span>`).join('')}</div></div></div></div>`).join('');
+}
+
+function rerender() { updateBadge(); renderTimeline(); renderTable(); renderCards(); }
+function setupFilters() {
   if (filtersBound) return;
-
-  const filterAll = document.getElementById('filter-all');
-  const filterElements = CATEGORY_ORDER.reduce((elements, categoryId) => {
-    const config = getCategoryConfig(categoryId);
-    elements[categoryId] = document.getElementById(config.filterId);
-    return elements;
-  }, {});
-
-  const rerender = () => {
-    if (filterAll) filterAll.checked = CATEGORY_ORDER.every((categoryId) => activeFilters[categoryId]);
-    updateEventCountBadge();
-    renderEventTimeline();
-    renderEventTable();
-  };
-
-  filterAll?.addEventListener('change', (event) => {
-    CATEGORY_ORDER.forEach((categoryId) => {
-      activeFilters[categoryId] = event.target.checked;
-      if (filterElements[categoryId]) filterElements[categoryId].checked = event.target.checked;
-    });
-    rerender();
-  });
-
-  CATEGORY_ORDER.forEach((categoryId) => {
-    filterElements[categoryId]?.addEventListener('change', (event) => {
-      activeFilters[categoryId] = event.target.checked;
-      rerender();
-    });
-  });
-
+  const all = document.getElementById('filter-all'); const filters = Object.fromEntries(CATEGORY_ORDER.map((id) => [id, document.getElementById(config(id).filterId)]));
+  all?.addEventListener('change', (event) => { CATEGORY_ORDER.forEach((id) => { activeFilters[id] = event.target.checked; if (filters[id]) filters[id].checked = event.target.checked; }); rerender(); });
+  CATEGORY_ORDER.forEach((id) => filters[id]?.addEventListener('change', (event) => { activeFilters[id] = event.target.checked; if (all) all.checked = CATEGORY_ORDER.every((categoryId) => activeFilters[categoryId]); rerender(); }));
   filtersBound = true;
 }
 
 function refreshEventCalendar() {
-  const brandId = getSelectedYumBrandId();
-  const bounds = getRollingWindowBounds();
-  const sourceEvents = [
-    ...buildMenuPricingEventsForBrand(brandId),
-    ...buildPromoEventsForBrand(brandId),
-    ...buildCalendarWindowEventsForBrand(brandId),
-  ];
-
-  allEvents = dedupeEvents(
-    sourceEvents
-      .map((event) => shiftEventIntoRollingWindow(event, bounds))
-      .filter(Boolean),
-  );
-
-  promoCampaigns = buildPromoCampaigns(
-    allEvents.filter((event) => ['value_bundle', 'digital_loyalty', 'premium_innovation'].includes(event.category_id)),
-  );
-
-  updateEventCountBadge();
-  renderEventTimeline();
-  renderEventTable();
-  renderPromoCards();
+  const bounds = rollingBounds();
+  allEvents = parseEvents().filter((event) => { const date = parseDate(event.date); return date && date >= bounds.start && date <= bounds.end; });
+  promoCampaigns = parseCampaigns();
+  rerender();
 }
 
 export async function initializeEventCalendar() {
-  [promoRows, productRows, storeRows, calendarWeekRows] = await Promise.all([
-    loadYumPromoCalendar(),
-    loadYumBrandMarketProductChannelWeekPanel(),
-    loadYumStoreChannelWeekPanel(),
-    loadYumCalendarWeekDim(),
-  ]);
-
-  setupEventFilters();
-  if (!brandListenerBound) {
-    window.addEventListener('yum-brand-change', refreshEventCalendar);
-    brandListenerBound = true;
-  }
+  setupFilters();
   refreshEventCalendar();
 }

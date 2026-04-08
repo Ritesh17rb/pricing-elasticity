@@ -229,7 +229,7 @@ function updateChannelPromoSimulator() {
   }
 
   // Prepare chart data
-  const labels = ['Entry & Value Mix', 'Core & Premium Mix'];
+  const labels = ['Entry & Value Meals', 'Core & Premium Meals'];
 
   const revenueBaselineData = [
     mass.revenueMonthlyBaseline,

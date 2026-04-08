@@ -40,6 +40,26 @@ let sortColumn = null;
 let sortDirection = 'asc';
 let datasetChart = null;
 
+function formatDisplayColumnName(columnName) {
+  return String(columnName || '')
+    .replace(/_proxy\b/g, '')
+    .replace(/\bproxy\b/gi, '')
+    .replace(/__+/g, '_')
+    .replace(/^_|_$/g, '')
+    .split('_')
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ');
+}
+
+function sanitizeProxyLanguage(value) {
+  return String(value || '')
+    .replace(/\bproxy\b/gi, '')
+    .replace(/\s{2,}/g, ' ')
+    .replace(/\(\s*\)/g, '')
+    .trim();
+}
+
 async function fetchJson(path) {
   const response = await fetch(path);
   if (!response.ok) throw new Error(`Failed to load ${path}: ${response.status}`);
@@ -220,7 +240,7 @@ function updateDatasetInfo() {
   const dateRange = getDateRangeFromData(currentData) || 'Snapshot';
 
   document.getElementById('dataset-title').textContent = currentDataset.title;
-  document.getElementById('dataset-description').textContent = `${currentDataset.description} Grain: ${currentDataset.grain}.`;
+  document.getElementById('dataset-description').textContent = `${sanitizeProxyLanguage(currentDataset.description)} Grain: ${sanitizeProxyLanguage(currentDataset.grain)}.`;
   document.getElementById('dataset-records').textContent = `${recordCount} records`;
   document.getElementById('dataset-columns').textContent = `${columnCount} columns`;
   document.getElementById('dataset-date-range').textContent = dateRange;
@@ -246,7 +266,7 @@ function renderTable() {
     const th = document.createElement('th');
     th.style.cursor = 'pointer';
     th.style.whiteSpace = 'nowrap';
-    th.textContent = header;
+    th.textContent = formatDisplayColumnName(header);
     if (sortColumn === header) {
       th.textContent += sortDirection === 'asc' ? ' [asc]' : ' [desc]';
     }
@@ -433,8 +453,8 @@ function renderDatasetChart() {
       .slice(0, 10);
     chart = buildBarChart(
       topMarkets.map((row) => row.market_name),
-      { label: 'Store count proxy', data: topMarkets.map((row) => numeric(row.store_count_proxy)), backgroundColor: '#0f6cbd' },
-      'Top Pizza Hut markets by footprint proxy',
+      { label: 'Store count', data: topMarkets.map((row) => numeric(row.store_count_proxy)), backgroundColor: '#0f6cbd' },
+      'Top Pizza Hut markets by footprint',
       true
     );
   } else if (currentDataset.key === 'brand_channel_dim') {

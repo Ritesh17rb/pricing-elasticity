@@ -1113,6 +1113,6 @@ export function isPyodideAvailable() {
  * Initialize Pyodide models (call during app startup)
  */
 export async function initializePyodideModels() {
-  console.info('Pyodide models are disabled for the Pizza Hut build.');
+  console.debug('Pyodide models are disabled for the Pizza Hut build.');
   return false;
 }

@@ -54,7 +54,7 @@ class SegmentationEngine {
                 elasticity_level: 'High price sensitivity'
             },
             'routine_refill': {
-                label: 'Weekly Meal Routine',
+                label: 'Habitual Value Seeker',
                 description: 'Repeat ordering anchored to an established meal habit',
                 elasticity_level: 'Low price sensitivity'
             },
@@ -64,12 +64,12 @@ class SegmentationEngine {
                 elasticity_level: 'Medium price sensitivity'
             },
             'influencer_discovered': {
-                label: 'Digital Discovery Guest',
+                label: 'Digital Promo Explorer',
                 description: 'Discovery sparked by app, social, or creator-driven demand',
                 elasticity_level: 'High promo response'
             },
             'promo_triggered': {
-                label: 'Value Offer Triggered',
+                label: 'Deal-Seeking Customer',
                 description: 'Visits mainly when deals, bundles, or coupons are visible',
                 elasticity_level: 'Very high price sensitivity'
             },
@@ -86,29 +86,29 @@ class SegmentationEngine {
                 elasticity_level: 'Medium repeat-loss elasticity'
             },
             'deal_hunter': {
-                label: 'Coupon-Driven Guest',
+                label: 'Coupon-Driven Customer',
                 description: 'Heavy dependence on offers and visible discounting',
                 elasticity_level: 'High repeat-loss elasticity'
             },
             'occasional_shop': {
-                label: 'Occasional Craving Guest',
+                label: 'Occasional Indulger',
                 description: 'Low frequency ordering tied to sporadic cravings',
                 elasticity_level: 'Medium-high repeat-loss elasticity'
             },
             'channel_switcher': {
-                label: 'Channel Switcher',
+                label: 'Channel Flexible Customer',
                 description: 'Moves between delivery and carryout / pickup as price gaps change',
                 elasticity_level: 'Migration elasticity critical'
             },
 
             // Axis 1: Basket Value & Mix
             'single_sku_staple': {
-                label: 'Single Pizza Order',
+                label: 'Single Item Buyer',
                 description: 'Simple pizza-led order with limited attachments',
                 elasticity_level: 'Moderate price sensitivity'
             },
             'multi_sku_builder': {
-                label: 'Multi-Item Builder',
+                label: 'Multi-Item Basket Builder',
                 description: 'Builds larger checks with sides, desserts, or wings',
                 elasticity_level: 'Lower price sensitivity'
             },
@@ -118,12 +118,12 @@ class SegmentationEngine {
                 elasticity_level: 'Medium price sensitivity'
             },
             'premium_add_on': {
-                label: 'Premium Add-On',
+                label: 'Premium Upsell Buyer',
                 description: 'Adds stuffed crust, specialty builds, or premium extras',
                 elasticity_level: 'Low price sensitivity'
             },
             'trial_size_sampler': {
-                label: 'Side Sampler',
+                label: 'Sides & Add-On Explorer',
                 description: 'Uses breadsticks, desserts, or smaller attachments to test the menu',
                 elasticity_level: 'High price sensitivity'
             }
@@ -235,14 +235,16 @@ class SegmentationEngine {
                     return segmentElasticity;
                 }
 
-                console.warn('⚠️ Axis data not found, using fallback:', {
-                    tier,
-                    axis,
-                    axisKey,
-                    compositeKey: compositeKey.substring(0, 50) + '...',
-                    hasSegmentData: !!segmentData,
-                    availableKeys: segmentData ? Object.keys(segmentData) : []
-                });
+                if (window.YUM_DEBUG) {
+                    console.debug('Axis data not found, using fallback:', {
+                        tier,
+                        axis,
+                        axisKey,
+                        compositeKey: compositeKey.substring(0, 50) + '...',
+                        hasSegmentData: !!segmentData,
+                        availableKeys: segmentData ? Object.keys(segmentData) : []
+                    });
+                }
             }
 
             // Level 2-4: Fallback to existing elasticity calculation
