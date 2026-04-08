@@ -1173,28 +1173,28 @@ async function initializeChatContext() {
       suggestScenario: async (goal) => {
         const goalMap = {
           maximize_revenue: {
-            strategy: 'Price lift on core and premium mix',
+            strategy: 'Selective price lift on core and premium items',
             tier: 'ad_free',
             priceChange: +2.00,
-            rationale: 'Prestige channel is less elastic, allowing modest price lifts with limited volume loss'
+            rationale: 'Core and premium Pizza Hut orders are less elastic, so a selective lift can add dollars with lower order risk than value-ladder pricing.'
           },
           grow_customers: {
-            strategy: 'Defensive promo on entry and value mix',
+            strategy: 'Defensive promo on entry and value items',
             tier: 'ad_supported',
             priceChange: -3.00,
-            rationale: 'Mass channel is more elastic, so discounts drive volume during competitive pressure'
+            rationale: 'Entry and value missions are more price-sensitive, so targeted discounts are the cleanest way to protect order volume.'
           },
           reduce_churn: {
             strategy: 'Hold price and reduce promo depth',
             tier: 'ad_free',
             priceChange: -1.00,
-            rationale: 'A modest core and premium mix adjustment protects repeat rate without heavy discounting'
+            rationale: 'A modest adjustment on the core and premium ladder can protect repeat visits without relying on a broad value reset.'
           },
           maximize_aov: {
-            strategy: 'Prestige channel price increase',
+            strategy: 'Premium bundle price increase',
             tier: 'ad_free',
             priceChange: +3.00,
-            rationale: 'Prestige shoppers accept higher pricing when demand is strong'
+            rationale: 'Premium bundle demand usually supports a larger average ticket when value cues and occasion relevance stay intact.'
           }
         };
 
@@ -1357,6 +1357,7 @@ async function initializeChatContext() {
             : `${tier.replace('_', ' ')} ${price_change >= 0 ? '+' : ''}$${price_change.toFixed(2)}`,
           description: `Custom scenario created via chatbot`,
           category: scenarioType,
+          model_type: scenarioType === 'promotion' || (price_change !== undefined && price_change < 0) ? 'acquisition' : 'churn',
           config: {
             tier: tier,
             current_price: currentPrice,
@@ -1403,19 +1404,30 @@ async function loadData() {
   const progressText = document.getElementById('loading-percentage');
   const stageText = document.getElementById('loading-stage');
 
+  window.dataLoading = true;
+  window.dataLoaded = false;
+
   // Hide button, show progress
-  btn.style.display = 'none';
-  progressContainer.style.display = 'block';
+  if (btn) btn.style.display = 'none';
+  if (progressContainer) progressContainer.style.display = 'block';
 
   // Ensure loading UI elements exist and are visible
   if (!progressContainer || !progressBar || !progressText || !stageText) {
     console.error('Loading UI elements not found');
+    window.dataLoading = false;
     return;
   }
 
   // Force visibility
   progressContainer.style.display = 'block';
   progressContainer.style.visibility = 'visible';
+  progressBar.style.width = '5%';
+  progressBar.style.minWidth = '5%';
+  progressBar.setAttribute('aria-valuenow', '0');
+  progressBar.classList.remove('bg-success', 'bg-danger');
+  progressBar.classList.add('bg-primary');
+  progressText.textContent = '0%';
+  stageText.textContent = 'Initializing...';
 
   // Define loading stages
   const stages = [
@@ -1530,6 +1542,8 @@ async function loadData() {
     initializePopovers();
 
     dataLoaded = true;
+    window.dataLoaded = true;
+    window.dataLoading = false;
 
     // Initialize Pyodide models in background (non-blocking)
     initializePyodideModels().then(success => {
@@ -1542,6 +1556,9 @@ async function loadData() {
 
   } catch (error) {
     console.error('Error loading data:', error);
+    dataLoaded = false;
+    window.dataLoaded = false;
+    window.dataLoading = false;
 
     // Show error state
     progressBar.classList.remove('bg-success');
@@ -1569,6 +1586,8 @@ async function loadDataStyled() {
     return;
   }
 
+  window.dataLoading = true;
+  window.dataLoaded = false;
   btn.style.display = 'none';
   if (progressContainer) {
     progressContainer.style.display = 'none';
@@ -1719,6 +1738,8 @@ async function loadDataStyled() {
 
     initializePopovers();
     dataLoaded = true;
+    window.dataLoaded = true;
+    window.dataLoading = false;
 
     if (window.goToStep && typeof window.goToStep === 'function') {
       const targetStep = Number.isInteger(window.postLoadStep) ? window.postLoadStep : 1;
@@ -1735,6 +1756,9 @@ async function loadDataStyled() {
     });
   } catch (error) {
     console.error('Error loading data:', error);
+    dataLoaded = false;
+    window.dataLoaded = false;
+    window.dataLoading = false;
     progressBar.classList.remove('ld-progress-done');
     progressBar.style.background = 'linear-gradient(90deg, #dc2626, #f97316)';
     stageText.textContent = `Error loading data: ${error.message}`;
@@ -1949,7 +1973,7 @@ function buildCohortContext() {
 function buildSegmentComparisonContext() {
   const lines = [
     `Selected axis: ${getSelectedOptionText('compare-axis-select')} (${getTextById('compare-axis-helper')})`,
-    `Selected channel group: ${getSelectedOptionText('compare-tier-select')}`,
+    `Selected demand ladder: ${getSelectedOptionText('compare-tier-select')}`,
     `Sort order: ${getSelectedOptionText('compare-sort-select')}`
   ].filter(Boolean);
 
@@ -2322,7 +2346,7 @@ function renderSegmentVisualizationGuide(vizType, axis, tierSegments, aggregated
       copy: 'This scatter isolates the active elasticity axis. It is meant to answer which cohorts are both large enough to matter and risky enough to change the pricing recommendation.',
       items: [
         { label: 'X axis', value: 'Customer count for each filtered cohort combination.' },
-        { label: 'Y axis', value: `${axisMeta.label} elasticity for the selected channel group.` },
+        { label: 'Y axis', value: `${axisMeta.label} elasticity for the selected demand ladder.` },
         { label: 'Bubble size', value: `Average order value, currently ${formatCurrency(aov)} on a weighted basis.` }
       ]
     },
@@ -2331,7 +2355,7 @@ function renderSegmentVisualizationGuide(vizType, axis, tierSegments, aggregated
       copy: 'This view is kept separate from the cohort maps. Use it to compare channel posture and then bring the pricing decision back to the cohort views for who-to-protect and where-to-push.',
       items: [
         { label: 'Bar chart', value: 'Compares elasticity across channels.' },
-        { label: 'Heatmap', value: 'Shows where channel risk clusters by channel group.' },
+        { label: 'Heatmap', value: 'Shows where channel risk clusters by demand ladder.' },
         { label: 'Use with', value: 'Pair this with cohort views before making a broad price move.' }
       ]
     }
@@ -3496,6 +3520,7 @@ async function init() {
   // Make loadData available globally so it can be called when navigating to step 1
   window.loadAppData = loadData;
   window.dataLoaded = false;
+  window.dataLoading = false;
 }
 
 // Start app

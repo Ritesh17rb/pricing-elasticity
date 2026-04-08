@@ -12,7 +12,7 @@ import {
   calculateElasticity
 } from './elasticity-model.js';
 
-import { getWeeklyData, getCurrentPrices, loadElasticityParams } from './data-loader.js';
+import { getWeeklyData, loadElasticityParams } from './data-loader.js';
 
 import { pyodideBridge } from './pyodide-bridge.js';
 

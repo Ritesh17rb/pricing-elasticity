@@ -86,10 +86,10 @@ const DEFAULT_SYSTEM_PROMPT = `You are the Pizza Hut Analyst for the Pizza Hut P
 **Available Tools:**
 1. **interpret_scenario** - Analyze a scenario's results with detailed metrics and trade-offs
 2. **suggest_scenario** - Get scenario suggestions based on business goals (maximize_revenue, grow_customers, reduce_churn [repeat loss], maximize_aov)
-3. **analyze_chart** - Explain what a specific visualization shows (demand_curve, channel group_mix, forecast, heatmap)
+3. **analyze_chart** - Explain what a specific visualization shows (demand_curve, tier_mix, forecast, heatmap)
 4. **compare_outcomes** - Deep comparison of 2 or more scenarios with trade-off analysis
 5. **create_scenario** - Generate a new custom scenario from parameters
-6. **query_segments** - Get detailed information about customer segments (filter by channel group, size, repeat-loss risk, value)
+6. **query_segments** - Get detailed information about customer segments (filter by demand ladder, size, repeat-loss risk, value)
 
 **How to Use Tools:**
 - When users ask to interpret results: Use interpret_scenario with the scenario_id
@@ -97,7 +97,7 @@ const DEFAULT_SYSTEM_PROMPT = `You are the Pizza Hut Analyst for the Pizza Hut P
 - When users ask about a chart: Use analyze_chart with the chart name
 - When users want to compare 2+ scenarios: Use compare_outcomes with array of scenario_ids
 - When users want to create new scenarios: Use create_scenario with parameters
-- When users ask about customer segments: Use query_segments with filters (channel group, size, repeat-loss risk, value)
+- When users ask about customer segments: Use query_segments with filters (demand ladder, size, repeat-loss risk, value)
 
 **Response Guidelines:**
 - Focus on business interpretation, recommended actions, and trust in the underlying data
@@ -111,7 +111,7 @@ const DEFAULT_SYSTEM_PROMPT = `You are the Pizza Hut Analyst for the Pizza Hut P
 - When users save scenarios, you can compare them using the compare_outcomes tool
 - When a message contains an "Active Screen Context" block, treat that as the primary scope and answer from that screen's current state first
 
-Be very concise and informative in your responses. No much questions to the user.
+Be concise and informative in your responses. Ask follow-up questions only when they are necessary.
 Return the response in Markdown format for rich text display. (Bold important points, use lists for clarity, and include code blocks for any data or JSON.)
 
 **Example Interactions:**
@@ -140,7 +140,7 @@ User: "Show me high repeat-loss segments"
 → Use query_segments with filter: {repeat_loss_risk: "high"}
 
 User: "What are the largest segments in the entry and value menu ladder?"
-→ Use query_segments with filter: {channel group: "mass", size: "large"}`;
+→ Use query_segments with filter: {tier: "ad_supported", size: "large"}`;
 
 function escapeHtml(value) {
   return String(value || '')
@@ -215,9 +215,15 @@ function renderAllChatFeeds() {
   });
 }
 
-function setChatComposerEnabled(enabled) {
+function setChatComposerEnabled(enabled, reason = '') {
   document.querySelectorAll('.assistant-chat-input, .assistant-chat-send-btn, .suggested-query').forEach((node) => {
     node.disabled = !enabled;
+  });
+
+  document.querySelectorAll('.assistant-chat-input').forEach((input) => {
+    input.placeholder = enabled
+      ? 'Ask about Pizza Hut elasticity: summarize, explain, compare, or recommend actions...'
+      : (reason || 'Configure the LLM with the key button to enable chat.');
   });
 }
 
@@ -292,12 +298,12 @@ async function checkAndEnableChatUI() {
       setChatComposerEnabled(true);
     } else {
       console.log('LLM not configured yet, chat UI will remain disabled until configuration');
-      setChatComposerEnabled(false);
+      setChatComposerEnabled(false, 'Configure the LLM with the key button to enable chat.');
     }
   } catch (error) {
     // Config doesn't exist yet, that's fine
     console.log('LLM not configured yet:', error.message);
-    setChatComposerEnabled(false);
+    setChatComposerEnabled(false, 'Configure the LLM with the key button to enable chat.');
   }
 }
 
@@ -336,6 +342,148 @@ export async function configureLLM() {
       body: error.message
     });
   }
+}
+
+async function getChatConfig(show = true) {
+  const config = await openaiConfig({
+    show,
+    defaultBaseUrls: DEFAULT_BASE_URLS
+  });
+
+  if (!config?.apiKey || !config?.baseUrl) {
+    throw new Error('Missing API key or base URL. Configure the LLM connection first.');
+  }
+
+  return config;
+}
+
+async function parseErrorResponse(response) {
+  const text = await response.text().catch(() => '');
+  try {
+    const payload = JSON.parse(text);
+    return payload?.error?.message || payload?.message || text || `HTTP error! status: ${response.status}`;
+  } catch {
+    return text || `HTTP error! status: ${response.status}`;
+  }
+}
+
+function looksLikeToolSupportError(message = '') {
+  const lower = String(message).toLowerCase();
+  return /(tool|tools|tool_choice|function|function_call)/.test(lower)
+    && /(unsupported|not supported|unknown|invalid|not allowed|unrecognized)/.test(lower);
+}
+
+async function requestJsonChatCompletion(baseUrl, apiKey, requestBody) {
+  const response = await fetch(`${baseUrl}/chat/completions`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`
+    },
+    body: JSON.stringify(requestBody)
+  });
+
+  if (!response.ok) {
+    throw new Error(await parseErrorResponse(response));
+  }
+
+  const data = await response.json();
+  const choice = data?.choices?.[0];
+  if (!choice?.message) {
+    throw new Error('Model returned an unexpected response payload.');
+  }
+
+  return choice.message;
+}
+
+function normalizeMessageContent(content) {
+  if (typeof content === 'string') {
+    return content;
+  }
+
+  if (Array.isArray(content)) {
+    return content.map((part) => {
+      if (typeof part === 'string') {
+        return part;
+      }
+
+      if (part?.type === 'text' && typeof part.text === 'string') {
+        return part.text;
+      }
+
+      if (typeof part?.text?.value === 'string') {
+        return part.text.value;
+      }
+
+      return '';
+    }).filter(Boolean).join('\n');
+  }
+
+  if (content && typeof content === 'object') {
+    if (typeof content.text === 'string') {
+      return content.text;
+    }
+
+    if (typeof content.content === 'string') {
+      return content.content;
+    }
+
+    try {
+      return JSON.stringify(content, null, 2);
+    } catch {
+      return String(content);
+    }
+  }
+
+  return '';
+}
+
+async function requestPlainAssistantReply(baseUrl, apiKey, messages) {
+  const message = await requestJsonChatCompletion(baseUrl, apiKey, {
+    model: getModelName(),
+    messages,
+    stream: false
+  });
+
+  return normalizeMessageContent(message.content) || 'No response received from the model.';
+}
+
+function buildToollessContinuationMessages(systemPrompt, history) {
+  const transcript = history.map((message) => {
+    if (message.role === 'user') {
+      return `[User]\n${normalizeMessageContent(message.content)}`;
+    }
+
+    if (message.role === 'assistant' && Array.isArray(message.tool_calls) && message.tool_calls.length > 0) {
+      const toolList = message.tool_calls.map((call) => call?.function?.name).filter(Boolean).join(', ');
+      return `[Assistant planned tools]\n${toolList || 'tool call requested'}`;
+    }
+
+    if (message.role === 'assistant') {
+      return `[Assistant]\n${normalizeMessageContent(message.content)}`;
+    }
+
+    if (message.role === 'tool') {
+      return `[Tool: ${message.name || 'tool'}]\n${normalizeMessageContent(message.content)}`;
+    }
+
+    return `[${message.role || 'message'}]\n${normalizeMessageContent(message.content)}`;
+  }).filter(Boolean).join('\n\n');
+
+  return [
+    {
+      role: 'system',
+      content: `${systemPrompt}
+
+If tool results are provided as transcript blocks instead of native tool messages, treat them as trusted structured outputs from the application and use them directly.`
+    },
+    {
+      role: 'user',
+      content: `${transcript}
+
+Using the transcript above, provide the final assistant response to the latest user request.`
+    }
+  ];
 }
 
 /**
@@ -625,40 +773,41 @@ export async function sendMessage(userMessage, options = {}) {
   const loadingId = appendMessage('assistant', '...', true);
 
   try {
-    // Get LLM config from localStorage (or show config modal if not set)
-    const { baseUrl, apiKey } = await openaiConfig({
-      defaultBaseUrls: DEFAULT_BASE_URLS
-    });
+    const { baseUrl, apiKey } = await getChatConfig(false);
+    const systemPrompt = buildSystemPrompt();
 
     // Prepare API request (NON-STREAMING first to get tool calls immediately)
     const requestBody = {
       model: getModelName(),
       messages: [
-        { role: "system", content: buildSystemPrompt() },
+        { role: "system", content: systemPrompt },
         ...conversationHistory
       ],
       tools: getToolDefinitions(),
       tool_choice: "auto",
       stream: false
     };
+    let message;
+    try {
+      message = await requestJsonChatCompletion(baseUrl, apiKey, requestBody);
+    } catch (error) {
+      if (!looksLikeToolSupportError(error.message)) {
+        throw error;
+      }
 
-    // Make the request and handle any tool calls from the response.
-    const response = await fetch(`${baseUrl}/chat/completions`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${apiKey}`
-      },
-      body: JSON.stringify(requestBody)
-    });
+      console.warn('Tool-calling is not supported by the selected provider/model. Falling back to plain chat response.', error.message);
+      const fallbackContent = await requestPlainAssistantReply(baseUrl, apiKey, [
+        { role: "system", content: systemPrompt },
+        ...conversationHistory
+      ]);
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      updateMessage(loadingId, fallbackContent, false);
+      conversationHistory.push({
+        role: "assistant",
+        content: fallbackContent
+      });
+      return;
     }
-
-    const data = await response.json();
-    const choice = data.choices[0];
-    const message = choice.message;
 
     // Handle response based on whether tools were called
     if (message.tool_calls && message.tool_calls.length > 0) {
@@ -759,15 +908,13 @@ async function getContinuationResponse() {
   const loadingId = appendMessage('assistant', '...', true);
 
   try {
-    // Get LLM config from localStorage
-    const { baseUrl, apiKey } = await openaiConfig({
-      defaultBaseUrls: DEFAULT_BASE_URLS
-    });
+    const { baseUrl, apiKey } = await getChatConfig(false);
+    const systemPrompt = buildSystemPrompt();
 
     const requestBody = {
       model: getModelName(),
       messages: [
-        { role: "system", content: buildSystemPrompt() },
+        { role: "system", content: systemPrompt },
         ...conversationHistory
       ],
       stream: true
@@ -777,51 +924,65 @@ async function getContinuationResponse() {
     let lastUpdateTime = 0;
     const updateInterval = 50; // Update UI every 50ms max (20 FPS)
 
-    for await (const chunk of asyncLLM(`${baseUrl}/chat/completions`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${apiKey}`
-      },
-      body: JSON.stringify(requestBody),
-    })) {
+    try {
+      for await (const chunk of asyncLLM(`${baseUrl}/chat/completions`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${apiKey}`
+        },
+        body: JSON.stringify(requestBody),
+      })) {
 
-      if (chunk.error) {
-        throw new Error(chunk.error);
-      }
-
-      // asyncLLM returns chunks with {content, message} format
-      // IMPORTANT: chunk.content contains FULL accumulated text, not delta!
-      // Handle both formats: asyncLLM's simplified format and OpenAI's standard format
-      let content = null;
-      let finishReason = null;
-
-      if (chunk.choices && chunk.choices.length > 0) {
-        // Standard OpenAI format (delta - incremental content)
-        const delta = chunk.choices[0].delta;
-        if (delta?.content) {
-          assistantMessage += delta.content;  // Accumulate deltas
-          content = assistantMessage;
+        if (chunk.error) {
+          throw new Error(chunk.error);
         }
-        finishReason = chunk.choices[0].finish_reason;
-      } else if (chunk.content !== undefined) {
-        // asyncLLM simplified format (full accumulated content)
-        content = chunk.content;  // Use directly, don't accumulate!
-        assistantMessage = content;  // Store for history
-        finishReason = chunk.message?.finish_reason;
-      }
 
-      if (content) {
-        // Throttle UI updates for better performance
-        const now = Date.now();
-        if (now - lastUpdateTime > updateInterval || finishReason) {
-          updateMessage(loadingId, content, false);
-          lastUpdateTime = now;
+        // asyncLLM returns chunks with {content, message} format
+        // IMPORTANT: chunk.content contains FULL accumulated text, not delta!
+        // Handle both formats: asyncLLM's simplified format and OpenAI's standard format
+        let content = null;
+        let finishReason = null;
+
+        if (chunk.choices && chunk.choices.length > 0) {
+          // Standard OpenAI format (delta - incremental content)
+          const delta = chunk.choices[0].delta;
+          if (delta?.content) {
+            assistantMessage += delta.content;  // Accumulate deltas
+            content = assistantMessage;
+          }
+          finishReason = chunk.choices[0].finish_reason;
+        } else if (chunk.content !== undefined) {
+          // asyncLLM simplified format (full accumulated content)
+          content = chunk.content;  // Use directly, don't accumulate!
+          assistantMessage = content;  // Store for history
+          finishReason = chunk.message?.finish_reason;
+        }
+
+        if (content) {
+          // Throttle UI updates for better performance
+          const now = Date.now();
+          if (now - lastUpdateTime > updateInterval || finishReason) {
+            updateMessage(loadingId, content, false);
+            lastUpdateTime = now;
+          }
+        }
+
+        if (finishReason && finishReason === 'stop') {
+          break;
         }
       }
-
-      if (finishReason && finishReason === 'stop') {
-        break;
+    } catch (streamError) {
+      console.warn('Streaming continuation failed, falling back to plain response.', streamError);
+      try {
+        assistantMessage = await requestPlainAssistantReply(baseUrl, apiKey, requestBody.messages);
+      } catch (plainError) {
+        console.warn('Native continuation failed, retrying with flattened transcript.', plainError);
+        assistantMessage = await requestPlainAssistantReply(
+          baseUrl,
+          apiKey,
+          buildToollessContinuationMessages(systemPrompt, conversationHistory)
+        );
       }
     }
 

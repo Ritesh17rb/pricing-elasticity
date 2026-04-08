@@ -80,43 +80,49 @@ function showStepContent(step) {
     case 0:
       break;
     case 1:
-      if (window.loadAppData && !window.dataLoaded) {
-        window.dataLoaded = true;
-        window.postLoadStep = 1;
-
-        setTimeout(() => {
-          const loadSection = document.getElementById('load-data-section');
-          const loadingProgress = document.getElementById('loading-progress');
-          if (loadSection) {
-            loadSection.style.display = 'block';
-            loadSection.style.visibility = 'visible';
-            loadSection.style.opacity = '1';
-          }
-          if (loadingProgress) {
-            loadingProgress.style.display = 'block';
-            loadingProgress.style.visibility = 'visible';
-          }
-
-          window.loadAppData().catch((error) => {
-            console.error('Failed to load data:', error);
-            window.dataLoaded = false;
-            if (loadSection) {
-              loadSection.innerHTML = `
-                <div class="glass-card">
-                  <div class="alert alert-danger mb-0">
-                    <i class="bi bi-exclamation-triangle me-2"></i>
-                    <strong>Failed to load data.</strong> ${error.message}
-                    <button class="btn btn-sm btn-outline-danger ms-3" onclick="location.reload()">Retry</button>
-                  </div>
-                </div>
-              `;
-            }
-          });
-        }, 100);
-      } else {
+      {
+        const loadSection = document.getElementById('load-data-section');
         const kpiSection = document.getElementById('kpi-section');
-        if (kpiSection) {
-          kpiSection.style.display = 'block';
+        const loadingProgress = document.getElementById('loading-progress');
+
+        if (window.dataLoaded) {
+          if (loadSection) loadSection.style.display = 'none';
+          if (kpiSection) kpiSection.style.display = 'block';
+          break;
+        }
+
+        if (loadSection) {
+          loadSection.style.display = 'block';
+          loadSection.style.visibility = 'visible';
+          loadSection.style.opacity = '1';
+        }
+        if (loadingProgress) {
+          loadingProgress.style.display = 'block';
+          loadingProgress.style.visibility = 'visible';
+        }
+
+        if (window.loadAppData && !window.dataLoading) {
+          window.postLoadStep = 1;
+          window.dataLoading = true;
+
+          setTimeout(() => {
+            window.loadAppData().catch((error) => {
+              console.error('Failed to load data:', error);
+              window.dataLoaded = false;
+              window.dataLoading = false;
+              if (loadSection) {
+                loadSection.innerHTML = `
+                  <div class="glass-card">
+                    <div class="alert alert-danger mb-0">
+                      <i class="bi bi-exclamation-triangle me-2"></i>
+                      <strong>Failed to load data.</strong> ${error.message}
+                      <button class="btn btn-sm btn-outline-danger ms-3" onclick="location.reload()">Retry</button>
+                    </div>
+                  </div>
+                `;
+              }
+            });
+          }, 100);
         }
       }
       break;
