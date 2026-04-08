@@ -1,6 +1,6 @@
 /**
- * Taco Bell traffic acquisition elasticity model.
- * Uses the Yum foundation operating panel instead of legacy subscription tiers.
+ * Pizza Hut traffic acquisition elasticity model.
+ * Uses the operating panel instead of the legacy template pricing logic.
  */
 
 import {
@@ -8,32 +8,53 @@ import {
   loadYumStoreChannelWeekPanel,
   loadYumStoreItemWeekPanel
 } from './yum-data-loader.js';
+import { openaiConfig } from 'bootstrap-llm-provider';
 import { getSelectedYumBrandId, getYumBrandLabel, getYumChannelLabel } from './yum-brand-utils.js';
 import { formatCurrency, formatNumber } from './utils.js';
 
 const COHORT_BASE_ELASTICITY = 1.9;
+const DEFAULT_BASE_URLS = [
+  'https://api.openai.com/v1',
+  'https://aipipe.org/openai/v1',
+  'https://openrouter.ai/api/v1',
+  'https://aipipe.org/openrouter/v1'
+];
+const ACQ_AI_DEBOUNCE_MS = 700;
 const PRODUCT_GROUPS = [
-  { key: 'value', label: 'Value Menu' },
-  { key: 'core', label: 'Core Cravings' },
-  { key: 'premium', label: 'Premium & Boxes' }
+  { key: 'value', label: 'Value & Personal Meals' },
+  { key: 'core', label: 'Core Pizza Orders' },
+  { key: 'premium', label: 'Premium & Shareables' }
 ];
 const COHORT_LABELS = {
   baseline: 'All Visit Missions',
-  brand_loyal: 'Brand Loyal Regulars',
-  value_conscious: 'Value Menu Shoppers',
-  deal_seeker: 'Deal Hunters',
-  trend_driven: 'LTO / Cantina Explorers',
+  brand_loyal: 'Family Ritual Loyalists',
+  value_conscious: 'Value Bundle Shoppers',
+  deal_seeker: 'Coupon-Driven Guests',
+  trend_driven: 'Premium Crust Explorers',
   channel_switcher: 'Digital Channel Switchers',
-  premium_loyal: 'Box & Premium Fans',
-  at_risk: 'Frequency At Risk'
+  premium_loyal: 'Premium Pizza Loyalists',
+  at_risk: 'Lapse-Risk Guests'
 };
 
 let acquisitionChartSimple = null;
 let acquisitionState = null;
 let cohortData = {};
+let acquisitionAiReadoutTimer = null;
+let acquisitionAiReadoutAbortController = null;
+let acquisitionAiReadoutRequestKey = '';
+const acquisitionAiReadoutCache = new Map();
 
 function getActiveBrandId() {
   return getSelectedYumBrandId();
+}
+
+function resolveStepContentTarget(containerId) {
+  return document.getElementById(`${containerId}-content`) || document.getElementById(containerId);
+}
+
+function getSelectedModelName() {
+  const modelInput = document.getElementById('model');
+  return modelInput?.value?.trim() || 'gpt-4.1-mini';
 }
 
 function toNumber(value, fallback = 0) {
@@ -66,7 +87,7 @@ function classifyProductGroup(row) {
     return 'value';
   }
 
-  if (row.price_tier === 'premium' || row.category === 'combos' || row.subcategory === 'cantina') {
+  if (row.price_tier === 'premium' || row.category === 'bundles' || row.category === 'pizza') {
     return 'premium';
   }
 
@@ -151,7 +172,7 @@ function relabelAcquisitionPane(channelRows) {
 
   const advancedAlertDetail = pane.querySelectorAll('#acquisition-advanced .alert p')[1];
   if (advancedAlertDetail) {
-    advancedAlertDetail.innerHTML = '<strong>Key Insight:</strong> Drive-thru traffic is more stable, while digital and value-oriented missions react faster to price moves and app offers.';
+    advancedAlertDetail.innerHTML = '<strong>Key Insight:</strong> Delivery tends to be more resilient on larger baskets, while owned digital and value-led missions react faster when the effective check moves.';
   }
 }
 
@@ -159,25 +180,32 @@ function setBulletList(elementId, items = []) {
   const element = document.getElementById(elementId);
   if (!element) return;
 
-  if (!items.length) {
-    element.innerHTML = '<li>No guidance available.</li>';
-    return;
-  }
+  const values = items.length ? items : ['No guidance available.'];
+  const listItems = values.map(item => {
+    const li = document.createElement('li');
+    li.textContent = String(item || '').trim();
+    return li;
+  });
 
-  element.innerHTML = items.map(item => `<li>${item}</li>`).join('');
+  element.replaceChildren(...listItems);
 }
 
 function buildAcquisitionState(channelRows, storeChannelRows, itemRows, brandId) {
-  const brandChannels = channelRows
-    .filter(row => row.brand_id === brandId)
-    .sort((a, b) => toNumber(a.display_order) - toNumber(b.display_order));
-
   const brandChannelPanel = storeChannelRows.filter(row => row.brand_id === brandId);
   const recentWeeks = getRecentWeeks(brandChannelPanel, 8);
   const recentChannelRows = brandChannelPanel.filter(row => recentWeeks.includes(row.week_start));
   const recentItemRows = itemRows.filter(
     row => row.brand_id === brandId && recentWeeks.includes(row.week_start)
   );
+  const activeChannelSet = new Set(
+    recentChannelRows
+      .filter(row => toNumber(row.transaction_count_proxy) > 0 || toNumber(row.net_sales) > 0)
+      .map(row => row.channel)
+  );
+  const brandChannels = channelRows
+    .filter(row => row.brand_id === brandId)
+    .filter(row => activeChannelSet.has(row.channel) || toNumber(row.supported_store_count) > 0)
+    .sort((a, b) => toNumber(a.display_order) - toNumber(b.display_order));
 
   const channels = {};
 
@@ -544,9 +572,84 @@ function findOptimalPriceSuggestion(channelData, cohortMultiplier) {
   };
 }
 
-function renderAcquisitionReadout({
-  channelData,
+function formatSignedPct(value) {
+  return `${value >= 0 ? '+' : ''}${value.toFixed(1)}%`;
+}
+
+function buildAcquisitionActionBullets({
+  cohortKey,
   cohortLabel,
+  channelLabel,
+  projectedGroups,
+  mostSensitive,
+  mostResilient
+}) {
+  const valueGroup = projectedGroups.find(group => group.key === 'value');
+  const coreGroup = projectedGroups.find(group => group.key === 'core');
+  const premiumGroup = projectedGroups.find(group => group.key === 'premium');
+  const scopeLabel = cohortLabel.toLowerCase();
+  const exposedGroup = mostSensitive || valueGroup || coreGroup || premiumGroup;
+  const resilientGroup = mostResilient || premiumGroup || coreGroup || valueGroup;
+
+  switch (cohortKey) {
+    case 'brand_loyal':
+      return [
+        `Take price through ${(premiumGroup || resilientGroup).label} before touching ${(coreGroup || valueGroup || exposedGroup).label}. ${cohortLabel} absorb a premium-led move better than an everyday menu increase (${formatSignedPct((premiumGroup || resilientGroup).orderImpactPct)} projected orders on that ladder).`,
+        `Keep ${(coreGroup || valueGroup || exposedGroup).label} predictable. This cohort protects frequency when the habitual middle of the menu stays steady in ${channelLabel}.`,
+        `Use loyalty messaging instead of broad discounting. ${channelLabel} traffic for ${scopeLabel} is more durable when price changes feel earned rather than promotional.`
+      ];
+    case 'value_conscious':
+      return [
+        `Maintain or reduce price for ${(valueGroup || exposedGroup).label}. ${cohortLabel} react first at the opening price point (${formatSignedPct((valueGroup || exposedGroup).orderImpactPct)} projected orders at the current move).`,
+        `Recover dollars through ${(premiumGroup || resilientGroup).label}, not the entry ladder. This cohort trades out faster than it trades up.`,
+        `Use targeted promotions instead of blanket increases. ${channelLabel} traffic for ${scopeLabel} is too price-aware to support a one-size-fits-all move.`
+      ];
+    case 'deal_seeker':
+      return [
+        `Hold ${(valueGroup || exposedGroup).label} flat and protect promo entry points. ${cohortLabel} are the fastest to break on visible price moves (${formatSignedPct((valueGroup || exposedGroup).orderImpactPct)} projected orders at the current move).`,
+        `Lean on targeted offers around ${(coreGroup || exposedGroup).label} before changing list price. Promo framing matters more than shelf price for this cohort.`,
+        `Keep any increases narrow and time-bound. ${channelLabel} traffic for ${scopeLabel} will fade quickly if the deal signal disappears.`
+      ];
+    case 'trend_driven':
+      return [
+        `Bundle price inside ${(premiumGroup || resilientGroup).label} and limited-time builds. ${cohortLabel} accept novelty-led pricing better than a base-menu increase (${formatSignedPct((premiumGroup || resilientGroup).orderImpactPct)} projected orders on that ladder).`,
+        `Protect ${(coreGroup || valueGroup || exposedGroup).label} from blunt increases. Discovery traffic needs a stable everyday fallback while you monetize newness.`,
+        `Use launch-style messaging instead of blanket pricing. ${channelLabel} traffic for ${scopeLabel} is more responsive to perceived innovation than to static menu changes.`
+      ];
+    case 'channel_switcher':
+      return [
+        `Protect ${(coreGroup || exposedGroup).label} and widen channel-exclusive value. ${cohortLabel} are more likely to migrate channels than absorb a broad mid-menu increase (${formatSignedPct((coreGroup || exposedGroup).orderImpactPct)} projected orders at the current move).`,
+        `Take selective price on ${(premiumGroup || resilientGroup).label}, where mix can hold better than the everyday channel anchor.`,
+        `Use channel-specific bundles instead of chain-wide price moves. ${scopeLabel} shoppers respond to relative value gaps across ordering paths.`
+      ];
+    case 'premium_loyal':
+      return [
+        `Take price on ${(premiumGroup || resilientGroup).label} first. ${cohortLabel} show the strongest headroom on premium bundles versus ${(exposedGroup || valueGroup).label.toLowerCase()} (${formatSignedPct((premiumGroup || resilientGroup).orderImpactPct)} projected orders on that ladder).`,
+        `Protect ${(valueGroup || exposedGroup).label} as the visible value anchor. Premium buyers still use the entry ladder to benchmark fairness.`,
+        `Favor bundle architecture over blanket discounting. ${channelLabel} traffic for ${scopeLabel} stays stronger when premium value remains clear.`
+      ];
+    case 'at_risk':
+      return [
+        `Maintain or reduce price for ${(valueGroup || exposedGroup).label}. ${cohortLabel} traffic is already fragile and the entry ladder loses orders first (${formatSignedPct((valueGroup || exposedGroup).orderImpactPct)} projected orders at the current move).`,
+        `Backstop ${(valueGroup || exposedGroup).label} with targeted offers before touching the rest of the menu. Preserving frequency matters more than harvesting a small check gain here.`,
+        `Avoid blanket increases. ${channelLabel} traffic for ${scopeLabel} is uneven enough that untargeted pricing will accelerate churn risk.`
+      ];
+    case 'baseline':
+    default:
+      return [
+        `Maintain or reduce price for ${(valueGroup || exposedGroup).label}. It is the first ladder to lose traffic in this ${scopeLabel} view (${formatSignedPct((valueGroup || exposedGroup).orderImpactPct)} projected orders at the current move).`,
+        premiumGroup
+          ? `Shift pricing to ${premiumGroup.label}. It is carrying the strongest pricing headroom versus ${(exposedGroup || premiumGroup).label.toLowerCase()} in the selected channel.`
+          : `Shift pricing to the most resilient ladder, ${resilientGroup.label}, before touching the value-led traffic base.`,
+        `Use targeted promotions instead of blanket increases. ${channelLabel} traffic for ${scopeLabel} is too uneven to support a one-size-fits-all price move.`
+      ];
+  }
+}
+
+function buildAcquisitionFallbackReadout({
+  cohortKey,
+  cohortLabel,
+  channelLabel,
   optimalPriceSuggestion,
   priceChangePct,
   baseElasticity,
@@ -557,9 +660,6 @@ function renderAcquisitionReadout({
 }) {
   const mostSensitive = [...projectedGroups].sort((left, right) => Math.abs(right.adjustedElasticity) - Math.abs(left.adjustedElasticity))[0];
   const mostResilient = [...projectedGroups].sort((left, right) => Math.abs(left.adjustedElasticity) - Math.abs(right.adjustedElasticity))[0];
-  const valueGroup = projectedGroups.find(group => group.key === 'value');
-  const premiumGroup = projectedGroups.find(group => group.key === 'premium');
-  const channelLabel = channelData.channelName || getYumChannelLabel(channelData.channel);
   const summaryBullets = [
     `${channelLabel} for ${cohortLabel} is the active scope in this view.`,
     `A ${priceChangePct >= 0 ? '+' : ''}${priceChangePct.toFixed(1)}% effective check move implies ${trafficImpactPct >= 0 ? '+' : ''}${trafficImpactPct.toFixed(1)}% weekly order impact using elasticity ${baseElasticity.toFixed(2)}.`,
@@ -567,52 +667,347 @@ function renderAcquisitionReadout({
     `Projected weekly orders move to ${formatNumber(projectedOrders)} and net sales ${netSalesImpact >= 0 ? 'increase' : 'decrease'} by ${formatCurrency(Math.abs(netSalesImpact), 0)}.`
   ];
 
-  const actionBullets = [
-    valueGroup
-      ? `Maintain or reduce price for ${valueGroup.label}. It is the first ladder to lose traffic in this ${cohortLabel.toLowerCase()} view (${valueGroup.orderImpactPct >= 0 ? '+' : ''}${valueGroup.orderImpactPct.toFixed(1)}% projected orders at the current move).`
-      : `Maintain the entry-value ladder. It remains the most exposed point of traffic loss in this view.`,
-    premiumGroup
-      ? `Shift pricing to ${premiumGroup.label}. It is carrying the strongest pricing headroom versus ${mostSensitive.label.toLowerCase()} in the selected channel.`
-      : `Shift pricing to the most resilient ladder, ${mostResilient.label}, before touching the value-led traffic base.`,
-    `Use targeted promotions instead of blanket increases. ${channelLabel} traffic for ${cohortLabel.toLowerCase()} is too uneven to support a one-size-fits-all price move.`
-  ];
+  const actionBullets = buildAcquisitionActionBullets({
+    cohortKey,
+    cohortLabel,
+    channelLabel,
+    projectedGroups,
+    mostSensitive,
+    mostResilient
+  });
 
-  const scopeEl = document.getElementById('acq-summary-scope');
-  if (scopeEl) {
-    scopeEl.textContent = `Scope: ${cohortLabel} | ${channelLabel}`;
+  let optimalSupporting = 'No pricing band available.';
+  if (optimalPriceSuggestion) {
+    const orderDirection = optimalPriceSuggestion.bestOrderChangePct >= 0
+      ? 'orders stable to up'
+      : `${Math.abs(optimalPriceSuggestion.bestOrderChangePct).toFixed(1)}% order loss`;
+    const revenueDirection = optimalPriceSuggestion.bestRevenueChangePct >= 0
+      ? `${optimalPriceSuggestion.bestRevenueChangePct.toFixed(1)}% revenue lift`
+      : `${Math.abs(optimalPriceSuggestion.bestRevenueChangePct).toFixed(1)}% revenue downside`;
+    optimalSupporting = `${formatCurrency(optimalPriceSuggestion.bestPrice)} is the best single-point check in the current range, with ${orderDirection} and ${revenueDirection}.`;
   }
-  setBulletList('acq-summary-bullets', summaryBullets);
-  setBulletList('acq-action-bullets', actionBullets);
 
+  return {
+    summaryBullets,
+    optimalSupporting,
+    optimalNote: optimalPriceSuggestion?.note || 'Suggested range minimizes order loss while protecting revenue.',
+    actionBullets,
+    mostSensitive,
+    mostResilient
+  };
+}
+
+function getTopProjectedGroupMoves(projectedGroups = [], count = 3) {
+  return [...projectedGroups]
+    .sort((left, right) => Math.abs(right.orderImpactPct) - Math.abs(left.orderImpactPct))
+    .slice(0, count)
+    .map(group => ({
+      label: group.label,
+      orderImpactPct: Number(group.orderImpactPct.toFixed(1)),
+      adjustedElasticity: Number(group.adjustedElasticity.toFixed(2)),
+      projectedOrders: group.projectedOrders
+    }));
+}
+
+function buildAcquisitionAiContext({
+  brandLabel,
+  channelLabel,
+  channelData,
+  cohortLabel,
+  optimalPriceSuggestion,
+  priceChangePct,
+  baseElasticity,
+  trafficImpactPct,
+  projectedGroups,
+  projectedOrders,
+  netSalesImpact,
+  fallbackReadout
+}) {
+  const scopeText = `Scope: ${brandLabel} | ${cohortLabel} | ${channelLabel}`;
+  const optimalContext = `${brandLabel} | ${cohortLabel} | ${channelLabel}`;
+  const optimalRangeLabel = optimalPriceSuggestion
+    ? `${formatCurrency(optimalPriceSuggestion.low)} - ${formatCurrency(optimalPriceSuggestion.high)}`
+    : 'No range available';
+
+  const key = JSON.stringify({
+    brandLabel,
+    channel: channelData.channel,
+    cohortLabel,
+    currentPrice: Number(channelData.avgCheck.toFixed(2)),
+    priceChangePct: Number(priceChangePct.toFixed(1)),
+    baseElasticity: Number(baseElasticity.toFixed(2)),
+    trafficImpactPct: Number(trafficImpactPct.toFixed(1)),
+    projectedOrders,
+    netSalesImpact: Number(netSalesImpact.toFixed(0)),
+    optimalRangeLabel,
+    bestPrice: optimalPriceSuggestion ? Number(optimalPriceSuggestion.bestPrice.toFixed(2)) : null,
+    bestRevenueChangePct: optimalPriceSuggestion ? Number(optimalPriceSuggestion.bestRevenueChangePct.toFixed(1)) : null,
+    bestOrderChangePct: optimalPriceSuggestion ? Number(optimalPriceSuggestion.bestOrderChangePct.toFixed(1)) : null
+  });
+
+  return {
+    key,
+    scopeText,
+    optimalContext,
+    optimalRangeLabel,
+    payload: {
+      brand: brandLabel,
+      channel: channelLabel,
+      cohort: cohortLabel,
+      baseline_avg_check: Number(channelData.avgCheck.toFixed(2)),
+      tested_avg_check: Number((channelData.avgCheck * (1 + priceChangePct / 100)).toFixed(2)),
+      price_change_pct: Number(priceChangePct.toFixed(1)),
+      elasticity: Number(baseElasticity.toFixed(2)),
+      projected_order_impact_pct: Number(trafficImpactPct.toFixed(1)),
+      projected_weekly_orders: projectedOrders,
+      weekly_net_sales_impact: Number(netSalesImpact.toFixed(0)),
+      optimal_price_range: optimalRangeLabel,
+      best_single_price: optimalPriceSuggestion ? Number(optimalPriceSuggestion.bestPrice.toFixed(2)) : null,
+      best_single_price_revenue_change_pct: optimalPriceSuggestion ? Number(optimalPriceSuggestion.bestRevenueChangePct.toFixed(1)) : null,
+      best_single_price_order_change_pct: optimalPriceSuggestion ? Number(optimalPriceSuggestion.bestOrderChangePct.toFixed(1)) : null,
+      most_sensitive_ladder: fallbackReadout.mostSensitive
+        ? {
+            name: fallbackReadout.mostSensitive.label,
+            elasticity: Number(fallbackReadout.mostSensitive.adjustedElasticity.toFixed(2)),
+            projected_order_change_pct: Number(fallbackReadout.mostSensitive.orderImpactPct.toFixed(1))
+          }
+        : null,
+      most_resilient_ladder: fallbackReadout.mostResilient
+        ? {
+            name: fallbackReadout.mostResilient.label,
+            elasticity: Number(fallbackReadout.mostResilient.adjustedElasticity.toFixed(2)),
+            projected_order_change_pct: Number(fallbackReadout.mostResilient.orderImpactPct.toFixed(1))
+          }
+        : null,
+      top_ladder_moves: getTopProjectedGroupMoves(projectedGroups),
+      draft_summary_bullets: fallbackReadout.summaryBullets,
+      draft_optimal_supporting: fallbackReadout.optimalSupporting,
+      draft_optimal_note: fallbackReadout.optimalNote,
+      draft_action_bullets: fallbackReadout.actionBullets
+    }
+  };
+}
+
+function applyAcquisitionReadout({
+  scopeText,
+  summaryBullets,
+  optimalContext,
+  optimalRangeLabel,
+  optimalSupporting,
+  optimalNote,
+  actionBullets
+}) {
+  const scopeEl = document.getElementById('acq-summary-scope');
   const optimalContextEl = document.getElementById('acq-optimal-context');
   const optimalRangeEl = document.getElementById('acq-optimal-range');
   const optimalSupportingEl = document.getElementById('acq-optimal-supporting');
   const optimalNoteEl = document.getElementById('acq-optimal-note');
 
-  if (optimalContextEl) {
-    optimalContextEl.textContent = `${cohortLabel} | ${channelLabel}`;
-  }
-  if (optimalRangeEl) {
-    if (optimalPriceSuggestion) {
-      optimalRangeEl.textContent = `${formatCurrency(optimalPriceSuggestion.low)} - ${formatCurrency(optimalPriceSuggestion.high)}`;
-    } else {
-      optimalRangeEl.textContent = 'No range available';
+  if (scopeEl) scopeEl.textContent = scopeText;
+  if (optimalContextEl) optimalContextEl.textContent = optimalContext;
+  if (optimalRangeEl) optimalRangeEl.textContent = optimalRangeLabel;
+  if (optimalSupportingEl) optimalSupportingEl.textContent = optimalSupporting;
+  if (optimalNoteEl) optimalNoteEl.textContent = optimalNote;
+
+  setBulletList('acq-summary-bullets', summaryBullets);
+  setBulletList('acq-action-bullets', actionBullets);
+}
+
+function parseAiReadoutResponse(content) {
+  if (!content) return null;
+
+  const trimmed = content.trim();
+  const fenced = trimmed.match(/```(?:json)?\s*([\s\S]*?)\s*```/i);
+  const candidate = fenced?.[1] || trimmed;
+
+  try {
+    return JSON.parse(candidate);
+  } catch (error) {
+    const start = candidate.indexOf('{');
+    const end = candidate.lastIndexOf('}');
+    if (start === -1 || end === -1 || end <= start) {
+      return null;
+    }
+
+    try {
+      return JSON.parse(candidate.slice(start, end + 1));
+    } catch (parseError) {
+      console.warn('Failed to parse acquisition AI readout JSON:', parseError);
+      return null;
     }
   }
-  if (optimalSupportingEl) {
-    if (optimalPriceSuggestion) {
-      const orderDirection = optimalPriceSuggestion.bestOrderChangePct >= 0 ? 'orders stable to up' : `${Math.abs(optimalPriceSuggestion.bestOrderChangePct).toFixed(1)}% order loss`;
-      const revenueDirection = optimalPriceSuggestion.bestRevenueChangePct >= 0
-        ? `${optimalPriceSuggestion.bestRevenueChangePct.toFixed(1)}% revenue lift`
-        : `${Math.abs(optimalPriceSuggestion.bestRevenueChangePct).toFixed(1)}% revenue downside`;
-      optimalSupportingEl.textContent = `${formatCurrency(optimalPriceSuggestion.bestPrice)} is the best single-point check in the current range, with ${orderDirection} and ${revenueDirection}.`;
-    } else {
-      optimalSupportingEl.textContent = 'No pricing band available.';
+}
+
+function normalizeAiReadoutResponse(response, fallbackReadout) {
+  const summaryBullets = Array.isArray(response?.summary_bullets)
+    ? response.summary_bullets.map(item => String(item || '').trim()).filter(Boolean).slice(0, 4)
+    : [];
+  const actionBullets = Array.isArray(response?.action_bullets)
+    ? response.action_bullets.map(item => String(item || '').trim()).filter(Boolean).slice(0, 3)
+    : [];
+  const optimalSupporting = String(response?.optimal_supporting || '').trim();
+  const optimalNote = String(response?.optimal_note || '').trim();
+
+  if (!summaryBullets.length || !actionBullets.length || !optimalSupporting || !optimalNote) {
+    return null;
+  }
+
+  return {
+    summaryBullets,
+    optimalSupporting,
+    optimalNote,
+    actionBullets,
+    mostSensitive: fallbackReadout.mostSensitive,
+    mostResilient: fallbackReadout.mostResilient
+  };
+}
+
+async function requestAcquisitionAiReadout(context, fallbackReadout) {
+  const config = await openaiConfig({
+    defaultBaseUrls: DEFAULT_BASE_URLS,
+    show: false
+  }).catch(() => null);
+
+  if (!config?.apiKey || !config?.baseUrl) {
+    return null;
+  }
+
+  if (acquisitionAiReadoutAbortController) {
+    acquisitionAiReadoutAbortController.abort();
+  }
+
+  acquisitionAiReadoutAbortController = new AbortController();
+
+  const response = await fetch(`${config.baseUrl}/chat/completions`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${config.apiKey}`
+    },
+    signal: acquisitionAiReadoutAbortController.signal,
+    body: JSON.stringify({
+      model: getSelectedModelName(),
+      stream: false,
+      temperature: 0.3,
+      messages: [
+        {
+          role: 'system',
+          content: [
+            'You write concise AI business cards for the Pizza Hut Pricing Elasticity Studio.',
+            'Use only the metrics provided by the user. Do not invent facts or numbers.',
+            'Return strict JSON with exactly these keys:',
+            'summary_bullets: array of 3 or 4 short strings,',
+            'optimal_supporting: short string,',
+            'optimal_note: short string,',
+            'action_bullets: array of exactly 3 short strings.',
+            'Keep each line direct and business-specific.',
+            'Do not use markdown, bullets, numbering, or code fences in values.'
+          ].join(' ')
+        },
+        {
+          role: 'user',
+          content: JSON.stringify(context.payload)
+        }
+      ]
+    })
+  });
+
+  if (!response.ok) {
+    throw new Error(`AI readout request failed with status ${response.status}`);
+  }
+
+  const data = await response.json();
+  const content = data?.choices?.[0]?.message?.content || '';
+  const parsed = parseAiReadoutResponse(content);
+  return normalizeAiReadoutResponse(parsed, fallbackReadout);
+}
+
+function scheduleAcquisitionAiReadout(context, fallbackReadout) {
+  acquisitionAiReadoutRequestKey = context.key;
+
+  if (acquisitionAiReadoutTimer) {
+    clearTimeout(acquisitionAiReadoutTimer);
+  }
+
+  const cached = acquisitionAiReadoutCache.get(context.key);
+  if (cached) {
+    applyAcquisitionReadout({
+      scopeText: context.scopeText,
+      optimalContext: context.optimalContext,
+      optimalRangeLabel: context.optimalRangeLabel,
+      summaryBullets: cached.summaryBullets,
+      optimalSupporting: cached.optimalSupporting,
+      optimalNote: cached.optimalNote,
+      actionBullets: cached.actionBullets
+    });
+    return;
+  }
+
+  acquisitionAiReadoutTimer = window.setTimeout(async () => {
+    try {
+      const aiReadout = await requestAcquisitionAiReadout(context, fallbackReadout);
+      if (!aiReadout) return;
+
+      acquisitionAiReadoutCache.set(context.key, aiReadout);
+
+      if (acquisitionAiReadoutRequestKey !== context.key) {
+        return;
+      }
+
+      applyAcquisitionReadout({
+        scopeText: context.scopeText,
+        optimalContext: context.optimalContext,
+        optimalRangeLabel: context.optimalRangeLabel,
+        summaryBullets: aiReadout.summaryBullets,
+        optimalSupporting: aiReadout.optimalSupporting,
+        optimalNote: aiReadout.optimalNote,
+        actionBullets: aiReadout.actionBullets
+      });
+    } catch (error) {
+      if (error.name !== 'AbortError') {
+        console.warn('Acquisition AI readout fallback engaged:', error);
+      }
     }
-  }
-  if (optimalNoteEl) {
-    optimalNoteEl.textContent = optimalPriceSuggestion?.note || 'Suggested range minimizes order loss while protecting revenue.';
-  }
+  }, ACQ_AI_DEBOUNCE_MS);
+}
+
+function renderAcquisitionReadout({
+  channelData,
+  cohortKey,
+  cohortLabel,
+  optimalPriceSuggestion,
+  priceChangePct,
+  baseElasticity,
+  trafficImpactPct,
+  projectedGroups,
+  projectedOrders,
+  netSalesImpact
+}) {
+  const brandLabel = getYumBrandLabel(getActiveBrandId());
+  const channelLabel = channelData.channelName || getYumChannelLabel(channelData.channel);
+  const fallbackReadout = buildAcquisitionFallbackReadout({
+    cohortKey,
+    cohortLabel,
+    channelLabel,
+    optimalPriceSuggestion,
+    priceChangePct,
+    baseElasticity,
+    trafficImpactPct,
+    projectedGroups,
+    projectedOrders,
+    netSalesImpact
+  });
+  applyAcquisitionReadout({
+    scopeText: `Scope: ${brandLabel} | ${cohortLabel} | ${channelLabel}`,
+    optimalContext: `${brandLabel} | ${cohortLabel} | ${channelLabel}`,
+    optimalRangeLabel: optimalPriceSuggestion
+      ? `${formatCurrency(optimalPriceSuggestion.low)} - ${formatCurrency(optimalPriceSuggestion.high)}`
+      : 'No range available',
+    summaryBullets: fallbackReadout.summaryBullets,
+    optimalSupporting: fallbackReadout.optimalSupporting,
+    optimalNote: fallbackReadout.optimalNote,
+    actionBullets: fallbackReadout.actionBullets
+  });
 }
 
 function setSliderForChannel(channelData) {
@@ -620,14 +1015,15 @@ function setSliderForChannel(channelData) {
   const display = document.getElementById('acq-price-display');
   if (!slider || !channelData) return;
 
-  const min = Math.max(4, channelData.avgCheck * 0.82);
-  const max = channelData.avgCheck * 1.18;
+  const safeAvgCheck = Math.max(4, toNumber(channelData.avgCheck, 0));
+  const min = Math.max(4, safeAvgCheck * 0.82);
+  const max = Math.max(min + 0.5, safeAvgCheck * 1.18);
   slider.min = min.toFixed(2);
   slider.max = max.toFixed(2);
   slider.step = '0.10';
-  slider.value = channelData.avgCheck.toFixed(2);
+  slider.value = safeAvgCheck.toFixed(2);
   if (display) {
-    display.textContent = formatCurrency(channelData.avgCheck);
+    display.textContent = formatCurrency(safeAvgCheck);
   }
 }
 
@@ -641,6 +1037,7 @@ function updateAcquisitionModel() {
   if (!channelData) return;
 
   const cohort = cohortData[cohortSelect?.value] || cohortData.baseline || {};
+  const cohortKey = cohortSelect?.value || 'baseline';
   const cohortLabel = COHORT_LABELS[cohortSelect?.value] || COHORT_LABELS.baseline;
   const cohortMultiplier = Math.abs(toNumber(cohort.acquisition_elasticity, -COHORT_BASE_ELASTICITY)) / COHORT_BASE_ELASTICITY;
   const newPrice = toNumber(priceSlider.value);
@@ -670,6 +1067,7 @@ function updateAcquisitionModel() {
 
   renderAcquisitionReadout({
     channelData,
+    cohortKey,
     cohortLabel,
     optimalPriceSuggestion,
     priceChangePct,
@@ -745,7 +1143,10 @@ async function initAcquisitionSimple() {
     acquisitionState = buildAcquisitionState(channelRows, storeChannelRows, itemRows, brandId);
     relabelAcquisitionPane(acquisitionState.orderedChannels);
 
-    const defaultChannel = acquisitionState.orderedChannels[0]?.channel;
+    const defaultChannel = acquisitionState.orderedChannels.find((channelRow) => {
+      const channelState = acquisitionState.channels[channelRow.channel];
+      return channelState && channelState.avgCheck > 0 && channelState.baselineOrders > 0;
+    })?.channel || acquisitionState.orderedChannels[0]?.channel;
     if (!defaultChannel) {
       throw new Error(`No ${brandLabel} channels available for acquisition model.`);
     }
@@ -761,13 +1162,13 @@ async function initAcquisitionSimple() {
     setupAcquisitionInteractivity();
     updateAcquisitionModel();
   } catch (error) {
-    console.error('Failed to initialize Yum acquisition model:', error);
-    const container = document.getElementById('step-3-acquisition-container');
+    console.error('Failed to initialize Pizza Hut acquisition model:', error);
+    const container = resolveStepContentTarget('step-3-acquisition-container');
     if (container) {
       container.innerHTML = `
         <div class="alert alert-danger">
           <i class="bi bi-exclamation-triangle me-2"></i>
-          Failed to load Yum traffic elasticity inputs for the selected brand. Please refresh the page.
+          Failed to load Pizza Hut traffic elasticity inputs. Please refresh the page.
         </div>
       `;
     }

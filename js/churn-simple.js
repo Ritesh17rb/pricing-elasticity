@@ -1,6 +1,6 @@
 /**
- * Taco Bell repeat-visit loss elasticity model.
- * Replaces the old subscription churn view with menu-ladder visit behavior.
+ * Pizza Hut repeat-visit loss elasticity model.
+ * Replaces the legacy churn template with menu-ladder visit behavior.
  */
 
 import { loadYumStoreItemWeekPanel } from './yum-data-loader.js';
@@ -13,13 +13,13 @@ const GROUP_CONFIG = [
 ];
 const COHORT_LABELS = {
   baseline: 'All Visit Missions',
-  brand_loyal: 'Brand Loyal Regulars',
-  value_conscious: 'Value Menu Shoppers',
-  deal_seeker: 'Deal Hunters',
-  trend_driven: 'LTO / Cantina Explorers',
-  channel_switcher: 'Digital Channel Switchers',
-  premium_loyal: 'Box & Premium Fans',
-  at_risk: 'Frequency At Risk'
+  brand_loyal: 'Family Ritual Loyalists',
+  value_conscious: 'Value Bundle Shoppers',
+  deal_seeker: 'Coupon-Driven Guests',
+  trend_driven: 'Premium Crust Explorers',
+  channel_switcher: 'Carryout / App Switchers',
+  premium_loyal: 'Premium Pizza Loyalists',
+  at_risk: 'Lapse-Risk Guests'
 };
 
 let churnChartSimple = null;
@@ -32,6 +32,10 @@ let churnTimeLag = {
   '12_plus': 0.30
 };
 let cohortData = {};
+
+function resolveStepContentTarget(containerId) {
+  return document.getElementById(`${containerId}-content`) || document.getElementById(containerId);
+}
 
 function getActiveBrandId() {
   return getSelectedYumBrandId();
@@ -89,7 +93,9 @@ function relabelChurnPane() {
 
   const labels = pane.querySelectorAll('.form-label.fw-semibold');
   if (labels[0]) labels[0].textContent = 'Select Visit Mission';
-  if (labels[1]) labels[1].textContent = 'Price Increase';
+  if (labels[1]) {
+    labels[1].innerHTML = 'Price Increase: <strong class="text-danger" id="churn-increase-display">+$1.00</strong>';
+  }
   if (labels[2]) labels[2].textContent = 'Select Menu Ladder';
 
   const buttons = pane.querySelectorAll('.tier-btn');
@@ -589,13 +595,13 @@ async function initChurnSimple() {
     setupChurnInteractivity();
     updateChurnModel(GROUP_CONFIG[0].key);
   } catch (error) {
-    console.error('Failed to initialize Yum repeat-visit model:', error);
-    const container = document.getElementById('step-4-churn-container');
+    console.error('Failed to initialize Pizza Hut repeat-visit model:', error);
+    const container = resolveStepContentTarget('step-4-churn-container');
     if (container) {
       container.innerHTML = `
         <div class="alert alert-danger">
           <i class="bi bi-exclamation-triangle me-2"></i>
-          Failed to load Yum repeat-visit elasticity inputs for the selected brand. Please refresh the page.
+          Failed to load Pizza Hut repeat-visit elasticity inputs. Please refresh the page.
         </div>
       `;
     }
