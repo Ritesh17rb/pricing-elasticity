@@ -311,7 +311,7 @@ async function getBaselineMetrics(tier, scenario = null) {
   if (tier === 'bundle') {
     console.log('Bundle scenario detected - using ad_free tier as baseline');
 
-    // Use ad_free tier as baseline since bundle includes Supergoop ad-free
+    // Use ad_free tier as the baseline proxy for premium bundle scenarios
     const weeklyData = await getWeeklyData('ad_free');
 
     if (!weeklyData || weeklyData.length === 0) {
@@ -662,7 +662,7 @@ export async function simulateSegmentScenario(scenario, options = {}) {
   const priceChangePct = (newPrice - currentPrice) / currentPrice;
 
   // Handle bundle tier - use ad_free as base tier for segment data
-  // since bundle includes Supergoop ad-free
+  // Bundle scenarios still use the premium proxy tier for segment lookups
   const segmentTier = tier === 'bundle' ? 'ad_free' : tier;
 
   try {
@@ -722,7 +722,7 @@ export async function simulateSegmentScenario(scenario, options = {}) {
     // Generate warnings
     const warnings = [];
     if (tier === 'bundle') {
-      warnings.push(`Note: Bundle scenario uses ad_free tier segment data as baseline (bundle includes Supergoop ad-free)`);
+      warnings.push('Note: Bundle scenario uses the premium proxy tier as its segment baseline.');
     }
     if (Math.abs(priceChangePct) > 0.15) {
       warnings.push(`Large price change (${(priceChangePct * 100).toFixed(1)}%) may have unpredictable effects`);
@@ -1041,133 +1041,21 @@ async function calculateTierTotals(tier, impactData) {
  * @returns {Promise<Object>} Simulation results with Python model predictions
  */
 export async function simulateScenarioWithPyodide(scenario, options = {}) {
-  console.log('🐍 Simulating scenario with Pyodide Python models:', scenario.id);
-
-  try {
-    // Map new/hypothetical tiers to proxy tiers for baseline data
-    const tierMap = {
-      'basic': 'ad_supported',
-      'premium': 'ad_free',
-      'bundle': 'ad_free'
-    };
-
-    const baselineTier = tierMap[scenario.config.tier] || scenario.config.tier;
-    // Only "basic" and "premium" are truly new tiers; "bundle" is just a pricing variation of ad_free
-    const isNewTier = (scenario.config.tier === 'basic' || scenario.config.tier === 'premium');
-
-    if (tierMap[scenario.config.tier] && isNewTier) {
-      console.log(`⚠️ New tier "${scenario.config.tier}" - using "${baselineTier}" as baseline proxy`);
-    }
-
-    // Get baseline data
-    const baseline = await getBaselineMetrics(baselineTier, scenario);
-
-    // Prepare scenario for Python models
-    const pythonScenario = {
-      new_price: scenario.config.new_price,
-      current_price: scenario.config.current_price,
-      price_change_pct: ((scenario.config.new_price - scenario.config.current_price) / scenario.config.current_price) * 100,
-      promotion: scenario.config.promotion,
-      segment_elasticity: options.segmentElasticity || -1.8,
-      baseline_repeat_loss: baseline.repeatLossRate || 0.05,
-      ad_supported_price: 5.99,  // TODO: Get from pricing data
-      ad_free_price: 9.99
-    };
-
-    // Run Python model predictions in parallel
-    const [acquisitionResult, churnResult, migrationResult] = await Promise.all([
-      pyodideBridge.predictAcquisition(pythonScenario),
-      pyodideBridge.predictChurn(pythonScenario),
-      pyodideBridge.predictMigration(pythonScenario)
-    ]);
-
-    console.log('✅ Python predictions received:', {
-      acquisition: acquisitionResult,
-      churn: churnResult,
-      migration: migrationResult
-    });
-
-    // Calculate forecasted KPIs using Python model outputs
-    // Acquisition adds are absolute numbers (e.g., 5000 new subs)
-    // Churn rate is a fraction (e.g., 0.05 = 5%)
-    const repeatLossCustomers = baseline.activeCustomers * churnResult['0-4 Weeks'].repeat_loss_rate;
-    const netAdds = acquisitionResult.predicted_adds - repeatLossCustomers;
-
-    const forecasted = {
-      activeCustomers: baseline.activeCustomers + netAdds,
-      revenue: baseline.revenue * (1 + (pythonScenario.price_change_pct / 100)),
-      aov: scenario.config.new_price,
-      repeatLossRate: churnResult['0-4 Weeks'].repeat_loss_rate,
-      grossAdds: acquisitionResult.predicted_adds,
-      netAdds: netAdds
-    };
-
-    // Calculate deltas
-    const delta = {
-      customers: forecasted.activeCustomers - baseline.activeCustomers,
-      customers_pct: ((forecasted.activeCustomers - baseline.activeCustomers) / baseline.activeCustomers) * 100,
-      revenue: forecasted.revenue - baseline.revenue,
-      revenue_pct: ((forecasted.revenue - baseline.revenue) / baseline.revenue) * 100,
-      aov: forecasted.aov - baseline.aov,
-      aov_pct: ((forecasted.aov - baseline.aov) / baseline.aov) * 100,
-      repeat_loss_rate: forecasted.repeatLossRate - baseline.repeatLossRate,
-      repeat_loss_rate_pct: ((forecasted.repeatLossRate - baseline.repeatLossRate) / baseline.repeatLossRate) * 100
-    };
-
-    // Build result object
-    const result = {
-      scenario_id: scenario.id,
-      scenario_name: scenario.name,
-      model_type: scenario.model_type,
-      scenario_config: {
-        ...scenario.config,
-        baseline_tier: baselineTier  // Store proxy tier used for baseline
-      },
-
-      baseline: baseline,
-      forecasted: forecasted,
-      delta: delta,
-
-      // Python model outputs
-      python_models: {
-        acquisition: acquisitionResult,
-        churn: churnResult,
-        migration: migrationResult
-      },
-
-      is_new_tier: isNewTier,  // Flag to indicate hypothetical tier
-      model_source: 'pyodide-python',
-      timestamp: new Date().toISOString()
-    };
-
-    return result;
-
-  } catch (error) {
-    console.error('❌ Pyodide simulation failed:', error);
-    // Fallback to JavaScript simulation
-    console.log('⚠️ Falling back to JavaScript simulation');
-    return await simulateScenario(scenario, options);
-  }
+  console.info('Pyodide scenario models are disabled for the Pizza Hut build. Using JavaScript simulation instead.');
+  return simulateScenario(scenario, options);
 }
 
 /**
  * Check if Pyodide models are available
  */
 export function isPyodideAvailable() {
-  return pyodideBridge.isReady();
+  return false;
 }
 
 /**
  * Initialize Pyodide models (call during app startup)
  */
 export async function initializePyodideModels() {
-  try {
-    console.log('🚀 Initializing Pyodide models in background...');
-    await pyodideBridge.loadModels();
-    console.log('✅ Pyodide models ready');
-    return true;
-  } catch (error) {
-    console.error('❌ Failed to initialize Pyodide:', error);
-    return false;
-  }
+  console.info('Pyodide models are disabled for the Pizza Hut build.');
+  return false;
 }

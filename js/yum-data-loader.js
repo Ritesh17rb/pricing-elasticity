@@ -249,7 +249,7 @@ export async function loadYumFoundation() {
   };
 }
 
-export async function getYumFoundationSummary(brandId = 'tacobell') {
+export async function getYumFoundationSummary(brandId = 'pizzahut') {
   const foundation = await loadYumFoundation();
   const networkRows = foundation.brandMarketNetwork.filter(row => row.brand_id === brandId);
   const marketIds = new Set(networkRows.map(row => row.market_id));

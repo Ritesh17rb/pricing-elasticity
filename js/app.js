@@ -1,6 +1,6 @@
 /**
  * Main Application Module
- * Orchestrates the Supergoop Seasonal Promotion POC
+ * Orchestrates the Pizza Hut pricing elasticity studio
  *
  * Dependencies: data-loader.js, scenario-engine.js, charts.js
  */
@@ -19,19 +19,14 @@ import { initializeDataViewer } from './data-viewer.js';
 import { renderSegmentKPICards, renderSegmentElasticityHeatmap, render3AxisRadialChart, renderSegmentScatterPlot, exportSVG } from './segment-charts.js';
 import { getAcquisitionCohorts, getChurnCohorts } from './cohort-aggregator.js';
 import { pyodideBridge } from './pyodide-bridge.js';
-import { initializeEventCalendar } from './event-calendar.js';
+import { initializeEventCalendar } from './event-calendar-pricingstudio.js';
 import { rankScenarios, getObjectiveDescription } from './decision-engine.js';
 import { exportToPDF, exportToXLSX } from './decision-pack.js';
 import {
   loadYumFoundation,
   getYumFoundationSummary,
   loadYumBrandDim,
-  loadYumBrandMarketNetwork,
   loadYumBrandWeekSummary,
-  loadYumMetadata,
-  loadYumManifest,
-  loadYumQAReport,
-  loadYumDataQualityChecks,
   loadYumBrandMarketProductChannelWeekPanel,
   loadYumBrandMarketChannelWeekPanel,
   loadYumPromoCalendar
@@ -43,9 +38,7 @@ import {
   getSelectedYumBrandId,
   getYumBrandLabel,
   getYumChannelLabel,
-  setSelectedYumBrandId,
-  sortYumBrandIds,
-  sortYumChannels
+  sortYumBrandIds
 } from './yum-brand-utils.js';
 
 // Global state
@@ -60,69 +53,6 @@ let selectedScenarioByModel = {
   churn: null,
   migration: null
 };
-
-const SCREEN_ASSISTANT_CONFIGS = [
-  {
-    sectionId: 'section-10',
-    title: 'AI Screen Assistant',
-    description: 'Ask what this foundation table proves, what is modeled, and what to inspect next before making pricing calls.',
-    prompts: [
-      'What are the most important Yum tables to inspect on this screen before trusting the elasticity outputs?',
-      'Summarize what this data foundation covers for the selected brand.',
-      'What data limitations or modeled assumptions should I keep in mind here?'
-    ]
-  },
-  {
-    sectionId: 'section-1',
-    title: 'AI Business Readout',
-    description: 'Turn the overview into a simpler business summary, risk readout, or next-step recommendation.',
-    prompts: [
-      'Summarize this current business overview in plain English.',
-      'What should I do this week based on the KPI, summary, and channel mix shown here?',
-      'Which order channels look strongest or weakest for pricing right now?'
-    ]
-  },
-  {
-    sectionId: 'section-6',
-    title: 'AI Cohort Assistant',
-    description: 'Ask which cohorts are most price-sensitive, where loyalty risk is concentrated, and how to target pricing.',
-    prompts: [
-      'Which customer cohorts on this screen are most price-sensitive?',
-      'Summarize the biggest loyalty and retention risks from this cohort view.',
-      'What pricing action fits the acquisition, engagement, and monetization pattern shown here?'
-    ]
-  },
-  {
-    sectionId: 'section-7',
-    title: 'AI Segment Comparison Assistant',
-    description: 'Use the selected axis and segment comparison to get a sharper pricing recommendation.',
-    prompts: [
-      'Explain the main pricing takeaway from this segment comparison.',
-      'Which segments are highest risk and which are the best pricing opportunity here?',
-      'Turn this comparison screen into a decision summary for leadership.'
-    ]
-  },
-  {
-    sectionId: 'section-3',
-    title: 'AI Acquisition Assistant',
-    description: 'Ask how to price by mission and channel without over-reading the modeled elasticity.',
-    prompts: [
-      'What is the optimal pricing action from this traffic acquisition screen?',
-      'Which missions or channels should avoid a price increase based on this screen?',
-      'Explain the optimal price suggestion and the recommended actions here.'
-    ]
-  },
-  {
-    sectionId: 'section-8',
-    title: 'AI Promotion Calendar Assistant',
-    description: 'Use the promo calendar, official campaigns, and tentpoles to pressure-test pricing decisions.',
-    prompts: [
-      'Summarize what this promotion calendar means for pricing this week.',
-      'Are broad price increases safe given the promo dependency and campaign timeline here?',
-      'What should I watch in the seasonal and tentpole calendar before changing price?'
-    ]
-  }
-];
 
 let currentResultByModel = {
   acquisition: null,
@@ -401,9 +331,9 @@ async function initializeYumFoundationWorkspace() {
       simulateBrandPriceChange
     };
 
-    console.log('Yum operating foundation ready', summary);
+    console.log('Pizza Hut operating foundation ready', summary);
   } catch (error) {
-    console.warn('Yum operating foundation initialization skipped:', error);
+    console.warn('Pizza Hut operating foundation initialization skipped:', error);
   }
 }
 
@@ -444,24 +374,6 @@ function aggregateStoreChannelRows(rows) {
     avgCheck: transactions > 0 ? sales / transactions : 0,
     marginRate: sales > 0 ? (margin / sales) * 100 : 0
   };
-}
-
-function getTopItemNames(rows, maxItems = 3) {
-  const byItem = new Map();
-  rows.forEach(row => {
-    const itemId = row.item_id || row.product_id;
-    const existing = byItem.get(itemId) || {
-      itemName: row.item_name || row.product_name,
-      units: 0
-    };
-    existing.units += getUnitsValue(row);
-    byItem.set(itemId, existing);
-  });
-
-  return [...byItem.values()]
-    .sort((a, b) => b.units - a.units)
-    .slice(0, maxItems)
-    .map(item => item.itemName);
 }
 
 function formatChannelLabel(channel) {
@@ -507,149 +419,11 @@ function setElementText(elementId, text) {
   }
 }
 
-function getBrandProfile(brandId) {
-  return yumBrandProfiles.get(brandId) || null;
-}
-
-function buildYumBrandCardMeta(brandId) {
-  const profile = getBrandProfile(brandId);
-  if (!profile) {
-    return {
-      accent: '#2563eb',
-      eyebrow: 'Yum concept',
-      descriptor: 'Modeled elasticity and operating view.',
-      supporting: 'Portfolio pricing lens',
-      chips: [],
-      logoPath: `assets/brand-logos/${brandId}.svg`
-    };
+function setElementHTML(selector, html) {
+  const element = typeof selector === 'string' ? document.querySelector(selector) : null;
+  if (element) {
+    element.innerHTML = html;
   }
-
-  const dayparts = String(profile.core_dayparts ?? '')
-    .split(',')
-    .map((token) => formatTitleCase(token))
-    .filter(Boolean);
-
-  return {
-    accent: profile.brand_color || '#2563eb',
-    eyebrow: formatDescriptorText(profile.portfolio_role) || 'Yum concept',
-    descriptor: [
-      formatTitleCase(profile.cuisine_focus),
-      formatDescriptorText(profile.service_model)
-    ].filter(Boolean).join(' | '),
-    supporting: dayparts.length ? `Core in ${joinNaturalList(dayparts.slice(0, 2))}` : 'Elasticity-ready concept view',
-    chips: [
-      formatTitleCase(profile.value_positioning),
-      formatCurrencyRange(toNumeric(profile.typical_check_low), toNumeric(profile.typical_check_high))
-    ].filter(Boolean),
-    logoPath: `assets/brand-logos/${brandId}.svg`
-  };
-}
-
-function syncYumOverviewBrandCards(brandId) {
-  const cards = document.querySelectorAll('.yum-brand-select-card[data-brand-id]');
-  cards.forEach((card) => {
-    card.classList.toggle('is-active', card.dataset.brandId === brandId);
-    card.setAttribute('aria-pressed', card.dataset.brandId === brandId ? 'true' : 'false');
-  });
-}
-
-function populateYumOverviewBrandCards(brandIds = availableYumBrands) {
-  const container = document.getElementById('yum-overview-brand-cards');
-  if (!container || !brandIds?.length) return;
-
-  const selectedBrandId = brandIds.includes(getSelectedYumBrandId())
-    ? getSelectedYumBrandId()
-    : brandIds[0];
-
-  container.innerHTML = brandIds
-    .map((brandId) => {
-      const meta = buildYumBrandCardMeta(brandId);
-      const label = getYumBrandLabel(brandId);
-      const chipMarkup = (meta.chips || [])
-        .map((chip) => `<span class="yum-brand-select-card__chip">${escapeHtml(chip)}</span>`)
-        .join('');
-
-      return `
-        <button
-          type="button"
-          class="yum-brand-select-card ${brandId === selectedBrandId ? 'is-active' : ''}"
-          data-brand-id="${brandId}"
-          aria-pressed="${brandId === selectedBrandId ? 'true' : 'false'}"
-          style="--brand-accent: ${meta.accent};"
-        >
-          <div class="yum-brand-select-card__glow" aria-hidden="true"></div>
-          <div class="yum-brand-select-card__top">
-            <div class="yum-brand-select-card__brand">
-              <div class="yum-brand-select-card__logo-wrap">
-                <img
-                  src="${meta.logoPath}"
-                  alt="${escapeHtml(label)} logo"
-                  class="yum-brand-select-card__logo"
-                  loading="lazy"
-                >
-              </div>
-              <div class="yum-brand-select-card__title-block">
-                <div class="yum-brand-select-card__name">${label}</div>
-                <div class="yum-brand-select-card__descriptor">${escapeHtml(meta.descriptor)}</div>
-              </div>
-            </div>
-            <span class="yum-brand-select-card__state">${brandId === selectedBrandId ? 'Selected' : 'View'}</span>
-          </div>
-          <div class="yum-brand-select-card__meta">
-            <div class="yum-brand-select-card__eyebrow">${escapeHtml(meta.eyebrow)}</div>
-            <div class="yum-brand-select-card__supporting">${escapeHtml(meta.supporting)}</div>
-          </div>
-          <div class="yum-brand-select-card__chips">
-            ${chipMarkup}
-          </div>
-        </button>
-      `;
-    })
-    .join('');
-
-  syncYumOverviewBrandCards(selectedBrandId);
-}
-
-function updateYumOverviewBrandHint(brandId) {
-  const hint = document.getElementById('yum-overview-brand-hint');
-  if (!hint) return;
-  const profile = getBrandProfile(brandId);
-  const role = formatDescriptorText(profile?.portfolio_role);
-  hint.textContent = role
-    ? `${getYumBrandLabel(brandId)} is using the Yum weekly rollup, channel panel, product panel, and campaign calendar. ${role}.`
-    : `Showing ${getYumBrandLabel(brandId)} using the Yum weekly rollup, channel panel, product panel, and campaign calendar.`;
-}
-
-function initializeYumOverviewBrandControl() {
-  const container = document.getElementById('yum-overview-brand-cards');
-  if (!container || container.dataset.bound === 'true') return;
-
-  if (!window.yumSelectedBrandId) {
-    window.yumSelectedBrandId = DEFAULT_YUM_BRAND_ID;
-  }
-
-  container.addEventListener('click', async (event) => {
-    const card = event.target.closest('.yum-brand-select-card[data-brand-id]');
-    if (!card) return;
-    const priorBrandId = getSelectedYumBrandId();
-    const brandId = setSelectedYumBrandId(card.dataset.brandId, 'overview');
-    syncYumOverviewBrandCards(brandId);
-    if (dataLoaded && priorBrandId !== brandId) {
-      await loadKPIs(brandId);
-    }
-  });
-
-  window.addEventListener('yum-brand-change', async (event) => {
-    const brandId = event.detail?.brandId;
-    if (!brandId) return;
-    syncYumOverviewBrandCards(brandId);
-    updateYumOverviewBrandHint(brandId);
-    if (dataLoaded && event.detail?.source !== 'overview') {
-      await loadKPIs(brandId);
-    }
-  });
-
-  container.dataset.bound = 'true';
 }
 
 function formatWeekLabel(weekStart) {
@@ -735,86 +509,6 @@ function escapeHtml(value) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
-}
-
-function renderYumBrandChannelCards(itemRows, storeChannelRows, brandId) {
-  const container = document.getElementById('yum-channel-mix-cards');
-  if (!container) return;
-
-  const channelOrder = sortYumChannels(storeChannelRows.map(row => normalizeChannelKey(row)));
-  const channelDescriptors = {
-    drive_thru: 'High-throughput anchor lane',
-    dine_in: 'In-store occasion builder',
-    carryout: 'Off-premise carryout lane',
-    pickup_app: 'Owned digital convenience lane',
-    delivery: 'Off-premise premium basket'
-  };
-  const channelIcons = {
-    drive_thru: 'bi-car-front',
-    dine_in: 'bi-shop',
-    carryout: 'bi-bag',
-    pickup_app: 'bi-phone',
-    delivery: 'bi-bag-check'
-  };
-  const brandLabel = getYumBrandLabel(brandId);
-  const totalSales = storeChannelRows.reduce((sum, row) => sum + toNumeric(row.net_sales), 0);
-  const channelCards = channelOrder
-    .map(channel => {
-      const scopedStoreChannelRows = storeChannelRows.filter(row => normalizeChannelKey(row) === channel);
-      if (scopedStoreChannelRows.length === 0) return null;
-      const scopedItemRows = itemRows.filter(row => normalizeChannelKey(row) === channel);
-      const aggregate = aggregateStoreChannelRows(scopedStoreChannelRows);
-      const topItems = getTopItemNames(scopedItemRows, 3)
-        .map(item => `<span class="channel-chip">${escapeHtml(item)}</span>`)
-        .join('');
-      const salesMix = totalSales > 0 ? (aggregate.sales / totalSales) * 100 : 0;
-      const promoMix = scopedStoreChannelRows.reduce(
-        (sum, row) => sum + (toNumeric(row.promo_mix_pct) * getUnitsValue(row)),
-        0
-      ) / Math.max(scopedStoreChannelRows.reduce((sum, row) => sum + getUnitsValue(row), 0), 1);
-      const subtitle = channel === 'delivery' && aggregate.marginRate < 40
-        ? 'Premium basket with lower margin conversion'
-        : channel === 'pickup_app'
-          ? 'Owned digital lane with cleaner economics'
-          : channelDescriptors[channel] || `${brandLabel} order channel`;
-      return `
-        <div class="col-md-6 col-xl-3">
-          <div class="glass-card tier-card channel-card channel-card--${channel.replace('_', '-')} h-100">
-            <div class="channel-card-head">
-              <div class="channel-card-title-group">
-                <div class="channel-icon">
-                  <i class="bi ${channelIcons[channel] || 'bi-dot'}"></i>
-                </div>
-                <div>
-                  <div class="tier-name">${formatChannelLabel(channel)}</div>
-                  <div class="channel-subtitle">${subtitle}</div>
-                </div>
-              </div>
-              <div class="channel-mix-pill">${salesMix.toFixed(1)}% sales mix</div>
-            </div>
-            <div class="channel-metrics-grid">
-              <div class="channel-metric">
-                <span class="channel-metric-label">Average order value</span>
-                <strong class="channel-metric-value">${formatCurrency(aggregate.avgCheck)}</strong>
-              </div>
-              <div class="channel-metric">
-                <span class="channel-metric-label">Weekly orders</span>
-                <strong class="channel-metric-value">${formatNumber(Math.round(aggregate.transactions))}</strong>
-              </div>
-            </div>
-            <div class="channel-items-section">
-              <div class="channel-items-label">Top products | ${promoMix.toFixed(1)}% promo mix</div>
-              <div class="channel-chip-list">
-                ${topItems || '<span class="channel-chip">No product rows in latest week</span>'}
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-    })
-    .filter(Boolean);
-
-  container.innerHTML = channelCards.join('');
 }
 
 function setListItems(elementId, items = []) {
@@ -919,8 +613,51 @@ function getTopGroupMix(rows = [], field, count = 2) {
     .slice(0, count);
 }
 
-function getDatasetCheck(qaReport, dataQualityChecks = [], datasetName) {
-  return qaReport?.dataset_checks?.[datasetName] || dataQualityChecks.find(row => row.dataset_name === datasetName) || null;
+function isTruthyFlag(value) {
+  return value === true || value === 'true' || value === 1 || value === '1';
+}
+
+function getWeightedRealizedPrice(rows = []) {
+  const totals = rows.reduce((accumulator, row) => {
+    const units = Math.max(getUnitsValue(row), 1);
+    accumulator.weightedPrice += toNumeric(row.realized_price) * units;
+    accumulator.weight += units;
+    return accumulator;
+  }, { weightedPrice: 0, weight: 0 });
+
+  return totals.weight > 0 ? totals.weightedPrice / totals.weight : 0;
+}
+
+function getPriceBand(rows = []) {
+  return rows.reduce((band, row) => {
+    const price = toNumeric(row.realized_price);
+    if (!(price > 0)) return band;
+    return {
+      min: Math.min(band.min, price),
+      max: Math.max(band.max, price)
+    };
+  }, { min: Number.POSITIVE_INFINITY, max: 0 });
+}
+
+function getTopProductMix(rows = [], count = 3) {
+  const byProduct = new Map();
+
+  rows.forEach((row) => {
+    const key = row.product_id || row.item_id || row.product_name || 'unknown';
+    const existing = byProduct.get(key) || { name: row.product_name || row.item_name || 'Unknown item', sales: 0, units: 0 };
+    existing.sales += toNumeric(row.net_sales);
+    existing.units += getUnitsValue(row);
+    byProduct.set(key, existing);
+  });
+
+  return [...byProduct.values()]
+    .sort((left, right) => right.sales - left.sales)
+    .slice(0, count);
+}
+
+function getRowsForTopProducts(rows = [], topProducts = []) {
+  const productNames = new Set(topProducts.map((item) => item.name));
+  return rows.filter((row) => productNames.has(row.product_name || row.item_name));
 }
 
 function renderYumOverviewNarrative({
@@ -945,110 +682,109 @@ function renderYumOverviewNarrative({
 }) {
   const channels = rollupChannels(latestStoreChannelRows);
   const topChannel = channels[0];
-  const marginLeader = [...channels].sort((left, right) => right.marginRate - left.marginRate)[0];
   const watchItems = getElasticityWatchItems(latestItemRows, 2);
   const topFamilies = getTopGroupMix(latestItemRows, 'product_family', 2);
   const activeOffers = [...new Set((latestPromoRows || []).map(row => row.offer_name).filter(Boolean))];
   const checkLow = toNumeric(brandProfile?.typical_check_low);
   const checkHigh = toNumeric(brandProfile?.typical_check_high);
-  const checkRange = formatCurrencyRange(checkLow, checkHigh);
+  const averageOrderBand = formatCurrencyRange(checkLow, checkHigh);
   const avgCheckStatus = Number.isFinite(checkLow) && latestAggregate.avgCheck < checkLow
     ? 'below'
     : Number.isFinite(checkHigh) && latestAggregate.avgCheck > checkHigh
       ? 'above'
       : 'within';
-  const familyLeadText = topFamilies.length
-    ? joinNaturalList(topFamilies.map(family => `${family.key} (${family.share.toFixed(0)}% of product sales)`))
-    : 'Current product mix';
-  const salesDirection = salesChangePct > 0.15 ? 'up' : salesChangePct < -0.15 ? 'down' : 'flat';
-  const orderDirection = transactionsChangePct > 0.15 ? 'up' : transactionsChangePct < -0.15 ? 'down' : 'flat';
-  const relevantDatasets = [
-    'brand_dim',
-    'brand_week_summary',
-    'brand_market_channel_week_panel',
-    'brand_market_product_channel_week_panel',
-    'promo_calendar'
-  ];
-  const coreChecks = relevantDatasets
-    .map(datasetName => getDatasetCheck(qaReport, dataQualityChecks, datasetName))
-    .filter(Boolean);
-  const duplicateKeys = coreChecks.reduce((sum, check) => sum + toNumeric(check.duplicate_key_count), 0);
-  const missingRequired = coreChecks.reduce((sum, check) => sum + toNumeric(check.missing_required_count), 0);
-  const grainSummary = [
-    `brand_week_summary: ${metadata?.datasets?.['processed/brand_week_summary.csv']?.grain || 'week_start x brand_id'}`,
-    `brand_market_channel_week_panel: ${metadata?.datasets?.['processed/brand_market_channel_week_panel.csv']?.grain || 'week_start x brand_id x market_id x channel_id'}`,
-    `brand_market_product_channel_week_panel: ${metadata?.datasets?.['processed/brand_market_product_channel_week_panel.csv']?.grain || manifest?.main_grain || 'week_start x brand_id x market_id x product_id x channel_id'}`
-  ].join(' | ');
-  const dataCoverage = [
-    `${foundationSummary?.stores || 0} store proxies`,
-    `${foundationSummary?.markets || 0} markets`,
-    `${foundationSummary?.items || 0} products`,
-    `${(foundationSummary?.panelRows || 0).toLocaleString()} product-channel rows`
-  ].join(' | ');
-  const campaignSummary = activeOffers.length
-    ? `Active campaigns this week include ${joinNaturalList(activeOffers.slice(0, 2))}${activeOffers.length > 2 ? ` plus ${activeOffers.length - 2} more` : ''}.`
-    : 'No latest-week campaign rows are active in the loaded promo calendar.';
   const topChannelShare = topChannel ? (topChannel.sales / Math.max(latestAggregate.sales, 1)) * 100 : 0;
-  const rangeText = checkRange !== 'N/A' ? `${avgCheckStatus} the modeled ${checkRange} average-order-value band` : 'loaded without a modeled average-order-value band';
-
-  const summaryBullets = [
-    `${brandLabel} delivered ${formatCurrency(latestAggregate.sales)} in sales from ${formatNumber(Math.round(latestAggregate.transactions))} orders last week. Average order value was ${formatCurrency(latestAggregate.avgCheck)}, which is ${rangeText}.`,
-    topChannel
-      ? `${formatChannelLabel(topChannel.channel)} is the biggest order channel at ${topChannelShare.toFixed(1)}% of sales. ${formatChannelLabel(marginLeader.channel)} has the strongest margin at ${formatPercent(marginLeader.marginRate)}.`
-      : `${brandLabel} latest-week demand is loaded and ready for review.`,
-    `${familyLeadText} are driving the current menu mix. Overall price sensitivity is ${latestItemAggregate.elasticity.toFixed(2)}, and ${latestItemAggregate.promoMix.toFixed(1)}% of units are currently supported by promos.`
-  ];
-
-  summaryBullets.push(
-    activeOffers.length
-      ? campaignSummary
-      : watchItems.length
-        ? `Watch ${joinNaturalList(watchItems)} first before changing prices broadly.`
-        : campaignSummary
+  const valueLaneRows = latestItemRows.filter((row) => isTruthyFlag(row.value_flag) || row.product_role === 'traffic_builder');
+  const familyLaneRows = latestItemRows.filter((row) =>
+    row.product_role === 'family_meal'
+    || row.product_role === 'innovation'
+    || row.product_role === 'core_meal'
+    || (isTruthyFlag(row.shareable_flag) && row.product_role !== 'attach')
+    || (row.price_tier === 'premium' && row.product_role !== 'attach')
   );
+  const primaryLaneRows = valueLaneRows.length
+    ? valueLaneRows
+    : latestItemRows.filter((row) => row.product_role === 'traffic_builder' || row.product_role === 'core_meal');
+  const secondaryLaneRows = familyLaneRows.length
+    ? familyLaneRows
+    : latestItemRows.filter((row) => row.product_role === 'family_meal' || row.product_role === 'innovation' || row.product_role === 'core_meal');
+  const primaryAnchor = getWeightedRealizedPrice(primaryLaneRows) || (checkLow > 0 ? checkLow : Math.max(latestAggregate.avgCheck * 0.82, 10));
+  const secondaryAnchor = getWeightedRealizedPrice(secondaryLaneRows) || (checkHigh > 0 ? checkHigh : Math.max(latestAggregate.avgCheck * 1.18, primaryAnchor + 4));
+  const primaryFamily = topFamilies[0]?.key || 'Core pizza';
+  const secondaryFamily = topFamilies[1]?.key || 'Bundles and add-ons';
+  const primaryTopProducts = getTopProductMix(primaryLaneRows, 4);
+  const secondaryTopProducts = getTopProductMix(secondaryLaneRows, 4);
+  const primaryProducts = primaryTopProducts.map((item) => item.name);
+  const secondaryProducts = secondaryTopProducts.map((item) => item.name);
+  const primaryAnchorRows = getRowsForTopProducts(primaryLaneRows, primaryTopProducts);
+  const secondaryAnchorRows = getRowsForTopProducts(secondaryLaneRows, secondaryTopProducts);
+  const primaryChannel = getTopGroupMix(primaryLaneRows, 'channel_name', 1)[0]?.key || 'Pickup App';
+  const secondaryChannel = getTopGroupMix(secondaryLaneRows, 'channel_name', 1)[0]?.key || 'Delivery';
+  const primaryLaneSales = primaryLaneRows.reduce((sum, row) => sum + toNumeric(row.net_sales), 0);
+  const secondaryLaneSales = secondaryLaneRows.reduce((sum, row) => sum + toNumeric(row.net_sales), 0);
+  const primaryLaneShare = latestAggregate.sales > 0 ? (primaryLaneSales / latestAggregate.sales) * 100 : 0;
+  const secondaryLaneShare = latestAggregate.sales > 0 ? (secondaryLaneSales / latestAggregate.sales) * 100 : 0;
+  const primaryBand = getPriceBand(primaryAnchorRows.length ? primaryAnchorRows : primaryLaneRows);
+  const secondaryBand = getPriceBand(secondaryAnchorRows.length ? secondaryAnchorRows : secondaryLaneRows);
+  const primaryMinPrice = Number.isFinite(primaryBand.min) ? primaryBand.min : primaryAnchor;
+  const primaryMaxPrice = primaryBand.max > 0 ? primaryBand.max : primaryAnchor;
+  const secondaryMinPrice = Number.isFinite(secondaryBand.min) ? secondaryBand.min : secondaryAnchor;
+  const secondaryMaxPrice = secondaryBand.max > 0 ? secondaryBand.max : secondaryAnchor;
+  const primaryExamples = primaryProducts.slice(0, 3);
+  const secondaryExamples = secondaryProducts.slice(0, 3);
+  const offerSummary = activeOffers.length
+    ? `${activeOffers[0]}${activeOffers.length > 1 ? ` plus ${activeOffers.length - 1} more current offer${activeOffers.length > 2 ? 's' : ''}` : ''}`
+    : 'always-on value support';
+  const watchSummary = watchItems.length ? joinNaturalList(watchItems) : 'the most elastic menu ladders';
+  const averageOrderRead = averageOrderBand !== 'N/A'
+    ? `${avgCheckStatus} the modeled ${averageOrderBand} average-order-value band`
+    : 'loaded without a modeled average-order-value band';
+  const orderTrend = `${formatSignedNumber(transactionsChangePct, 1)}% vs prior week`;
+  const salesTrend = `${formatSignedNumber(salesChangePct, 1)}% vs prior week`;
+  const marginTrend = `${formatSignedNumber(marginRateChangePts, 1)} pp vs prior week`;
+  const channelRead = topChannel
+    ? `${formatChannelLabel(topChannel.channel)} currently leads at ${topChannelShare.toFixed(1)}% of sales`
+    : 'The current leading channel is not available';
 
-  const actionBullets = [
-    topChannel && marginLeader
-      ? `Start with the channel cards below. Protect ${formatChannelLabel(topChannel.channel)} traffic and use ${formatChannelLabel(marginLeader.channel)} as the margin guardrail.`
-      : `Start with the channel cards below and keep the first pricing move channel-specific rather than brand-wide.`,
-    `Use the KPI tiles above as the guardrail. Orders are ${orderDirection}, sales are ${salesDirection}, average order value is ${formatSignedNumber(avgCheckChangePct, 1)}% versus prior week, and margin rate moved ${formatSignedNumber(marginRateChangePts, 1)} pp.`,
-    watchItems.length
-      ? `Review ${joinNaturalList(watchItems)} before touching the full price ladder. They are the most exposed products in the current data.`
-      : `Use the loaded product-channel panel to identify the most elastic products before widening any price action.`,
-    `Use the data backing section below to confirm coverage, campaigns, and data quality before locking a recommendation.`
-  ];
-
-  setListItems('yum-business-summary', summaryBullets);
-  setListItems('yum-recommended-actions', actionBullets);
-  setElementText('kpi-insight-title', `${brandLabel} decision context`);
-  setElementText('yum-data-grain', grainSummary);
-  setElementText('yum-data-latest-week', formatWeekLabel(foundationSummary?.latestWeek || qaReport?.latest_week || latestWeek));
-  setElementText('yum-data-coverage', dataCoverage);
-  setElementText('yum-data-tables', relevantDatasets.join(', '));
+  setElementHTML('#section-1 .insight-box .icon', '<i class="bi bi-lightbulb"></i>');
+  setElementText('overview-tier-primary-band', 'Traffic Builder Ladder');
+  setElementText('overview-tier-primary-name', 'Entry Value & Solo Meals');
+  setElementText('overview-tier-primary-price', `From ${formatCurrency(primaryMinPrice)}`);
   setElementText(
-    'yum-data-quality-note',
-    `Current Business Overview is built from ${brandLabel} brand, weekly, channel, product, and promo datasets. Core panels show ${duplicateKeys} duplicate keys and ${missingRequired} missing required fields; latest loaded week is ${formatWeekLabel(foundationSummary?.latestWeek || qaReport?.latest_week || latestWeek)}.`
+    'overview-tier-primary-products',
+    primaryExamples.length ? `Anchor items: ${primaryExamples.join(' | ')}` : `Anchor items: ${primaryFamily}`
   );
+  setElementText(
+    'overview-tier-primary-copy',
+    `${formatCurrency(primaryMinPrice)} to ${formatCurrency(primaryMaxPrice)} across the latest week. ${primaryChannel} leads this ladder, and it drives ${primaryLaneShare.toFixed(1)}% of latest sales. ${offerSummary} keeps this lane competitive.`
+  );
+  setElementText('overview-tier-secondary-band', 'Family Share Ladder');
+  setElementText('overview-tier-secondary-name', 'Family Bundles & Premium');
+  setElementText('overview-tier-secondary-price', `From ${formatCurrency(secondaryMinPrice)}`);
+  setElementText(
+    'overview-tier-secondary-products',
+    secondaryExamples.length ? `Anchor items: ${secondaryExamples.join(' | ')}` : `Anchor items: ${secondaryFamily}`
+  );
+  setElementText(
+    'overview-tier-secondary-copy',
+    `${formatCurrency(secondaryMinPrice)} to ${formatCurrency(secondaryMaxPrice)} across the latest week. ${secondaryChannel} is strongest here, and this ladder carries ${secondaryLaneShare.toFixed(1)}% of latest sales. Test selective premium pricing here first.`
+  );
+  setElementText('kpi-insight-title', 'The Pricing Question');
   setElementText(
     'kpi-insight-text',
-    `Average order value is the same thing as average check: net sales divided by orders. Read this screen top to bottom. The KPI row shows the latest week, the summary and actions explain what changed, and the channel cards show where traffic and margin are sitting.`
+    `${brandLabel} delivered ${formatCurrency(latestAggregate.sales)} from ${formatNumber(Math.round(latestAggregate.transactions))} weekly orders. Average order value is ${formatCurrency(latestAggregate.avgCheck)}, ${averageOrderRead}. ${channelRead}. The current ladder starts around ${formatCurrency(primaryMinPrice)} for traffic builders and ${formatCurrency(secondaryMinPrice)} for family and premium missions. Promo-supported units are ${latestItemAggregate.promoMix.toFixed(1)}%, and ${watchSummary} should be reviewed first if pricing changes expand. Orders are ${orderTrend}, sales are ${salesTrend}, and margin rate moved ${marginTrend}.`
   );
 }
 
 // Load KPI data
 async function loadKPIs(selectedBrandId = getSelectedYumBrandId()) {
   try {
-    const [brandDim, brandMarketNetwork, brandWeekSummary, yumItemPanel, yumStoreChannelPanel, yumPromoCalendar, metadata, manifest, qaReport, dataQualityChecks] = await Promise.all([
+    const [brandDim, brandWeekSummary, yumItemPanel, yumStoreChannelPanel, yumPromoCalendar] = await Promise.all([
       loadYumBrandDim(),
-      loadYumBrandMarketNetwork(),
       loadYumBrandWeekSummary(),
       loadYumBrandMarketProductChannelWeekPanel(),
       loadYumBrandMarketChannelWeekPanel(),
-      loadYumPromoCalendar(),
-      loadYumMetadata(),
-      loadYumManifest(),
-      loadYumQAReport(),
-      loadYumDataQualityChecks()
+      loadYumPromoCalendar()
     ]);
 
     yumBrandProfiles = new Map(brandDim.map(row => [row.brand_id, row]));
@@ -1060,14 +796,11 @@ async function loadKPIs(selectedBrandId = getSelectedYumBrandId()) {
     ]);
 
     if (!availableYumBrands.length) {
-      throw new Error('No Yum brand rows available for Current Business Overview KPIs.');
+      throw new Error('No Pizza Hut brand rows available for Current State Overview KPIs.');
     }
 
     const brandId = availableYumBrands.includes(selectedBrandId) ? selectedBrandId : availableYumBrands[0];
-    const foundationSummary = await getYumFoundationSummary(brandId);
     window.yumSelectedBrandId = brandId;
-    populateYumOverviewBrandCards(availableYumBrands);
-    updateYumOverviewBrandHint(brandId);
 
     const brandItemRows = yumItemPanel.filter(row => row.brand_id === brandId);
     const brandStoreChannelRows = yumStoreChannelPanel.filter(row => row.brand_id === brandId);
@@ -1075,7 +808,7 @@ async function loadKPIs(selectedBrandId = getSelectedYumBrandId()) {
     const brandProfile = yumBrandProfiles.get(brandId) || null;
 
     if (brandItemRows.length === 0 || brandStoreChannelRows.length === 0 || brandWeekRows.length === 0) {
-      throw new Error(`No ${getYumBrandLabel(brandId)} operating panel rows available for Current Business Overview KPIs.`);
+      throw new Error(`No ${getYumBrandLabel(brandId)} operating panel rows available for Current State Overview KPIs.`);
     }
 
     const weeks = [...new Set(brandWeekRows.map(row => row.week_start))].sort();
@@ -1111,14 +844,8 @@ async function loadKPIs(selectedBrandId = getSelectedYumBrandId()) {
     };
     const latestItemAggregate = aggregateYumPanelRows(latestItemRows);
     const brandLabel = getYumBrandLabel(brandId);
-    const storeCoverage = brandMarketNetwork
-      .filter(row => row.brand_id === brandId)
-      .reduce((sum, row) => sum + toNumeric(row.store_count_proxy), 0);
 
-    renderYumBrandChannelCards(latestItemRows, latestStoreChannelRows, brandId);
-
-    setElementText('kpi-architecture-heading', `${brandLabel} Order Channels`);
-    setElementText('kpi-metrics-heading', `${brandLabel} Brand-wise Operating KPIs (Week of ${formatWeekLabel(latestWeek)})`);
+    setElementText('kpi-metrics-heading', `Key Performance Metrics (Week of ${formatWeekLabel(latestWeek)})`);
     setElementText('kpi-customers-label', 'Weekly Orders');
     setElementText('kpi-revenue-label', 'Weekly Net Sales');
     setElementText('kpi-aov-label', 'Average Order Value');
@@ -1170,16 +897,7 @@ async function loadKPIs(selectedBrandId = getSelectedYumBrandId()) {
       marginRateChangePts,
       latestStoreChannelRows,
       latestItemRows,
-      latestPromoRows,
-      foundationSummary: {
-        ...foundationSummary,
-        stores: storeCoverage || foundationSummary.stores,
-        brandId
-      },
-      metadata,
-      manifest,
-      qaReport,
-      dataQualityChecks
+      latestPromoRows
     });
   } catch (error) {
     console.error('Error loading KPIs:', error);
@@ -1218,7 +936,7 @@ async function updateElasticityAnalysis(result) {
     const demandCurveData = {
       tiers: [
         {
-          name: 'Mass Channel',
+          name: 'Entry & Value Mix',
           elasticity: params.tiers.ad_supported.base_elasticity,
           currentPrice: CHANNEL_PRICE.ad_supported,
           currentSubs: latestWeek.ad_supported.active_customers,
@@ -1227,7 +945,7 @@ async function updateElasticityAnalysis(result) {
           color: '#dc3545'
         },
         {
-          name: 'Prestige Channel',
+          name: 'Core & Premium Mix',
           elasticity: params.tiers.ad_free.base_elasticity,
           currentPrice: CHANNEL_PRICE.ad_free,
           currentSubs: latestWeek.ad_free.active_customers,
@@ -1261,14 +979,14 @@ async function loadElasticityAnalytics() {
     const demandCurveData = {
       tiers: [
         {
-          name: 'Mass Channel',
+          name: 'Entry & Value Mix',
           elasticity: params.tiers.ad_supported.base_elasticity,
           currentPrice: CHANNEL_PRICE.ad_supported,
           currentSubs: latestWeek.ad_supported.active_customers,
           color: '#dc3545'
         },
         {
-          name: 'Prestige Channel',
+          name: 'Core & Premium Mix',
           elasticity: params.tiers.ad_free.base_elasticity,
           currentPrice: CHANNEL_PRICE.ad_free,
           currentSubs: latestWeek.ad_free.active_customers,
@@ -1293,8 +1011,8 @@ async function loadElasticityAnalytics() {
     );
 
     const heatmapData = {
-      segments: ['New (0-3mo)', 'Tenured (3-12mo)', 'Tenured (12+mo)'],
-      tiers: ['Mass Channel', 'Prestige Channel'],
+      segments: ['Game-Day Trial', 'Weekly Routine', 'Family Loyalist'],
+      tiers: ['Entry & Value Mix', 'Core & Premium Mix'],
       values: values
     };
 
@@ -1363,8 +1081,8 @@ async function initializeChatContext() {
         demandCurve: {
           description: "Shows price elasticity - how demand changes with price for each tier",
           tiers: [
-            { name: 'Mass Channel', elasticity: elasticityParams.tiers.ad_supported.base_elasticity, price: CHANNEL_PRICE.ad_supported },
-            { name: 'Prestige Channel', elasticity: elasticityParams.tiers.ad_free.base_elasticity, price: CHANNEL_PRICE.ad_free }
+            { name: 'Entry & Value Mix', elasticity: elasticityParams.tiers.ad_supported.base_elasticity, price: CHANNEL_PRICE.ad_supported },
+            { name: 'Core & Premium Mix', elasticity: elasticityParams.tiers.ad_free.base_elasticity, price: CHANNEL_PRICE.ad_free }
           ]
         },
         tierMix: currentResult ? {
@@ -1455,13 +1173,13 @@ async function initializeChatContext() {
       suggestScenario: async (goal) => {
         const goalMap = {
           maximize_revenue: {
-            strategy: 'Price lift on prestige channel',
+            strategy: 'Price lift on core and premium mix',
             tier: 'ad_free',
             priceChange: +2.00,
             rationale: 'Prestige channel is less elastic, allowing modest price lifts with limited volume loss'
           },
           grow_customers: {
-            strategy: 'Defensive promo on mass channel',
+            strategy: 'Defensive promo on entry and value mix',
             tier: 'ad_supported',
             priceChange: -3.00,
             rationale: 'Mass channel is more elastic, so discounts drive volume during competitive pressure'
@@ -1470,7 +1188,7 @@ async function initializeChatContext() {
             strategy: 'Hold price and reduce promo depth',
             tier: 'ad_free',
             priceChange: -1.00,
-            rationale: 'Small prestige adjustment protects repeat rate without heavy discounting'
+            rationale: 'A modest core and premium mix adjustment protects repeat rate without heavy discounting'
           },
           maximize_aov: {
             strategy: 'Prestige channel price increase',
@@ -1510,18 +1228,18 @@ async function initializeChatContext() {
       analyzeChart: async (chartName) => {
         const chartAnalysis = {
           demand_curve: {
-            name: 'Demand Curve by Tier',
+            name: 'Demand Curve by Menu Ladder',
             description: 'Shows price elasticity - how quantity demanded changes with price',
             interpretation: [
               'Steeper curve = higher elasticity = more price-sensitive customers',
-              `Mass Channel (elasticity ${elasticityParams.tiers.ad_supported.base_elasticity}): Most price-sensitive`,
-              `Prestige Channel (elasticity ${elasticityParams.tiers.ad_free.base_elasticity}): Moderately price-sensitive`
+              `Entry & Value Mix (elasticity ${elasticityParams.tiers.ad_supported.base_elasticity}): Most price-sensitive`,
+              `Core & Premium Mix (elasticity ${elasticityParams.tiers.ad_free.base_elasticity}): Moderately price-sensitive`
             ],
-            insights: 'Use this to identify optimal price points for each tier. Flatter curves allow for price increases with minimal customer loss.'
+            insights: 'Use this to identify optimal price points for each menu ladder. Flatter curves allow for price increases with less order loss.'
           },
           tier_mix: currentResult ? {
-            name: 'Tier Mix: Baseline vs Forecasted',
-            description: 'Compares current vs forecasted customer distribution across tiers',
+            name: 'Menu-Ladder Mix: Baseline vs Forecasted',
+            description: 'Compares current vs forecasted order distribution across demand ladders',
             baseline: currentResult.baseline,
             forecasted: currentResult.forecasted,
             interpretation: `Scenario "${currentResult.scenario_name}" shifts channel distribution. Revenue impact depends on AOV differences.`
@@ -1534,11 +1252,11 @@ async function initializeChatContext() {
           } : null,
           heatmap: {
             name: 'Elasticity Heatmap by Cohort',
-            description: 'Shows how price sensitivity varies by customer tenure and tier',
+            description: 'Shows how price sensitivity varies by visit mission and menu ladder',
             interpretation: [
-              'New customers (0-3mo) are typically more price-sensitive',
-              'Tenured customers (12+mo) show lower elasticity (more loyal)',
-              'This guides targeted pricing strategies by segment'
+              'Value-led and game-day trial guests are typically more price-sensitive',
+              'Routine and loyalist missions tend to hold better when price moves are selective',
+              'This guides targeted Pizza Hut pricing strategies by segment'
             ]
           }
         };
@@ -1596,7 +1314,7 @@ async function initializeChatContext() {
 
           tradeoffs: results.map(r => ({
             scenario: r.scenario_name,
-            tradeoff: `Revenue ${r.delta.revenue_pct >= 0 ? '+' : ''}${r.delta.revenue_pct.toFixed(1)}% vs Customers ${r.delta.customers_pct >= 0 ? '+' : ''}${r.delta.customers_pct.toFixed(1)}%`,
+            tradeoff: `Revenue ${r.delta.revenue_pct >= 0 ? '+' : ''}${r.delta.revenue_pct.toFixed(1)}% vs Orders ${r.delta.customers_pct >= 0 ? '+' : ''}${r.delta.customers_pct.toFixed(1)}%`,
             risk_level: r.warnings && r.warnings.length > 0 ? 'High' : Math.abs(r.delta.customers_pct) > 10 ? 'Medium' : 'Low'
           })),
 
@@ -1777,7 +1495,7 @@ async function loadData() {
     if (loadDataSection) loadDataSection.style.display = 'none';
     if (kpiSection) kpiSection.style.display = 'block';
 
-    // The old channel promo simulator is intentionally hidden in Taco Bell mode.
+    // The old channel promo simulator is intentionally hidden in this Pizza Hut build.
 
     // NOTE: We're already on Step 1 (navigated before loadData was called)
     // All section visibility is now controlled by step navigation
@@ -1900,7 +1618,7 @@ async function loadDataStyled() {
   });
 
   const stages = [
-    { progress: 10, text: 'Opening Yum data foundation...', pause: 140 },
+    { progress: 10, text: 'Opening Pizza Hut data foundation...', pause: 140 },
     {
       progress: 28,
       text: 'Building weekly KPI baselines...',
@@ -2121,45 +1839,6 @@ function clearScenarios() {
   }
 }
 
-function createScreenAssistantMarkup(config) {
-  const promptButtons = config.prompts
-    .map((prompt) => `<button class="btn btn-sm btn-outline-secondary suggested-query" type="button" disabled>${prompt}</button>`)
-    .join('');
-
-  return `
-    <div class="screen-assistant-card mt-5" data-chat-panel data-chat-screen="${config.sectionId}">
-      <div class="screen-assistant-card__header">
-        <div>
-          <div class="screen-assistant-card__eyebrow">AI Chatbot Assistant</div>
-          <h5 class="screen-assistant-card__title mb-1">${config.title}</h5>
-          <p class="screen-assistant-card__copy mb-0">${config.description}</p>
-        </div>
-        <button class="btn btn-sm btn-outline-primary" type="button" data-open-full-chat="true">
-          <i class="bi bi-box-arrow-up-right me-1"></i> Open Full Assistant
-        </button>
-      </div>
-      <div class="assistant-chat-feed assistant-chat-feed--compact" data-chat-feed data-chat-variant="compact"></div>
-      <div class="input-group mt-3">
-        <input type="text" class="form-control assistant-chat-input" placeholder="Ask for a summary, risk readout, or recommendation from this screen..." disabled />
-        <button class="btn btn-primary assistant-chat-send-btn" type="button" disabled>
-          <i class="bi bi-stars me-1"></i> Ask AI
-        </button>
-      </div>
-      <div class="screen-assistant-card__chips mt-3">
-        ${promptButtons}
-      </div>
-    </div>
-  `;
-}
-
-function initializeBottomAssistants() {
-  SCREEN_ASSISTANT_CONFIGS.forEach((config) => {
-    const container = document.querySelector(`#${config.sectionId} > .container`);
-    if (!container || container.querySelector(`[data-chat-screen="${config.sectionId}"]`)) return;
-    container.insertAdjacentHTML('beforeend', createScreenAssistantMarkup(config));
-  });
-}
-
 function cleanAssistantText(value) {
   return String(value || '').replace(/\s+/g, ' ').trim();
 }
@@ -2228,7 +1907,6 @@ function buildDataExplorerContext() {
 }
 
 function buildOverviewContext() {
-  const activeBrand = cleanAssistantText(document.querySelector('#yum-overview-brand-cards .yum-brand-select-card.is-active .yum-brand-select-card__name')?.textContent || '');
   const kpis = [
     `${getTextById('kpi-customers-label')}: ${getTextById('kpi-customers')} (${getTextById('kpi-customers-change')})`,
     `${getTextById('kpi-revenue-label')}: ${getTextById('kpi-revenue')} (${getTextById('kpi-revenue-change')})`,
@@ -2237,15 +1915,13 @@ function buildOverviewContext() {
   ].filter((line) => !line.includes(':  ()'));
 
   const lines = [];
-  if (activeBrand) lines.push(`Selected brand: ${activeBrand}`);
+  const architecture = [
+    `${getTextById('overview-tier-primary-band')} | ${getTextById('overview-tier-primary-name')}: ${getTextById('overview-tier-primary-price')} | ${getTextById('overview-tier-primary-copy')}`,
+    `${getTextById('overview-tier-secondary-band')} | ${getTextById('overview-tier-secondary-name')}: ${getTextById('overview-tier-secondary-price')} | ${getTextById('overview-tier-secondary-copy')}`
+  ].filter((line) => !line.startsWith(':'));
+  if (architecture.length) lines.push(`Current price architecture: ${architecture.join(' || ')}`);
   if (kpis.length) lines.push(`KPIs: ${kpis.join(' | ')}`);
-  const summaryBullets = getListTexts('yum-business-summary');
-  if (summaryBullets.length) lines.push(`AI summary bullets: ${summaryBullets.join(' || ')}`);
-  const actionBullets = getListTexts('yum-recommended-actions');
-  if (actionBullets.length) lines.push(`Recommended actions: ${actionBullets.join(' || ')}`);
   if (getTextById('kpi-insight-text')) lines.push(`Decision context: ${getTextById('kpi-insight-text')}`);
-  if (getTextById('yum-data-coverage')) lines.push(`Data coverage: ${getTextById('yum-data-coverage')}`);
-  if (getTextById('yum-data-quality-note')) lines.push(`Data quality note: ${getTextById('yum-data-quality-note')}`);
   return lines;
 }
 
@@ -2318,8 +1994,8 @@ function buildPromotionContext() {
   }
 
   const summaryCards = [
-    `Official campaigns tracked: ${getTextById('promo-summary-official-count')} (${getTextById('promo-summary-official-note')})`,
-    `Modeled promo windows: ${getTextById('promo-summary-modeled-count')} (${getTextById('promo-summary-modeled-note')})`,
+    `Campaign themes: ${getTextById('promo-summary-official-count')} (${getTextById('promo-summary-official-note')})`,
+    `Modeled promotion windows: ${getTextById('promo-summary-modeled-count')} (${getTextById('promo-summary-modeled-note')})`,
     `Average discount: ${getTextById('promo-summary-discount')} (${getTextById('promo-summary-discount-note')})`,
     `Primary channel pressure: ${getTextById('promo-summary-channel')} (${getTextById('promo-summary-channel-note')})`,
     `Promo dependency: ${getTextById('promo-summary-dependency')} (${getTextById('promo-summary-dependency-note')})`
@@ -2328,7 +2004,7 @@ function buildPromotionContext() {
 
   const strategyReadout = getListTexts('promo-strategy-readout');
   if (strategyReadout.length) lines.push(`Campaign strategy readout: ${strategyReadout.join(' || ')}`);
-  if (getTextById('campaign-patterns-readout')) lines.push(`Official campaign pattern note: ${getTextById('campaign-patterns-readout')}`);
+  if (getTextById('campaign-patterns-readout')) lines.push(`Modeled campaign pattern note: ${getTextById('campaign-patterns-readout')}`);
   const checkedFilters = getCheckedFilterTexts('#event-calendar-section .btn-group');
   if (checkedFilters.length) lines.push(`Active timeline filters: ${checkedFilters.join(', ')}`);
   if (getTextById('promo-decision-title')) {
@@ -2343,7 +2019,7 @@ function buildScreenContext(sectionId) {
 
   let details = [];
   switch (sectionId) {
-    case 'section-10':
+    case 'section-2':
       details = buildDataExplorerContext();
       break;
     case 'section-1':
@@ -3756,8 +3432,6 @@ async function init() {
     window.yumSelectedBrandId = DEFAULT_YUM_BRAND_ID;
   }
 
-  initializeBottomAssistants();
-
   // Add event listeners
   document.getElementById('load-data-btn')?.addEventListener('click', loadData);
   // Old simulate-btn and save-scenario-btn removed - using tabbed interface now
@@ -3800,7 +3474,7 @@ async function init() {
     const openFullChatButton = event.target.closest('[data-open-full-chat]');
     if (openFullChatButton) {
       window.yumChatPinnedScreenId = openFullChatButton.closest('[data-chat-panel]')?.dataset.chatScreen || window.yumLastAnalysisSectionId || null;
-      window.goToStep?.(7);
+      window.goToStep?.(9);
     }
   });
 
@@ -3814,15 +3488,13 @@ async function init() {
 
   // Initialize popovers (will be initialized again after data loads)
   initializePopovers();
-  initializeYumOverviewBrandControl();
-  updateYumOverviewBrandHint(getSelectedYumBrandId());
 
   // Scenario editor event listeners
   document.getElementById('edit-new-price')?.addEventListener('input', updatePriceChangeIndicator);
   document.getElementById('save-edited-scenario-btn')?.addEventListener('click', saveEditedScenario);
 
   // Make loadData available globally so it can be called when navigating to step 1
-  window.loadAppData = loadDataStyled;
+  window.loadAppData = loadData;
   window.dataLoaded = false;
 }
 
@@ -4137,7 +3809,7 @@ function createScenarioCard(scenario) {
  */
 function calculateAcquisitionPayback(result) {
   try {
-    // Estimate CAC based on retail DTC benchmarks ($20-45)
+    // Estimate CAC from modeled restaurant traffic benchmarks.
     // For promos, CAC is higher due to discount
     const isPromo = result.scenario_config?.promotional_status === true;
     const baseCAC = 35; // Industry median
@@ -4291,14 +3963,14 @@ function displayResultsInTabs(result, isRedisplay = false) {
     allSimulationResultsByModel[modelType].push(result);
   }
 
-  // Display warning for new tier scenarios
+  // Display warning for new ladder scenarios
   const warningContainer = document.getElementById('new-tier-warning');
   if (result.is_new_tier && warningContainer) {
     warningContainer.innerHTML = `
       <div class="alert alert-info border-info mb-3">
         <i class="bi bi-info-circle me-2"></i>
-        <strong>New Tier Simulation:</strong> This scenario introduces a hypothetical "${result.scenario_config.tier}" tier that doesn't exist in historical data.
-        Results use "${result.scenario_config.baseline_tier}" as the reference baseline for modeling.
+        <strong>New Menu Ladder Simulation:</strong> This scenario introduces a hypothetical "${result.scenario_config.tier}" ladder that does not exist in the observed baseline.
+        Results use "${result.scenario_config.baseline_tier}" as the reference ladder for modeling.
       </div>
     `;
     warningContainer.style.display = 'block';
@@ -4332,7 +4004,7 @@ function displayResultsInTabs(result, isRedisplay = false) {
     <div class="col-md-3">
       <div class="card">
         <div class="card-body text-center">
-          <div class="text-muted small">Customers</div>
+          <div class="text-muted small">Weekly Orders</div>
           <div class="h4 mb-1">${formatNumber(customers)}</div>
           <div class="small ${deltaCustomers >= 0 ? 'text-success' : 'text-danger'}">
             ${deltaCustomers >= 0 ? '+' : ''}${formatNumber(deltaCustomers)}
@@ -4368,7 +4040,7 @@ function displayResultsInTabs(result, isRedisplay = false) {
     <div class="col-md-3">
       <div class="card">
         <div class="card-body text-center">
-          <div class="text-muted small">Churn Rate</div>
+          <div class="text-muted small">Repeat-Loss Rate</div>
           <div class="h4 mb-1">${formatPercent((result.forecasted.repeatLossRate || result.forecasted.repeat_loss_rate || 0), 2)}</div>
           <div class="small ${result.delta.repeat_loss_rate <= 0 ? 'text-success' : 'text-danger'}">
             ${result.delta.repeat_loss_rate >= 0 ? '+' : ''}${formatPercent(result.delta.repeat_loss_rate, 2)}
@@ -4491,7 +4163,7 @@ function renderCustomerChartInTabs(result) {
     data: {
       labels: ['Baseline', 'Scenario'],
       datasets: [{
-        label: 'Customers',
+        label: 'Weekly Orders',
         data: [
           result.baseline.activeCustomers || result.baseline.customers,
           result.forecasted.activeCustomers || result.forecasted.customers
@@ -4720,6 +4392,18 @@ async function renderMigrationMatrix(result) {
     // Use Python model migration predictions
     if (!result.python_models || !result.python_models.migration) {
       console.log('⚠️ No migration predictions available');
+      tableHeader.innerHTML = `
+        <tr>
+          <th>Scenario Readout</th>
+          <th>Detail</th>
+        </tr>
+      `;
+      tableBody.innerHTML = `
+        <tr>
+          <td><strong>JavaScript migration build</strong></td>
+          <td>The Pizza Hut build currently summarizes migration through the channel-flow chart, share cards, and scenario KPIs above. Detailed scenario-level transition matrices are only emitted when a dedicated migration matrix is present in the simulation output.</td>
+        </tr>
+      `;
       return;
     }
 
@@ -4752,33 +4436,33 @@ function render2TierMigrationMatrix(tableHeader, tableBody, migration) {
   tableHeader.innerHTML = `
     <tr>
       <th>Current Channel</th>
-      <th>→ Prestige Channel</th>
-      <th>→ Mass Channel</th>
+      <th>→ Core & Premium Mix</th>
+      <th>→ Entry & Value Mix</th>
       <th>Repeat Loss</th>
       <th>Net Change</th>
     </tr>
   `;
 
-  // Mass Channel row
+  // Entry & Value Mix row
   const adSuppUpgrade = (migration.from_ad_supported?.to_ad_free || 0) * 100;
   const adSuppCancel = (migration.from_ad_supported?.cancel || 0) * 100;
   const adSuppNetMix = adSuppUpgrade - adSuppCancel;
 
-  // Prestige Channel row
+  // Core & Premium Mix row
   const adFreeDowngrade = (migration.from_ad_free?.to_ad_supported || 0) * 100;
   const adFreeCancel = (migration.from_ad_free?.cancel || 0) * 100;
   const adFreeNetMix = -adFreeDowngrade - adFreeCancel;
 
   tableBody.innerHTML = `
     <tr>
-      <td><strong>Mass Channel</strong></td>
+      <td><strong>Entry & Value Mix</strong></td>
       <td class="text-success">${adSuppUpgrade > 0 ? '+' : ''}${adSuppUpgrade.toFixed(1)}%</td>
       <td class="text-muted">—</td>
       <td class="text-danger">${adSuppCancel > 0 ? '+' : ''}${adSuppCancel.toFixed(1)}%</td>
       <td class="${adSuppNetMix >= 0 ? 'text-success' : 'text-danger'}"><strong>${adSuppNetMix > 0 ? '+' : ''}${adSuppNetMix.toFixed(1)}%</strong></td>
     </tr>
     <tr>
-      <td><strong>Prestige Channel</strong></td>
+      <td><strong>Core & Premium Mix</strong></td>
       <td class="text-muted">—</td>
       <td class="text-warning">${adFreeDowngrade > 0 ? '+' : ''}${adFreeDowngrade.toFixed(1)}%</td>
       <td class="text-danger">${adFreeCancel > 0 ? '+' : ''}${adFreeCancel.toFixed(1)}%</td>
@@ -4795,21 +4479,21 @@ function renderBundleMigrationMatrix(tableHeader, tableBody, migration) {
   tableHeader.innerHTML = `
     <tr>
       <th>Current Channel</th>
-      <th>→ Prestige Channel</th>
+      <th>→ Core & Premium Mix</th>
       <th>→ Value Set</th>
-      <th>→ Mass Channel</th>
+      <th>→ Entry & Value Mix</th>
       <th>Repeat Loss</th>
       <th>Net Change</th>
     </tr>
   `;
 
-  // FROM Mass Channel
+  // FROM Entry & Value Mix
   const as_to_af = (migration.from_ad_supported?.to_ad_free || 0) * 100;
   const as_to_bundle = (migration.from_ad_supported?.to_bundle || 0) * 100;
   const as_cancel = (migration.from_ad_supported?.cancel || 0) * 100;
   const as_net = as_to_af + as_to_bundle - as_cancel;
 
-  // FROM Prestige Channel
+  // FROM Core & Premium Mix
   const af_to_bundle = (migration.from_ad_free?.to_bundle || 0) * 100;
   const af_to_as = (migration.from_ad_free?.to_ad_supported || 0) * 100;
   const af_cancel = (migration.from_ad_free?.cancel || 0) * 100;
@@ -4823,7 +4507,7 @@ function renderBundleMigrationMatrix(tableHeader, tableBody, migration) {
 
   tableBody.innerHTML = `
     <tr>
-      <td><strong>Mass Channel</strong></td>
+      <td><strong>Entry & Value Mix</strong></td>
       <td class="text-success">${as_to_af > 0 ? '+' : ''}${as_to_af.toFixed(1)}%</td>
       <td class="text-primary">${as_to_bundle > 0 ? '+' : ''}${as_to_bundle.toFixed(1)}%</td>
       <td class="text-muted">—</td>
@@ -4831,7 +4515,7 @@ function renderBundleMigrationMatrix(tableHeader, tableBody, migration) {
       <td class="${as_net >= 0 ? 'text-success' : 'text-danger'}"><strong>${as_net > 0 ? '+' : ''}${as_net.toFixed(1)}%</strong></td>
     </tr>
     <tr>
-      <td><strong>Prestige Channel</strong></td>
+      <td><strong>Core & Premium Mix</strong></td>
       <td class="text-muted">—</td>
       <td class="text-primary">${af_to_bundle > 0 ? '+' : ''}${af_to_bundle.toFixed(1)}%</td>
       <td class="text-warning">${af_to_as > 0 ? '+' : ''}${af_to_as.toFixed(1)}%</td>
@@ -4857,8 +4541,8 @@ function renderBasicMigrationMatrix(tableHeader, tableBody, migration) {
   tableHeader.innerHTML = `
     <tr>
       <th>Current Channel</th>
-      <th>→ Mass Channel</th>
-      <th>→ Prestige Channel</th>
+      <th>→ Entry & Value Mix</th>
+      <th>→ Core & Premium Mix</th>
       <th>→ Entry Pack</th>
       <th>Repeat Loss</th>
       <th>Net Change</th>
@@ -4871,7 +4555,7 @@ function renderBasicMigrationMatrix(tableHeader, tableBody, migration) {
   const basic_cancel = (migration.from_basic?.cancel || 0) * 100;
   const basic_net = basic_to_as + basic_to_af - basic_cancel;
 
-  // FROM Mass Channel
+  // FROM Entry & Value Mix
   const as_to_af = (migration.from_ad_supported?.to_ad_free || 0) * 100;
   const as_to_basic = (migration.from_ad_supported?.to_basic || 0) * 100;
   const as_cancel = (migration.from_ad_supported?.cancel || 0) * 100;
@@ -4893,7 +4577,7 @@ function renderBasicMigrationMatrix(tableHeader, tableBody, migration) {
       <td class="${basic_net >= 0 ? 'text-success' : 'text-danger'}"><strong>${basic_net > 0 ? '+' : ''}${basic_net.toFixed(1)}%</strong></td>
     </tr>
     <tr>
-      <td><strong>Mass Channel</strong></td>
+      <td><strong>Entry & Value Mix</strong></td>
       <td class="text-muted">—</td>
       <td class="text-success">${as_to_af > 0 ? '+' : ''}${as_to_af.toFixed(1)}%</td>
       <td class="text-warning">${as_to_basic > 0 ? '+' : ''}${as_to_basic.toFixed(1)}%</td>
@@ -4901,7 +4585,7 @@ function renderBasicMigrationMatrix(tableHeader, tableBody, migration) {
       <td class="${as_net >= 0 ? 'text-success' : 'text-danger'}"><strong>${as_net > 0 ? '+' : ''}${as_net.toFixed(1)}%</strong></td>
     </tr>
     <tr>
-      <td><strong>Prestige Channel</strong></td>
+      <td><strong>Core & Premium Mix</strong></td>
       <td class="text-warning">${af_to_as > 0 ? '+' : ''}${af_to_as.toFixed(1)}%</td>
       <td class="text-muted">—</td>
       <td class="text-warning">${af_to_basic > 0 ? '+' : ''}${af_to_basic.toFixed(1)}%</td>
@@ -4988,13 +4672,13 @@ function displayTop3Scenarios(top3) {
                   </span>
                 </div>
                 <div class="col-6">
-                  <strong>Customers:</strong>
+                  <strong>Orders:</strong>
                   <span class="${scenario.delta.customers >= 0 ? 'text-success' : 'text-danger'}">
                     ${scenario.delta.customers >= 0 ? '+' : ''}${formatPercent(scenario.delta.customers_pct, 1)}
                   </span>
                 </div>
                 <div class="col-6">
-                  <strong>Churn:</strong>
+                  <strong>Repeat Loss:</strong>
                   <span class="${scenario.delta.repeat_loss_rate <= 0 ? 'text-success' : 'text-danger'}">
                     ${scenario.delta.repeat_loss_rate >= 0 ? '+' : ''}${formatPercent(scenario.delta.repeat_loss_rate, 2)}pp
                   </span>

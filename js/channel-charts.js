@@ -7,11 +7,10 @@
  */
 
 const CHANNEL_LABELS = {
-  sephora: 'Sephora',
-  ulta: 'Ulta',
-  target: 'Target',
-  amazon: 'Amazon',
-  dtc: 'DTC'
+  carryout: 'Carryout',
+  pickup_app: 'Pickup / App',
+  delivery: 'Delivery',
+  dine_in: 'Dine-In'
 };
 
 /**

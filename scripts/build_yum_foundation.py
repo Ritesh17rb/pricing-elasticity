@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Build a Yum Brands portfolio pricing foundation.
+Build a Pizza Hut pricing foundation.
 
-This generator creates a modeled public-data-style portfolio dataset centered on
+This generator creates a modeled public-data-style Pizza Hut dataset centered on
 the grain `week_start x brand_id x market_id x product_id x channel_id`.
 """
 
@@ -20,77 +20,26 @@ from typing import Dict, Iterable, List, Tuple
 from urllib.request import Request, urlopen
 
 
-USER_AGENT = "Mozilla/5.0 (compatible; YumPortfolioElasticity/2.0)"
-SOURCE_METHOD = "modeled_public_portfolio_foundation"
+USER_AGENT = "Mozilla/5.0 (compatible; PizzaHutPricingStudio/3.0)"
+SOURCE_METHOD = "modeled_public_pizzahut_pricing_foundation"
 
 BRANDS = {
-    "kfc": {
-        "brand_name": "KFC",
-        "portfolio_role": "Global fried chicken scale engine",
-        "cuisine_focus": "Chicken",
-        "service_model": "QSR",
-        "core_dayparts": "lunch,dinner",
-        "value_positioning": "balanced_value_and_family_meals",
-        "typical_check_low": 8.0,
-        "typical_check_high": 28.0,
-        "digital_maturity_index": 0.74,
-        "franchise_mix_pct": 97.0,
-        "global_exposure_index": 1.0,
-        "brand_strength_index": 1.02,
-        "network_base": 180,
-        "brand_color": "#d62828",
-        "price_power_index": 1.01,
-    },
-    "tacobell": {
-        "brand_name": "Taco Bell",
-        "portfolio_role": "High-frequency value and innovation growth engine",
-        "cuisine_focus": "Mexican-inspired QSR",
-        "service_model": "QSR",
-        "core_dayparts": "late_night,lunch,dinner",
-        "value_positioning": "value_led_innovation",
-        "typical_check_low": 7.0,
-        "typical_check_high": 16.0,
-        "digital_maturity_index": 0.83,
-        "franchise_mix_pct": 93.0,
-        "global_exposure_index": 0.82,
-        "brand_strength_index": 1.06,
-        "network_base": 155,
-        "brand_color": "#682bd7",
-        "price_power_index": 1.03,
-    },
     "pizzahut": {
         "brand_name": "Pizza Hut",
-        "portfolio_role": "Delivery and carryout family meal platform",
+        "portfolio_role": "Delivery, carryout, and dine-in family meal platform",
         "cuisine_focus": "Pizza",
         "service_model": "QSR/casual hybrid",
         "core_dayparts": "dinner,weekend",
         "value_positioning": "bundle_led_family_value",
         "typical_check_low": 14.0,
         "typical_check_high": 34.0,
-        "digital_maturity_index": 0.81,
+        "digital_maturity_index": 0.84,
         "franchise_mix_pct": 99.0,
         "global_exposure_index": 0.97,
-        "brand_strength_index": 0.97,
-        "network_base": 145,
-        "brand_color": "#0f6cbd",
-        "price_power_index": 0.99,
-    },
-    "habitburger": {
-        "brand_name": "Habit Burger & Grill",
-        "portfolio_role": "Premium burger adjacency and whitespace growth concept",
-        "cuisine_focus": "Burger",
-        "service_model": "Fast casual",
-        "core_dayparts": "lunch,dinner",
-        "value_positioning": "premium_better_burger",
-        "typical_check_low": 10.0,
-        "typical_check_high": 22.0,
-        "digital_maturity_index": 0.69,
-        "franchise_mix_pct": 58.0,
-        "global_exposure_index": 0.34,
-        "brand_strength_index": 0.9,
-        "network_base": 52,
-        "brand_color": "#ff8c42",
-        "price_power_index": 1.04,
+        "brand_strength_index": 1.01,
+        "network_base": 152,
+        "brand_color": "#ee3124",
+        "price_power_index": 1.0,
     },
 }
 
@@ -118,49 +67,20 @@ CHANNELS = [
 ]
 
 BRAND_CHANNELS = {
-    "kfc": {
-        "drive_thru": {"supported_flag": "true", "base_mix_pct": 34.0, "elasticity_modifier": 0.96, "service_drag": 0.0},
-        "dine_in": {"supported_flag": "true", "base_mix_pct": 12.0, "elasticity_modifier": 1.0, "service_drag": 0.0},
-        "carryout": {"supported_flag": "true", "base_mix_pct": 22.0, "elasticity_modifier": 0.98, "service_drag": 0.0},
-        "pickup_app": {"supported_flag": "false", "base_mix_pct": 0.0, "elasticity_modifier": 0.0, "service_drag": 0.0},
-        "delivery": {"supported_flag": "true", "base_mix_pct": 32.0, "elasticity_modifier": 0.87, "service_drag": 0.06},
-    },
-    "tacobell": {
-        "drive_thru": {"supported_flag": "true", "base_mix_pct": 47.0, "elasticity_modifier": 0.95, "service_drag": 0.0},
-        "dine_in": {"supported_flag": "true", "base_mix_pct": 10.0, "elasticity_modifier": 1.0, "service_drag": 0.0},
-        "carryout": {"supported_flag": "true", "base_mix_pct": 9.0, "elasticity_modifier": 0.99, "service_drag": 0.0},
-        "pickup_app": {"supported_flag": "true", "base_mix_pct": 21.0, "elasticity_modifier": 0.91, "service_drag": 0.0},
-        "delivery": {"supported_flag": "true", "base_mix_pct": 13.0, "elasticity_modifier": 0.85, "service_drag": 0.07},
-    },
     "pizzahut": {
         "drive_thru": {"supported_flag": "false", "base_mix_pct": 0.0, "elasticity_modifier": 0.0, "service_drag": 0.0},
-        "dine_in": {"supported_flag": "true", "base_mix_pct": 8.0, "elasticity_modifier": 1.02, "service_drag": 0.0},
-        "carryout": {"supported_flag": "true", "base_mix_pct": 28.0, "elasticity_modifier": 0.97, "service_drag": 0.0},
-        "pickup_app": {"supported_flag": "true", "base_mix_pct": 16.0, "elasticity_modifier": 0.92, "service_drag": 0.0},
-        "delivery": {"supported_flag": "true", "base_mix_pct": 48.0, "elasticity_modifier": 0.81, "service_drag": 0.1},
-    },
-    "habitburger": {
-        "drive_thru": {"supported_flag": "true", "base_mix_pct": 28.0, "elasticity_modifier": 0.97, "service_drag": 0.0},
-        "dine_in": {"supported_flag": "true", "base_mix_pct": 20.0, "elasticity_modifier": 1.0, "service_drag": 0.0},
-        "carryout": {"supported_flag": "true", "base_mix_pct": 18.0, "elasticity_modifier": 1.0, "service_drag": 0.0},
-        "pickup_app": {"supported_flag": "true", "base_mix_pct": 19.0, "elasticity_modifier": 0.93, "service_drag": 0.0},
-        "delivery": {"supported_flag": "true", "base_mix_pct": 15.0, "elasticity_modifier": 0.86, "service_drag": 0.08},
+        "dine_in": {"supported_flag": "true", "base_mix_pct": 9.0, "elasticity_modifier": 1.01, "service_drag": 0.0},
+        "carryout": {"supported_flag": "true", "base_mix_pct": 27.0, "elasticity_modifier": 0.95, "service_drag": 0.0},
+        "pickup_app": {"supported_flag": "true", "base_mix_pct": 17.0, "elasticity_modifier": 0.9, "service_drag": 0.0},
+        "delivery": {"supported_flag": "true", "base_mix_pct": 47.0, "elasticity_modifier": 0.8, "service_drag": 0.11},
     },
 }
 
 AVERAGE_ITEMS_PER_ORDER = {
-    "kfc": {"drive_thru": 2.4, "dine_in": 2.2, "carryout": 2.3, "pickup_app": 2.4, "delivery": 3.1},
-    "tacobell": {"drive_thru": 2.8, "dine_in": 2.1, "carryout": 2.3, "pickup_app": 2.7, "delivery": 3.0},
-    "pizzahut": {"drive_thru": 1.0, "dine_in": 1.6, "carryout": 1.3, "pickup_app": 1.4, "delivery": 1.5},
-    "habitburger": {"drive_thru": 2.0, "dine_in": 1.9, "carryout": 2.0, "pickup_app": 2.1, "delivery": 2.3},
+    "pizzahut": {"drive_thru": 1.0, "dine_in": 1.6, "carryout": 1.35, "pickup_app": 1.42, "delivery": 1.52},
 }
 
-OCCASION_TRANSFER = {
-    "solo_value_meal": {("tacobell", "kfc"): 0.07, ("tacobell", "habitburger"): 0.05, ("kfc", "tacobell"): 0.08, ("habitburger", "tacobell"): 0.07, ("habitburger", "kfc"): 0.05},
-    "core_meal": {("kfc", "habitburger"): 0.06, ("habitburger", "kfc"): 0.08, ("tacobell", "kfc"): 0.05, ("kfc", "tacobell"): 0.06},
-    "family_share": {("pizzahut", "kfc"): 0.09, ("kfc", "pizzahut"): 0.07, ("habitburger", "pizzahut"): 0.04, ("pizzahut", "habitburger"): 0.03},
-    "snack_treat": {("tacobell", "habitburger"): 0.04, ("habitburger", "tacobell"): 0.05, ("pizzahut", "tacobell"): 0.03},
-}
+OCCASION_TRANSFER = {}
 
 FRED_SERIES = {
     "unemployment_rate": "UNRATE",
@@ -170,7 +90,7 @@ FRED_SERIES = {
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Build Yum Brands portfolio pricing foundation.")
+    parser = argparse.ArgumentParser(description="Build Pizza Hut pricing foundation.")
     parser.add_argument("--output-dir", default="data/yum")
     parser.add_argument("--product-seed", default="data/yum/seeds/portfolio_products.csv")
     parser.add_argument("--start-date", default="2025-01-06")
@@ -275,6 +195,8 @@ def load_product_seed(path: Path) -> List[Dict[str, object]]:
 
 
 def transfer_rationale(occasion_group: str, from_brand: str, to_brand: str) -> str:
+    if from_brand == to_brand:
+        return "Same-brand transfer placeholder."
     if occasion_group == "family_share":
         return f"{BRANDS[to_brand]['brand_name']} can absorb some family-meal pressure if {BRANDS[from_brand]['brand_name']} value weakens."
     if occasion_group == "solo_value_meal":
@@ -490,14 +412,56 @@ def build_cross_brand_transfer_matrix(products: List[Dict[str, object]]) -> List
 def select_promo_for_week(brand_id: str, week_start: dt.date, market: Dict[str, object]) -> Dict[str, object] | None:
     week_number = week_start.isocalendar().week
     hot_market = float(market["tourism_index"]) > 1.08 or float(market["delivery_density_index"]) > 1.1
-    if brand_id == "tacobell" and week_number % 4 == 1:
-        return {"campaign_name": "Luxe Box Value Pulse", "campaign_type": "value_box", "objective": "traffic_protection", "channel_scope": "all", "promo_depth_pct": 9.0, "media_pressure_index": 1.14, "digital_support_index": 1.08, "target_role": "traffic_builder", "notes": "Value architecture support to protect late-night and lunch traffic."}
-    if brand_id == "kfc" and week_number % 5 == 2:
-        return {"campaign_name": "Fill Up Family Push", "campaign_type": "bundle_support", "objective": "family_meal_defense", "channel_scope": "carryout,delivery,drive_thru", "promo_depth_pct": 8.0, "media_pressure_index": 1.06, "digital_support_index": 0.94, "target_role": "family_meal", "notes": "Family-value pulse designed to stabilize dinner mix."}
-    if brand_id == "pizzahut" and week_number % 3 == 0:
-        return {"campaign_name": "Game Day Bundle", "campaign_type": "family_bundle", "objective": "weekend_sales_acceleration", "channel_scope": "delivery,carryout,pickup_app", "promo_depth_pct": 10.5, "media_pressure_index": 1.18 if week_start.month in {9, 10, 11, 1, 2} else 1.02, "digital_support_index": 1.15, "target_role": "family_share", "notes": "Bundle-led sales support that peaks around sports viewing occasions."}
-    if brand_id == "habitburger" and week_number % 6 == 4 and hot_market:
-        return {"campaign_name": "Premium Burger Bundle Spotlight", "campaign_type": "combo_upgrade", "objective": "check_growth", "channel_scope": "drive_thru,dine_in,pickup_app", "promo_depth_pct": 6.0, "media_pressure_index": 0.96, "digital_support_index": 1.01, "target_role": "core_meal", "notes": "Premium combo support used selectively in digitally strong markets."}
+    if brand_id != "pizzahut":
+        return None
+    if week_start.month in {1, 2, 9, 10, 11} and week_number % 3 == 0:
+        return {
+            "campaign_name": "Big Dinner Box Game Day Push",
+            "campaign_type": "family_bundle",
+            "objective": "weekend_sales_acceleration",
+            "channel_scope": "delivery,carryout,pickup_app",
+            "promo_depth_pct": 10.5,
+            "media_pressure_index": 1.18,
+            "digital_support_index": 1.16,
+            "target_role": "family_share",
+            "notes": "Bundle-led demand pulse aligned to major football and sports-viewing windows.",
+        }
+    if week_start.month in {3, 4, 5} and week_number % 4 == 1:
+        return {
+            "campaign_name": "Melts Lunch Carryout Push",
+            "campaign_type": "digital_value",
+            "objective": "weekday_traffic_support",
+            "channel_scope": "carryout,pickup_app",
+            "promo_depth_pct": 8.5,
+            "media_pressure_index": 1.05,
+            "digital_support_index": 1.18,
+            "target_role": "solo_value_meal",
+            "notes": "Portable lunch value push designed to protect weekday order frequency.",
+        }
+    if week_start.month in {6, 7, 8} and hot_market and week_number % 4 == 2:
+        return {
+            "campaign_name": "Hut Rewards Summer Carryout",
+            "campaign_type": "loyalty_offer",
+            "objective": "owned_channel_mix",
+            "channel_scope": "carryout,pickup_app",
+            "promo_depth_pct": 7.0,
+            "media_pressure_index": 0.98,
+            "digital_support_index": 1.14,
+            "target_role": "traffic_builder",
+            "notes": "Owned-channel value support meant to keep delivery mix from taking too much margin.",
+        }
+    if week_start.month in {11, 12} and week_number % 4 == 0:
+        return {
+            "campaign_name": "Stuffed Crust Celebration",
+            "campaign_type": "premium_ladder",
+            "objective": "mix_upgrade",
+            "channel_scope": "delivery,carryout,pickup_app,dine_in",
+            "promo_depth_pct": 6.5,
+            "media_pressure_index": 1.08,
+            "digital_support_index": 1.06,
+            "target_role": "innovation",
+            "notes": "Premium crust support used to grow average check during holiday and group-order periods.",
+        }
     return None
 
 
@@ -548,6 +512,8 @@ def daypart_seasonality(product_row: Dict[str, object], week_start: dt.date, mar
     multiplier = 1.0
     if product_row["occasion_group"] == "family_share":
         multiplier *= float(market["family_demand_index"])
+    if product_row["occasion_group"] == "sports_party":
+        multiplier *= 1.12 if week_start.month in {1, 2, 9, 10, 11} else 0.98
     if product_row["occasion_group"] == "solo_value_meal":
         multiplier *= 1.04 if week_start.month in {1, 2, 9} else 1.0
     if product_row["daypart"] == "late_night":
@@ -556,8 +522,6 @@ def daypart_seasonality(product_row: Dict[str, object], week_start: dt.date, mar
         multiplier *= 1.07 if season == "summer" else 0.96
     if product_row["brand_id"] == "pizzahut" and week_start.month in {9, 10, 11, 1, 2}:
         multiplier *= 1.08
-    if product_row["brand_id"] == "habitburger" and season == "summer":
-        multiplier *= 1.05
     return multiplier
 
 
@@ -910,7 +874,7 @@ def manifest_for_outputs(output_dir: Path, counts: Dict[str, int], args: argpars
         "start_date": args.start_date,
         "end_date": args.end_date,
         "counts": counts,
-        "foundation_name": "Yum Brands Portfolio Elasticity Command Center",
+        "foundation_name": "Pizza Hut Pricing Studio",
         "main_grain": "week_start x brand_id x market_id x product_id x channel_id",
         "source_method": SOURCE_METHOD,
     }
@@ -918,28 +882,28 @@ def manifest_for_outputs(output_dir: Path, counts: Dict[str, int], args: argpars
 
 def metadata() -> Dict[str, object]:
     return {
-        "version": "2.0.0",
-        "generated_for": "Yum Brands Portfolio Elasticity Command Center",
-        "description": "Portfolio pricing foundation for Yum Brands concepts with multi-brand, multi-product, multi-channel weekly panels.",
+        "version": "3.0.0",
+        "generated_for": "Pizza Hut Pricing Studio",
+        "description": "Pizza Hut pricing foundation with a modeled market, channel, menu, and weekly performance panel.",
         "main_grain": "week_start x brand_id x market_id x product_id x channel_id",
         "source_method": SOURCE_METHOD,
         "datasets": {
-            "processed/brand_dim.csv": {"grain": "brand_id", "description": "Portfolio brand attributes and positioning metadata."},
+            "processed/brand_dim.csv": {"grain": "brand_id", "description": "Pizza Hut brand attributes and positioning metadata."},
             "processed/market_dim.csv": {"grain": "market_id", "description": "Modeled market attribute dimension with pricing, digital, and competition indices."},
-            "processed/brand_market_network.csv": {"grain": "brand_id x market_id", "description": "Brand-market network footprint and ownership proxy metrics."},
-            "processed/channel_dim.csv": {"grain": "channel_id", "description": "Universal channel definitions across Yum portfolio brands."},
-            "processed/brand_channel_dim.csv": {"grain": "brand_id x channel_id", "description": "Brand-specific channel support, mix, and elasticity modifiers."},
-            "processed/product_dim.csv": {"grain": "brand_id x product_id", "description": "Portfolio product ladder with economics and elasticity priors."},
+            "processed/brand_market_network.csv": {"grain": "brand_id x market_id", "description": "Pizza Hut market footprint and ownership proxy metrics."},
+            "processed/channel_dim.csv": {"grain": "channel_id", "description": "Pizza Hut order channel definitions."},
+            "processed/brand_channel_dim.csv": {"grain": "brand_id x channel_id", "description": "Pizza Hut channel support, mix, and elasticity modifiers."},
+            "processed/product_dim.csv": {"grain": "brand_id x product_id", "description": "Pizza Hut menu ladder with economics and elasticity priors."},
             "processed/calendar_week_dim.csv": {"grain": "week_start", "description": "Weekly calendar dimension with event windows and demand flags."},
             "processed/external_macro_monthly.csv": {"grain": "month_start", "description": "Macro context used to modulate pricing pressure and consumer demand."},
-            "processed/promo_calendar.csv": {"grain": "week_start x brand_id x market_id x campaign_id", "description": "Campaign cadence by brand and market."},
-            "processed/cross_brand_transfer_matrix.csv": {"grain": "occasion_group x from_brand_id x to_brand_id", "description": "Internal recapture assumptions across concepts."},
-            "processed/brand_market_product_channel_week_panel.csv": {"grain": "week_start x brand_id x market_id x product_id x channel_id", "description": "Main modeled elasticity panel."},
-            "processed/brand_market_channel_week_panel.csv": {"grain": "week_start x brand_id x market_id x channel_id", "description": "Derived channel operating panel with orders and checks."},
-            "processed/portfolio_week_summary.csv": {"grain": "week_start", "description": "Top-line portfolio operating rollup."},
-            "processed/brand_week_summary.csv": {"grain": "week_start x brand_id", "description": "Brand weekly performance rollup."},
-            "processed/market_brand_week_summary.csv": {"grain": "week_start x market_id x brand_id", "description": "Market-brand weekly summary."},
-            "processed/product_week_summary.csv": {"grain": "week_start x product_id", "description": "Product weekly summary with elasticity weighting."},
+            "processed/promo_calendar.csv": {"grain": "week_start x brand_id x market_id x campaign_id", "description": "Pizza Hut campaign cadence by market."},
+            "processed/cross_brand_transfer_matrix.csv": {"grain": "occasion_group x from_brand_id x to_brand_id", "description": "Unused placeholder file kept for schema compatibility."},
+            "processed/brand_market_product_channel_week_panel.csv": {"grain": "week_start x brand_id x market_id x product_id x channel_id", "description": "Main modeled Pizza Hut elasticity panel."},
+            "processed/brand_market_channel_week_panel.csv": {"grain": "week_start x brand_id x market_id x channel_id", "description": "Derived Pizza Hut channel operating panel with orders and checks."},
+            "processed/portfolio_week_summary.csv": {"grain": "week_start", "description": "Top-line Pizza Hut weekly rollup."},
+            "processed/brand_week_summary.csv": {"grain": "week_start x brand_id", "description": "Pizza Hut weekly performance rollup."},
+            "processed/market_brand_week_summary.csv": {"grain": "week_start x market_id x brand_id", "description": "Pizza Hut market weekly summary."},
+            "processed/product_week_summary.csv": {"grain": "week_start x product_id", "description": "Pizza Hut item weekly summary with elasticity weighting."},
             "processed/data_quality_checks.csv": {"grain": "dataset_name", "description": "Build-level row counts and integrity checks."},
         },
     }
@@ -955,7 +919,7 @@ def build_legacy_store_dim(network_rows: List[Dict[str, object]]) -> List[Dict[s
                 "brand_name": row["brand_name"],
                 "market_id": row["market_id"],
                 "store_name": f"{row['brand_name']} {row['market_name']} Market Hub",
-                "street_address": "Modeled portfolio location cluster",
+                "street_address": "Modeled Pizza Hut market location cluster",
                 "city": row["market_name"],
                 "state": next(item["state"] for item in MARKETS if item["market_id"] == row["market_id"]),
                 "postal_code": "",
@@ -966,7 +930,7 @@ def build_legacy_store_dim(network_rows: List[Dict[str, object]]) -> List[Dict[s
                 "telephone": "",
                 "price_zone": "modeled",
                 "income_band_proxy": "mixed",
-                "ownership_type": "portfolio_proxy",
+                "ownership_type": "franchise_proxy",
                 "format_type": "market_cluster",
                 "hours_raw": "",
                 "source_url": "",
@@ -1307,17 +1271,6 @@ def main() -> int:
     legacy_store_channel_rows = build_legacy_store_channel_panel(channel_panel_rows)
     legacy_promo_rows = build_legacy_promo_calendar(promo_rows)
     legacy_item_relationship_rows = build_legacy_item_relationships(product_rows)
-    taco_store_rows = filter_brand_rows(legacy_store_rows, "tacobell")
-    taco_market_rows = filter_brand_rows(legacy_market_rows, "tacobell")
-    taco_menu_rows = filter_brand_rows(legacy_menu_rows, "tacobell")
-    taco_channel_rows = filter_brand_rows(legacy_channel_rows, "tacobell")
-    taco_store_item_rows = filter_brand_rows(legacy_store_item_rows, "tacobell")
-    taco_store_channel_rows = filter_brand_rows(legacy_store_channel_rows, "tacobell")
-    taco_promo_rows = filter_brand_rows(legacy_promo_rows, "tacobell")
-    taco_item_relationship_rows = filter_brand_rows(legacy_item_relationship_rows, "tacobell")
-    taco_channel_summary_rows = build_legacy_channel_week_summary(taco_store_channel_rows)
-    taco_item_summary_rows = build_legacy_item_week_summary(taco_store_item_rows)
-
     counts = {
         "brand_dim": len(brand_rows),
         "market_dim": len(market_rows),
@@ -1371,18 +1324,6 @@ def main() -> int:
         ("store_channel_week_panel.csv", legacy_store_channel_rows),
         ("promo_calendar.csv", legacy_promo_rows),
         ("item_substitution_matrix.csv", legacy_item_relationship_rows),
-        ("taco_bell_store_master.csv", taco_store_rows),
-        ("taco_bell_market_master.csv", taco_market_rows),
-        ("taco_bell_menu_master.csv", taco_menu_rows),
-        ("taco_bell_channel_dimension.csv", taco_channel_rows),
-        ("taco_bell_store_item_week_panel.csv", taco_store_item_rows),
-        ("taco_bell_store_channel_week_panel.csv", taco_store_channel_rows),
-        ("taco_bell_channel_week_summary.csv", taco_channel_summary_rows),
-        ("taco_bell_market_week_summary.csv", filter_brand_rows(market_brand_rows, "tacobell")),
-        ("taco_bell_item_week_summary.csv", taco_item_summary_rows),
-        ("taco_bell_promo_calendar.csv", taco_promo_rows),
-        ("taco_bell_item_relationships.csv", taco_item_relationship_rows),
-        ("taco_bell_data_quality_checks.csv", qa_rows),
     ]:
         dump(filename, rows)
 

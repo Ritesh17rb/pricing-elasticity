@@ -1,27 +1,27 @@
 [
   {
     "id": "scenario_001",
-    "name": "Mass Channel Defensive Promo (Target/Amazon)",
+    "name": "Carryout Value Protection",
     "category": "promotion",
     "model_type": "acquisition",
-    "description": "Apply a 15% promo on mass channels to defend volume after competitor price drops.",
-    "impact_summary": "Projected +18% new customers, +9% units, -6% margin short-term",
+    "description": "Apply a value-led discount to protect carryout and app pickup traffic.",
+    "impact_summary": "Projected +16% new orders, +8% units, moderate margin pressure",
     "config": {
       "tier": "ad_supported",
       "current_price": 24.0,
-      "new_price": 20.4,
-      "price_change_pct": -15.0,
+      "new_price": 21.6,
+      "price_change_pct": -10.0,
       "promotion": {
-        "type": "seasonal_discount",
-        "duration_months": 2,
-        "discount_pct": 15,
-        "promo_code": "DEFEND15",
-        "eligibility": "all_customers",
-        "start_date": "2025-06-01",
-        "end_date": "2025-08-01"
+        "type": "value_discount",
+        "duration_months": 1.5,
+        "discount_pct": 10,
+        "promo_code": "VALUE10",
+        "eligibility": "carryout_pickup",
+        "start_date": "2025-03-03",
+        "end_date": "2025-04-13"
       },
-      "target_segment": "all",
-      "effective_date": "2025-06-01",
+      "target_segment": "promo_triggered",
+      "effective_date": "2025-03-03",
       "grandfathering": false
     },
     "constraints": {
@@ -32,31 +32,31 @@
       "max_price": 30.0
     },
     "priority": "high",
-    "business_rationale": "Defend share in mass channels when competitors discount on marketplaces."
+    "business_rationale": "Protect lunch and value-seeking traffic without leaning on full-system discounting."
   },
   {
     "id": "scenario_002",
-    "name": "Prestige Channel Light Promo (Sephora/Ulta)",
+    "name": "Stuffed Crust Premium Trade-Up",
     "category": "promotion",
     "model_type": "acquisition",
-    "description": "Offer 8% prestige promo focused on high-margin SKUs to support season launch.",
-    "impact_summary": "Projected +9% new customers, +4% units, -2% margin",
+    "description": "Use a lighter premium discount to support Stuffed Crust trade-up.",
+    "impact_summary": "Projected +8% premium orders, +4% net sales",
     "config": {
       "tier": "ad_free",
       "current_price": 36.0,
-      "new_price": 33.12,
-      "price_change_pct": -8.0,
+      "new_price": 33.84,
+      "price_change_pct": -6.0,
       "promotion": {
-        "type": "seasonal_launch",
-        "duration_months": 1,
-        "discount_pct": 8,
-        "promo_code": "LAUNCH8",
-        "eligibility": "prestige_channels",
-        "start_date": "2025-03-15",
-        "end_date": "2025-04-15"
+        "type": "premium_trade_up",
+        "duration_months": 1.0,
+        "discount_pct": 6,
+        "promo_code": "STUFFED6",
+        "eligibility": "delivery_dinein",
+        "start_date": "2025-09-08",
+        "end_date": "2025-10-12"
       },
-      "target_segment": "loyal",
-      "effective_date": "2025-03-15",
+      "target_segment": "premium_add_on",
+      "effective_date": "2025-09-08",
       "grandfathering": false
     },
     "constraints": {
@@ -64,26 +64,26 @@
       "price_change_12mo_limit": true,
       "notice_period_30d": false,
       "min_price": 28.0,
-      "max_price": 45.0
+      "max_price": 42.0
     },
     "priority": "high",
-    "business_rationale": "Keep prestige positioning while supporting launch momentum."
+    "business_rationale": "Support premium crust demand without collapsing premium price architecture."
   },
   {
     "id": "scenario_003",
-    "name": "Reduce Promo Depth in Prestige (Hold Price)",
+    "name": "Delivery Fee Pressure Test",
     "category": "price_increase",
     "model_type": "churn",
-    "description": "Pull back discounts in prestige channel to protect margin during viral demand spike.",
-    "impact_summary": "Projected -2% units, +5% margin, minimal repeat loss",
+    "description": "Increase the effective delivery check to protect margin under cost pressure.",
+    "impact_summary": "Projected +4% revenue, -2% units, repeat-loss risk rises",
     "config": {
       "tier": "ad_free",
       "current_price": 36.0,
       "new_price": 38.0,
       "price_change_pct": 5.56,
       "promotion": null,
-      "target_segment": "all",
-      "effective_date": "2025-07-01",
+      "target_segment": "channel_switcher",
+      "effective_date": "2025-05-15",
       "grandfathering": false
     },
     "constraints": {
@@ -94,101 +94,101 @@
       "max_price": 45.0
     },
     "priority": "medium",
-    "business_rationale": "Monetize demand spike without over-discounting prestige channel."
+    "business_rationale": "Tests whether delivery economics can improve before traffic migrates to owned channels."
   },
   {
     "id": "scenario_004",
-    "name": "Mass Channel Markdown Start (Late Season)",
+    "name": "Late-Summer Value Reset",
     "category": "promotion",
     "model_type": "churn",
-    "description": "Introduce 25% markdown to clear inventory before season end.",
-    "impact_summary": "Projected +22% units, -9% margin, faster sell-through",
+    "description": "Restore stronger value support after summer fatigue in the entry menu ladder.",
+    "impact_summary": "Projected +18% units, -7% margin, improved short-run repeat behavior",
     "config": {
       "tier": "ad_supported",
       "current_price": 24.0,
-      "new_price": 18.0,
-      "price_change_pct": -25.0,
+      "new_price": 20.88,
+      "price_change_pct": -13.0,
       "promotion": {
-        "type": "markdown",
-        "duration_months": 1.5,
-        "discount_pct": 25,
-        "promo_code": "CLEAR25",
-        "eligibility": "all_customers",
-        "start_date": "2025-08-15",
-        "end_date": "2025-10-01"
+        "type": "value_reset",
+        "duration_months": 1.0,
+        "discount_pct": 13,
+        "promo_code": "RESET13",
+        "eligibility": "value_ladder",
+        "start_date": "2025-08-11",
+        "end_date": "2025-09-07"
       },
-      "target_segment": "all",
-      "effective_date": "2025-08-15",
+      "target_segment": "value_bundle_buyer",
+      "effective_date": "2025-08-11",
       "grandfathering": false
     },
     "constraints": {
       "platform_compliant": true,
       "price_change_12mo_limit": false,
       "notice_period_30d": false,
-      "min_price": 16.0,
+      "min_price": 18.0,
       "max_price": 30.0
     },
     "priority": "medium",
-    "business_rationale": "Accelerate sell-through on seasonal inventory."
+    "business_rationale": "Refresh value optics before football demand peaks."
   },
   {
     "id": "scenario_005",
-    "name": "Seasonal Value Set (DTC Exclusive)",
+    "name": "Digital Pickup Incentive Pack",
     "category": "new_tier",
     "model_type": "migration",
-    "description": "Launch limited-time value set bundle at $44 to drive channel mix toward DTC.",
-    "impact_summary": "Projected +6% mix shift to DTC, +4% revenue lift",
+    "description": "Launch a pickup-led digital bundle to pull traffic from delivery into owned channels.",
+    "impact_summary": "Projected +5% owned-channel mix, +3% revenue",
     "config": {
       "tier": "bundle",
-      "current_price": 72.0,
-      "new_price": 44.0,
-      "price_change_pct": -38.9,
+      "current_price": 36.0,
+      "new_price": 29.0,
+      "price_change_pct": -19.44,
       "promotion": null,
-      "target_segment": "value_bundle_buyer",
-      "effective_date": "2025-06-15",
+      "target_segment": "channel_switcher",
+      "effective_date": "2025-06-02",
       "grandfathering": false,
       "bundle_components": {
-        "supergoop_core": {
-          "tier": "prestige",
+        "pizza_bundle": {
+          "tier": "ad_free",
           "standalone_price": 36.0
         },
-        "seasonal_add_on": {
-          "tier": "mass",
+        "pickup_value": {
+          "tier": "ad_supported",
           "standalone_price": 24.0
         },
-        "bundle_discount": 16.0,
-        "bundle_discount_pct": 26
+        "bundle_discount": 7.0,
+        "bundle_discount_pct": 19
       }
     },
     "constraints": {
       "platform_compliant": true,
       "price_change_12mo_limit": false,
       "notice_period_30d": false,
-      "min_price": 40.0,
-      "max_price": 60.0
+      "min_price": 24.0,
+      "max_price": 34.0
     },
     "priority": "high",
-    "business_rationale": "Drive DTC traffic and capture higher margin bundles."
+    "business_rationale": "Use owned-channel pricing to improve mix without a broad delivery discount."
   },
   {
     "id": "scenario_006",
-    "name": "Entry Pack for Mass Channel",
+    "name": "Entry Meal Trial Build",
     "category": "new_tier",
     "model_type": "migration",
-    "description": "Introduce a trial-size entry pack at $14 to capture price-sensitive shoppers.",
-    "impact_summary": "Projected +12% new customers, -3% margin, improved trial conversion",
+    "description": "Introduce a lower-entry offer to capture more price-sensitive solo trial.",
+    "impact_summary": "Projected +11% new guests, slightly lower margin, stronger trial conversion",
     "config": {
       "tier": "basic",
       "current_price": null,
       "new_price": 14.0,
       "price_change_pct": null,
       "promotion": null,
-      "target_segment": "promo_triggered",
-      "effective_date": "2025-04-01",
+      "target_segment": "seasonal_first_time",
+      "effective_date": "2025-04-07",
       "grandfathering": false,
       "tier_features": {
-        "bundle": "trial_size",
-        "channel": "mass",
+        "bundle": "solo_trial",
+        "channel": "pickup_app",
         "unit_count": 1
       }
     },
@@ -200,23 +200,23 @@
       "max_price": 18.0
     },
     "priority": "medium",
-    "business_rationale": "Lower barrier to entry for price-sensitive shoppers."
+    "business_rationale": "Lower the barrier to first trial without discounting the full menu ladder."
   },
   {
     "id": "scenario_007",
-    "name": "Prestige Channel Price Lift",
+    "name": "Premium Box Price Lift",
     "category": "price_increase",
     "model_type": "churn",
-    "description": "Increase prestige channel price by $2 to protect margin amid strong demand.",
-    "impact_summary": "Projected +4% revenue, -2% units, small repeat loss uptick",
+    "description": "Increase premium bundle pricing where family demand remains strong.",
+    "impact_summary": "Projected +4% revenue, modest unit pressure, small repeat-loss lift",
     "config": {
       "tier": "ad_free",
       "current_price": 36.0,
       "new_price": 38.0,
       "price_change_pct": 5.56,
       "promotion": null,
-      "target_segment": "prestige_loyalist",
-      "effective_date": "2025-05-15",
+      "target_segment": "brand_loyal",
+      "effective_date": "2025-10-20",
       "grandfathering": false
     },
     "constraints": {
@@ -227,31 +227,31 @@
       "max_price": 45.0
     },
     "priority": "low",
-    "business_rationale": "Capture margin while loyalty remains high."
+    "business_rationale": "Capture margin in less elastic family-share demand after peak football weeks."
   },
   {
     "id": "scenario_008",
-    "name": "Channel Mix Shift to Prestige",
+    "name": "Core & Premium Mix Shift",
     "category": "bundling",
     "model_type": "migration",
-    "description": "Shift demand toward prestige channel with exclusive gift-with-purchase.",
-    "impact_summary": "Projected +5% prestige mix, +3% revenue",
+    "description": "Use premium meal merchandising to shift more traffic into the higher-value ladder.",
+    "impact_summary": "Projected +5% core and premium mix, +3% revenue",
     "config": {
       "tier": "premium",
       "current_price": 36.0,
       "new_price": 36.0,
       "price_change_pct": 0,
       "promotion": {
-        "type": "gift_with_purchase",
+        "type": "premium_merchandising",
         "duration_months": 2,
         "discount_pct": 0,
-        "promo_code": "GIFT",
-        "eligibility": "prestige_channels",
-        "start_date": "2025-05-01",
-        "end_date": "2025-07-01"
+        "promo_code": "PREMIUMMIX",
+        "eligibility": "delivery_dinein",
+        "start_date": "2025-09-08",
+        "end_date": "2025-11-02"
       },
       "target_segment": "premium_add_on",
-      "effective_date": "2025-05-01",
+      "effective_date": "2025-09-08",
       "grandfathering": false
     },
     "constraints": {
@@ -262,14 +262,14 @@
       "max_price": 45.0
     },
     "priority": "medium",
-    "business_rationale": "Encourage migration to prestige without deep discounting."
+    "business_rationale": "Lean into premium attachments and box meals without a direct list-price cut."
   },
   {
     "id": "scenario_baseline",
     "name": "Do Nothing (Baseline)",
     "category": "baseline",
     "model_type": "baseline",
-    "description": "Maintain current pricing and promotional strategy with no changes",
+    "description": "Maintain current Pizza Hut pricing and promotion settings with no change.",
     "impact_summary": "Baseline scenario for comparison",
     "config": {
       "tier": "all",
@@ -289,6 +289,6 @@
       "max_price": null
     },
     "priority": "n/a",
-    "business_rationale": "Control scenario to measure incremental impact"
+    "business_rationale": "Control scenario to measure incremental change."
   }
 ]

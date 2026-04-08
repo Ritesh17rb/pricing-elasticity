@@ -1,21 +1,6 @@
 brand_id,channel,channel_name,display_order,digital_flag,off_premise_flag,supported_store_count,supported_store_pct,base_weight,price_factor,margin_factor,elasticity_factor,notes
-kfc,drive_thru,Drive-Thru,1,false,true,12,100,34.0,1.0,1.0,0.96,Legacy compatibility channel file.
-kfc,dine_in,Dine-In,2,false,false,12,100,12.0,1.0,1.02,1.0,Legacy compatibility channel file.
-kfc,carryout,Carryout,3,false,true,12,100,22.0,1.0,1.0,0.98,Legacy compatibility channel file.
-kfc,pickup_app,Pickup / App,4,true,true,0,0,0.0,0.985,0.99,0.0,Legacy compatibility channel file.
-kfc,delivery,Delivery,5,true,true,12,100,32.0,1.07,0.82,0.87,Legacy compatibility channel file.
-tacobell,drive_thru,Drive-Thru,1,false,true,12,100,47.0,1.0,1.0,0.95,Legacy compatibility channel file.
-tacobell,dine_in,Dine-In,2,false,false,12,100,10.0,1.0,1.02,1.0,Legacy compatibility channel file.
-tacobell,carryout,Carryout,3,false,true,12,100,9.0,1.0,1.0,0.99,Legacy compatibility channel file.
-tacobell,pickup_app,Pickup / App,4,true,true,12,100,21.0,0.985,0.99,0.91,Legacy compatibility channel file.
-tacobell,delivery,Delivery,5,true,true,12,100,13.0,1.07,0.82,0.85,Legacy compatibility channel file.
 pizzahut,drive_thru,Drive-Thru,1,false,true,0,0,0.0,1.0,1.0,0.0,Legacy compatibility channel file.
-pizzahut,dine_in,Dine-In,2,false,false,12,100,8.0,1.0,1.02,1.02,Legacy compatibility channel file.
-pizzahut,carryout,Carryout,3,false,true,12,100,28.0,1.0,1.0,0.97,Legacy compatibility channel file.
-pizzahut,pickup_app,Pickup / App,4,true,true,12,100,16.0,0.985,0.99,0.92,Legacy compatibility channel file.
-pizzahut,delivery,Delivery,5,true,true,12,100,48.0,1.07,0.82,0.81,Legacy compatibility channel file.
-habitburger,drive_thru,Drive-Thru,1,false,true,12,100,28.0,1.0,1.0,0.97,Legacy compatibility channel file.
-habitburger,dine_in,Dine-In,2,false,false,12,100,20.0,1.0,1.02,1.0,Legacy compatibility channel file.
-habitburger,carryout,Carryout,3,false,true,12,100,18.0,1.0,1.0,1.0,Legacy compatibility channel file.
-habitburger,pickup_app,Pickup / App,4,true,true,12,100,19.0,0.985,0.99,0.93,Legacy compatibility channel file.
-habitburger,delivery,Delivery,5,true,true,12,100,15.0,1.07,0.82,0.86,Legacy compatibility channel file.
+pizzahut,dine_in,Dine-In,2,false,false,12,100,9.0,1.0,1.02,1.01,Legacy compatibility channel file.
+pizzahut,carryout,Carryout,3,false,true,12,100,27.0,1.0,1.0,0.95,Legacy compatibility channel file.
+pizzahut,pickup_app,Pickup / App,4,true,true,12,100,17.0,0.985,0.99,0.9,Legacy compatibility channel file.
+pizzahut,delivery,Delivery,5,true,true,12,100,47.0,1.07,0.82,0.8,Legacy compatibility channel file.

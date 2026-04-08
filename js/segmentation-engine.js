@@ -13,7 +13,7 @@ class SegmentationEngine {
         this.cohortCoefficients = null;
         this.activeCohort = 'baseline';
 
-        // Strategic segment axis definitions (based on customer personas)
+        // Strategic segment axis definitions for Pizza Hut visit missions and order behavior.
         this.axisDefinitions = {
             acquisition: [
                 'seasonal_first_time',
@@ -38,93 +38,93 @@ class SegmentationEngine {
             ]
         };
 
-        // Axis labels for display (retail / seasonal brand framing)
+        // Axis labels for display
         this.axisLabels = {
-            acquisition: 'Acquisition & Price Sensitivity',
-            engagement: 'Loyalty & Repeat Risk',
-            monetization: 'Basket Value & Kit Depth'
+            acquisition: 'Visit Mission & Price Sensitivity',
+            engagement: 'Loyalty, Frequency & Repeat Risk',
+            monetization: 'Basket Build & Check Architecture'
         };
 
         // Segment descriptions and characteristics
         this.segmentDescriptions = {
             // Axis 3: Acquisition Price Sensitivity
             'seasonal_first_time': {
-                label: 'Seasonal First-Time',
-                description: 'First purchase driven by seasonal need',
+                label: 'Game-Day First Try',
+                description: 'Trial driven by sports, watch-party, or occasion traffic',
                 elasticity_level: 'High price sensitivity'
             },
             'routine_refill': {
-                label: 'Routine Refill',
-                description: 'Repeat replenishment with stable cadence',
+                label: 'Weekly Meal Routine',
+                description: 'Repeat ordering anchored to an established meal habit',
                 elasticity_level: 'Low price sensitivity'
             },
             'gift_buyer': {
-                label: 'Gift Buyer',
-                description: 'Purchases tied to gifting occasions',
+                label: 'Group Occasion Buyer',
+                description: 'Orders tied to sharing moments, parties, and family occasions',
                 elasticity_level: 'Medium price sensitivity'
             },
             'influencer_discovered': {
-                label: 'Influencer Discovered',
-                description: 'Social-led discovery with spikes',
+                label: 'Digital Discovery Guest',
+                description: 'Discovery sparked by app, social, or creator-driven demand',
                 elasticity_level: 'High promo response'
             },
             'promo_triggered': {
-                label: 'Promo Triggered',
-                description: 'Entry only when discounts are visible',
+                label: 'Value Offer Triggered',
+                description: 'Visits mainly when deals, bundles, or coupons are visible',
                 elasticity_level: 'Very high price sensitivity'
             },
 
             // Axis 2: Repeat Behavior
             'prestige_loyalist': {
-                label: 'Prestige Loyalist',
-                description: 'High repeat rate in prestige channel',
+                label: 'Family Ritual Loyalist',
+                description: 'High repeat behavior anchored to regular Pizza Hut meal rituals',
                 elasticity_level: 'Low repeat-loss elasticity'
             },
             'value_seeker': {
-                label: 'Value Seeker',
-                description: 'Responds to moderate discounts',
+                label: 'Value Bundle Shopper',
+                description: 'Responds strongly to accessible bundle price points',
                 elasticity_level: 'Medium repeat-loss elasticity'
             },
             'deal_hunter': {
-                label: 'Deal Hunter',
-                description: 'Heavy promo reliance, low loyalty',
+                label: 'Coupon-Driven Guest',
+                description: 'Heavy dependence on offers and visible discounting',
                 elasticity_level: 'High repeat-loss elasticity'
             },
             'occasional_shop': {
-                label: 'Occasional Shopper',
-                description: 'Low frequency, low engagement',
+                label: 'Occasional Craving Guest',
+                description: 'Low frequency ordering tied to sporadic cravings',
                 elasticity_level: 'Medium-high repeat-loss elasticity'
             },
             'channel_switcher': {
                 label: 'Channel Switcher',
-                description: 'Shifts between mass and prestige',
+                description: 'Moves between delivery and carryout / pickup as price gaps change',
                 elasticity_level: 'Migration elasticity critical'
             },
 
             // Axis 1: Basket Value & Mix
             'single_sku_staple': {
-                label: 'Single-SKU Staple',
-                description: 'Repeat purchase of a hero SKU',
+                label: 'Single Pizza Order',
+                description: 'Simple pizza-led order with limited attachments',
                 elasticity_level: 'Moderate price sensitivity'
             },
             'multi_sku_builder': {
-                label: 'Multi-SKU Builder',
-                description: 'Builds larger baskets with variety',
+                label: 'Multi-Item Builder',
+                description: 'Builds larger checks with sides, desserts, or wings',
                 elasticity_level: 'Lower price sensitivity'
             },
             'value_bundle_buyer': {
-                label: 'Value Bundle Buyer',
-                description: 'Prefers sets and value packs',
+                label: 'Bundle Buyer',
+                description: 'Prefers boxes, bundle ladders, and clear meal deals',
                 elasticity_level: 'Medium price sensitivity'
             },
             'premium_add_on': {
                 label: 'Premium Add-On',
-                description: 'Adds premium or limited SKUs',
+                description: 'Adds stuffed crust, specialty builds, or premium extras',
                 elasticity_level: 'Low price sensitivity'
             },
             'trial_size_sampler': {
-                label: 'Trial-Size Sampler',
-                description: 'Tests mini sizes and entry packs',
+                label: 'Side Sampler',
+                description: 'Uses breadsticks, desserts, or smaller attachments to test the menu',
                 elasticity_level: 'High price sensitivity'
             }
         };

@@ -229,7 +229,7 @@ function updateChannelPromoSimulator() {
   }
 
   // Prepare chart data
-  const labels = ['Mass Channel', 'Prestige Channel'];
+  const labels = ['Entry & Value Mix', 'Core & Premium Mix'];
 
   const revenueBaselineData = [
     mass.revenueMonthlyBaseline,

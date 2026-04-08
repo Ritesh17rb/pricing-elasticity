@@ -47,7 +47,7 @@ let dataContext = null;
 let uiMessages = [];
 
 // Default system prompt template
-const DEFAULT_SYSTEM_PROMPT = `You are the Yum Elasticity Assistant for the Yum Brands Pricing Elasticity Studio.
+const DEFAULT_SYSTEM_PROMPT = `You are the Pizza Hut Analyst for the Pizza Hut Pricing Elasticity Studio.
 
 **Your Role:**
 - Interpret scenario simulation results and provide business insights
@@ -56,11 +56,11 @@ const DEFAULT_SYSTEM_PROMPT = `You are the Yum Elasticity Assistant for the Yum 
 - Compare multiple scenarios and highlight trade-offs
 - Help users understand price elasticity and its impact
 
-**Yum Foundation Context:**
+**Pizza Hut Foundation Context:**
 {yumBrandContext}
 
 **Current Business Context:**
-- Demand Proxy: {currentCustomers}
+- Weekly Order Proxy: {currentCustomers}
 - Revenue Proxy: {currentRevenue}
 - Average Repeat Loss Rate: {currentChurn}
 
@@ -139,7 +139,7 @@ User: "Which saved scenario is best for revenue?"
 User: "Show me high repeat-loss segments"
 → Use query_segments with filter: {repeat_loss_risk: "high"}
 
-User: "What are the largest segments in mass channel group?"
+User: "What are the largest segments in the entry and value menu ladder?"
 → Use query_segments with filter: {channel group: "mass", size: "large"}`;
 
 function escapeHtml(value) {
@@ -160,7 +160,7 @@ function getEmptyStateMarkup(variant = 'compact') {
     return `
       <div class="text-center text-muted mt-5">
         <i class="bi bi-robot display-4 mb-3"></i>
-        <p><strong>Yum Elasticity Assistant</strong></p>
+        <p><strong>Pizza Hut Pricing Analyst</strong></p>
         <p class="small">Ask me to summarize the current business, explain the elasticity readouts, compare options, or turn the evidence into actions.</p>
       </div>
     `;
@@ -169,7 +169,7 @@ function getEmptyStateMarkup(variant = 'compact') {
   return `
     <div class="assistant-chat-empty">
       <div class="assistant-chat-empty__icon"><i class="bi bi-stars"></i></div>
-      <div class="assistant-chat-empty__title">Ask the Yum assistant about this screen</div>
+      <div class="assistant-chat-empty__title">Ask the Pizza Hut analyst about this screen</div>
       <div class="assistant-chat-empty__copy">Use the prompt chips below or type a question to turn this screen into a clear business readout.</div>
     </div>
   `;
@@ -188,7 +188,7 @@ function renderAllChatFeeds() {
 
     feed.innerHTML = visibleMessages.map((message) => {
       const icon = message.role === 'user' ? '👤' : message.role === 'system' ? '⚙️' : '🤖';
-      const label = message.role === 'user' ? 'You' : message.role === 'system' ? 'System' : 'AI Assistant';
+      const label = message.role === 'user' ? 'You' : message.role === 'system' ? 'System' : 'Pizza Hut Analyst';
       const contentMarkup = message.isLoading
         ? `
             <span class="spinner-border spinner-border-sm me-2"></span>
@@ -241,7 +241,7 @@ export function initializeChat(context) {
     const parsedSavedData = savedData ? JSON.parse(savedData) : null;
     const savedPrompt = parsedSavedData?.systemPrompt;
     const hasSavedPrompt = !!savedPrompt;
-    const shouldReplaceLegacyPrompt = typeof savedPrompt === 'string' && savedPrompt.includes('Taco Bell Pricing Elasticity Studio');
+    const shouldReplaceLegacyPrompt = typeof savedPrompt === 'string' && savedPrompt.includes('Pricing Elasticity Studio');
 
     // Only populate default if there's no saved value AND textarea is empty
     if ((!hasSavedPrompt && !systemPromptInput.value.trim()) || shouldReplaceLegacyPrompt) {
@@ -358,14 +358,14 @@ function buildSystemPrompt() {
   const savedScenariosText = savedScenarios.length > 0
     ? savedScenarios.map(s => {
         if (s.delta && s.delta.revenue_pct !== undefined) {
-          return `- ${s.scenario_id}: ${s.scenario_name} (Revenue ${s.delta.revenue_pct >= 0 ? '+' : ''}${s.delta.revenue_pct.toFixed(1)}%, Customers ${s.delta.customers_pct >= 0 ? '+' : ''}${s.delta.customers_pct.toFixed(1)}%)`;
+          return `- ${s.scenario_id}: ${s.scenario_name} (Revenue ${s.delta.revenue_pct >= 0 ? '+' : ''}${s.delta.revenue_pct.toFixed(1)}%, Orders ${s.delta.customers_pct >= 0 ? '+' : ''}${s.delta.customers_pct.toFixed(1)}%)`;
         } else {
           return `- ${s.scenario_id}: ${s.scenario_name}`;
         }
       }).join('\n')
     : 'No scenarios saved for comparison yet';
 
-  let yumBrandContext = 'Yum operating foundation not loaded yet.';
+  let yumBrandContext = 'Pizza Hut operating foundation not loaded yet.';
   if (window.yumFoundation?.summary) {
     const summary = window.yumFoundation.summary;
     yumBrandContext = `Brand: ${summary.brandId}
@@ -405,7 +405,7 @@ Main Grain: week_start x brand_id x market_id x product_id x channel_id`;
         const avgRepeatLoss = (totalRepeatLoss / totalSegments * 100).toFixed(2);
         const avgAOV = (totalAOV / totalSegments).toFixed(2);
 
-        segmentSummary = `${totalSegments} behavioral segments across 2 modeled Yum demand ladders:
+        segmentSummary = `${totalSegments} behavioral segments across 2 modeled Pizza Hut demand ladders:
 - Entry & Value: ${tierCounts['ad_supported'] || 0} segments
 - Core & Premium: ${tierCounts['ad_free'] || 0} segments
 Total Customers: ${totalCustomers.toLocaleString()}
@@ -414,11 +414,11 @@ Avg Order Value: $${avgAOV}`;
 
         // List available segments for targeting (15 predefined segments)
         availableSegments = `Behavioral segments for targeted pricing:
-Acquisition: seasonal_first_time, routine_refill, gift_buyer, influencer_discovered, promo_triggered
-Repeat behavior: prestige_loyalist, value_seeker, deal_hunter, occasional_shop, channel_switcher
-Basket mix: single_sku_staple, multi_sku_builder, value_bundle_buyer, premium_add_on, trial_size_sampler
+Visit mission: Game-Day First Try, Weekly Meal Routine, Group Occasion Buyer, Digital Discovery Guest, Value Offer Triggered
+Repeat behavior: Family Ritual Loyalist, Value Bundle Shopper, Coupon-Driven Guest, Occasional Craving Guest, Channel Switcher
+Basket build: Single Pizza Order, Multi-Item Builder, Bundle Buyer, Premium Add-On, Side Sampler
 
-Use filters by channel group, repeat-loss risk, and value tier.`;
+Use filters by demand ladder, repeat-loss risk, and basket value.`;
       }
     } catch (error) {
       console.error('Error getting segment data for chat:', error);
@@ -434,7 +434,7 @@ Use filters by channel group, repeat-loss risk, and value tier.`;
     .replace('{elasticityAdSupported}', (businessContext.elasticityByTier?.ad_supported || -2.1).toString())
     .replace('{elasticityAdFree}', (businessContext.elasticityByTier?.ad_free || -1.9).toString())
     .replace('{availableScenarios}', allScenarios.slice(0, 8).map(s => `- ${s.id}: ${s.name}`).join('\n') || 'None loaded yet')
-    .replace('{currentSimulation}', currentSim && currentSim.delta ? `Active: "${currentSim.scenario_name}" - Revenue ${currentSim.delta.revenue_pct >= 0 ? '+' : ''}${currentSim.delta.revenue_pct.toFixed(1)}%, Customers ${currentSim.delta.customers_pct >= 0 ? '+' : ''}${currentSim.delta.customers_pct.toFixed(1)}%` : currentSim ? `Active: "${currentSim.scenario_name}"` : 'No scenario simulated yet')
+    .replace('{currentSimulation}', currentSim && currentSim.delta ? `Active: "${currentSim.scenario_name}" - Revenue ${currentSim.delta.revenue_pct >= 0 ? '+' : ''}${currentSim.delta.revenue_pct.toFixed(1)}%, Orders ${currentSim.delta.customers_pct >= 0 ? '+' : ''}${currentSim.delta.customers_pct.toFixed(1)}%` : currentSim ? `Active: "${currentSim.scenario_name}"` : 'No scenario simulated yet')
     .replace('{savedScenarios}', savedScenariosText)
     .replace('{segmentSummary}', segmentSummary)
     .replace('{availableSegments}', availableSegments);
@@ -530,7 +530,7 @@ function getToolDefinitions() {
             tier: {
               type: "string",
               enum: ["ad_supported", "ad_free"],
-              description: "The subscription tier to apply changes to"
+              description: "The modeled demand ladder to adjust (ad_supported = Entry & Value, ad_free = Core & Premium)"
             },
             price_change: {
               type: "number",
@@ -560,7 +560,7 @@ function getToolDefinitions() {
             tier: {
               type: "string",
               enum: ["ad_supported", "ad_free", "all"],
-              description: "Filter by subscription tier. Use 'all' to include all tiers."
+              description: "Filter by modeled demand ladder. Use 'all' to include both ladders."
             },
             size: {
               type: "string",
@@ -639,10 +639,10 @@ export async function sendMessage(userMessage, options = {}) {
       ],
       tools: getToolDefinitions(),
       tool_choice: "auto",
-      stream: false  // ✨ Non-streaming to avoid partial "thinking" text
+      stream: false
     };
 
-    // Make non-streaming request to get tool calls immediately
+    // Make the request and handle any tool calls from the response.
     const response = await fetch(`${baseUrl}/chat/completions`, {
       method: "POST",
       headers: {

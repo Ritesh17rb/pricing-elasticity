@@ -6,8 +6,8 @@
  */
 
 /**
- * Render Interactive Demand Curve by Tier
- * Shows price vs quantity demanded for each tier with before/after animation
+ * Render Interactive Demand Curve by Menu Ladder
+ * Shows price vs quantity demanded for each ladder with before/after animation
  *
  * @param {string} containerId - DOM element ID
  * @param {Object} data - { tiers: [{ name, elasticity, currentPrice, currentSubs, newPrice?, newSubs? }] }
@@ -239,7 +239,7 @@ export function renderDemandCurve(containerId, data, options = {}) {
           .data([
             `${tier.name} - ${currentState === 'baseline' ? 'Current' : 'Baseline'}`,
             `Price: $${tier.currentPrice.toFixed(2)}`,
-            `Customers: ${(tier.currentSubs/1000).toFixed(1)}K`,
+            `Orders: ${(tier.currentSubs/1000).toFixed(1)}K`,
             `Elasticity: ${tier.elasticity.toFixed(2)}`
           ])
           .join('tspan')
@@ -273,7 +273,7 @@ export function renderDemandCurve(containerId, data, options = {}) {
             .data([
               `${tier.name} - Scenario`,
               `Price: $${tier.newPrice.toFixed(2)}`,
-              `Customers: ${(tier.newSubs/1000).toFixed(1)}K`,
+              `Orders: ${(tier.newSubs/1000).toFixed(1)}K`,
               `Change: ${((tier.newSubs - tier.currentSubs)/tier.currentSubs * 100).toFixed(1)}%`
             ])
             .join('tspan')
@@ -403,7 +403,7 @@ export function renderDemandCurve(containerId, data, options = {}) {
     .attr('text-anchor', 'middle')
     .attr('font-size', '14px')
     .attr('font-weight', '500')
-    .text('Customers');
+    .text('Orders');
 
   // Title
   svg.append('text')
@@ -412,7 +412,7 @@ export function renderDemandCurve(containerId, data, options = {}) {
     .attr('text-anchor', 'middle')
     .attr('font-size', '18px')
     .attr('font-weight', 'bold')
-    .text('Interactive Demand Curve by Tier');
+    .text('Interactive Demand Curve by Menu Ladder');
 
   // Subtitle with state indicator
   const subtitle = svg.append('text')
@@ -603,8 +603,8 @@ export function renderElasticityHeatmap(containerId, data, options = {}) {
 }
 
 /**
- * Render Tier Mix Shift Chart
- * Shows before/after tier distribution
+ * Render Menu-Ladder Mix Shift Chart
+ * Shows before/after menu-ladder distribution
  *
  * @param {string} containerId - DOM element ID
  * @param {Object} data - { baseline: {ad_supported, ad_free}, forecasted: {...} }
@@ -625,7 +625,7 @@ export function renderTierMixShift(containerId, data, options = {}) {
 
   // Prepare data
   const tiers = ['ad_supported', 'ad_free'];
-  const tierLabels = ['Mass', 'Prestige'];
+  const tierLabels = ['Entry & Value', 'Core & Premium'];
   const colors = ['#dc3545', '#ffc107'];
 
   const chartData = [
@@ -684,7 +684,7 @@ export function renderTierMixShift(containerId, data, options = {}) {
     .append('title')
     .text(function(d, i) {
       const tierIndex = stackedData.indexOf(d3.select(this.parentNode).datum());
-      return `${tierLabels[tierIndex]}: ${(d[1] - d[0]).toLocaleString()} customers`;
+      return `${tierLabels[tierIndex]}: ${(d[1] - d[0]).toLocaleString()} orders`;
     });
 
   // Axes
@@ -700,7 +700,7 @@ export function renderTierMixShift(containerId, data, options = {}) {
     .attr('y', -60)
     .attr('fill', 'currentColor')
     .attr('text-anchor', 'middle')
-    .text('Customers');
+    .text('Orders');
 
   // Legend
   const legend = svg.append('g')
@@ -730,7 +730,7 @@ export function renderTierMixShift(containerId, data, options = {}) {
     .attr('text-anchor', 'middle')
     .attr('font-size', '16px')
     .attr('font-weight', 'bold')
-    .text('Tier Mix: Baseline vs Forecasted');
+    .text('Menu-Ladder Mix: Baseline vs Forecasted');
 }
 
 /**
@@ -937,7 +937,7 @@ export function renderComparisonBarChart(containerId, data, options = {}) {
     .attr('transform', `translate(${margin.left},${margin.top})`);
 
   // KPIs to compare
-  const kpis = ['Customers', 'Revenue', 'AOV', 'Repeat Loss'];
+  const kpis = ['Orders', 'Revenue', 'AOV', 'Repeat Loss'];
   const kpiKeys = ['customers_pct', 'revenue_pct', 'aov_pct', 'repeat_loss_pct'];
 
   // Sanitize data - replace NaN/undefined with 0
@@ -1087,7 +1087,7 @@ export function renderRadarChart(containerId, data, options = {}) {
     .attr('transform', `translate(${(width + margin.left + margin.right) / 2},${(height + margin.top + margin.bottom) / 2})`);
 
   // Dimensions
-  const dimensions = ['Revenue\nGrowth', 'Customer\nGrowth', 'AOV', 'Low\nRepeat Loss', 'CLTV'];
+  const dimensions = ['Revenue\nGrowth', 'Order\nGrowth', 'AOV', 'Low\nRepeat Loss', 'Contribution\nValue'];
   const angleSlice = (Math.PI * 2) / dimensions.length;
 
   // Normalize data to 0-100 scale with proper validation

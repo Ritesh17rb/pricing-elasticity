@@ -54,7 +54,7 @@ function calculateObjectiveScore(scenario, objective, constraints) {
 
   switch (objective) {
     case 'growth-max':
-      // Maximize customer growth
+      // Maximize weekly order growth
       const subGrowth = delta.customers_pct || 0;
       const revenueGrowth = delta.revenue_pct || 0;
       const churnPenalty = Math.abs(delta.repeat_loss_rate || 0) * 50; // Penalize high repeat loss
@@ -78,7 +78,7 @@ function calculateObjectiveScore(scenario, objective, constraints) {
       return -churnDelta * 100 + revMaintain;
 
     case 'mix-targeted':
-      // Optimize tier mix (Ad-Free share growth)
+      // Optimize owned-channel / premium mix balance
       const adFreeMix = forecasted.ad_free_share || 0;
       const mixTarget = constraints.adfree_share_target || 0.5;
       const mixDelta = Math.abs(adFreeMix - mixTarget);
@@ -200,7 +200,7 @@ function generateRationale(scenario, objective, isTop) {
 
     case 'mix-targeted':
       const adFreeShare = scenario.forecasted?.ad_free_share || 0;
-      rationale.push(`✓ Prestige share: ${(adFreeShare * 100).toFixed(1)}%`);
+      rationale.push(`✓ Core & premium mix share: ${(adFreeShare * 100).toFixed(1)}%`);
       if (aovChange > 0) {
         rationale.push(`✓ Higher AOV (+${aovChange.toFixed(1)}%)`);
       }
@@ -222,7 +222,7 @@ function generateRationale(scenario, objective, isTop) {
     rationale.push(`ℹ️ Includes promotional offer`);
   }
   if (scenario.is_new_tier) {
-    rationale.push(`ℹ️ Introduces new tier: ${config.tier}`);
+    rationale.push(`ℹ️ Introduces new ladder: ${config.tier}`);
   }
 
   return rationale.join('<br>');
@@ -233,10 +233,10 @@ function generateRationale(scenario, objective, isTop) {
  */
 export function getObjectiveDisplayName(objective) {
   const names = {
-    'growth-max': 'Growth Maximization',
-    'revenue-max': 'Revenue Maximization',
-    'churn-capped': 'Repeat-Loss Capped (Retention Focus)',
-    'mix-targeted': 'Mix-Shift (Channel Optimization)'
+    'growth-max': 'Weekly Order Growth',
+    'revenue-max': 'Net Sales & Margin',
+    'churn-capped': 'Repeat-Loss Guardrail',
+    'mix-targeted': 'Owned-Channel Mix'
   };
   return names[objective] || objective;
 }
@@ -246,10 +246,10 @@ export function getObjectiveDisplayName(objective) {
  */
 export function getObjectiveDescription(objective) {
   const descriptions = {
-    'growth-max': 'Prioritizes customer growth while maintaining revenue health',
-    'revenue-max': 'Maximizes revenue and AOV with acceptable repeat loss levels',
-    'churn-capped': 'Protects retention by capping repeat loss at acceptable threshold',
-    'mix-targeted': 'Optimizes channel mix to increase prestige share and AOV'
+    'growth-max': 'Prioritizes weekly order growth while maintaining revenue health',
+    'revenue-max': 'Maximizes net sales and AOV with acceptable repeat loss levels',
+    'churn-capped': 'Protects repeat behavior by capping repeat loss at an acceptable threshold',
+    'mix-targeted': 'Optimizes owned-channel and premium mix while supporting AOV'
   };
   return descriptions[objective] || '';
 }
@@ -272,3 +272,4 @@ export function suggestObjective(scenarios, currentMetrics) {
     return 'revenue-max'; // Default to revenue optimization
   }
 }
+

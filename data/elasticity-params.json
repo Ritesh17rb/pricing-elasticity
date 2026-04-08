@@ -1,25 +1,19 @@
 {
   "metadata": {
-    "generated_date": "2026-02-24",
-    "version": "4.0",
-    "description": "Price elasticity parameters for seasonal retail promotions across channels",
-    "estimation_method": "Synthetic calibration using prestige vs mass promo benchmarks and channel-specific discount sensitivity",
-    "data_source": "Composite benchmarks from prestige retail, mass retail, and marketplace promo behavior (2022-2025)",
-    "real_world_validation": "Mass channels show higher elasticity than prestige channels; repeat customers are less price-sensitive",
-    "benchmark_sources": [
-      "Beauty retail promo benchmarks (prestige vs mass channel elasticity ranges)",
-      "Marketplace discount response studies (category-level demand shifts)",
-      "Seasonal sell-through guidance from beauty and personal care"
-    ],
-    "confidence_level": 0.88,
-    "validation": "Parameters tuned to align with seasonal retail promo behavior while preserving model stability."
+    "generated_date": "2026-04-08",
+    "version": "5.0",
+    "description": "Pizza Hut pricing elasticity parameters for U.S. order channels and menu ladders.",
+    "estimation_method": "Modeled calibration built from the Pizza Hut operating foundation and public-menu-style pricing anchors.",
+    "data_source": "Modeled Pizza Hut transaction panel grounded in public menu, channel, and promotion structure.",
+    "real_world_validation": "Delivery remains the least price-sensitive channel while carryout and pickup absorb more value-driven behavior.",
+    "confidence_level": 0.9
   },
   "tiers": {
     "ad_supported": {
-      "base_elasticity": -2.1,
-      "confidence_interval": 0.3,
-      "std_error": 0.16,
-      "interpretation": "Elastic demand - 1% price increase leads to 2.1% decrease in units",
+      "base_elasticity": -2.0,
+      "confidence_interval": 0.28,
+      "std_error": 0.15,
+      "interpretation": "Entry and value missions are highly responsive to price changes.",
       "price_range": {
         "min": 18.0,
         "max": 30.0,
@@ -27,236 +21,209 @@
       },
       "segments": {
         "new_0_3mo": {
-          "elasticity": -2.6,
-          "confidence_interval": 0.4,
-          "size_pct": 0.32,
-          "description": "New customers (0-3 months) - highly price sensitive"
+          "elasticity": -2.42,
+          "confidence_interval": 0.34,
+          "size_pct": 0.29,
+          "description": "New Pizza Hut guests or returning lapsed trial."
         },
         "tenured_3_12mo": {
-          "elasticity": -2.1,
-          "confidence_interval": 0.3,
-          "size_pct": 0.38,
-          "description": "Repeat customers (3-12 months) - moderately price sensitive"
+          "elasticity": -2.0,
+          "confidence_interval": 0.26,
+          "size_pct": 0.39,
+          "description": "Developing habit guests in the first year."
         },
         "tenured_12plus": {
-          "elasticity": -1.7,
-          "confidence_interval": 0.25,
-          "size_pct": 0.3,
-          "description": "Loyal customers (12+ months) - less price sensitive"
+          "elasticity": -1.68,
+          "confidence_interval": 0.22,
+          "size_pct": 0.32,
+          "description": "Established value-oriented loyal guests."
         }
       },
       "cohort_elasticity": {
         "by_age": {
-          "18-24": -2.5,
-          "25-34": -2.3,
-          "35-44": -2.1,
-          "45-54": -2.0,
-          "55+": -1.8
+          "18-24": -2.34,
+          "25-34": -2.18,
+          "35-44": -2.02,
+          "45-54": -1.9,
+          "55+": -1.78
         },
         "by_device": {
-          "mobile": -2.3,
-          "web": -2.2,
-          "in_store": -1.9,
-          "marketplace": -2.4,
-          "omni": -1.8
+          "mobile": -2.18,
+          "web": -2.02,
+          "in_store": -1.74,
+          "call_center": -1.88,
+          "omni": -1.7
         },
         "by_channel": {
-          "sephora": -1.6,
-          "ulta": -1.7,
-          "target": -2.2,
-          "amazon": -2.4,
-          "dtc": -1.9
+          "carryout": -2.18,
+          "pickup_app": -2.26,
+          "delivery": -1.56,
+          "dine_in": -1.64
         },
         "by_promo_status": {
-          "full_price": -2.0,
-          "promotional": -2.8
+          "full_price": -1.9,
+          "promotional": -2.58
         }
       }
     },
     "ad_free": {
-      "base_elasticity": -1.5,
-      "confidence_interval": 0.25,
+      "base_elasticity": -1.52,
+      "confidence_interval": 0.24,
       "std_error": 0.12,
-      "interpretation": "Moderately elastic demand - 1% price increase leads to 1.5% decrease in units",
+      "interpretation": "Core and premium Pizza Hut demand is less elastic than value-led missions.",
       "price_range": {
         "min": 28.0,
-        "max": 45.0,
+        "max": 42.0,
         "current": 36.0
       },
       "segments": {
         "new_0_3mo": {
-          "elasticity": -1.9,
-          "confidence_interval": 0.3,
-          "size_pct": 0.26,
-          "description": "New customers (0-3 months) - moderately price sensitive"
+          "elasticity": -1.86,
+          "confidence_interval": 0.28,
+          "size_pct": 0.25,
+          "description": "New premium-order guests and recent returners."
         },
         "tenured_3_12mo": {
-          "elasticity": -1.5,
-          "confidence_interval": 0.2,
-          "size_pct": 0.36,
-          "description": "Repeat customers (3-12 months) - standard price sensitivity"
+          "elasticity": -1.52,
+          "confidence_interval": 0.22,
+          "size_pct": 0.37,
+          "description": "Developing premium and delivery habits."
         },
         "tenured_12plus": {
-          "elasticity": -1.2,
+          "elasticity": -1.21,
           "confidence_interval": 0.18,
           "size_pct": 0.38,
-          "description": "Prestige loyalists (12+ months) - less price sensitive"
+          "description": "Loyal premium and family-share households."
         }
       },
       "cohort_elasticity": {
         "by_age": {
-          "18-24": -1.7,
-          "25-34": -1.6,
+          "18-24": -1.72,
+          "25-34": -1.62,
           "35-44": -1.5,
-          "45-54": -1.4,
-          "55+": -1.3
+          "45-54": -1.42,
+          "55+": -1.32
         },
         "by_device": {
-          "mobile": -1.6,
-          "web": -1.5,
-          "in_store": -1.3,
-          "marketplace": -1.7,
-          "omni": -1.4
+          "mobile": -1.62,
+          "web": -1.55,
+          "in_store": -1.33,
+          "call_center": -1.46,
+          "omni": -1.36
         },
         "by_channel": {
-          "sephora": -1.2,
-          "ulta": -1.3,
-          "target": -1.6,
-          "amazon": -1.8,
-          "dtc": -1.4
+          "carryout": -1.42,
+          "pickup_app": -1.48,
+          "delivery": -1.26,
+          "dine_in": -1.34
         },
         "by_promo_status": {
-          "full_price": -1.4,
-          "promotional": -1.9
+          "full_price": -1.43,
+          "promotional": -1.86
         }
       }
     }
   },
   "time_horizon_adjustments": {
     "short_term_0_3mo": {
-      "multiplier": 1.1,
-      "description": "Short-term elasticity higher due to promo sensitivity"
+      "multiplier": 1.08,
+      "description": "Short-run reactions are sharper around offers and menu changes."
     },
     "medium_term_3_12mo": {
       "multiplier": 1.0,
-      "description": "Medium-term elasticity baseline"
+      "description": "Medium-run elasticity baseline."
     },
     "long_term_12plus": {
-      "multiplier": 0.85,
-      "description": "Long-term elasticity lower as loyalty builds"
+      "multiplier": 0.86,
+      "description": "Long-run behavior softens as habits and rituals build."
     }
   },
   "external_factor_adjustments": {
-    "description": "How external factors modify price elasticity",
     "macroeconomic": {
       "high_inflation": {
-        "elasticity_multiplier": 1.1,
-        "description": "During high inflation, shoppers are more price sensitive"
+        "elasticity_multiplier": 1.08,
+        "description": "Higher inflation increases value sensitivity."
       },
       "high_unemployment": {
-        "elasticity_multiplier": 1.2,
-        "description": "During high unemployment, price sensitivity increases"
+        "elasticity_multiplier": 1.14,
+        "description": "Traffic becomes more price-sensitive in labor stress."
       },
       "low_consumer_sentiment": {
-        "elasticity_multiplier": 1.08,
-        "description": "During low sentiment, price sensitivity increases"
+        "elasticity_multiplier": 1.06,
+        "description": "Weak sentiment nudges guests toward value ladders."
       }
     },
     "competitive": {
       "competitor_price_increase": {
-        "elasticity_multiplier": 0.88,
-        "description": "When competitors raise prices, elasticity decreases"
+        "elasticity_multiplier": 0.9,
+        "description": "When competitors raise prices, Pizza Hut elasticity eases."
       },
       "competitor_price_decrease": {
-        "elasticity_multiplier": 1.18,
-        "description": "When competitors lower prices, elasticity increases"
+        "elasticity_multiplier": 1.16,
+        "description": "Competitive value pressure raises sensitivity."
       },
       "major_competitor_promo": {
-        "elasticity_multiplier": 1.12,
-        "description": "Competitor promos raise price sensitivity"
+        "elasticity_multiplier": 1.1,
+        "description": "Heavy competitor deal activity increases guest price response."
       }
     },
     "social": {
       "viral_spike": {
-        "elasticity_multiplier": 0.9,
-        "description": "Viral social moment reduces price sensitivity"
+        "elasticity_multiplier": 0.92,
+        "description": "Strong social attention reduces short-run price sensitivity."
       },
       "negative_sentiment": {
-        "elasticity_multiplier": 1.1,
-        "description": "Negative sentiment increases price sensitivity"
+        "elasticity_multiplier": 1.08,
+        "description": "Weak sentiment increases trade-down pressure."
       }
     }
   },
   "willingness_to_pay": {
-    "description": "Distribution of willingness to pay (WTP) by channel group",
     "ad_supported": {
-      "mean": 25.0,
+      "mean": 25.1,
       "median": 24.0,
-      "std_dev": 4.5,
+      "std_dev": 4.4,
       "percentiles": {
         "p10": 18.0,
-        "p25": 21.5,
+        "p25": 21.4,
         "p50": 24.0,
-        "p75": 28.0,
-        "p90": 32.0
-      },
-      "interpretation": "50% of mass-channel shoppers willing to pay $24 or more"
+        "p75": 27.8,
+        "p90": 31.6
+      }
     },
     "ad_free": {
-      "mean": 38.0,
-      "median": 36.5,
-      "std_dev": 6.0,
+      "mean": 37.4,
+      "median": 36.2,
+      "std_dev": 5.8,
       "percentiles": {
         "p10": 28.0,
         "p25": 32.0,
-        "p50": 36.5,
-        "p75": 42.0,
-        "p90": 48.0
-      },
-      "interpretation": "50% of prestige-channel shoppers willing to pay $36.50 or more"
+        "p50": 36.2,
+        "p75": 41.4,
+        "p90": 46.0
+      }
     }
   },
   "repeat_loss_elasticity": {
-    "description": "How repeat-loss rate changes with price changes",
     "ad_supported": {
-      "repeat_loss_elasticity": 0.85,
-      "baseline_repeat_loss": 0.05,
-      "interpretation": "1% price increase leads to 0.85% increase in repeat loss"
+      "repeat_loss_elasticity": 0.88,
+      "baseline_repeat_loss": 0.058,
+      "interpretation": "Value-led guests are quicker to trim frequency after a price increase."
     },
     "ad_free": {
-      "repeat_loss_elasticity": 0.65,
-      "baseline_repeat_loss": 0.045,
-      "interpretation": "1% price increase leads to 0.65% increase in repeat loss"
+      "repeat_loss_elasticity": 0.67,
+      "baseline_repeat_loss": 0.044,
+      "interpretation": "Premium and family-share demand holds longer before visits soften."
     }
   },
   "acquisition_elasticity": {
-    "description": "How new customer acquisition changes with price changes",
     "ad_supported": {
       "acquisition_elasticity": -1.7,
-      "interpretation": "1% price increase leads to 1.7% decrease in new customers"
+      "interpretation": "Value traffic acquisition is strongly price-sensitive."
     },
     "ad_free": {
-      "acquisition_elasticity": -1.4,
-      "interpretation": "1% price increase leads to 1.4% decrease in new customers"
+      "acquisition_elasticity": -1.36,
+      "interpretation": "Premium acquisition still responds to price, but less sharply."
     }
-  },
-  "notes": {
-    "estimation_approach": "Retail promo benchmarks and synthetic calibration",
-    "methodology": "Elasticity values derived from retail promo response patterns and category benchmarks (2022-2025).",
-    "benchmark_validation": "Discount depth and price changes calibrated to typical beauty retail response curves.",
-    "data_sources": [
-      "Category promo response benchmarks",
-      "Marketplace discount response studies",
-      "Seasonal sell-through guidance"
-    ],
-    "assumptions": [
-      "Elasticity estimates assume ceteris paribus",
-      "Cross-price elasticity assumes competitors maintain current pricing",
-      "Segment-level elasticity assumes homogeneity within segments",
-      "Time horizon adjustments based on observed retail behavior"
-    ],
-    "confidence": "High confidence (0.88) - values derived from market observations.",
-    "use_case": "Suitable for POC simulation, scenario modeling, and pricing strategy exploration.",
-    "update_frequency": "Review annually or after major channel shifts."
   }
 }

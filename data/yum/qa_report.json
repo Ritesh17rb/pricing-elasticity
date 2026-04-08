@@ -1,8 +1,8 @@
 {
-  "generated_at_utc": "2026-04-01T03:50:31Z",
+  "generated_at_utc": "2026-04-08T04:27:56Z",
   "dataset_checks": {
     "brand_dim": {
-      "row_count": 4,
+      "row_count": 1,
       "duplicate_key_count": 0,
       "missing_required_count": 0
     },
@@ -12,7 +12,7 @@
       "missing_required_count": 0
     },
     "brand_market_network": {
-      "row_count": 48,
+      "row_count": 12,
       "duplicate_key_count": 0,
       "missing_required_count": 0
     },
@@ -22,12 +22,12 @@
       "missing_required_count": 0
     },
     "brand_channel_dim": {
-      "row_count": 20,
+      "row_count": 5,
       "duplicate_key_count": 0,
       "missing_required_count": 0
     },
     "product_dim": {
-      "row_count": 40,
+      "row_count": 11,
       "duplicate_key_count": 0,
       "missing_required_count": 0
     },
@@ -42,22 +42,22 @@
       "missing_required_count": 0
     },
     "promo_calendar": {
-      "row_count": 519,
+      "row_count": 153,
       "duplicate_key_count": 0,
       "missing_required_count": 0
     },
     "cross_brand_transfer_matrix": {
-      "row_count": 48,
+      "row_count": 0,
       "duplicate_key_count": 0,
       "missing_required_count": 0
     },
     "brand_market_product_channel_week_panel": {
-      "row_count": 112320,
+      "row_count": 27456,
       "duplicate_key_count": 0,
       "missing_required_count": 0
     },
     "brand_market_channel_week_panel": {
-      "row_count": 11232,
+      "row_count": 2496,
       "duplicate_key_count": 0,
       "missing_required_count": 0
     },
@@ -67,27 +67,27 @@
       "missing_required_count": 0
     },
     "brand_week_summary": {
-      "row_count": 208,
+      "row_count": 52,
       "duplicate_key_count": 0,
       "missing_required_count": 0
     },
     "market_brand_week_summary": {
-      "row_count": 2496,
+      "row_count": 624,
       "duplicate_key_count": 0,
       "missing_required_count": 0
     },
     "product_week_summary": {
-      "row_count": 2080,
+      "row_count": 572,
       "duplicate_key_count": 0,
       "missing_required_count": 0
     },
     "legacy_store_dim": {
-      "row_count": 48,
+      "row_count": 12,
       "duplicate_key_count": 0,
       "missing_required_count": 0
     },
     "legacy_store_item_week_panel": {
-      "row_count": 112320,
+      "row_count": 27456,
       "duplicate_key_count": 0,
       "missing_required_count": 0
     },
@@ -99,9 +99,6 @@
   },
   "latest_week": "2025-12-29",
   "latest_brand_mix_pct": {
-    "habitburger": 10.2,
-    "kfc": 40.21,
-    "pizzahut": 28.34,
-    "tacobell": 21.26
+    "pizzahut": 100.0
   }
 }

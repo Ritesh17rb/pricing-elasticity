@@ -143,7 +143,7 @@ function addExecutiveSummary(doc, top3, objective, timestamp) {
     ``,
     `Key Metrics:`,
     `• Revenue Impact: ${winner.delta.revenue >= 0 ? '+' : ''}${formatPercent(winner.delta.revenue_pct, 1)}`,
-    `• Customer Impact: ${winner.delta.customers >= 0 ? '+' : ''}${formatPercent(winner.delta.customers_pct, 1)}`,
+    `• Weekly Order Impact: ${winner.delta.customers >= 0 ? '+' : ''}${formatPercent(winner.delta.customers_pct, 1)}`,
     `• Repeat Loss Impact: ${winner.delta.repeat_loss_rate >= 0 ? '+' : ''}${formatPercent(winner.delta.repeat_loss_rate, 2)}pp`,
     `• Risk Level: ${winner.risk_level}`,
     `• Decision Score: ${winner.decision_score.toFixed(1)}`,
@@ -161,7 +161,7 @@ function addExecutiveSummary(doc, top3, objective, timestamp) {
   // Footer
   doc.setFontSize(8);
   doc.setTextColor(150, 150, 150);
-  doc.text('Yum Brands Pricing Elasticity Studio', 20, 285);
+  doc.text('Pizza Hut Pricing Elasticity Studio', 20, 285);
   doc.text('Page 1 of 5', 180, 285);
 }
 
@@ -187,7 +187,7 @@ function addTop3Recommendations(doc, top3) {
 
     const metrics = [
       `Revenue: ${scenario.delta.revenue >= 0 ? '+' : ''}${formatPercent(scenario.delta.revenue_pct, 1)} | ` +
-      `Customers: ${scenario.delta.customers >= 0 ? '+' : ''}${formatPercent(scenario.delta.customers_pct, 1)} | ` +
+      `Orders: ${scenario.delta.customers >= 0 ? '+' : ''}${formatPercent(scenario.delta.customers_pct, 1)} | ` +
       `Repeat Loss: ${scenario.delta.repeat_loss_rate >= 0 ? '+' : ''}${formatPercent(scenario.delta.repeat_loss_rate, 2)}pp`,
       `Risk: ${scenario.risk_level} | Score: ${scenario.decision_score.toFixed(1)}`
     ];
@@ -214,7 +214,7 @@ function addTop3Recommendations(doc, top3) {
   // Footer
   doc.setFontSize(8);
   doc.setTextColor(150, 150, 150);
-  doc.text('Yum Brands Pricing Elasticity Studio', 20, 285);
+  doc.text('Pizza Hut Pricing Elasticity Studio', 20, 285);
   doc.text('Page 2 of 5', 180, 285);
 }
 
@@ -233,7 +233,7 @@ function addKPIComparison(doc, top3) {
       top3[1] ? `${formatPercent(top3[1].delta.revenue_pct, 1)}` : 'N/A',
       top3[2] ? `${formatPercent(top3[2].delta.revenue_pct, 1)}` : 'N/A'
     ],
-    ['Customer Impact',
+    ['Weekly Order Impact',
       `${formatPercent(top3[0].delta.customers_pct, 1)}`,
       top3[1] ? `${formatPercent(top3[1].delta.customers_pct, 1)}` : 'N/A',
       top3[2] ? `${formatPercent(top3[2].delta.customers_pct, 1)}` : 'N/A'
@@ -289,7 +289,7 @@ function addKPIComparison(doc, top3) {
   // Footer
   doc.setFontSize(8);
   doc.setTextColor(150, 150, 150);
-  doc.text('Yum Brands Pricing Elasticity Studio', 20, 285);
+  doc.text('Pizza Hut Pricing Elasticity Studio', 20, 285);
   doc.text('Page 3 of 5', 180, 285);
 }
 
@@ -331,9 +331,9 @@ function addImplementationGuidance(doc, winner) {
   doc.setFontSize(9);
   const risks = [
     'Repeat-loss spike monitoring: Track cohort repeat loss weekly (0-4, 4-8, 8-12 weeks)',
-    'Fallback plan: Prepare win-back campaign for lapsed customers',
-    'Communication: Clear value messaging to existing customers',
-    'Grandfathering: Consider protecting loyal users (12+ month tenure)'
+    'Bounce-back plan: Prepare a targeted return offer for lapse-risk guests',
+    'Communication: Keep value messaging clear across delivery and owned channels',
+    'Guest protection: Consider keeping a visible value ladder for high-repeat households'
   ];
 
   risks.forEach(risk => {
@@ -344,7 +344,7 @@ function addImplementationGuidance(doc, winner) {
   // Footer
   doc.setFontSize(8);
   doc.setTextColor(150, 150, 150);
-  doc.text('Yum Brands Pricing Elasticity Studio', 20, 285);
+  doc.text('Pizza Hut Pricing Elasticity Studio', 20, 285);
   doc.text('Page 4 of 5', 180, 285);
 }
 
@@ -361,15 +361,15 @@ function addAuditTrail(doc, constraints, timestamp) {
     ['Analysis Date', timestamp],
     ['Data Cut', '2024-12-31'],
     ['Model Version', 'v3.0'],
-    ['Elasticity Model', 'Industry-calibrated coefficients'],
+    ['Elasticity Model', 'Modeled Pizza Hut price-response coefficients'],
     ['Repeat Loss Model', 'Time-lagged (0-4, 4-8, 8-12, 12+ weeks)'],
-    ['Migration Model', 'Multinomial Logit'],
-    ['Segments Analyzed', '375 behavioral segments'],
+    ['Migration Model', 'JavaScript channel-gap migration model'],
+    ['Segments Analyzed', '250 modeled segment combinations'],
     ['Scenarios Evaluated', 'All saved scenarios'],
     ['Constraints Applied', Object.keys(constraints).length > 0 ?
       `Repeat Loss Cap: ${(constraints.repeat_loss_cap * 100).toFixed(1)}%` :
       'None'],
-    ['Data Source', 'Taco Bell public-data operating panel'],
+    ['Data Source', 'Pizza Hut public-data operating panel'],
     ['Forecast Horizon', '12 months'],
     ['Confidence Level', '90%']
   ];
@@ -401,7 +401,7 @@ function addAuditTrail(doc, constraints, timestamp) {
   // Footer
   doc.setFontSize(8);
   doc.setTextColor(150, 150, 150);
-  doc.text('Yum Brands Pricing Elasticity Studio | Public-data operating build', 20, 285);
+  doc.text('Pizza Hut Pricing Elasticity Studio | Public-data operating build', 20, 285);
   doc.text('Page 5 of 5', 180, 285);
 }
 
@@ -414,7 +414,7 @@ function createSummarySheet(top3) {
     ['Decision Pack Summary'],
     [`Generated: ${new Date().toLocaleDateString()}`],
     [],
-    ['Rank', 'Scenario', 'Revenue', 'Customers', 'Repeat Loss', 'Risk', 'Score'],
+    ['Rank', 'Scenario', 'Revenue', 'Orders', 'Repeat Loss', 'Risk', 'Score'],
   ];
 
   top3.forEach((s, i) => {
@@ -436,7 +436,7 @@ function createScenariosSheet(scenarios) {
   const data = [
     ['All Scenarios'],
     [],
-    ['ID', 'Name', 'Channel Group', 'Price', 'Revenue %', 'Customers %', 'Repeat Loss pp', 'AOV %']
+    ['ID', 'Name', 'Channel Group', 'Price', 'Revenue %', 'Orders %', 'Repeat Loss pp', 'AOV %']
   ];
 
   scenarios.forEach(s => {
@@ -459,7 +459,7 @@ function createKPISheet(scenarios) {
   const data = [
     ['KPI Details'],
     [],
-    ['Scenario', 'Baseline Revenue', 'Forecast Revenue', 'Baseline Customers', 'Forecast Customers', 'Baseline Repeat Loss', 'Forecast Repeat Loss']
+    ['Scenario', 'Baseline Revenue', 'Forecast Revenue', 'Baseline Orders', 'Forecast Orders', 'Baseline Repeat Loss', 'Forecast Repeat Loss']
   ];
 
   scenarios.forEach(s => {
@@ -485,18 +485,18 @@ function createMetadataSheet() {
     ['Analysis Date', new Date().toLocaleDateString()],
     ['Data Cut', '2024-12-31'],
     ['Model Version', 'v3.0'],
-    ['Segments', '375'],
-    ['Data Source', 'Taco Bell public-data operating panel'],
+    ['Segments', '250'],
+    ['Data Source', 'Pizza Hut public-data operating panel'],
     ['Forecast Horizon', '12 months']
   ];
 }
 
 function getObjectiveName(objective) {
   const names = {
-    'growth-max': 'Growth Maximization',
-    'revenue-max': 'Revenue Maximization',
+    'growth-max': 'Weekly Order Growth',
+    'revenue-max': 'Net Sales & Margin',
     'churn-capped': 'Repeat-Loss Capped (Retention)',
-    'mix-targeted': 'Mix-Shift (Tier Optimization)'
+    'mix-targeted': 'Owned-Channel Mix'
   };
   return names[objective] || objective;
 }

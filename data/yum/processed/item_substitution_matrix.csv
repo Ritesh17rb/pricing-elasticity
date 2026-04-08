@@ -1,18 +1,8 @@
 brand_id,from_item_id,from_item_name,to_item_id,to_item_name,relationship_type,relationship_strength,rationale
-habitburger,hb_charburger,Charburger,hb_double_char,Double Char,substitute,0.55,Legacy compatibility relationship built from shared product family.
-habitburger,hb_charburger,Charburger,hb_santa_barbara,Santa Barbara Char,substitute,0.45,Legacy compatibility relationship built from shared product family.
-habitburger,hb_charburger,Charburger,hb_veggie_burger,Plant-Based Burger,substitute,0.72,Legacy compatibility relationship built from shared product family.
-habitburger,hb_combo_meal,Combo Meal,hb_family_bundle,Family Bundle,substitute,0.35,Legacy compatibility relationship built from shared product family.
-habitburger,hb_double_char,Double Char,hb_santa_barbara,Santa Barbara Char,substitute,0.46,Legacy compatibility relationship built from shared product family.
-habitburger,hb_double_char,Double Char,hb_veggie_burger,Plant-Based Burger,substitute,0.47,Legacy compatibility relationship built from shared product family.
-habitburger,hb_fries_and_onion_rings,Sides Duo,hb_tempura_green_beans,Tempura Green Beans,substitute,0.7,Legacy compatibility relationship built from shared product family.
-habitburger,hb_santa_barbara,Santa Barbara Char,hb_veggie_burger,Plant-Based Burger,substitute,0.64,Legacy compatibility relationship built from shared product family.
-kfc,kfc_chicken_pot_pie,Chicken Pot Pie,kfc_famous_bowl,Famous Bowl,substitute,0.36,Legacy compatibility relationship built from shared product family.
+pizzahut,ph_big_dinner_box,Big Dinner Box,ph_my_hut_box,My Hut Box,substitute,0.33,Legacy compatibility relationship built from shared product family.
 pizzahut,ph_large_pizza,Large One-Topping Pizza,ph_medium_pizza,Medium One-Topping Pizza,substitute,0.59,Legacy compatibility relationship built from shared product family.
+pizzahut,ph_large_pizza,Large One-Topping Pizza,ph_original_stuffed_crust,Original Stuffed Crust Pizza,substitute,0.46,Legacy compatibility relationship built from shared product family.
 pizzahut,ph_large_pizza,Large One-Topping Pizza,ph_personal_pan,Personal Pan Pizza,substitute,0.57,Legacy compatibility relationship built from shared product family.
-pizzahut,ph_large_pizza,Large One-Topping Pizza,ph_stuffed_crust,Large Stuffed Crust Pizza,substitute,0.7,Legacy compatibility relationship built from shared product family.
+pizzahut,ph_medium_pizza,Medium One-Topping Pizza,ph_original_stuffed_crust,Original Stuffed Crust Pizza,substitute,0.67,Legacy compatibility relationship built from shared product family.
 pizzahut,ph_medium_pizza,Medium One-Topping Pizza,ph_personal_pan,Personal Pan Pizza,substitute,0.6,Legacy compatibility relationship built from shared product family.
-pizzahut,ph_medium_pizza,Medium One-Topping Pizza,ph_stuffed_crust,Large Stuffed Crust Pizza,substitute,0.67,Legacy compatibility relationship built from shared product family.
-pizzahut,ph_personal_pan,Personal Pan Pizza,ph_stuffed_crust,Large Stuffed Crust Pizza,substitute,0.76,Legacy compatibility relationship built from shared product family.
-tacobell,tb_baja_blast,Large Baja Blast,tb_freeze,Signature Freeze,substitute,0.7,Legacy compatibility relationship built from shared product family.
-tacobell,tb_cantina_taco,Cantina Chicken Taco,tb_value_taco,Value Taco,substitute,0.65,Legacy compatibility relationship built from shared product family.
+pizzahut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,ph_personal_pan,Personal Pan Pizza,substitute,0.63,Legacy compatibility relationship built from shared product family.

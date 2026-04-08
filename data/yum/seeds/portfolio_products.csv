@@ -1,41 +1,12 @@
 brand_id,product_id,product_name,product_family,product_role,occasion_group,daypart,price_tier,base_price,food_cost_pct,labor_intensity,packaging_cost_pct,baseline_units_index,base_elasticity,promo_sensitivity,digital_affinity,value_flag,shareable_flag,lto_flag,notes
-kfc,kfc_fill_up_box,Fill Up Box,boxes,traffic_builder,solo_value_meal,lunch,value,7.49,0.27,0.11,0.06,205,-2.12,1.22,0.68,true,false,false,Entry value meal used to protect lunch traffic.
-kfc,kfc_sandwich_combo,Chicken Sandwich Combo,sandwiches,core_meal,core_meal,lunch,core,10.49,0.29,0.12,0.06,168,-1.74,1.05,0.71,false,false,false,Core sandwich ladder anchor.
-kfc,kfc_tenders_combo,Tenders Combo,tenders,core_meal,core_meal,dinner,core,11.29,0.3,0.12,0.06,156,-1.68,1.04,0.69,false,false,false,Family-friendly individual meal platform.
-kfc,kfc_nuggets_box,Saucy Nuggets Box,nuggets,traffic_builder,snack_treat,lunch,entry,6.49,0.25,0.1,0.05,178,-2.21,1.18,0.77,true,false,false,Snackable offer with digital upside.
-kfc,kfc_famous_bowl,Famous Bowl,bowls,core_meal,core_meal,lunch,core,6.79,0.26,0.1,0.05,144,-1.92,1.07,0.63,false,false,false,Strong value perception at lunch.
-kfc,kfc_chicken_pot_pie,Chicken Pot Pie,bowls,core_meal,core_meal,dinner,core,6.99,0.28,0.1,0.04,92,-1.51,0.96,0.54,false,false,false,Comfort-food dinner item with lower promo depth.
-kfc,kfc_family_bucket,Family Bucket,buckets,family_meal,family_share,dinner,premium,24.99,0.33,0.13,0.08,108,-1.14,0.82,0.59,false,true,false,Large family occasion anchor.
-kfc,kfc_tenders_family_feast,Tenders Family Feast,bundles,family_meal,family_share,dinner,premium,29.99,0.34,0.13,0.08,76,-1.03,0.8,0.62,false,true,false,Bundle-led family feast for dinner.
-kfc,kfc_hot_wings,Hot Wings,wings,traffic_builder,snack_treat,dinner,core,8.49,0.31,0.11,0.06,96,-1.58,1.01,0.73,false,false,true,Spicy innovation pulse for higher-intent users.
-kfc,kfc_biscuit_and_side,Side Pairing,sides,attach,snack_treat,lunch,entry,3.49,0.19,0.07,0.03,118,-1.05,0.94,0.52,false,false,false,Attach-led small basket builder.
-tacobell,tb_value_burrito,Value Burrito,burritos,traffic_builder,solo_value_meal,late_night,value,2.29,0.23,0.1,0.05,265,-2.55,1.28,0.72,true,false,false,Value-led taco shop traffic driver.
-tacobell,tb_value_taco,Value Taco,tacos,traffic_builder,solo_value_meal,late_night,value,1.99,0.22,0.09,0.05,278,-2.63,1.31,0.71,true,false,false,Entry taco anchor for value missions.
-tacobell,tb_luxe_box,Luxe Cravings Box,boxes,traffic_builder,solo_value_meal,dinner,value,7.00,0.31,0.12,0.07,184,-2.34,1.25,0.79,true,false,false,Value box used to reset affordability optics.
-tacobell,tb_crunchwrap,Crunchwrap Supreme,specialties,core_meal,core_meal,lunch,premium,5.99,0.29,0.11,0.05,148,-1.48,1.01,0.74,false,false,false,Signature innovation item.
-tacobell,tb_cantina_taco,Cantina Chicken Taco,tacos,innovation,snack_treat,lunch,premium,3.79,0.28,0.1,0.05,122,-1.66,0.97,0.83,false,false,true,Premium innovation ladder.
-tacobell,tb_chicken_quesadilla,Chicken Quesadilla,quesadillas,core_meal,core_meal,dinner,premium,6.89,0.3,0.11,0.05,104,-1.36,0.92,0.76,false,false,false,Premium dependable dinner choice.
-tacobell,tb_nachos,nachos,shareables,core_meal,snack_treat,dinner,core,5.79,0.27,0.1,0.05,96,-1.57,1.0,0.68,false,true,false,Shareable snacking platform.
-tacobell,tb_breakfast_crunchwrap,Breakfast Crunchwrap,breakfast,traffic_builder,solo_value_meal,lunch,core,4.99,0.26,0.1,0.05,88,-1.74,1.03,0.61,false,false,false,Breakfast carryover used in modeled daypart mix.
-tacobell,tb_baja_blast,Large Baja Blast,beverages,attach,snack_treat,summer,entry,3.29,0.15,0.05,0.04,238,-1.02,1.08,0.86,false,false,false,High-attach beverage with digital affinity.
-tacobell,tb_freeze,Signature Freeze,beverages,attach,snack_treat,summer,core,3.99,0.18,0.05,0.04,132,-1.18,1.11,0.88,false,false,true,Seasonal beverage draw.
-pizzahut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,lunch,entry,6.79,0.27,0.08,0.05,118,-1.84,1.07,0.63,true,false,false,Entry lunch pizza platform.
-pizzahut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,dinner,core,15.99,0.3,0.09,0.06,132,-1.36,0.98,0.82,false,true,false,Core family order line.
-pizzahut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,dinner,premium,19.99,0.31,0.09,0.06,126,-1.21,0.93,0.85,false,true,false,Large dinner anchor with delivery leverage.
-pizzahut,ph_stuffed_crust,Large Stuffed Crust Pizza,pizza,innovation,family_share,dinner,premium,22.99,0.33,0.1,0.06,92,-1.05,0.86,0.87,false,true,false,Premium pizza ladder step.
-pizzahut,ph_melts,Melts,handhelds,traffic_builder,solo_value_meal,lunch,core,8.49,0.25,0.09,0.05,112,-1.73,1.08,0.79,false,false,false,Portable lunch item with carryout strength.
-pizzahut,ph_wings,Wings,wings,attach,family_share,dinner,core,10.99,0.34,0.08,0.05,88,-1.44,0.94,0.83,false,true,false,Attach product for sports occasions.
-pizzahut,ph_breadsticks,Breadsticks,sides,attach,family_share,dinner,entry,6.49,0.18,0.07,0.04,96,-1.11,0.97,0.74,false,true,false,Low-cost attach that supports bundle optics.
-pizzahut,ph_dinner_box,Dinner Box,bundles,family_meal,family_share,dinner,premium,26.99,0.34,0.1,0.07,74,-1.02,0.88,0.84,false,true,false,Bundle-led family order with strong check.
-pizzahut,ph_pasta_bake,Pasta Bake,pasta,core_meal,core_meal,dinner,core,11.49,0.29,0.09,0.05,68,-1.26,0.89,0.72,false,false,false,Dinner adjacency outside core pizza.
-pizzahut,ph_cookie_dessert,Ultimate Cookie,desserts,attach,snack_treat,dinner,core,8.29,0.2,0.06,0.04,54,-0.92,0.86,0.76,false,true,false,Dessert attach for higher-spend baskets.
-habitburger,hb_charburger,Charburger,burgers,core_meal,core_meal,lunch,core,8.49,0.32,0.11,0.05,126,-1.62,0.94,0.67,false,false,false,Core better-burger anchor.
-habitburger,hb_double_char,Double Char,burgers,core_meal,core_meal,dinner,premium,10.99,0.34,0.11,0.05,92,-1.38,0.88,0.66,false,false,false,Premium burger ladder step.
-habitburger,hb_santa_barbara,Santa Barbara Char,burgers,innovation,core_meal,dinner,premium,11.99,0.35,0.11,0.05,74,-1.29,0.84,0.63,false,false,false,Premium signature sandwich.
-habitburger,hb_chicken_club,Chicken Club,sandwiches,core_meal,core_meal,lunch,premium,10.49,0.31,0.11,0.05,82,-1.34,0.9,0.68,false,false,false,Chicken premium alternative.
-habitburger,hb_veggie_burger,Plant-Based Burger,burgers,innovation,core_meal,lunch,premium,10.79,0.33,0.11,0.05,48,-1.41,0.85,0.75,false,false,true,Menu innovation and dietary whitespace.
-habitburger,hb_combo_meal,Combo Meal,bundles,traffic_builder,core_meal,dinner,core,13.49,0.36,0.12,0.06,96,-1.76,1.03,0.74,false,false,false,Combo architecture for check growth.
-habitburger,hb_family_bundle,Family Bundle,bundles,family_meal,family_share,dinner,premium,31.99,0.37,0.12,0.07,42,-0.98,0.8,0.7,false,true,false,Family orderable used to broaden occasions.
-habitburger,hb_fries_and_onion_rings,Sides Duo,sides,attach,snack_treat,dinner,core,5.99,0.2,0.07,0.04,102,-1.14,0.93,0.61,false,true,false,Shareable side bundle.
-habitburger,hb_tempura_green_beans,Tempura Green Beans,sides,attach,snack_treat,lunch,core,4.99,0.21,0.07,0.04,76,-1.2,0.95,0.58,false,false,false,Signature side for differentiation.
-habitburger,hb_shake,Hand-Spun Shake,beverages,attach,snack_treat,summer,core,5.49,0.19,0.06,0.04,68,-1.07,1.02,0.8,false,false,false,Dessert beverage with summer skew.
+pizzahut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,lunch,entry,6.79,0.27,0.08,0.05,122,-1.86,1.08,0.63,true,false,false,Entry pizza anchor modeled for lunch and value occasions.
+pizzahut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,dinner,value,7.99,0.29,0.09,0.06,136,-1.92,1.15,0.81,true,false,false,Modeled value bundle used to protect affordability optics and digital conversion.
+pizzahut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,dinner,core,15.99,0.30,0.09,0.06,132,-1.36,0.98,0.82,false,true,false,Core family order line and everyday pricing reference item.
+pizzahut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,dinner,premium,19.99,0.31,0.09,0.06,126,-1.21,0.93,0.85,false,true,false,Large dinner anchor with strong delivery and carryout relevance.
+pizzahut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,dinner,premium,22.99,0.33,0.10,0.06,92,-1.05,0.86,0.87,false,true,false,Premium crust ladder step modeled from Pizza Hut signature innovation positioning.
+pizzahut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,lunch,core,8.49,0.25,0.09,0.05,116,-1.72,1.10,0.82,false,false,false,Portable lunch and solo meal platform with strong carryout and app affinity.
+pizzahut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,dinner,core,11.99,0.34,0.08,0.05,96,-1.42,0.97,0.84,false,true,false,High-attach occasion item for sports viewing and bundle add-ons.
+pizzahut,ph_breadsticks,Breadsticks,sides,attach,family_share,dinner,entry,6.49,0.18,0.07,0.04,98,-1.11,0.97,0.74,false,true,false,Low-cost attach that supports bundle optics and family orders.
+pizzahut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,dinner,premium,26.99,0.34,0.10,0.07,78,-1.01,0.89,0.85,false,true,false,High-check family bundle and sports-night traffic platform.
+pizzahut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,dinner,core,11.49,0.29,0.09,0.05,70,-1.24,0.89,0.72,false,false,false,Dinner adjacency outside pizza that broadens the order mix.
+pizzahut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,dinner,core,8.29,0.20,0.06,0.04,58,-0.92,0.86,0.76,false,true,false,Dessert attach item used to lift average check on larger baskets.

@@ -1,21 +1,40 @@
 {
-  "clean_windows": [
+  "validation_windows": [
     {
-      "start_date": "2025-03-02",
-      "end_date": "2025-04-05",
-      "notes": "Baseline spring launch stability"
+      "window_id": "train_q1",
+      "type": "train",
+      "status": "clean",
+      "start": "2025-01-06",
+      "end": "2025-05-25",
+      "weeks": 20,
+      "purpose": "Stable pre-summer estimation window."
     },
     {
-      "start_date": "2025-06-01",
-      "end_date": "2025-07-06",
-      "notes": "Mid-season steady demand"
-    }
-  ],
-  "confounded_windows": [
+      "window_id": "train_q2",
+      "type": "train",
+      "status": "clean",
+      "start": "2025-06-02",
+      "end": "2025-08-31",
+      "weeks": 13,
+      "purpose": "Summer and BOOK IT! carryout behavior."
+    },
     {
-      "start_date": "2025-06-15",
-      "end_date": "2025-07-20",
-      "notes": "Competitive price drop period"
+      "window_id": "test_football",
+      "type": "test",
+      "status": "test",
+      "start": "2025-09-01",
+      "end": "2025-10-12",
+      "weeks": 6,
+      "purpose": "Football and Stuffed Crust demand pulse."
+    },
+    {
+      "window_id": "conf_football",
+      "type": "test",
+      "status": "confounded",
+      "start": "2025-10-13",
+      "end": "2025-10-26",
+      "weeks": 2,
+      "purpose": "Competitor football value spike."
     }
   ]
 }

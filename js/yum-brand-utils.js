@@ -1,12 +1,9 @@
-export const DEFAULT_YUM_BRAND_ID = 'tacobell';
+export const DEFAULT_YUM_BRAND_ID = 'pizzahut';
 
-export const YUM_BRAND_ORDER = ['tacobell', 'kfc', 'pizzahut', 'habitburger'];
+export const YUM_BRAND_ORDER = ['pizzahut'];
 
 export const YUM_BRAND_LABELS = {
-  tacobell: 'Taco Bell',
-  kfc: 'KFC',
-  pizzahut: 'Pizza Hut',
-  habitburger: 'Habit Burger & Grill'
+  pizzahut: 'Pizza Hut'
 };
 
 export const YUM_CHANNEL_ORDER = [
@@ -30,7 +27,7 @@ const YUM_CHANNEL_LABELS = {
 };
 
 export function getYumBrandLabel(brandId) {
-  return YUM_BRAND_LABELS[brandId] || brandId || 'Yum Concept';
+  return YUM_BRAND_LABELS[brandId] || brandId || 'Pizza Hut';
 }
 
 export function sortYumBrandIds(brandIds = []) {

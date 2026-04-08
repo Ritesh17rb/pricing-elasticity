@@ -1,3 +1,0 @@
-brand_id,from_item_id,from_item_name,to_item_id,to_item_name,relationship_type,relationship_strength,rationale
-tacobell,tb_baja_blast,Large Baja Blast,tb_freeze,Signature Freeze,substitute,0.7,Legacy compatibility relationship built from shared product family.
-tacobell,tb_cantina_taco,Cantina Chicken Taco,tb_value_taco,Value Taco,substitute,0.65,Legacy compatibility relationship built from shared product family.

@@ -1,146 +1,356 @@
-# Yum Brands Price Elasticity Plan
+# Pizza Hut Pricing Studio Transformation Plan
 
-## Goal
+## Objective
 
-Translate Ritesh Aggarwal's feedback from `meeting.md` into a concrete plan for the Yum Brands price elasticity demo.
+Turn the root `yumbrands` application into a Pizza Hut-specific pricing studio that visually follows the `pricingstudio` interaction model while removing streaming-era language from the live experience and replacing the current multi-brand foundation with a realistic Pizza Hut operating dataset.
 
-## Working Assumption
+## Product Direction
 
-The transcript mixes feedback on the Supergoop flow with the Yum Brands demo. The key bridge is that Ritesh Kumar says the Yum Brands version is "quite similar" and that he needs to incorporate the same changes there. This plan therefore treats the detailed screen-level feedback as requirements for the Yum Brands experience as well.
+- Keep the overall visual shell, pacing, and progressive disclosure pattern close to `pricingstudio`.
+- Make the business story specific to Pizza Hut rather than a multi-brand Yum command center.
+- Treat the experience as a strategic pricing and promotion simulator for Pizza Hut U.S.
+- Favor credible, public-data-style modeling over fake dashboards with unexplained numbers.
 
-## What Ritesh Is Asking For
+## Official-Source Grounding
 
-### 1. Monday demo cut
+The transformed app should be anchored to public Pizza Hut and Yum facts, then extended with transparent modeled assumptions.
 
-- Remove Step 2 from the live demo for now.
-- Get Step 7 working properly.
-- Skip Steps 8 and 9 for the Monday presentation.
-- Keep Step 10, but make the AI experience demo-ready with strong example prompts.
-- Prepare a clean story/script so he can present it confidently.
+### Facts to reflect in the build
 
-### 2. Core Yum price elasticity story
+- Pizza Hut should be framed as a delivery, carryout, and dine-in pizza brand.
+- U.S. digital/app ordering should matter materially.
+- The menu ladder should be built around recognizable Pizza Hut categories rather than generic restaurant placeholders.
+- Family-share occasions and sports-night attach behavior should matter more than solo subscription-style retention logic.
+- Yum affiliation should be acknowledged in metadata and documentation, but the active UI should be Pizza Hut-first.
 
-- Start by showing the real data powering the analysis so the app does not feel like mocked HTML.
-- Make the flow easier for a busy business user: summary first, actions second, evidence below.
-- Bring elasticity earlier in the narrative because promotion impact depends on elasticity.
-- Keep the experience focused on simple human decisions, not on making the user interpret many charts.
+### What will remain modeled
 
-### 3. UX/content changes he explicitly called out
+- Market-level demand volumes
+- Channel-level order mix
+- Price elasticities
+- Promo lift curves
+- Retention / repeat-visit sensitivity
+- Product substitution and bundle tradeoffs
+- Scenario outputs and executive recommendations
 
-- Convert long AI summaries into bullet points.
-- Add clear recommended next actions, not just observations.
-- Base recommended actions on all charts together, not one isolated chart.
-- Put actions near the top of the screen, directly under the business summary.
-- Clarify whether an insight is for one product/channel or for all products.
-- Fix metric inconsistencies across cards and summaries.
-- Rename ambiguous labels like "price gap" to "competitor price gap".
-- Show change versus prior period for the key metrics, not just current values.
-- Add/keep context for price, competitor gap, and social buzz trends.
-- Improve chart readability where the visuals are too dense or too small.
+## Target Experience
 
-### 4. Longer-term asks beyond Monday
+The active root app should mirror the `pricingstudio` structure, but with Pizza Hut content.
 
-- Add a longer-term pricing layer for sticky price moves over 3 to 6 months.
-- Keep promotion as the short-term lever and price as the slower strategic lever.
-- Bring AI chat onto each screen, instead of forcing all questions to wait until the last screen.
+### Home
 
-## Current Repo Mapping
+- Pizza Hut pricing studio hero
+- Clear business promise: price, promo, traffic, margin, and channel mix decisions
+- No streaming, subscriber, ARPU, or tier language
 
-The current app already uses the same step numbering Ritesh referenced:
+### Step 1. Current Business Overview
 
-- Step 2: Yum Pricing Studio
-- Step 7: Traffic Acquisition Elasticity
-- Step 8: Repeat-Visit Loss Elasticity
-- Step 9: Order Channel Migration
-- Step 10: AI Chat & Advanced Analytics
+- Pizza Hut operating snapshot
+- Orders, net sales, average check, contribution margin
+- Channel mix and promo dependency
+- Pizza Hut-specific business summary
 
-Primary files likely affected:
+### Step 2. Data Explorer
 
-- `index.html`
-- `js/step-navigation.js`
+- Public-data-style Pizza Hut foundation tables
+- Clear data dictionary and provenance notes
+- Explicit separation between official facts and modeled assumptions
+
+### Step 3. Event / Promo Calendar
+
+- Seasonal demand windows
+- Sports and family-share demand pulses
+- Pizza Hut deal cadence and campaign windows
+
+### Step 4. Customer Cohorts
+
+- Replace streaming cohorts with Pizza Hut buying missions:
+  - value lunch seekers
+  - family bundle loyalists
+  - digital carryout regulars
+  - delivery convenience users
+  - premium crust upgraders
+  - sports-night wing attachers
+  - promo-only lapsers
+  - high-value weekend hosts
+
+### Step 5. Segment Elasticity Comparison
+
+- Compare cohorts by price sensitivity, check, promo dependence, channel mix, and margin quality
+- Explain where pricing headroom is real and where value optics must be protected
+
+### Step 6. Traffic Acquisition Elasticity
+
+- Replace “subscriber acquisition” framing with order traffic acquisition
+- Evaluate price changes against order volume, net sales, and contribution margin
+- Highlight mission/channel combinations where price can move without collapsing traffic
+
+### Step 7. Repeat-Visit Loss
+
+- Replace churn framing with repeat-visit loss / lapse risk
+- Keep time-lag behavior if the chart remains useful, but rename it to restaurant language
+- Make the output useful for price change rollouts after promotions
+
+### Step 8. Channel Migration
+
+- Replace tier migration with order-channel migration
+- Focus on carryout, pickup/app, delivery, and dine-in shifts
+- Show how price architecture pushes orders between channels and changes margin
+
+### Step 9. AI Decision Support
+
+- Pizza Hut-specific prompts
+- No streaming prompts, no portfolio prompts, no Taco Bell defaults
+- Summaries should reference Pizza Hut menu ladders, promo pressure, and channel mix
+
+## Data Foundation Plan
+
+## 1. Scope
+
+- Replace the active multi-brand foundation with a Pizza Hut-only foundation for the root app.
+- Keep the grain transparent and business-usable.
+- Avoid synthetic noise without business meaning.
+
+## 2. Grain
+
+Primary panel:
+
+- `week_start x market_id x channel_id x item_id`
+
+Supporting rollups:
+
+- weekly brand summary
+- market summary
+- channel summary
+- item summary
+- campaign calendar
+- cohort summary
+- substitution matrix
+
+## 3. Pizza Hut entities
+
+### Markets
+
+Use a realistic U.S. market sample rather than all possible geographies.
+
+- Los Angeles
+- Dallas-Fort Worth
+- Chicago
+- Atlanta
+- New York City
+- Miami
+- Phoenix
+- Denver
+- Seattle
+- Nashville
+- Minneapolis
+- Charlotte
+
+### Channels
+
+- delivery
+- carryout
+- pickup_app
+- dine_in
+
+Drive-thru should not be active for Pizza Hut.
+
+### Menu ladder
+
+The product set should be recognizably Pizza Hut and easy to reason about:
+
+- Personal Pan Pizza
+- Medium One-Topping Pizza
+- Large One-Topping Pizza
+- Original Stuffed Crust / premium pizza ladder
+- Melts
+- Wings
+- Breadsticks / cheese sticks style attach
+- Big Dinner Box / family bundle
+- Pasta / pasta bakes
+- Dessert item
+
+### Occasion groups
+
+- solo value meal
+- core meal
+- family share
+- sports / party occasion
+- snack / attach
+
+## 4. Metrics to generate
+
+For each row:
+
+- list price
+- realized price
+- promo depth
+- unit volume
+- gross sales
+- net sales
+- contribution margin percent
+- contribution margin dollars
+- elasticity prior
+- effective elasticity
+- digital affinity
+- promo sensitivity
+- quality / confidence score
+
+Derived summaries:
+
+- weekly orders
+- weekly sales
+- average check
+- digital mix
+- delivery mix
+- promo-supported mix
+- margin rate
+- market price index
+- attach rate
+
+## 5. Cohort system
+
+Replace all streaming cohorts with Pizza Hut-specific cohorts and coefficients.
+
+Acquisition / traffic cohorts:
+
+- family value loyalists
+- app-first convenience seekers
+- weeknight dinner planners
+- lunch solo savers
+- premium pizza occasion buyers
+- game-day shareable shoppers
+- discount-driven returners
+- low-frequency high-ticket hosts
+
+Retention / repeat-loss cohorts:
+
+- promo-conditioned
+- convenience anchored
+- value anchored
+- premium loyal
+- lapse-prone
+- family ritual
+
+Channel migration cohorts:
+
+- delivery default
+- carryout optimizers
+- digital pickup switchers
+- dine-in social users
+
+## 6. Scenario library
+
+Prebuilt scenarios should be Pizza Hut-specific:
+
+- measured carryout price increase
+- premium crust price step-up
+- value lunch protection
+- delivery fee / premium pressure test
+- wing attach promotion
+- family bundle reprice
+- digital pickup incentive
+- broad list-price increase with retention guardrail
+
+## 7. Modeling rules
+
+- Delivery should carry the highest check and the lowest margin rate.
+- Pickup/app should have better margin than delivery and strong digital adoption.
+- Carryout should be price-competitive and important to value perception.
+- Dine-in should be smaller in mix but not zero.
+- Family bundles should have lower elasticity than solo items.
+- Premium crust items should have stronger check but lower traffic elasticity tolerance.
+- Attach items should improve order economics more than traffic growth.
+- Promo depth should temporarily increase units while compressing margin.
+
+## Implementation Plan
+
+## Phase 1. Planning and file ownership
+
+Files to update first:
+
+- `plan.md`
+- `README.md`
+- `scripts/build_yum_foundation.py` or replacement generator
+- `js/yum-data-loader.js`
+- `js/yum-brand-utils.js`
+- `js/app.js`
 - `js/acquisition-simple.js`
-- `js/chat.js`
-- `docs/script.md`
+- `js/churn-simple.js`
+- `js/migration-simple.js`
+- `js/step-navigation.js`
+- `index.html`
 
-## Recommended Execution Plan
+## Phase 2. Build the Pizza Hut foundation
 
-### Phase 1. Simplify the Monday demo flow
+- Refactor the generator into a Pizza Hut-focused build path.
+- Remove Taco Bell-first defaults.
+- Reduce brand metadata to Pizza Hut only for the active root app.
+- Regenerate processed CSVs and JSON metadata.
+- Validate row counts, null checks, and field consistency.
 
-- Remove Step 2 from the visible navigation and demo script.
-- Hide or bypass Steps 8 and 9 for the Monday build.
-- Keep the path focused on:
-  - current business overview
-  - data credibility / actual tables
-  - elasticity / segment insight
-  - AI chat
-- Update the walkthrough script to match the reduced flow.
+## Phase 3. Rewire the app to Pizza Hut
 
-### Phase 2. Stabilize Step 7 first
+- Make Pizza Hut the default and only active brand.
+- Remove brand picker dependencies from the active flow where possible.
+- Update loaders to read the Pizza Hut-focused data contract.
+- Ensure charts and KPI cards use Pizza Hut field names.
 
-- Make Step 7 the centerpiece of the elasticity story.
-- Ensure it clearly shows segment/cohort differences and business impact.
-- Add a simple business readout such as:
-  - what changed
-  - which segment/channel is most sensitive
-  - expected order or revenue uplift/downside
-- Verify that the step works end-to-end with Yum data.
+## Phase 4. Replace the shell content
 
-Known blocker in current code:
+- Make the root `index.html` follow the `pricingstudio` section order and language style.
+- Replace every user-facing Yum portfolio description with Pizza Hut business framing.
+- Keep the same quality bar for navigation, hero, cards, and chart sections.
 
-- `js/acquisition-simple.js` returns `orderedChannels: tacoBellChannels`, but `tacoBellChannels` is not defined. Step 7 should be treated as unstable until that is fixed.
+## Phase 5. Scrub streaming remnants
 
-### Phase 3. Rework the screen narrative around trust and action
+Active files must not expose:
 
-- Put the data foundation earlier and make it obvious what tables power the outputs.
-- Keep the top of the screen lightweight:
-  - AI-generated business summary
-  - recommended next actions
-- Move detailed charts and issue lists below that summary/action block.
-- Make the "why" available underneath for trust-building, but not required for the first read.
+- streaming
+- subscriber / subscribers
+- churn in streaming context
+- ARPU
+- SVOD / OTT
+- content release calendar
+- Ad-Lite / Ad-Free tier copy
+- Netflix / Hulu / Disney references
 
-### Phase 4. Make the metrics interpretable
+If a reused technical module still uses legacy internal variable names, the user-facing text must still be corrected. If the module remains central to the active app, the variable names and comments should also be cleaned.
 
-- Add prior-period deltas for:
-  - revenue
-  - average price
-  - competitor price gap
-  - social buzz / sentiment
-- Clarify metric definitions inline.
-- Ensure summary text matches the chart values and card values exactly.
-- Call out whether an insight is scoped to a single product/channel or rolled up across all products.
+## Phase 6. Documentation refresh
 
-### Phase 5. Improve AI demo quality
+- Rewrite the repo summary around Pizza Hut pricing strategy
+- Explain what is official vs modeled
+- Document dataset grain and scenario logic
+- Remove obsolete streaming and portfolio claims from the root docs
 
-- Seed Step 10 with stronger suggested prompts tied to the Yum story.
-- Make the AI answer from the same surfaced dataset and scenario context shown in the UI.
-- If feasible after Monday, expose chat entry points on each major screen.
+## QA and Verification
 
-### Phase 6. Prepare the demo script
+## Functional checks
 
-- Write a short presenter script focused on:
-  - this is powered by real data
-  - here is the current business situation
-  - here is where elasticity risk/opportunity sits
-  - here are the actions the user should take
-  - here is how AI answers follow-up questions from the same data
+- root app loads without broken imports
+- Pizza Hut data appears in KPI cards
+- scenario modules use Pizza Hut copy
+- step navigation still works
+- no empty chart containers on first render
 
-## Proposed Order For The Yum Story
+## Content checks
 
-1. Current business overview
-2. Data used for the analysis
-3. Current elasticity / segment sensitivity
-4. Historical promotion performance
-5. Forward-looking optimization / scenario view
-6. AI-assisted questioning
+- no visible streaming words in the live root app
+- no Taco Bell-first defaults in the live root app
+- no multi-brand portfolio story in the active root flow unless explicitly framed as Yum ownership context
 
-This reflects Ritesh's point that elasticity should appear before promotion optimization because elasticity is what makes promotion effects interpretable.
+## Data checks
 
-## Definition Of Done
+- metadata matches generated files
+- processed files are internally consistent
+- market, item, and channel counts match the Pizza Hut scope
+- scenario inputs fall within realistic ranges
 
-- Monday demo uses a reduced flow aligned with Ritesh's requested step cuts.
-- Step 7 works reliably and tells a clear elasticity story.
-- Summary and recommended actions appear before dense detail.
-- Data provenance is visible early in the experience.
-- Labels and metrics are unambiguous and internally consistent.
-- AI chat includes demo-ready prompts and answers.
-- A presenter script exists alongside the updated build.
+## Definition of done
+
+- The root app looks and feels like the `pricingstudio` experience.
+- The active business story is Pizza Hut-specific.
+- The live data foundation is Pizza Hut-focused and realistically modeled.
+- Official-source facts are reflected where appropriate.
+- The active root code path is free of streaming copy and Taco Bell-first defaults.

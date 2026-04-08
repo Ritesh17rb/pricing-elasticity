@@ -121,13 +121,13 @@ export async function simulateBrandPriceChange({
   };
 }
 
-export async function getTacoBellItemSummaries() {
-  return getBrandItemSummaries('tacobell');
+export async function getPizzaHutItemSummaries() {
+  return getBrandItemSummaries('pizzahut');
 }
 
-export async function simulateTacoBellPriceChange(config) {
+export async function simulatePizzaHutPriceChange(config) {
   return simulateBrandPriceChange({
-    brandId: 'tacobell',
+    brandId: 'pizzahut',
     ...config
   });
 }

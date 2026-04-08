@@ -1,6 +1,6 @@
 /**
  * Cohort Aggregator Module
- * Aggregates 250 customer segments into cohorts for model predictions
+ * Aggregates Pizza Hut cohort intersections into model-ready acquisition and repeat-loss cohorts
  */
 
 /**
@@ -53,11 +53,11 @@ export async function getAcquisitionCohorts(tier) {
 
       // Friendly name mapping
       const nameMap = {
-        'seasonal_first_time': 'Seasonal First-Time',
-        'routine_refill': 'Routine Refill',
-        'gift_buyer': 'Gift Buyer',
-        'influencer_discovered': 'Influencer Discovered',
-        'promo_triggered': 'Promo Triggered'
+        'seasonal_first_time': 'Game-Day First Try',
+        'routine_refill': 'Weekly Meal Routine',
+        'gift_buyer': 'Group Occasion Buyer',
+        'influencer_discovered': 'Digital Discovery Guest',
+        'promo_triggered': 'Value Offer Triggered'
       };
 
       cohorts.push({
@@ -118,10 +118,10 @@ export async function getChurnCohorts(tier) {
       const avgElasticity = elasticityCount > 0 ? elasticitySum / elasticityCount : -2.1;
 
       const nameMap = {
-        'prestige_loyalist': 'Prestige Loyalist',
-        'value_seeker': 'Value Seeker',
-        'deal_hunter': 'Deal Hunter',
-        'occasional_shop': 'Occasional Shopper',
+        'prestige_loyalist': 'Family Ritual Loyalist',
+        'value_seeker': 'Value Bundle Shopper',
+        'deal_hunter': 'Coupon-Driven Guest',
+        'occasional_shop': 'Occasional Craving Guest',
         'channel_switcher': 'Channel Switcher'
       };
 

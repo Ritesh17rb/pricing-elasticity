@@ -1,37 +1,30 @@
 /**
- * Yum Data Explorer
- * Loads the actual Yum foundation datasets plus compatibility tables used by the demo.
+ * Pizza Hut Data Explorer
+ * Loads the Pizza Hut foundation datasets used by the app.
  */
 
 import { parseCSV } from './csv-utils.js';
 
 const DATASET_DEFINITIONS = [
-  { key: 'brand_dim', title: 'Brand Dimension', category: 'Foundation', icon: 'bi-diagram-3', manifestKey: 'brand_dim' },
-  { key: 'market_dim', title: 'Market Dimension', category: 'Foundation', icon: 'bi-geo-alt', manifestKey: 'market_dim' },
-  { key: 'brand_market_network', title: 'Brand-Market Network', category: 'Foundation', icon: 'bi-diagram-2', manifestKey: 'brand_market_network' },
-  { key: 'brand_channel_dim', title: 'Brand Channel Dimension', category: 'Foundation', icon: 'bi-signpost-split', manifestKey: 'brand_channel_dim' },
-  { key: 'product_dim', title: 'Product Dimension', category: 'Foundation', icon: 'bi-grid', manifestKey: 'product_dim' },
-  { key: 'calendar_week_dim', title: 'Calendar Week Dimension', category: 'Signals & Promo', icon: 'bi-calendar2-week', manifestKey: 'calendar_week_dim', dateColumn: 'week_start' },
-  { key: 'external_macro_monthly', title: 'External Macro Monthly', category: 'Signals & Promo', icon: 'bi-globe', manifestKey: 'external_macro_monthly', dateColumn: 'month_start' },
-  { key: 'promo_calendar', title: 'Promo Calendar', category: 'Signals & Promo', icon: 'bi-megaphone', manifestKey: 'promo_calendar', dateColumn: 'week_start' },
-  { key: 'cross_brand_transfer_matrix', title: 'Cross-Brand Transfer Matrix', category: 'Signals & Promo', icon: 'bi-arrow-left-right', manifestKey: 'cross_brand_transfer_matrix' },
-  { key: 'brand_market_product_channel_week_panel', title: 'Brand-Market-Product-Channel Panel', category: 'Weekly Performance', icon: 'bi-table', manifestKey: 'brand_market_product_channel_week_panel', dateColumn: 'week_start' },
-  { key: 'brand_market_channel_week_panel', title: 'Brand-Market-Channel Panel', category: 'Weekly Performance', icon: 'bi-bar-chart-steps', manifestKey: 'brand_market_channel_week_panel', dateColumn: 'week_start' },
-  { key: 'portfolio_week_summary', title: 'Portfolio Weekly Summary', category: 'Weekly Performance', icon: 'bi-graph-up', manifestKey: 'portfolio_week_summary', dateColumn: 'week_start' },
-  { key: 'brand_week_summary', title: 'Brand Weekly Summary', category: 'Weekly Performance', icon: 'bi-collection', manifestKey: 'brand_week_summary', dateColumn: 'week_start' },
-  { key: 'market_brand_week_summary', title: 'Market-Brand Weekly Summary', category: 'Weekly Performance', icon: 'bi-map', manifestKey: 'market_brand_week_summary', dateColumn: 'week_start' },
-  { key: 'product_week_summary', title: 'Product Weekly Summary', category: 'Weekly Performance', icon: 'bi-box-seam', manifestKey: 'product_week_summary', dateColumn: 'week_start' },
+  { key: 'brand_dim', title: 'Brand Profile', category: 'Core Data', icon: 'bi-diagram-3', manifestKey: 'brand_dim' },
+  { key: 'market_dim', title: 'Market Profile', category: 'Core Data', icon: 'bi-geo-alt', manifestKey: 'market_dim' },
+  { key: 'brand_market_network', title: 'Market Footprint', category: 'Core Data', icon: 'bi-diagram-2', manifestKey: 'brand_market_network' },
+  { key: 'brand_channel_dim', title: 'Channel Profile', category: 'Core Data', icon: 'bi-signpost-split', manifestKey: 'brand_channel_dim' },
+  { key: 'product_dim', title: 'Menu Ladder', category: 'Core Data', icon: 'bi-grid', manifestKey: 'product_dim' },
+  { key: 'calendar_week_dim', title: 'Calendar Signal Map', category: 'Pricing & Promo', icon: 'bi-calendar2-week', manifestKey: 'calendar_week_dim', dateColumn: 'week_start' },
+  { key: 'external_macro_monthly', title: 'Macro Context', category: 'Pricing & Promo', icon: 'bi-globe', manifestKey: 'external_macro_monthly', dateColumn: 'month_start' },
+  { key: 'promo_calendar', title: 'Promotion Calendar', category: 'Pricing & Promo', icon: 'bi-megaphone', manifestKey: 'promo_calendar', dateColumn: 'week_start' },
+  { key: 'brand_market_product_channel_week_panel', title: 'Weekly Product Panel', category: 'Performance', icon: 'bi-table', manifestKey: 'brand_market_product_channel_week_panel', dateColumn: 'week_start' },
+  { key: 'brand_market_channel_week_panel', title: 'Weekly Channel Panel', category: 'Performance', icon: 'bi-bar-chart-steps', manifestKey: 'brand_market_channel_week_panel', dateColumn: 'week_start' },
+  { key: 'portfolio_week_summary', title: 'System Weekly Summary', category: 'Performance', icon: 'bi-graph-up', manifestKey: 'portfolio_week_summary', dateColumn: 'week_start' },
+  { key: 'brand_week_summary', title: 'Brand Weekly Summary', category: 'Performance', icon: 'bi-collection', manifestKey: 'brand_week_summary', dateColumn: 'week_start' },
+  { key: 'market_brand_week_summary', title: 'Market Weekly Summary', category: 'Performance', icon: 'bi-map', manifestKey: 'market_brand_week_summary', dateColumn: 'week_start' },
+  { key: 'product_week_summary', title: 'Product Weekly Summary', category: 'Performance', icon: 'bi-box-seam', manifestKey: 'product_week_summary', dateColumn: 'week_start' },
   { key: 'data_quality_checks', title: 'Data Quality Checks', category: 'Quality', icon: 'bi-shield-check', manifestKey: 'data_quality_checks' },
-  { key: 'channel_dim', title: 'Legacy Channel Compatibility', category: 'Compatibility', icon: 'bi-signpost', recordCount: 20 },
-  { key: 'menu_item_dim', title: 'Legacy Menu Item Dimension', category: 'Compatibility', icon: 'bi-list-ul' },
-  { key: 'calendar_dim', title: 'Legacy Calendar Compatibility', category: 'Compatibility', icon: 'bi-calendar-event', dateColumn: 'week_start' },
-  { key: 'store_dim', title: 'Legacy Store Dimension', category: 'Compatibility', icon: 'bi-shop', manifestKey: 'legacy_store_dim' },
-  { key: 'store_channel_week_panel', title: 'Legacy Store-Channel Panel', category: 'Compatibility', icon: 'bi-building', dateColumn: 'week_start' },
-  { key: 'store_item_week_panel', title: 'Legacy Store-Item Panel', category: 'Compatibility', icon: 'bi-grid-3x3-gap', manifestKey: 'legacy_store_item_week_panel', dateColumn: 'week_start' },
 ];
 
-const CATEGORY_ORDER = ['Foundation', 'Signals & Promo', 'Weekly Performance', 'Quality', 'Compatibility'];
-const DEFAULT_DATASET_KEY = 'brand_week_summary';
+const CATEGORY_ORDER = ['Core Data', 'Pricing & Promo', 'Performance', 'Quality'];
+const DEFAULT_DATASET_KEY = 'brand_market_channel_week_panel';
 
 let datasetsByKey = {};
 let categoryMap = {};
@@ -70,7 +63,7 @@ async function ensureCatalog() {
           description:
             metadata.datasets?.[metadataKey]?.description ||
             definition.description ||
-            `${definition.title} used by the Yum elasticity application.`,
+            `${definition.title} used by the Pizza Hut pricing application.`,
           grain: metadata.datasets?.[metadataKey]?.grain || definition.grain || 'N/A',
           recordCount:
             definition.recordCount ??
@@ -106,7 +99,7 @@ export function initializeDataViewer() {
       return null;
     })
     .catch((error) => {
-      console.error('Failed to initialize Yum data explorer:', error);
+      console.error('Failed to initialize Pizza Hut data explorer:', error);
       showError(`Failed to initialize data explorer: ${error.message}`);
     });
 }
@@ -344,6 +337,7 @@ function updatePagination(totalRows, startIndex, endIndex) {
 }
 
 function buildLineChart(labels, datasets, caption) {
+  const hasSecondaryAxis = datasets.some((dataset) => dataset.yAxisID === 'y1');
   return {
     caption,
     config: {
@@ -353,6 +347,19 @@ function buildLineChart(labels, datasets, caption) {
         responsive: true,
         maintainAspectRatio: false,
         plugins: { legend: { display: true, position: 'bottom' } },
+        scales: hasSecondaryAxis
+          ? {
+              y: {
+                type: 'linear',
+                position: 'left',
+              },
+              y1: {
+                type: 'linear',
+                position: 'right',
+                grid: { drawOnChartArea: false },
+              },
+            }
+          : undefined,
       },
     },
   };
@@ -408,7 +415,7 @@ function renderDatasetChart() {
         data: currentData.map((row) => numeric(row.digital_maturity_index) * 100),
         backgroundColor: ['#d62828', '#682bd7', '#0f6cbd', '#ff8c42'],
       },
-      'Digital maturity by Yum brand'
+      'Pizza Hut digital maturity index'
     );
   } else if (currentDataset.key === 'market_dim') {
     chart = buildBarChart(
@@ -421,14 +428,14 @@ function renderDatasetChart() {
       'Store count by market'
     );
   } else if (currentDataset.key === 'brand_market_network') {
-    const byBrand = {};
-    currentData.forEach((row) => {
-      byBrand[row.brand_name] = (byBrand[row.brand_name] || 0) + numeric(row.store_count_proxy);
-    });
+    const topMarkets = [...currentData]
+      .sort((left, right) => numeric(right.store_count_proxy) - numeric(left.store_count_proxy))
+      .slice(0, 10);
     chart = buildBarChart(
-      Object.keys(byBrand),
-      { label: 'Store count proxy', data: Object.values(byBrand), backgroundColor: ['#d62828', '#682bd7', '#0f6cbd', '#ff8c42'] },
-      'Brand footprint proxy by market network'
+      topMarkets.map((row) => row.market_name),
+      { label: 'Store count proxy', data: topMarkets.map((row) => numeric(row.store_count_proxy)), backgroundColor: '#0f6cbd' },
+      'Top Pizza Hut markets by footprint proxy',
+      true
     );
   } else if (currentDataset.key === 'brand_channel_dim') {
     const channels = [...new Set(currentData.map((row) => row.channel_name))];
@@ -484,43 +491,53 @@ function renderDatasetChart() {
       'Macro context over time'
     );
   } else if (currentDataset.key === 'promo_calendar') {
+    const hasSupportedSales = currentData.some((row) => numeric(row.promo_sales) > 0);
     const byOffer = {};
     currentData.forEach((row) => {
-      byOffer[row.offer_type] = (byOffer[row.offer_type] || 0) + numeric(row.promo_sales);
+      const label = row.offer_name || row.offer_type;
+      byOffer[label] = (byOffer[label] || 0) + (hasSupportedSales ? numeric(row.promo_sales) : 1);
     });
+    const topOffers = Object.entries(byOffer)
+      .sort((left, right) => right[1] - left[1])
+      .slice(0, 8);
     chart = buildBarChart(
-      Object.keys(byOffer),
-      { label: 'Promo sales', data: Object.values(byOffer), backgroundColor: '#ff8c42' },
-      'Modeled promo sales by offer type'
-    );
-  } else if (currentDataset.key === 'cross_brand_transfer_matrix') {
-    const topFlows = [...currentData].sort((left, right) => numeric(right.base_transfer_share) - numeric(left.base_transfer_share)).slice(0, 10);
-    chart = buildBarChart(
-      topFlows.map((row) => `${row.from_brand_name} -> ${row.to_brand_name}`),
-      { label: 'Base transfer share', data: topFlows.map((row) => numeric(row.base_transfer_share) * 100), backgroundColor: '#2a9d8f' },
-      'Largest modeled cross-brand transfer flows',
+      topOffers.map(([label]) => label),
+      {
+        label: hasSupportedSales ? 'Supported promo sales' : 'Campaign-week rows',
+        data: topOffers.map(([, value]) => value),
+        backgroundColor: '#ff8c42',
+      },
+      hasSupportedSales ? 'Promotion scale by campaign' : 'Promotion cadence by campaign',
       true
     );
-  } else if (currentDataset.key === 'brand_market_product_channel_week_panel' || currentDataset.key === 'store_item_week_panel') {
-    const byBrand = {};
+  } else if (currentDataset.key === 'brand_market_product_channel_week_panel') {
+    const totalSalesByProduct = {};
     currentData.forEach((row) => {
-      if (!byBrand[row.brand_name || row.brand_id]) byBrand[row.brand_name || row.brand_id] = {};
-      const brand = row.brand_name || row.brand_id;
-      byBrand[brand][row.week_start] = (byBrand[brand][row.week_start] || 0) + numeric(row.net_sales);
+      totalSalesByProduct[row.product_name] = (totalSalesByProduct[row.product_name] || 0) + numeric(row.net_sales);
     });
-    const labels = [...new Set(Object.values(byBrand).flatMap((series) => Object.keys(series)))].sort();
+    const topProducts = Object.entries(totalSalesByProduct)
+      .sort((left, right) => right[1] - left[1])
+      .slice(0, 5)
+      .map(([name]) => name);
+    const productSeries = {};
+    currentData.forEach((row) => {
+      if (!topProducts.includes(row.product_name)) return;
+      if (!productSeries[row.product_name]) productSeries[row.product_name] = {};
+      productSeries[row.product_name][row.week_start] = (productSeries[row.product_name][row.week_start] || 0) + numeric(row.net_sales);
+    });
+    const labels = [...new Set(Object.values(productSeries).flatMap((series) => Object.keys(series)))].sort();
     chart = buildLineChart(
       labels,
-      Object.entries(byBrand).map(([brand, series], index) => ({
-        label: brand,
+      Object.entries(productSeries).map(([productName, series], index) => ({
+        label: productName,
         data: labels.map((label) => series[label] || 0),
         borderColor: ['#d62828', '#682bd7', '#0f6cbd', '#ff8c42'][index % 4],
         borderWidth: 2,
         tension: 0.25,
       })),
-      'Weekly net sales by brand'
+      'Weekly sales for top Pizza Hut menu items'
     );
-  } else if (currentDataset.key === 'brand_market_channel_week_panel' || currentDataset.key === 'store_channel_week_panel') {
+  } else if (currentDataset.key === 'brand_market_channel_week_panel') {
     const byChannel = {};
     currentData.forEach((row) => {
       const label = row.channel_name || row.channel || row.channel_id;
@@ -537,7 +554,7 @@ function renderDatasetChart() {
         borderWidth: 2,
         tension: 0.25,
       })),
-      'Weekly net sales by channel'
+      'Weekly Pizza Hut sales by order channel'
     );
   } else if (currentDataset.key === 'portfolio_week_summary') {
     chart = buildLineChart(
@@ -546,22 +563,28 @@ function renderDatasetChart() {
       'Portfolio sales trend'
     );
   } else if (currentDataset.key === 'brand_week_summary') {
-    const byBrand = {};
-    currentData.forEach((row) => {
-      if (!byBrand[row.brand_name]) byBrand[row.brand_name] = {};
-      byBrand[row.brand_name][row.week_start] = numeric(row.system_sales);
-    });
-    const labels = [...new Set(currentData.map((row) => row.week_start))].sort();
+    const labels = currentData.map((row) => row.week_start);
     chart = buildLineChart(
       labels,
-      Object.entries(byBrand).map(([brand, series], index) => ({
-        label: brand,
-        data: labels.map((label) => series[label] || 0),
-        borderColor: ['#d62828', '#682bd7', '#0f6cbd', '#ff8c42'][index % 4],
-        borderWidth: 2,
-        tension: 0.25,
-      })),
-      'Weekly sales by Yum brand'
+      [
+        {
+          label: 'System sales',
+          data: currentData.map((row) => numeric(row.system_sales)),
+          borderColor: '#0f6cbd',
+          borderWidth: 2,
+          tension: 0.25,
+          yAxisID: 'y',
+        },
+        {
+          label: 'Orders',
+          data: currentData.map((row) => numeric(row.system_orders)),
+          borderColor: '#d62828',
+          borderWidth: 2,
+          tension: 0.25,
+          yAxisID: 'y1',
+        },
+      ],
+      'Weekly Pizza Hut sales and orders'
     );
   } else if (currentDataset.key === 'market_brand_week_summary') {
     const latestRows = latestRowsBy(currentData, 'week_start').sort((left, right) => numeric(right.system_sales) - numeric(left.system_sales)).slice(0, 10);
@@ -571,19 +594,16 @@ function renderDatasetChart() {
       'Top market-brand combinations in the latest week',
       true
     );
-  } else if (currentDataset.key === 'product_week_summary' || currentDataset.key === 'menu_item_dim') {
-    const rows =
-      currentDataset.key === 'product_week_summary'
-        ? latestRowsBy(currentData, 'week_start').sort((left, right) => numeric(right.net_sales) - numeric(left.net_sales)).slice(0, 10)
-        : [...currentData].sort((left, right) => numeric(right.base_weekly_units) - numeric(left.base_weekly_units)).slice(0, 10);
+  } else if (currentDataset.key === 'product_week_summary') {
+    const rows = latestRowsBy(currentData, 'week_start').sort((left, right) => numeric(right.net_sales) - numeric(left.net_sales)).slice(0, 10);
     chart = buildBarChart(
-      rows.map((row) => row.product_name || row.item_name),
+      rows.map((row) => row.product_name),
       {
-        label: currentDataset.key === 'product_week_summary' ? 'Net sales' : 'Base weekly units',
-        data: rows.map((row) => numeric(row.net_sales || row.base_weekly_units)),
+        label: 'Net sales',
+        data: rows.map((row) => numeric(row.net_sales)),
         backgroundColor: '#682bd7',
       },
-      currentDataset.key === 'product_week_summary' ? 'Top products in the latest week' : 'Legacy menu item demand priors',
+      'Top products in the latest week',
       true
     );
   } else if (currentDataset.key === 'data_quality_checks') {
@@ -592,23 +612,6 @@ function renderDatasetChart() {
       { label: 'Row count', data: currentData.map((row) => numeric(row.row_count)), backgroundColor: '#2a9d8f' },
       'Row counts across generated datasets',
       true
-    );
-  } else if (currentDataset.key === 'channel_dim') {
-    chart = buildBarChart(
-      currentData.map((row) => `${row.brand_id} | ${row.channel_name}`),
-      { label: 'Base weight', data: currentData.map((row) => numeric(row.base_weight)), backgroundColor: '#ff8c42' },
-      'Legacy channel base weights',
-      true
-    );
-  } else if (currentDataset.key === 'store_dim') {
-    const byBrand = {};
-    currentData.forEach((row) => {
-      byBrand[row.brand_name] = (byBrand[row.brand_name] || 0) + 1;
-    });
-    chart = buildBarChart(
-      Object.keys(byBrand),
-      { label: 'Stores', data: Object.values(byBrand), backgroundColor: ['#d62828', '#682bd7', '#0f6cbd', '#ff8c42'] },
-      'Legacy store count by brand'
     );
   }
 

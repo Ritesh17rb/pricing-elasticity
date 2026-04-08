@@ -1,29 +1,28 @@
-# Yum Brands Portfolio Elasticity Command Center
+# Pizza Hut Pricing Elasticity Studio
 
-Browser-based pricing strategy application rebuilt around the Yum Brands portfolio rather than a single Taco Bell use case.
+Browser-based pricing strategy application rebuilt around a Pizza Hut-specific operating foundation and pricing workflow.
 
-## What Changed
+## Current Scope
 
-- Replaced the Taco Bell-only workflow with a 10-step Yum Brands portfolio flow
-- Rebuilt the dataset from scratch at `week_start x brand_id x market_id x product_id x channel_id`
-- Added multi-brand coverage for KFC, Taco Bell, Pizza Hut, and Habit Burger & Grill
-- Upgraded the scenario engine to account for channel shift, promo support, and internal portfolio recapture
-- Deleted the legacy top-level datasets and regenerated the foundation under `data/yum/`
+- Single-brand build for Pizza Hut only
+- Root experience aligned back to the original `pricingstudio` step flow
+- Active shell and copy rebuilt for a Pizza Hut pricing workflow
+- Modeled Pizza Hut operating foundation generated under `data/yum/`
+- Pizza Hut-oriented top-level cohort, scenario, and analytics data under `data/`
 
-## New Application Flow
+## Application Flow
 
-1. Portfolio Baseline
-2. Portfolio Pricing Studio
-3. Data Explorer
-4. Commercial Context
-5. Consumer Missions
-6. Brand Comparison
-7. Acquisition Elasticity
-8. Retention Curve
-9. Migration And Recapture
-10. Executive Brief
+1. Current Business Overview
+2. Data Foundation Explorer
+3. Promotion Performance & Calendar
+4. Customer Cohorts & Elasticity
+5. Segment Elasticity Comparison
+6. Traffic Acquisition Elasticity
+7. Repeat-Visit Loss Elasticity
+8. Order Channel Migration
+9. AI Chat & Decision Support
 
-## Core Datasets
+## Data Foundation
 
 Generated under `data/yum/processed/`:
 
@@ -36,10 +35,8 @@ Generated under `data/yum/processed/`:
 - `calendar_week_dim.csv`
 - `external_macro_monthly.csv`
 - `promo_calendar.csv`
-- `cross_brand_transfer_matrix.csv`
 - `brand_market_product_channel_week_panel.csv`
 - `brand_market_channel_week_panel.csv`
-- `portfolio_week_summary.csv`
 - `brand_week_summary.csv`
 - `market_brand_week_summary.csv`
 - `product_week_summary.csv`
@@ -51,7 +48,7 @@ Generated under `data/yum/processed/`:
 python scripts/build_yum_foundation.py --skip-macro
 ```
 
-The build clears old files in `data/yum/processed/` before writing the new portfolio foundation.
+This rebuilds the Pizza Hut operating foundation and refreshes the generated files under `data/yum/processed/`.
 
 ## Run The App
 
@@ -63,6 +60,6 @@ Then open `http://localhost:8000`.
 
 ## Notes
 
-- The foundation is a modeled public-data portfolio dataset, not internal transaction history.
-- The scenario engine is designed for strategic portfolio pricing and architecture work, not exact POS forecasting.
-- `data/yum/manifest.json`, `data/yum/metadata.json`, and `data/yum/qa_report.json` describe the generated build.
+- The app uses modeled public-data foundations, not internal Pizza Hut transaction history.
+- The generated Pizza Hut foundation is the source of truth for the current-business, pricing-studio, and promotion-calendar layers.
+- `plan.md` documents the full Pizza Hut rebuild plan, dataset strategy, and implementation phases.

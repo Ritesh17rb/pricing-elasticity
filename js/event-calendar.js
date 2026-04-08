@@ -1,9 +1,10 @@
 /**
- * Yum Promotion Performance & Calendar
- * Blends official brand campaign references with the modeled Yum promo calendar.
+ * Pizza Hut Promotion Performance & Calendar
+ * Uses modeled Pizza Hut promotion windows plus operating panels.
  */
 
 import {
+  loadYumBrandMarketProductChannelWeekPanel,
   loadYumCalendarDim,
   loadYumCalendarWeekDim,
   loadYumPromoCalendar,
@@ -16,220 +17,44 @@ import {
 } from './yum-brand-utils.js';
 import { formatCurrency, formatNumber } from './utils.js';
 
-const OFFICIAL_CAMPAIGNS = {
-  tacobell: [
-    {
-      id: 'tb-decades-menu',
-      dateLabel: 'Oct 24, 2024',
-      title: 'Decades Menu',
-      typeLabel: 'Nostalgia / Value LTO',
-      objective: 'Use low-entry price points and nostalgia to drive trial, traffic, and app engagement.',
-      channelFocus: 'Nationwide menu + Taco Bell app',
-      proofPoints: [
-        'Brought back five fan-favorite items from the 1960s through the 2000s.',
-        'Priced each item under $3 and paired the launch with weekly Tuesday Drops merch in the app.',
-      ],
-      takeaway: 'Taco Bell uses nostalgia and low-ticket entry points as a traffic lever, then layers digital exclusives on top.',
-      sourceLabel: 'Taco Bell Newsroom',
-      sourceUrl: 'https://www.tacobell.com/newsroom/taco-bell-brings-back-nostalgic-fan-favorites-in-nationwide-decades-menu',
-    },
-    {
-      id: 'tb-big-game-fans',
-      dateLabel: 'Feb 9, 2025',
-      title: 'The Fans: 2025 Big Game Activation',
-      typeLabel: 'Fan Activation / Live Event',
-      objective: 'Turn live drive-thru participation into a tentpole brand campaign instead of a straight discount push.',
-      channelFocus: 'Drive-Thru + social',
-      proofPoints: [
-        'Featured nearly 400 real Taco Bell fans in the 2025 Big Game ad.',
-        'The Live Mas Drive-Thru Cams campaign drew nearly 3,000 fans who submitted clips for a chance to appear.',
-      ],
-      takeaway: 'Taco Bell makes routine channels feel participatory and culture-led, which matters when price is not the only growth lever.',
-      sourceLabel: 'Taco Bell Newsroom',
-      sourceUrl: 'https://www.tacobell.com/newsroom/the-fans-taco-bells-2025-big-game-ad',
-    },
-    {
-      id: 'tb-fan-style-menu',
-      dateLabel: 'Nov 18, 2025',
-      title: 'Fan Style Menu',
-      typeLabel: 'Customization / Digital Merchandising',
-      objective: 'Convert fan-created custom orders into a scalable digital-discovery surface across ordering channels.',
-      channelFocus: 'App, web, and kiosk ordering',
-      proofPoints: [
-        'Rolled out fan-created items such as The Bell Burger and The Doritos Dippy nationwide.',
-        'The menu was selected from more than 40,000 fan submissions.',
-      ],
-      takeaway: 'The brand is using fan-built configurations and digital merchandising to stimulate demand without defaulting to broad discounting.',
-      sourceLabel: 'Taco Bell Newsroom',
-      sourceUrl: 'https://www.tacobell.com/newsroom/taco-bell-launches-the-fan-style-menu',
-    },
-  ],
-  pizzahut: [
-    {
-      id: 'ph-familee',
-      dateLabel: 'Apr 16, 2024',
-      title: 'FamiLEE Community Pizza',
-      typeLabel: 'Creator Partnership / Community',
-      objective: 'Pair a value platform with creator credibility and community giving to widen reach.',
-      channelFocus: '$12ANY value platform + social',
-      proofPoints: [
-        "Built with Keith Lee as part of Pizza Hut's $12ANY campaign.",
-        'Included a $50,000 donation to two underserved public schools tied to the launch.',
-      ],
-      takeaway: 'Pizza Hut uses creator-led campaigns to make value messaging feel social and community-rooted instead of purely transactional.',
-      sourceLabel: 'Pizza Hut Blog',
-      sourceUrl: 'https://blog.pizzahut.com/pizza-hut-joins-forces-with-viral-food-critic-keith-lee-to-introduce-the-familee-community-pizza/',
-    },
-    {
-      id: 'ph-peter-zahut',
-      dateLabel: 'Mar 26, 2025',
-      title: "Peter Zahut + Cheesy Bites + Ranch Lover's Flight",
-      typeLabel: 'Sports / Occasion Marketing',
-      objective: 'Tie product news to March Madness occasions and delivery-led enjoyment moments.',
-      channelFocus: 'Delivery, carryout, and dine-in',
-      proofPoints: [
-        'The campaign launched nationwide on March 26 and debuted during the NCAA Sweet 16 on March 27.',
-        "Combined entertainment creative with Cheesy Bites Pizza and the new Ranch Lover's Flight.",
-      ],
-      takeaway: 'Pizza Hut connects food innovation to watch-party occasions, making event demand a core part of the campaign plan.',
-      sourceLabel: 'Pizza Hut Blog',
-      sourceUrl: 'https://blog.pizzahut.com/pizza-hut-launches-new-tv-spot-and-brand-campaign-featuring-peter-zahut-the-ultimate-delivery-guy-who-brings-the-good-times-alongside-cheesy-bites-pizza-new-ranch-lovers-flight/',
-    },
-    {
-      id: 'ph-book-it-app',
-      dateLabel: 'May 27, 2025',
-      title: 'BOOK IT! App / Summer of Stories',
-      typeLabel: 'Digital Loyalty / Family Retention',
-      objective: 'Move an established family program into a digital experience that drives repeat reward behavior.',
-      channelFocus: 'Mobile app + family rewards',
-      proofPoints: [
-        "Marked the first BOOK IT! app launch in the program's 40-year history.",
-        'Let families track reading goals and earn a free Personal Pan Pizza each month in June, July, and August.',
-      ],
-      takeaway: 'Pizza Hut treats loyalty and community programming as demand engines, not just awareness campaigns.',
-      sourceLabel: 'Pizza Hut Blog',
-      sourceUrl: 'https://blog.pizzahut.com/pizza-hut-debuts-first-ever-book-it-app/',
-    },
-  ],
-  kfc: [
-    {
-      id: 'kfc-rewards-launch',
-      dateLabel: 'Feb 7, 2024',
-      title: 'KFC Rewards Launch',
-      typeLabel: 'Digital Loyalty',
-      objective: 'Drive account creation and digital ordering by putting free food and challenges behind a rewards wall.',
-      channelFocus: 'KFC app + KFC.com',
-      proofPoints: [
-        'Launched KFC Rewards with 10 points per eligible dollar spent on digital orders.',
-        "The opening hook was a BOGO Smash'd Potato Bowl offer for Rewards members.",
-      ],
-      takeaway: 'KFC is using digital loyalty to create repeat visits and targeted offers before leaning on broad discounting.',
-      sourceLabel: 'KFC Press Release',
-      sourceUrl: 'https://global.kfc.com/press-releases/unlock-free-fried-chicken-with-new-kfc-rewards-program-order-on-kfccom-and-the-kfc-app-to-start-earning-points',
-    },
-    {
-      id: 'kfc-original-recipe-tenders',
-      dateLabel: 'Oct 14, 2024',
-      title: 'Original Recipe Tenders + Comeback Sauce',
-      typeLabel: 'Innovation / Value Box',
-      objective: 'Use product renovation and an accessible entry price to win back share in a crowded tenders market.',
-      channelFocus: 'Nationwide menu + trial offer',
-      proofPoints: [
-        'Introduced new Original Recipe Tenders and a zesty Comeback Sauce nationwide.',
-        'Anchored the launch with a $5 Original Recipe Tenders Box.',
-      ],
-      takeaway: 'KFC still uses price as an invitation, but the campaign lead is product news and trial creation.',
-      sourceLabel: 'KFC Press Release',
-      sourceUrl: 'https://global.kfc.com/press-releases/kfc-issues-battle-cry-to-tenders-rivals-introducing-new-original-recipe-r-tenders-and-zesty-comeback-sauce-from-the-original-fried-chicken-brand',
-    },
-    {
-      id: 'kfc-fill-ups-f1',
-      dateLabel: 'Jun 5, 2025',
-      title: 'Fill Ups x F1 The Movie',
-      typeLabel: 'Entertainment Partnership / Value',
-      objective: 'Push a summer value box while using entertainment media to increase campaign energy.',
-      channelFocus: 'Drive-Thru + app + nationwide value boxes',
-      proofPoints: [
-        'Brought back Fill Ups nationwide with four $7 combo configurations.',
-        'Positioned KFC as the exclusive quick service restaurant partner for F1 The Movie.',
-      ],
-      takeaway: 'KFC mixes accessible value architecture with entertainment partnerships to make a deal feel bigger than a deal.',
-      sourceLabel: 'KFC Press Release',
-      sourceUrl: 'https://global.kfc.com/press-releases/race-into-flavor-kfc-s-iconic-fill-ups-return-alongside-finger-lickin-good-collab-with-f1-r-the-movie',
-    },
-  ],
-  habitburger: [
-    {
-      id: 'habit-meal-deals',
-      dateLabel: 'Jun 11, 2025',
-      dateIso: '2025-06-11',
-      title: '$6 / $8 / $10 Meal Deals',
-      typeLabel: 'Value Platform',
-      objective: 'Use clear entry price ladders to widen trial and make premium burger occasions more accessible.',
-      channelFocus: 'Menu value ladder',
-      proofPoints: [
-        'Habit promoted three stepped meal-deal price points from its official news page.',
-        'The campaign framed value through bundled meals rather than simple item markdowns.',
-      ],
-      takeaway: 'Habit uses straightforward laddered value architecture to protect premium brand cues while opening the top of funnel.',
-      sourceLabel: 'Habit Burger News',
-      sourceUrl: 'https://www.habitburger.com/news/',
-    },
-    {
-      id: 'habit-space-burger',
-      dateLabel: 'Sep 18, 2025',
-      dateIso: '2025-09-18',
-      title: 'Double Char Promotion',
-      typeLabel: 'Brand Promotion / Sweepstakes',
-      objective: 'Turn a signature burger win into a participation mechanic that drives engagement beyond straight discounting.',
-      channelFocus: 'Digital sweepstakes + owned channels',
-      proofPoints: [
-        "Habit's official page promoted a Double Char sweepstakes tied to the brand's menu hero.",
-        'The activation used an owned-channel promotion instead of broad price-led messaging.',
-      ],
-      takeaway: 'Habit can use owned-channel promotions around its signature burger without collapsing into blanket deal language.',
-      sourceLabel: 'Habit Burger Promotions',
-      sourceUrl: 'https://www.habitburger.com/the-habit-burger-grill-double-char-promotion/',
-    },
-    {
-      id: 'habit-desert-drip-char',
-      dateLabel: 'Apr 29, 2025',
-      dateIso: '2025-04-29',
-      title: 'Desert Drip Char',
-      typeLabel: 'Menu Innovation / Festival Tie-In',
-      objective: 'Connect menu novelty to a limited-time cultural moment with a distinctive product story.',
-      channelFocus: 'LTO + event adjacency',
-      proofPoints: [
-        "Habit's official news page features the Desert Drip Char as a seasonal launch.",
-        'The campaign positions menu innovation as the hook, not a broad promotional discount.',
-      ],
-      takeaway: 'Habit can support pricing by rotating in event-adjacent food innovation rather than leaning purely on offers.',
-      sourceLabel: 'Habit Burger News',
-      sourceUrl: 'https://www.habitburger.com/news/',
-    },
-  ],
+const OFFER_THEME_META = {
+  family_bundle: {
+    label: 'Value & Bundle',
+    category: 'value',
+    summary: 'Bundle-led family demand windows anchored by shareable pizzas and sides.',
+  },
+  digital_value: {
+    label: 'Digital Value',
+    category: 'digital',
+    summary: 'Carryout and app-first value windows aimed at traffic and order frequency.',
+  },
+  loyalty_offer: {
+    label: 'Digital & Loyalty',
+    category: 'digital',
+    summary: 'Rewards-led offer windows used to reinforce repeat and app-led demand.',
+  },
+  premium_ladder: {
+    label: 'Premium & Innovation',
+    category: 'premium',
+    summary: 'Higher-ticket product windows designed to support premium pizza and innovation news.',
+  },
 };
 
 const EVENT_STYLES = {
-  official: {
-    className: 'event-official',
-    badgeClass: 'bg-danger',
-    badgeText: 'Official Campaign',
-  },
-  value_box: {
+  value: {
     className: 'event-content',
     badgeClass: 'bg-warning text-dark',
-    badgeText: 'Value / Box',
+    badgeText: 'Value & Bundle',
   },
   digital: {
     className: 'event-promo',
     badgeClass: 'bg-primary',
-    badgeText: 'Digital',
+    badgeText: 'Digital & Loyalty',
   },
-  delivery: {
-    className: 'event-promo',
-    badgeClass: 'bg-info text-dark',
-    badgeText: 'Delivery',
+  premium: {
+    className: 'event-official',
+    badgeClass: 'bg-danger',
+    badgeText: 'Premium & Innovation',
   },
   tentpole: {
     className: 'event-tentpole',
@@ -280,18 +105,23 @@ let allEvents = [];
 let modeledPromoWindows = [];
 let promoRows = [];
 let storeChannelRows = [];
+let productPanelRows = [];
 let calendarRows = [];
 let calendarWeekRows = [];
 let currentPromoRows = [];
 let currentStoreChannelRows = [];
-let currentBrandLabel = 'Yum';
+let currentProductRows = [];
+let currentProductIndex = new Map();
+let currentBrandLabel = 'Pizza Hut';
+let promoCampaignSummaries = [];
+let validationWindowRows = [];
 let brandListenerBound = false;
 let filtersBound = false;
 
 let activeFilters = {
-  official: true,
-  modeled: true,
-  calendar: true,
+  priceChange: true,
+  promo: true,
+  tentpole: true,
 };
 
 function toNumber(value) {
@@ -311,41 +141,14 @@ function getActiveBrandLabel() {
   return getYumBrandLabel(getActiveBrandId());
 }
 
-function getOfficialCampaigns(brandId = getActiveBrandId()) {
-  return [...(OFFICIAL_CAMPAIGNS[brandId] || [])].sort((left, right) => {
-    const leftDate = normalizeTimelineDate(left.dateIso || left.dateLabel) || '9999-12-31';
-    const rightDate = normalizeTimelineDate(right.dateIso || right.dateLabel) || '9999-12-31';
-    return leftDate.localeCompare(rightDate);
-  });
-}
-
-function normalizeTimelineDate(value, fallbackYear = 2025) {
-  if (!value) return null;
-  if (/^\d{4}-\d{2}-\d{2}$/.test(value)) return value;
-
-  const candidate = /\b\d{4}\b/.test(String(value)) ? String(value) : `${String(value)}, ${fallbackYear}`;
-  const parsed = new Date(candidate);
-  if (Number.isNaN(parsed.getTime())) return null;
-  return [
-    parsed.getFullYear(),
-    String(parsed.getMonth() + 1).padStart(2, '0'),
-    String(parsed.getDate()).padStart(2, '0'),
-  ].join('-');
-}
-
 function getEventCategory(event) {
   if (event.event_category) return event.event_category;
-  if (event.offer_type === 'combo_box_offer' || event.offer_type === 'value_menu_offer' || event.offer_type === 'bundle_support') {
-    return 'value_box';
-  }
-  if (event.offer_type === 'digital_offer' || event.offer_type === 'loyalty_offer') return 'digital';
-  if (event.offer_type === 'delivery_support') return 'delivery';
-  return 'seasonal';
+  if (event.offer_type === 'calendar_window') return 'seasonal';
+  return (OFFER_THEME_META[event.offer_type] || OFFER_THEME_META.family_bundle).category;
 }
 
 function getEventSourceGroup(event) {
   if (event.source_group) return event.source_group;
-  if (getEventCategory(event) === 'official') return 'official';
   if (['seasonal', 'tentpole'].includes(getEventCategory(event))) return 'calendar';
   return 'modeled';
 }
@@ -365,6 +168,24 @@ function formatWeek(weekStart) {
   const date = new Date(`${weekStart}T00:00:00`);
   if (Number.isNaN(date.getTime())) return weekStart || 'N/A';
   return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function formatDate(dateStr) {
+  if (!dateStr) return '-';
+  const date = new Date(`${dateStr}T00:00:00`);
+  if (Number.isNaN(date.getTime())) return dateStr;
+  return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+}
+
+function addDays(dateStr, days) {
+  const date = new Date(`${dateStr}T00:00:00`);
+  if (Number.isNaN(date.getTime())) return dateStr;
+  date.setDate(date.getDate() + days);
+  return [
+    date.getFullYear(),
+    String(date.getMonth() + 1).padStart(2, '0'),
+    String(date.getDate()).padStart(2, '0'),
+  ].join('-');
 }
 
 function sumBy(rows, field) {
@@ -402,6 +223,118 @@ function splitHeadlineItems(value) {
     .filter(Boolean);
 }
 
+function normalizeText(value) {
+  return String(value || '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
+}
+
+function getOfferMeta(offerType) {
+  return OFFER_THEME_META[offerType] || {
+    label: 'Modeled Promotion',
+    category: 'value',
+    summary: 'Modeled Pizza Hut promotion window.',
+  };
+}
+
+function getEventThemeLabel(event) {
+  if (getEventSourceGroup(event) === 'calendar') return event.type_label || 'Calendar Window';
+  return event.type_label || getOfferMeta(event.offer_type).label;
+}
+
+function getChannelIdsFromScope(scope) {
+  if (!scope || scope === 'all') return [];
+  return String(scope)
+    .split(',')
+    .map((token) => token.trim())
+    .filter(Boolean);
+}
+
+function buildProductIndex(rows) {
+  const index = new Map();
+  rows.forEach((row) => {
+    const key = `${row.week_start}|${row.market_id}|${row.channel_id}`;
+    const bucket = index.get(key) || [];
+    bucket.push(row);
+    index.set(key, bucket);
+  });
+  return index;
+}
+
+function getScopedProductRows(weekStart, marketId, channelScope) {
+  const channels = getChannelIdsFromScope(channelScope);
+  if (!channels.length) {
+    return currentProductRows.filter((row) => row.week_start === weekStart && row.market_id === marketId);
+  }
+
+  return channels.flatMap((channelId) => currentProductIndex.get(`${weekStart}|${marketId}|${channelId}`) || []);
+}
+
+function matchesHeadlineItem(productName, headlineItems) {
+  if (!headlineItems.length) return false;
+  const productToken = normalizeText(productName);
+  return headlineItems.some((item) => normalizeText(item) === productToken);
+}
+
+function matchesOfferFallback(row, promoRow) {
+  if (promoRow.offer_type === 'family_bundle') {
+    return row.product_role === 'family_meal'
+      || isTrueLike(row.shareable_flag)
+      || ['bundles', 'pizza', 'sides'].includes(row.product_family);
+  }
+
+  if (promoRow.offer_type === 'digital_value') {
+    return row.product_role === 'traffic_builder'
+      || isTrueLike(row.value_flag)
+      || ['handhelds', 'pizza'].includes(row.product_family);
+  }
+
+  if (promoRow.offer_type === 'loyalty_offer') {
+    return row.product_role === 'traffic_builder'
+      || isTrueLike(row.value_flag)
+      || /melts|personal pan|my hut box/i.test(String(row.product_name || ''));
+  }
+
+  if (promoRow.offer_type === 'premium_ladder') {
+    return row.product_role === 'innovation'
+      || isTrueLike(row.shareable_flag)
+      || row.price_tier === 'premium'
+      || /stuffed crust/i.test(String(row.product_name || ''));
+  }
+
+  return false;
+}
+
+function summarizeAnchorItems(rows, count = 3) {
+  const byItem = new Map();
+
+  rows.forEach((row) => {
+    const key = row.product_name || 'Unknown item';
+    const existing = byItem.get(key) || { name: key, sales: 0, units: 0 };
+    existing.sales += toNumber(row.net_sales);
+    existing.units += toNumber(row.unit_volume);
+    byItem.set(key, existing);
+  });
+
+  return [...byItem.values()]
+    .sort((left, right) => right.sales - left.sales)
+    .slice(0, count)
+    .map((entry) => entry.name);
+}
+
+function selectPromoSupportRows(promoRow) {
+  const scopeRows = getScopedProductRows(promoRow.week_start, promoRow.market_id, promoRow.channel_scope);
+  if (!scopeRows.length) return [];
+
+  const headlineItems = splitHeadlineItems(promoRow.headline_items);
+  const itemMatches = scopeRows.filter((row) => matchesHeadlineItem(row.product_name, headlineItems));
+  if (itemMatches.length) return itemMatches;
+
+  const fallbackMatches = scopeRows.filter((row) => matchesOfferFallback(row, promoRow));
+  return fallbackMatches.length ? fallbackMatches : scopeRows;
+}
+
 function areContiguousWeeks(leftDate, rightDate) {
   const left = new Date(`${leftDate}T00:00:00`);
   const right = new Date(`${rightDate}T00:00:00`);
@@ -410,42 +343,46 @@ function areContiguousWeeks(leftDate, rightDate) {
   return diffDays <= 7;
 }
 
-function buildOfficialCampaignTimelineEvents(brandId) {
-  return getOfficialCampaigns(brandId)
-    .map((campaign, index) => {
-      const date = normalizeTimelineDate(campaign.dateIso || campaign.dateLabel);
-      if (!date) return null;
-      return {
-        event_id: `official_${campaign.id || index + 1}`,
-        week_start: date,
-        start_date: date,
-        end_date: date,
-        date,
-        brand_id: brandId,
-        offer_type: 'official_campaign',
-        offer_name: campaign.title,
-        title: campaign.title,
-        channel_scope: 'all',
-        channel_focus_text: campaign.channelFocus,
-        avg_discount_pct: 0,
-        participating_store_count: 0,
-        market_count: 0,
-        promo_units: 0,
-        promo_sales: 0,
-        headline_items: campaign.typeLabel,
-        notes: campaign.takeaway,
-        objective: campaign.objective,
-        proof_points: campaign.proofPoints || [],
-        type_label: campaign.typeLabel,
-        takeaway: campaign.takeaway,
-        source_label: campaign.sourceLabel,
-        source_url: campaign.sourceUrl,
-        display_date_label: campaign.dateLabel,
-        source_group: 'official',
-        event_category: 'official',
-      };
-    })
-    .filter(Boolean);
+function enrichPromoRows(rows) {
+  return rows.map((row) => {
+    const matchedRows = selectPromoSupportRows(row);
+    const channelSales = new Map();
+    let supportedSales = 0;
+    let supportedUnits = 0;
+    let priceWeightedSum = 0;
+    let priceWeight = 0;
+    let marginWeightedSum = 0;
+    let marginWeight = 0;
+
+    matchedRows.forEach((match) => {
+      const netSales = toNumber(match.net_sales);
+      const units = toNumber(match.unit_volume);
+      supportedSales += netSales;
+      supportedUnits += units;
+      priceWeightedSum += toNumber(match.realized_price) * Math.max(units, 1);
+      priceWeight += Math.max(units, 1);
+      marginWeightedSum += toNumber(match.contribution_margin_pct) * Math.max(netSales, 1);
+      marginWeight += Math.max(netSales, 1);
+      channelSales.set(match.channel_id, (channelSales.get(match.channel_id) || 0) + netSales);
+    });
+
+    const topChannelEntry = [...channelSales.entries()].sort((left, right) => right[1] - left[1])[0] || null;
+    const anchorItems = summarizeAnchorItems(matchedRows, 3);
+    const offerMeta = getOfferMeta(row.offer_type);
+
+    return {
+      ...row,
+      promo_units: supportedUnits,
+      promo_sales: supportedSales,
+      avg_realized_price: priceWeight > 0 ? priceWeightedSum / priceWeight : 0,
+      avg_margin_pct: marginWeight > 0 ? (marginWeightedSum / marginWeight) * 100 : 0,
+      top_channel: topChannelEntry ? topChannelEntry[0] : '',
+      anchor_items: anchorItems.join(' | '),
+      type_label: offerMeta.label,
+      source_group: 'modeled',
+      event_category: offerMeta.category,
+    };
+  });
 }
 
 function buildCalendarMomentEvents(calendarWeekDimRows, fallbackRows, brandId, brandLabel) {
@@ -496,7 +433,7 @@ function buildCalendarMomentEvents(calendarWeekDimRows, fallbackRows, brandId, b
       title: `${String(row.season_label || 'Seasonal').replace(/\b\w/g, (letter) => letter.toUpperCase())} Demand Window`,
       typeLabel: 'Calendar Window',
       category: isTrueLike(row.holiday_proxy_flag) || isTrueLike(row.sports_peak_flag) ? 'tentpole' : 'seasonal',
-      note: `Modeled ${brandLabel} demand window from the Yum calendar foundation.`,
+      note: `Modeled ${brandLabel} demand window from the Pizza Hut calendar foundation.`,
     };
 
     const previous = windows[windows.length - 1];
@@ -543,7 +480,7 @@ function buildCalendarMomentEvents(calendarWeekDimRows, fallbackRows, brandId, b
       promo_units: 0,
       promo_sales: 0,
       headline_items: [...rowSignals].join(' | '),
-      notes: `${window.definition.note} Active for ${window.rows.length} week${window.rows.length === 1 ? '' : 's'} in the modeled Yum calendar.`,
+      notes: `${window.definition.note} Active for ${window.rows.length} week${window.rows.length === 1 ? '' : 's'} in the modeled Pizza Hut calendar.`,
       signal_labels: [...rowSignals],
       type_label: window.definition.typeLabel,
       source_group: 'calendar',
@@ -567,50 +504,80 @@ function aggregatePromoWindows(rows) {
         offer_name: row.offer_name,
         title: row.offer_name,
         channel_scope: row.channel_scope || 'all',
+        type_label: row.type_label || getOfferMeta(row.offer_type).label,
+        event_category: getEventCategory(row),
+        source_group: 'modeled',
         participating_store_count: 0,
         promo_units: 0,
         promo_sales: 0,
         headlineItems: new Set(),
         notesList: [],
         marketIds: new Set(),
+        anchorItems: new Set(),
+        channelSales: new Map(),
         discountWeightedSum: 0,
         discountWeight: 0,
+        priceWeightedSum: 0,
+        priceWeight: 0,
+        marginWeightedSum: 0,
+        marginWeight: 0,
       });
     }
 
     const target = grouped.get(key);
-    const weight = Math.max(toNumber(row.participating_store_count), 1);
+    const unitWeight = Math.max(toNumber(row.promo_units), 1);
+    const salesWeight = Math.max(toNumber(row.promo_sales), 1);
     target.participating_store_count += toNumber(row.participating_store_count);
     target.promo_units += toNumber(row.promo_units);
     target.promo_sales += toNumber(row.promo_sales);
-    target.discountWeightedSum += toNumber(row.avg_discount_pct) * weight;
-    target.discountWeight += weight;
+    target.discountWeightedSum += toNumber(row.avg_discount_pct) * unitWeight;
+    target.discountWeight += unitWeight;
+    target.priceWeightedSum += toNumber(row.avg_realized_price) * unitWeight;
+    target.priceWeight += unitWeight;
+    target.marginWeightedSum += toNumber(row.avg_margin_pct) * salesWeight;
+    target.marginWeight += salesWeight;
     if (row.market_id) target.marketIds.add(row.market_id);
     splitHeadlineItems(row.headline_items).forEach((item) => target.headlineItems.add(item));
+    splitHeadlineItems(row.anchor_items).forEach((item) => target.anchorItems.add(item));
     if (row.notes && !target.notesList.includes(row.notes)) {
       target.notesList.push(row.notes);
+    }
+    if (row.top_channel) {
+      target.channelSales.set(
+        row.top_channel,
+        (target.channelSales.get(row.top_channel) || 0) + toNumber(row.promo_sales)
+      );
     }
   });
 
   return [...grouped.values()]
-    .map((row) => ({
-      event_id: row.event_id,
-      week_start: row.week_start,
-      date: row.date,
-      brand_id: row.brand_id,
-      offer_type: row.offer_type,
-      offer_name: row.offer_name,
-      title: row.title,
-      channel_scope: row.channel_scope,
-      avg_discount_pct: row.discountWeight > 0 ? row.discountWeightedSum / row.discountWeight : 0,
-      participating_store_count: row.participating_store_count,
-      market_count: row.marketIds.size,
-      promo_units: row.promo_units,
-      promo_sales: row.promo_sales,
-      headline_items: [...row.headlineItems].slice(0, 4).join(' | '),
-      notes: row.notesList[0] || '',
-      event_category: getEventCategory(row),
-    }))
+    .map((row) => {
+      const topChannelEntry = [...row.channelSales.entries()].sort((left, right) => right[1] - left[1])[0] || null;
+      return {
+        event_id: row.event_id,
+        week_start: row.week_start,
+        date: row.date,
+        brand_id: row.brand_id,
+        offer_type: row.offer_type,
+        offer_name: row.offer_name,
+        title: row.title,
+        channel_scope: row.channel_scope,
+        type_label: row.type_label,
+        source_group: row.source_group,
+        event_category: row.event_category,
+        avg_discount_pct: row.discountWeight > 0 ? row.discountWeightedSum / row.discountWeight : 0,
+        avg_realized_price: row.priceWeight > 0 ? row.priceWeightedSum / row.priceWeight : 0,
+        avg_margin_pct: row.marginWeight > 0 ? row.marginWeightedSum / row.marginWeight : 0,
+        participating_store_count: row.participating_store_count,
+        market_count: row.marketIds.size,
+        promo_units: row.promo_units,
+        promo_sales: row.promo_sales,
+        headline_items: [...row.headlineItems].slice(0, 4).join(' | '),
+        anchor_items: [...row.anchorItems].slice(0, 4).join(' | '),
+        top_channel: topChannelEntry ? topChannelEntry[0] : '',
+        notes: row.notesList[0] || '',
+      };
+    })
     .sort((left, right) => {
       if (left.week_start === right.week_start) {
         return toNumber(right.promo_sales) - toNumber(left.promo_sales);
@@ -622,9 +589,12 @@ function aggregatePromoWindows(rows) {
 function filterEvents() {
   return allEvents.filter((event) => {
     const sourceGroup = getEventSourceGroup(event);
-    if (sourceGroup === 'official' && !activeFilters.official) return false;
-    if (sourceGroup === 'modeled' && !activeFilters.modeled) return false;
-    if (sourceGroup === 'calendar' && !activeFilters.calendar) return false;
+    if (sourceGroup === 'calendar') return activeFilters.calendar;
+
+    const category = getEventCategory(event);
+    if (category === 'value') return activeFilters.value;
+    if (category === 'digital') return activeFilters.digital;
+    if (category === 'premium') return activeFilters.premium;
     return true;
   });
 }
@@ -635,12 +605,13 @@ function updateEventCountBadge() {
 
   const filtered = filterEvents();
   const counts = {
-    official: filtered.filter((event) => getEventSourceGroup(event) === 'official').length,
-    modeled: filtered.filter((event) => getEventSourceGroup(event) === 'modeled').length,
+    value: filtered.filter((event) => getEventCategory(event) === 'value').length,
+    digital: filtered.filter((event) => getEventCategory(event) === 'digital').length,
+    premium: filtered.filter((event) => getEventCategory(event) === 'premium').length,
     calendar: filtered.filter((event) => getEventSourceGroup(event) === 'calendar').length,
   };
 
-  badge.textContent = `${filtered.length} events (${counts.official} official, ${counts.modeled} modeled, ${counts.calendar} seasonal/tentpole)`;
+  badge.textContent = `${filtered.length} windows (${counts.value} value, ${counts.digital} digital, ${counts.premium} premium, ${counts.calendar} calendar)`;
 }
 
 function calculatePromoDependencyState() {
@@ -718,17 +689,17 @@ function renderPromoDependencyBanner(state) {
 
   kicker.textContent = `${state.level === 'high' ? 'HIGH' : state.level === 'medium' ? 'ELEVATED' : 'LOWER'} PROMO DEPENDENCY | Pricing Readiness: ${state.readiness}`;
   title.textContent = state.level === 'high'
-    ? 'Broad pricing moves are not safe in the current promo environment.'
+    ? 'Broad pricing moves are not safe in the current promotion environment.'
     : state.level === 'medium'
       ? 'Pricing needs a selective test-and-learn approach.'
-      : 'Pricing is less promo-constrained than usual, but still requires selective tests.';
+      : 'Pricing is less promotion-constrained than usual, but still requires selective tests.';
   copy.textContent = state.level === 'high'
-    ? `~${dependencyPct}% of demand is currently driven by promotions. Avoid broad price increases. Test pricing only in low-promo windows.`
+    ? `~${dependencyPct}% of weekly sales are aligned to active promotion windows. Avoid broad price increases and test only in low-promo pockets.`
     : state.level === 'medium'
-      ? `~${dependencyPct}% of demand is currently supported by promotions. Keep price changes selective and prioritize lower-promo pockets first.`
-      : `~${dependencyPct}% of demand is currently tied to promotions. Selective pricing tests are possible, but keep the promo calendar in view.`;
+      ? `~${dependencyPct}% of weekly sales are still sitting inside promotion windows. Keep price changes selective and sequence them around lower-pressure weeks.`
+      : `~${dependencyPct}% of weekly sales are tied to active promotion windows. Measured pricing tests are possible, but keep the calendar in view.`;
   note.textContent = state.latestWeekKey
-    ? `${weekLabel}: ${formatCurrency(state.latestPromoSales)} promo sales against ${formatCurrency(state.latestSales)} total modeled sales.`
+    ? `${weekLabel}: ${formatCurrency(state.latestPromoSales)} supported promotion sales against ${formatCurrency(state.latestSales)} total modeled sales.`
     : 'No current promo dependency readout is available.';
 }
 
@@ -740,30 +711,30 @@ function renderPromoDecisionBox(state) {
 
   const actionList = state.level === 'high'
     ? [
-        'Do NOT implement broad price increases this week.',
-        'Maintain or optimize the current promo structure.',
-        'Test pricing only in low-promo channels or segments.',
-        'Focus on premium items for pricing adjustments.'
+        'Hold broad menu pricing until the largest promotion windows clear.',
+        'Keep the value ladder intact in delivery, carryout, and pickup-app channels.',
+        'Confine any near-term pricing tests to premium items and low-promo pockets.',
+        'Review family bundle and traffic-builder windows before changing entry pricing.'
       ]
     : state.level === 'medium'
       ? [
           'Avoid a blanket price move across the menu this week.',
-          'Keep the promo structure working in the highest-pressure windows.',
-          'Test pricing first in lower-promo channels or more resilient segments.',
-          'Use premium items and boxes as the primary pricing test bed.'
+          'Preserve the strongest value and loyalty windows while testing premium ladders selectively.',
+          'Start pricing tests in lower-pressure channels first.',
+          'Sequence any expansion after promo-supported demand cools further.'
         ]
       : [
-          'Selective pricing tests are possible this week.',
-          'Keep effective promo support in the value-led windows.',
-          'Start pricing tests in lower-promo channels or segments first.',
-          'Use premium items for any near-term price adjustments.'
+          'Use measured pricing tests, not a system-wide reset.',
+          'Keep effective support in the most traffic-sensitive value lanes.',
+          'Start with premium and innovation ladders before touching entry value.',
+          'Watch bundle and digital-value channels for any demand softening.'
         ];
 
   title.textContent = state.level === 'high'
-    ? 'Do not push broad pricing while promo dependency remains high.'
+    ? 'Do not push broad pricing while promotion dependency remains high.'
     : state.level === 'medium'
-      ? 'Keep pricing selective until promo dependency cools further.'
-      : 'Use measured pricing tests, but keep promo support where it still matters.';
+      ? 'Keep pricing selective until promotion dependency cools further.'
+      : 'Use measured pricing tests, while keeping support where value demand still needs it.';
 
   actions.innerHTML = actionList
     .map((item) => `
@@ -775,44 +746,58 @@ function renderPromoDecisionBox(state) {
     .join('');
 
   risk.textContent = state.level === 'high'
-    ? 'Risk: Removing promo support may lead to sharp traffic decline.'
+    ? 'Risk: pulling back value support too early may create an immediate traffic drop.'
     : state.level === 'medium'
-      ? 'Risk: Pulling promo support too quickly may create a visible traffic drop in the most deal-led demand pockets.'
-      : 'Risk: Even with lower dependency, removing promo support too broadly can still soften traffic in value-led segments.';
+      ? 'Risk: moving too quickly can weaken the most promotion-led demand pockets before the calendar resets.'
+      : 'Risk: even in lower-pressure weeks, overextending pricing can soften value-led traffic.';
 }
 
 function renderCalendarSummary() {
-  const campaigns = getOfficialCampaigns();
+  const themeCounts = modeledPromoWindows.reduce((accumulator, row) => {
+    const label = getEventThemeLabel(row);
+    accumulator[label] = (accumulator[label] || 0) + 1;
+    return accumulator;
+  }, {});
+  const themeEntries = Object.entries(themeCounts).sort((left, right) => right[1] - left[1]);
   const latestPromoWeek = latestWeek(modeledPromoWindows);
   const latestPromoRows = modeledPromoWindows.filter((row) => row.week_start === latestPromoWeek);
-  const weightedDiscountBase = modeledPromoWindows.reduce((sum, row) => sum + Math.max(row.market_count, 1), 0);
+  const weightedDiscountBase = modeledPromoWindows.reduce((sum, row) => sum + Math.max(toNumber(row.promo_units), 1), 0);
   const weightedDiscount =
     weightedDiscountBase > 0
-      ? modeledPromoWindows.reduce((sum, row) => sum + toNumber(row.avg_discount_pct) * Math.max(row.market_count, 1), 0) / weightedDiscountBase
+      ? modeledPromoWindows.reduce((sum, row) => sum + toNumber(row.avg_discount_pct) * Math.max(toNumber(row.promo_units), 1), 0) / weightedDiscountBase
       : 0;
-  const leadingChannel = [...modeledPromoWindows]
-    .sort((left, right) => toNumber(right.promo_sales) - toNumber(left.promo_sales))[0];
+  const channelSales = new Map();
+  modeledPromoWindows.forEach((row) => {
+    const channelIds = getChannelIdsFromScope(row.channel_scope);
+    const allocatedSales = toNumber(row.promo_sales) / Math.max(channelIds.length, 1);
+    channelIds.forEach((channelId) => {
+      channelSales.set(channelId, (channelSales.get(channelId) || 0) + allocatedSales);
+    });
+  });
+  const leadingChannel = [...channelSales.entries()].sort((left, right) => right[1] - left[1])[0] || null;
   const promoDependencyState = calculatePromoDependencyState();
   const dependencyPct = Math.round(promoDependencyState.dependencyShare * 100);
   const dependencyDelta = promoDependencyState.deltaPctPoints;
-  const dependencyDirection = dependencyDelta >= 0 ? 'High vs baseline' : 'Below baseline';
+  const dependencyDirection = dependencyDelta >= 0 ? 'Above baseline' : 'Below baseline';
+
+  const themeSummary = themeEntries.length
+    ? `${themeEntries[0][0]} leads with ${themeEntries[0][1]} windows.`
+    : 'No modeled themes available.';
 
   const updates = {
-    'promo-summary-official-count': String(campaigns.length),
-    'promo-summary-official-note': campaigns.length
-      ? `${campaigns[0].dateLabel} to ${campaigns[campaigns.length - 1].dateLabel} from official ${currentBrandLabel} sources.`
-      : `No official ${currentBrandLabel} campaigns loaded.`,
+    'promo-summary-official-count': String(themeEntries.length),
+    'promo-summary-official-note': themeSummary,
     'promo-summary-modeled-count': String(modeledPromoWindows.length),
     'promo-summary-modeled-note': latestPromoWeek
-      ? `${latestPromoRows.length} active windows in the latest modeled week (${formatWeek(latestPromoWeek)}).`
-      : 'No modeled windows available.',
+      ? `${latestPromoRows.length} active windows in the latest promo week (${formatWeek(latestPromoWeek)}).`
+      : 'No modeled promotion windows available.',
     'promo-summary-discount': modeledPromoWindows.length ? `${weightedDiscount.toFixed(1)}%` : '--',
     'promo-summary-discount-note': modeledPromoWindows.length
-      ? 'Weighted by market coverage across modeled promo windows.'
+      ? 'Weighted by supported units across modeled promotion windows.'
       : 'No modeled discount coverage available.',
-    'promo-summary-channel': leadingChannel ? summarizeChannelScope(leadingChannel.channel_scope) : '--',
+    'promo-summary-channel': leadingChannel ? getYumChannelLabel(leadingChannel[0]) : '--',
     'promo-summary-channel-note': leadingChannel
-      ? `${leadingChannel.offer_name} is the top modeled pressure window by promo sales.`
+      ? 'Highest supported promotion sales across the modeled calendar.'
       : 'No modeled channel pressure found.',
     'promo-summary-dependency': promoDependencyState.latestSales > 0 ? `${dependencyPct}%` : '--',
     'promo-summary-dependency-note': promoDependencyState.latestSales > 0
@@ -830,19 +815,18 @@ function renderCalendarSummary() {
 }
 
 function renderStrategyReadout() {
-  const campaigns = getOfficialCampaigns();
   const readout = document.getElementById('promo-strategy-readout');
   const chips = document.getElementById('campaign-pattern-chips');
   const note = document.getElementById('campaign-patterns-readout');
   const sourceBadge = document.getElementById('official-source-badge');
   if (!readout || !chips || !note) return;
 
-  const patternCounts = campaigns.reduce((accumulator, campaign) => {
-    accumulator[campaign.typeLabel] = (accumulator[campaign.typeLabel] || 0) + 1;
+  const patternCounts = modeledPromoWindows.reduce((accumulator, row) => {
+    const label = getEventThemeLabel(row);
+    accumulator[label] = (accumulator[label] || 0) + 1;
     return accumulator;
   }, {});
-
-  const topPattern = Object.entries(patternCounts).sort((left, right) => right[1] - left[1])[0];
+  const patternEntries = Object.entries(patternCounts).sort((left, right) => right[1] - left[1]);
   const latestModeledWeek = latestWeek(modeledPromoWindows);
   const latestModeledWindows = modeledPromoWindows
     .filter((row) => row.week_start === latestModeledWeek)
@@ -850,79 +834,39 @@ function renderStrategyReadout() {
   const topModeledWindow = latestModeledWindows[0];
 
   const bullets = [];
-  if (topPattern) {
-    bullets.push(`${currentBrandLabel} relies most visibly on ${topPattern[0].toLowerCase()} campaigns in the official brand examples curated here.`);
+  if (patternEntries[0]) {
+    bullets.push(`${patternEntries[0][0]} is the most frequent Pizza Hut promotion theme in the modeled calendar, appearing in ${patternEntries[0][1]} windows.`);
   }
   if (topModeledWindow) {
     bullets.push(
-      `In the modeled calendar, ${topModeledWindow.offer_name} is the strongest latest-week pressure window, spanning ${topModeledWindow.market_count} markets with ${topModeledWindow.avg_discount_pct.toFixed(1)}% average discount.`
+      `${topModeledWindow.offer_name} is the strongest latest-week window, supporting ${formatCurrency(toNumber(topModeledWindow.promo_sales))} of sales across ${topModeledWindow.market_count} markets at ${toNumber(topModeledWindow.avg_discount_pct).toFixed(1)}% average discount.`
     );
   }
-  if (campaigns.length >= 2) {
-    bullets.push(`The official campaign tracker shows that ${currentBrandLabel} does not rely on one campaign type alone; it rotates across value, digital, and occasion-led plays.`);
+  if (topModeledWindow?.anchor_items) {
+    bullets.push(`Anchor items in the strongest current window are ${topModeledWindow.anchor_items.replace(/\|/g, ', ')}.`);
   }
   if (!bullets.length) {
-    bullets.push(`No official or modeled campaign readout is available yet for ${currentBrandLabel}.`);
+    bullets.push(`No modeled strategy readout is available yet for ${currentBrandLabel}.`);
   }
 
   readout.innerHTML = bullets.map((item) => `<li>${item}</li>`).join('');
 
-  const chipMarkup = Object.entries(patternCounts)
+  const chipMarkup = patternEntries
     .map(
       ([label, count]) =>
         `<span class="badge rounded-pill bg-primary-subtle text-primary border-0">${label} <span class="ms-1 text-body-secondary">${count}</span></span>`
     )
     .join('');
-  chips.innerHTML = chipMarkup || '<span class="badge rounded-pill bg-secondary-subtle text-body-secondary">No official patterns loaded</span>';
+  chips.innerHTML = chipMarkup || '<span class="badge rounded-pill bg-secondary-subtle text-body-secondary">No campaign themes loaded</span>';
 
+  const topTwoLabels = patternEntries.slice(0, 2).map(([label]) => label);
   note.innerHTML = topModeledWindow
-    ? `${currentBrandLabel} is using official campaign archetypes such as <strong>${Object.keys(patternCounts).slice(0, 3).join('</strong>, <strong>')}</strong>, while the modeled 2025 calendar currently shows the heaviest price support in <strong>${summarizeChannelScope(topModeledWindow.channel_scope)}</strong>.`
-    : `Official campaign examples for ${currentBrandLabel} are loaded, but the modeled calendar does not currently show a dominant promo window.`;
+    ? `${currentBrandLabel} relies most on <strong>${topTwoLabels.join('</strong> and <strong>') || 'modeled promotion windows'}</strong>, with the latest pressure concentrated in <strong>${summarizeChannelScope(topModeledWindow.channel_scope)}</strong> around <strong>${topModeledWindow.offer_name}</strong>.`
+    : `The modeled ${currentBrandLabel} calendar is loaded, but a dominant current window is not available.`;
 
   if (sourceBadge) {
-    sourceBadge.textContent = `${campaigns.length} official source examples`;
+    sourceBadge.textContent = `${modeledPromoWindows.length} modeled windows`;
   }
-}
-
-function renderOfficialCampaigns() {
-  const container = document.getElementById('official-campaigns-container');
-  if (!container) return;
-
-  const campaigns = getOfficialCampaigns();
-  if (!campaigns.length) {
-    container.innerHTML = `<div class="col-12"><div class="alert alert-light border mb-0">No official ${currentBrandLabel} campaign examples are loaded.</div></div>`;
-    return;
-  }
-
-  container.innerHTML = campaigns
-    .map(
-      (campaign) => `
-        <div class="col-lg-4 col-md-6">
-          <div class="official-campaign-card h-100">
-            <div class="official-campaign-card__top">
-              <div class="official-campaign-card__meta">
-                <span class="badge bg-dark-subtle text-dark border">${campaign.dateLabel}</span>
-                <span class="badge bg-primary text-white">${campaign.typeLabel}</span>
-              </div>
-              <div class="official-campaign-card__title">${campaign.title}</div>
-              <div class="small text-muted">${campaign.objective}</div>
-            </div>
-            <div class="official-campaign-card__body">
-              <div class="small mb-2"><strong>Channel focus:</strong> ${campaign.channelFocus}</div>
-              <ul class="small ps-3 official-campaign-card__list">
-                ${campaign.proofPoints.map((point) => `<li>${point}</li>`).join('')}
-              </ul>
-              <div class="small"><strong>Why it matters:</strong> ${campaign.takeaway}</div>
-              <div class="official-campaign-card__footer small">
-                <span class="text-muted">${campaign.sourceLabel}</span>
-                <a class="btn btn-sm btn-outline-primary" href="${campaign.sourceUrl}" target="_blank" rel="noopener noreferrer">Open source</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      `
-    )
-    .join('');
 }
 
 function renderMarketSignalsDashboard() {
@@ -930,30 +874,36 @@ function renderMarketSignalsDashboard() {
   const right = document.getElementById('market-signals-social');
   if (!left || !right) return;
 
-  const latestChannelWeek = latestWeek(currentStoreChannelRows);
-  const latestChannelRows = currentStoreChannelRows.filter((row) => row.week_start === latestChannelWeek);
+  const anchorWeek = latestWeek(modeledPromoWindows) || latestWeek(currentStoreChannelRows);
+  const latestChannelRows = currentStoreChannelRows.filter((row) => row.week_start === anchorWeek);
   const latestPromoWeek = latestWeek(modeledPromoWindows);
-  const latestPromoRows = modeledPromoWindows
+  const topPromo = modeledPromoWindows
     .filter((row) => row.week_start === latestPromoWeek)
-    .sort((leftRow, rightRow) => toNumber(rightRow.promo_sales) - toNumber(leftRow.promo_sales));
-
-  const totalSales = sumBy(latestChannelRows, 'net_sales');
-  const byChannel = latestChannelRows
+    .sort((leftRow, rightRow) => toNumber(rightRow.promo_sales) - toNumber(leftRow.promo_sales))[0];
+  const byChannel = [...latestChannelRows.reduce((map, row) => {
+    const key = row.channel;
+    const existing = map.get(key) || {
+      channel: key,
+      channelName: row.channel_name || getYumChannelLabel(key),
+      sales: 0,
+      orders: 0,
+      avgCheckWeighted: 0,
+      avgCheckWeight: 0,
+    };
+    existing.sales += toNumber(row.net_sales);
+    existing.orders += toNumber(row.transaction_count_proxy);
+    existing.avgCheckWeighted += toNumber(row.avg_check_proxy || row.avg_check) * Math.max(toNumber(row.transaction_count_proxy), 1);
+    existing.avgCheckWeight += Math.max(toNumber(row.transaction_count_proxy), 1);
+    map.set(key, existing);
+    return map;
+  }, new Map()).values()]
     .map((row) => ({
-      channel: row.channel,
-      channelName: row.channel_name || getYumChannelLabel(row.channel),
-      sales: toNumber(row.net_sales),
-      orders: toNumber(row.transaction_count_proxy),
-      avgCheck: toNumber(row.avg_check_proxy || row.avg_check),
+      ...row,
+      avgCheck: row.avgCheckWeight > 0 ? row.avgCheckWeighted / row.avgCheckWeight : 0,
     }))
     .filter((row) => row.sales > 0)
     .sort((leftRow, rightRow) => rightRow.sales - leftRow.sales);
-
-  const topPromo = latestPromoRows[0];
-  const mixLine = byChannel
-    .slice(0, 3)
-    .map((row) => `${row.channelName} ${((row.sales / Math.max(totalSales, 1)) * 100).toFixed(1)}%`)
-    .join(', ');
+  const totalSales = byChannel.reduce((sum, row) => sum + row.sales, 0);
 
   left.innerHTML = byChannel.length
     ? `
@@ -967,7 +917,7 @@ function renderMarketSignalsDashboard() {
           .join('')}
       </ul>
       <p class="mb-0 text-muted">
-        <strong>Data anchor:</strong> Latest ${currentBrandLabel} channel mix in the modeled panel is ${mixLine || 'not available'}.
+        <strong>Data anchor:</strong> Latest ${currentBrandLabel} channel mix in the operating panel for ${anchorWeek ? formatWeek(anchorWeek) : 'the current period'}.
       </p>
     `
     : `<p class="mb-0 text-muted">No modeled channel rows are available for ${currentBrandLabel}.</p>`;
@@ -975,38 +925,34 @@ function renderMarketSignalsDashboard() {
   right.innerHTML = topPromo
     ? `
       <ul class="mb-1">
-        <li><strong>Top modeled offer:</strong> ${topPromo.offer_name}.</li>
-        <li><strong>Coverage:</strong> ${topPromo.market_count} markets, ${formatChannelScope(topPromo.channel_scope)}.</li>
-        <li><strong>Promo sales:</strong> ${formatCurrency(toNumber(topPromo.promo_sales))} with ${toNumber(topPromo.avg_discount_pct).toFixed(1)}% average discount.</li>
+        <li><strong>Top current window:</strong> ${topPromo.offer_name}.</li>
+        <li><strong>Supported sales:</strong> ${formatCurrency(toNumber(topPromo.promo_sales))} across ${formatNumber(toNumber(topPromo.promo_units))} units.</li>
+        <li><strong>Average discount:</strong> ${toNumber(topPromo.avg_discount_pct).toFixed(1)}% with ${formatCurrency(toNumber(topPromo.avg_realized_price))} realized price.</li>
+        <li><strong>Anchor items:</strong> ${topPromo.anchor_items || topPromo.headline_items || 'N/A'}.</li>
       </ul>
       <p class="mb-0 text-muted">
-        <strong>Planner cue:</strong> Price changes should be read against ${topPromo.offer_name}, not in isolation.
+        <strong>Planner cue:</strong> Price changes should be read against ${topPromo.offer_name} and its supported menu mix, not in isolation.
       </p>
     `
     : `<p class="mb-0 text-muted">No modeled offer windows are available for ${currentBrandLabel}.</p>`;
 }
 
 function getEventScopeLabel(event) {
-  const sourceGroup = getEventSourceGroup(event);
-  if (sourceGroup === 'official') return event.channel_focus_text || 'Owned channels';
-  if (sourceGroup === 'calendar') return event.type_label || 'Portfolio calendar';
+  if (getEventSourceGroup(event) === 'calendar') return event.type_label || 'Portfolio calendar';
   return formatChannelScope(event.channel_scope);
 }
 
-function getEventPricingSignal(event) {
-  const sourceGroup = getEventSourceGroup(event);
-  if (sourceGroup === 'official') return event.type_label || 'Campaign signal';
-  if (sourceGroup === 'calendar') {
+function getEventOutputLabel(event) {
+  if (getEventSourceGroup(event) === 'calendar') {
     return event.signal_labels && event.signal_labels.length ? event.signal_labels.slice(0, 2).join(' + ') : 'Calendar demand signal';
   }
-  if (toNumber(event.avg_discount_pct) > 0) return `${toNumber(event.avg_discount_pct).toFixed(1)}% avg discount`;
-  return 'Promo support without explicit discount';
+  return `${formatCurrency(toNumber(event.promo_sales))} sales | ${formatNumber(toNumber(event.promo_units))} units`;
 }
 
 function getEventNoteSummary(event) {
-  const sourceGroup = getEventSourceGroup(event);
-  if (sourceGroup === 'official') return event.takeaway || event.notes || 'Official campaign reference.';
-  return event.notes || event.headline_items || 'No additional notes available.';
+  if (getEventSourceGroup(event) === 'calendar') return event.notes || 'Calendar demand signal.';
+  const anchorNote = event.anchor_items ? `${event.anchor_items.replace(/\|/g, ', ')} anchor the window.` : '';
+  return [anchorNote, event.notes || 'Modeled promotion window.'].filter(Boolean).join(' ');
 }
 
 function renderEventTimeline() {
@@ -1015,7 +961,7 @@ function renderEventTimeline() {
 
   const filteredEvents = filterEvents().sort((left, right) => new Date(left.date) - new Date(right.date));
   if (!filteredEvents.length) {
-    container.innerHTML = `<div class="text-center text-muted">No ${currentBrandLabel} events match the current filters.</div>`;
+    container.innerHTML = `<div class="text-center text-muted">No ${currentBrandLabel} promotion windows match the current filters.</div>`;
     return;
   }
 
@@ -1026,13 +972,13 @@ function renderEventTimeline() {
 
   let html = `
     <div class="d-flex justify-content-center gap-4 mb-3 flex-wrap">
-      <div class="d-flex align-items-center"><div style="width: 16px; height: 16px; border-radius: 50%; background: #ef4444; box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.16);"></div><span class="ms-2 small">Official Campaigns</span></div>
-      <div class="d-flex align-items-center"><div style="width: 16px; height: 16px; border-radius: 50%; background: var(--dplus-orange); box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.2);"></div><span class="ms-2 small">Modeled Value / Bundle</span></div>
-      <div class="d-flex align-items-center"><div style="width: 16px; height: 16px; border-radius: 50%; background: var(--dplus-blue); box-shadow: 0 0 0 4px rgba(0, 102, 255, 0.2);"></div><span class="ms-2 small">Modeled Digital / Delivery</span></div>
+      <div class="d-flex align-items-center"><div style="width: 16px; height: 16px; border-radius: 50%; background: var(--dplus-orange); box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.2);"></div><span class="ms-2 small">Value & Bundle</span></div>
+      <div class="d-flex align-items-center"><div style="width: 16px; height: 16px; border-radius: 50%; background: var(--dplus-blue); box-shadow: 0 0 0 4px rgba(0, 102, 255, 0.2);"></div><span class="ms-2 small">Digital & Loyalty</span></div>
+      <div class="d-flex align-items-center"><div style="width: 16px; height: 16px; border-radius: 50%; background: #ef4444; box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.16);"></div><span class="ms-2 small">Premium & Innovation</span></div>
       <div class="d-flex align-items-center"><div style="width: 16px; height: 16px; border-radius: 50%; background: #f59e0b; box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.16);"></div><span class="ms-2 small">Tentpoles</span></div>
       <div class="d-flex align-items-center"><div style="width: 16px; height: 16px; border-radius: 50%; background: #16a34a; box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.16);"></div><span class="ms-2 small">Seasonal Windows</span></div>
     </div>
-    <p class="text-center text-muted small mb-3"><i class="bi bi-info-circle me-1"></i>Click a marker to inspect official campaigns, modeled offer windows, and Yum calendar tentpoles in one timeline.</p>
+    <p class="text-center text-muted small mb-3"><i class="bi bi-info-circle me-1"></i>Click a marker to inspect modeled Pizza Hut promotion windows and calendar context.</p>
     <div class="timeline-slider-container">
       <div class="timeline-track">
   `;
@@ -1072,24 +1018,7 @@ function showEventDetails(event) {
   const headlineItems = splitHeadlineItems(event.headline_items);
 
   let bodyMarkup = '';
-  if (sourceGroup === 'official') {
-    bodyMarkup = `
-      <div class="row g-3 small mb-3">
-        <div class="col-md-4"><strong>Campaign type:</strong> ${event.type_label || 'Official campaign'}</div>
-        <div class="col-md-4"><strong>Channel focus:</strong> ${event.channel_focus_text || 'Owned channels'}</div>
-        <div class="col-md-4"><strong>Source:</strong> ${event.source_label || 'Official brand source'}</div>
-      </div>
-      <div class="small mb-3"><strong>Objective:</strong> ${event.objective || 'Campaign objective not loaded.'}</div>
-      <div class="small mb-3"><strong>Pricing read-through:</strong> ${event.takeaway || event.notes || 'No takeaway loaded.'}</div>
-      <div class="small"><strong>Proof points:</strong></div>
-      <ul class="small ps-3 mb-3">
-        ${(event.proof_points || []).map((point) => `<li>${point}</li>`).join('') || '<li>No proof points loaded.</li>'}
-      </ul>
-      <div class="small">
-        <a class="btn btn-sm btn-outline-primary" href="${event.source_url}" target="_blank" rel="noopener noreferrer">Open official source</a>
-      </div>
-    `;
-  } else if (sourceGroup === 'calendar') {
+  if (sourceGroup === 'calendar') {
     bodyMarkup = `
       <div class="row g-3 small mb-3">
         <div class="col-md-4"><strong>Window type:</strong> ${event.type_label || 'Calendar window'}</div>
@@ -1097,21 +1026,24 @@ function showEventDetails(event) {
         <div class="col-md-4"><strong>Signals:</strong> ${headlineItems.length ? headlineItems.slice(0, 3).join(', ') : 'Seasonality'}</div>
       </div>
       <div class="small mb-3">${event.notes || 'Calendar window details are not available.'}</div>
-      <div class="small"><strong>Why it matters:</strong> Use this window as context for pricing tests, not as a standalone promo event.</div>
+      <div class="small"><strong>Why it matters:</strong> Use this window as timing context for pricing tests, not as a standalone promotion event.</div>
     `;
   } else {
-    const discountText = toNumber(event.avg_discount_pct) > 0 ? `${toNumber(event.avg_discount_pct).toFixed(1)}% avg discount` : 'No explicit discount';
     bodyMarkup = `
       <div class="row g-3 small mb-3">
+        <div class="col-md-4"><strong>Theme:</strong> ${getEventThemeLabel(event)}</div>
         <div class="col-md-4"><strong>Channel scope:</strong> ${formatChannelScope(event.channel_scope)}</div>
-        <div class="col-md-4"><strong>Market coverage:</strong> ${event.market_count ? `${event.market_count} markets` : 'System event'}</div>
-        <div class="col-md-4"><strong>Discount:</strong> ${discountText}</div>
-        <div class="col-md-4"><strong>Promo sales:</strong> ${formatCurrency(toNumber(event.promo_sales))}</div>
-        <div class="col-md-4"><strong>Promo units:</strong> ${formatNumber(toNumber(event.promo_units))}</div>
-        <div class="col-md-4"><strong>Stores:</strong> ${formatNumber(toNumber(event.participating_store_count))}</div>
+        <div class="col-md-4"><strong>Markets:</strong> ${event.market_count ? `${event.market_count} markets` : 'System event'}</div>
+        <div class="col-md-4"><strong>Supported sales:</strong> ${formatCurrency(toNumber(event.promo_sales))}</div>
+        <div class="col-md-4"><strong>Supported units:</strong> ${formatNumber(toNumber(event.promo_units))}</div>
+        <div class="col-md-4"><strong>Avg discount:</strong> ${toNumber(event.avg_discount_pct).toFixed(1)}%</div>
+        <div class="col-md-4"><strong>Realized price:</strong> ${formatCurrency(toNumber(event.avg_realized_price))}</div>
+        <div class="col-md-4"><strong>Margin rate:</strong> ${toNumber(event.avg_margin_pct).toFixed(1)}%</div>
+        <div class="col-md-4"><strong>Lead channel:</strong> ${event.top_channel ? getYumChannelLabel(event.top_channel) : 'Mixed'}</div>
       </div>
-      <div class="small mb-2">${event.notes || 'Modeled offer pressure surfaced from the Yum promo calendar.'}</div>
-      <div class="small"><strong>Headline items:</strong> ${headlineItems.length ? headlineItems.join(', ') : 'N/A'}</div>
+      <div class="small mb-2">${event.notes || 'Modeled offer pressure surfaced from the Pizza Hut promotion calendar.'}</div>
+      <div class="small mb-2"><strong>Headline items:</strong> ${headlineItems.length ? headlineItems.join(', ') : 'N/A'}</div>
+      <div class="small"><strong>Anchor items in the output panel:</strong> ${event.anchor_items ? event.anchor_items.replace(/\|/g, ', ') : 'N/A'}</div>
     `;
   }
 
@@ -1136,7 +1068,7 @@ function renderEventTable() {
 
   const filteredEvents = filterEvents().sort((left, right) => new Date(right.date) - new Date(left.date));
   if (!filteredEvents.length) {
-    tbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted">No ${currentBrandLabel} events match the current filters.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted">No ${currentBrandLabel} promotion windows match the current filters.</td></tr>`;
     return;
   }
 
@@ -1146,10 +1078,10 @@ function renderEventTable() {
       return `
         <tr>
           <td class="text-nowrap">${event.display_date_label || getEventDateLabel(event)}</td>
-          <td><span class="badge ${style.badgeClass}">${style.badgeText}</span></td>
+          <td><span class="badge ${style.badgeClass}">${getEventThemeLabel(event)}</span></td>
           <td>${event.title}</td>
           <td>${getEventScopeLabel(event)}</td>
-          <td>${getEventPricingSignal(event)}</td>
+          <td>${getEventOutputLabel(event)}</td>
           <td class="small">${getEventNoteSummary(event)}</td>
         </tr>
       `;
@@ -1168,7 +1100,7 @@ function renderPromoCards() {
     .slice(0, 6);
 
   if (!latestPromos.length) {
-    container.innerHTML = `<div class="col-12 text-center text-muted">No ${currentBrandLabel} modeled promo windows are available.</div>`;
+    container.innerHTML = `<div class="col-12 text-center text-muted">No ${currentBrandLabel} modeled promotion windows are available.</div>`;
     return;
   }
 
@@ -1183,19 +1115,20 @@ function renderPromoCards() {
                   <div class="fw-semibold">${promo.offer_name}</div>
                   <div class="small text-muted">${formatWeek(promo.week_start)}</div>
                 </div>
-                <span class="badge bg-primary text-white">${summarizeChannelScope(promo.channel_scope)}</span>
+                <span class="badge bg-primary text-white">${getEventThemeLabel(promo)}</span>
               </div>
             </div>
             <div class="modeled-promo-card__body">
               <div class="row g-2 small mb-2">
+                <div class="col-6"><strong>Channels:</strong> ${summarizeChannelScope(promo.channel_scope)}</div>
                 <div class="col-6"><strong>Markets:</strong> ${promo.market_count}</div>
-                <div class="col-6"><strong>Stores:</strong> ${formatNumber(toNumber(promo.participating_store_count))}</div>
-                <div class="col-6"><strong>Promo sales:</strong> ${formatCurrency(toNumber(promo.promo_sales))}</div>
-                <div class="col-6"><strong>Promo units:</strong> ${formatNumber(toNumber(promo.promo_units))}</div>
-                <div class="col-12"><strong>Avg discount:</strong> ${toNumber(promo.avg_discount_pct).toFixed(1)}%</div>
+                <div class="col-6"><strong>Window sales:</strong> ${formatCurrency(toNumber(promo.promo_sales))}</div>
+                <div class="col-6"><strong>Window units:</strong> ${formatNumber(toNumber(promo.promo_units))}</div>
+                <div class="col-6"><strong>Avg discount:</strong> ${toNumber(promo.avg_discount_pct).toFixed(1)}%</div>
+                <div class="col-6"><strong>Realized price:</strong> ${formatCurrency(toNumber(promo.avg_realized_price))}</div>
               </div>
-              <div class="small mb-2"><strong>Headline items:</strong> ${promo.headline_items || 'N/A'}</div>
-              <div class="small text-muted">${promo.notes || 'Modeled offer pressure surfaced from the generated promo calendar.'}</div>
+              <div class="small mb-2"><strong>Anchor items:</strong> ${promo.anchor_items || promo.headline_items || 'N/A'}</div>
+              <div class="small text-muted">${promo.notes || 'Modeled promotion window surfaced from the Pizza Hut promo calendar.'}</div>
             </div>
           </div>
         </div>
@@ -1208,13 +1141,14 @@ function setupEventFilters() {
   if (filtersBound) return;
 
   const filterAll = document.getElementById('filter-all');
-  const filterOfficial = document.getElementById('filter-price-change');
-  const filterModeled = document.getElementById('filter-promo');
-  const filterCalendar = document.getElementById('filter-tentpole');
+  const filterValue = document.getElementById('filter-value');
+  const filterDigital = document.getElementById('filter-digital');
+  const filterPremium = document.getElementById('filter-premium');
+  const filterCalendar = document.getElementById('filter-calendar');
 
   const rerender = () => {
     if (filterAll) {
-      filterAll.checked = activeFilters.official && activeFilters.modeled && activeFilters.calendar;
+      filterAll.checked = activeFilters.value && activeFilters.digital && activeFilters.premium && activeFilters.calendar;
     }
     updateEventCountBadge();
     renderEventTimeline();
@@ -1224,26 +1158,35 @@ function setupEventFilters() {
   if (filterAll) {
     filterAll.addEventListener('change', (event) => {
       const checked = event.target.checked;
-      activeFilters.official = checked;
-      activeFilters.modeled = checked;
+      activeFilters.value = checked;
+      activeFilters.digital = checked;
+      activeFilters.premium = checked;
       activeFilters.calendar = checked;
-      if (filterOfficial) filterOfficial.checked = checked;
-      if (filterModeled) filterModeled.checked = checked;
+      if (filterValue) filterValue.checked = checked;
+      if (filterDigital) filterDigital.checked = checked;
+      if (filterPremium) filterPremium.checked = checked;
       if (filterCalendar) filterCalendar.checked = checked;
       rerender();
     });
   }
 
-  if (filterOfficial) {
-    filterOfficial.addEventListener('change', (event) => {
-      activeFilters.official = event.target.checked;
+  if (filterValue) {
+    filterValue.addEventListener('change', (event) => {
+      activeFilters.value = event.target.checked;
       rerender();
     });
   }
 
-  if (filterModeled) {
-    filterModeled.addEventListener('change', (event) => {
-      activeFilters.modeled = event.target.checked;
+  if (filterDigital) {
+    filterDigital.addEventListener('change', (event) => {
+      activeFilters.digital = event.target.checked;
+      rerender();
+    });
+  }
+
+  if (filterPremium) {
+    filterPremium.addEventListener('change', (event) => {
+      activeFilters.premium = event.target.checked;
       rerender();
     });
   }
@@ -1261,14 +1204,15 @@ function setupEventFilters() {
 function relabelStaticUI() {
   const sectionTitle = document.querySelector('#event-calendar-section .card-header h2');
   if (sectionTitle) {
-    sectionTitle.innerHTML = `<i class="bi bi-calendar-event me-2"></i>${currentBrandLabel} Promotion Performance & Calendar`;
+    sectionTitle.innerHTML = `<i class="bi bi-calendar-event me-2"></i>${currentBrandLabel} Promotion Calendar`;
   }
 
   const labels = {
-    'label[for="filter-all"]': '<i class="bi bi-check-all me-1"></i>All Events',
-    'label[for="filter-price-change"]': '<i class="bi bi-megaphone me-1"></i>Official Campaigns',
-    'label[for="filter-promo"]': '<i class="bi bi-tag me-1"></i>Modeled Promos',
-    'label[for="filter-tentpole"]': '<i class="bi bi-calendar-week me-1"></i>Seasonal / Tentpoles',
+    'label[for="filter-all"]': '<i class="bi bi-check-all me-1"></i>All Windows',
+    'label[for="filter-value"]': '<i class="bi bi-box-seam me-1"></i>Value & Bundle',
+    'label[for="filter-digital"]': '<i class="bi bi-phone me-1"></i>Digital & Loyalty',
+    'label[for="filter-premium"]': '<i class="bi bi-stars me-1"></i>Premium & Innovation',
+    'label[for="filter-calendar"]': '<i class="bi bi-calendar-week me-1"></i>Seasonal & Tentpole',
   };
 
   Object.entries(labels).forEach(([selector, html]) => {
@@ -1279,10 +1223,10 @@ function relabelStaticUI() {
   const tableHead = document.querySelectorAll('#event-table thead th');
   if (tableHead.length >= 6) {
     tableHead[0].textContent = 'Date';
-    tableHead[1].textContent = 'Calendar Layer';
-    tableHead[2].textContent = 'Event';
+    tableHead[1].textContent = 'Window Type';
+    tableHead[2].textContent = 'Campaign / Window';
     tableHead[3].textContent = 'Scope';
-    tableHead[4].textContent = 'Pricing Signal';
+    tableHead[4].textContent = 'Output';
     tableHead[5].textContent = 'Notes';
   }
 }
@@ -1292,9 +1236,10 @@ function refreshEventCalendar() {
   currentBrandLabel = getActiveBrandLabel();
   currentPromoRows = promoRows.filter((row) => row.brand_id === brandId);
   currentStoreChannelRows = storeChannelRows.filter((row) => row.brand_id === brandId);
-  modeledPromoWindows = aggregatePromoWindows(currentPromoRows);
+  currentProductRows = productPanelRows.filter((row) => row.brand_id === brandId);
+  currentProductIndex = buildProductIndex(currentProductRows);
+  modeledPromoWindows = aggregatePromoWindows(enrichPromoRows(currentPromoRows));
   allEvents = [
-    ...buildOfficialCampaignTimelineEvents(brandId),
     ...modeledPromoWindows,
     ...buildCalendarMomentEvents(calendarWeekRows, calendarRows, brandId, currentBrandLabel),
   ];
@@ -1302,7 +1247,6 @@ function refreshEventCalendar() {
   relabelStaticUI();
   renderCalendarSummary();
   renderStrategyReadout();
-  renderOfficialCampaigns();
   renderMarketSignalsDashboard();
   updateEventCountBadge();
   renderEventTimeline();
@@ -1320,15 +1264,17 @@ function setupBrandListener() {
 
 export async function initializeEventCalendar() {
   try {
-    const [promoCalendar, storeChannelPanel, loadedCalendarRows, loadedCalendarWeekRows] = await Promise.all([
+    const [promoCalendar, storeChannelPanel, productPanel, loadedCalendarRows, loadedCalendarWeekRows] = await Promise.all([
       loadYumPromoCalendar(),
       loadYumStoreChannelWeekPanel(),
+      loadYumBrandMarketProductChannelWeekPanel(),
       loadYumCalendarDim(),
       loadYumCalendarWeekDim(),
     ]);
 
     promoRows = promoCalendar;
     storeChannelRows = storeChannelPanel;
+    productPanelRows = productPanel;
     calendarRows = loadedCalendarRows;
     calendarWeekRows = loadedCalendarWeekRows;
 
@@ -1336,13 +1282,13 @@ export async function initializeEventCalendar() {
     setupBrandListener();
     refreshEventCalendar();
   } catch (error) {
-    console.error('Error initializing Yum event calendar:', error);
+    console.error('Error initializing Pizza Hut event calendar:', error);
     const container = document.getElementById('event-timeline');
     if (container) {
       container.innerHTML = `
         <div class="alert alert-danger">
           <i class="bi bi-exclamation-triangle me-2"></i>
-          Error loading Yum promo calendar data: ${error.message}
+          Error loading Pizza Hut promo calendar data: ${error.message}
         </div>
       `;
     }

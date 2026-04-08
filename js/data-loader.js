@@ -685,14 +685,13 @@ export async function getChannelElasticityData() {
   const prestigeTier = params.tiers.ad_free;
 
   const channelToGroup = {
-    sephora: 'prestige',
-    ulta: 'prestige',
-    target: 'mass',
-    amazon: 'mass',
-    dtc: 'prestige'
+    carryout: 'mass',
+    pickup_app: 'mass',
+    delivery: 'prestige',
+    dine_in: 'prestige'
   };
 
-  const channels = ['sephora', 'ulta', 'target', 'amazon', 'dtc'];
+  const channels = ['carryout', 'pickup_app', 'delivery', 'dine_in'];
   const byChannelMass = massTier?.cohort_elasticity?.by_channel || {};
   const byChannelPrestige = prestigeTier?.cohort_elasticity?.by_channel || {};
   const priceMass = massTier?.price_range?.current ?? 24;

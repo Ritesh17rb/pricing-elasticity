@@ -1,11 +1,179 @@
 {
-  "customers.csv": "Customer-level records with channel group, region, and purchase behavior.",
-  "channel_weekly.csv": "Weekly KPIs by channel group (mass vs prestige).",
-  "season_calendar.csv": "Season phases, demand index, and inventory position.",
-  "price_calendar.csv": "Promo cadence and effective price by channel group.",
-  "market_signals.csv": "Competitor pricing and macro signals aligned to season.",
-  "social_signals.csv": "Social listening proxy signals and influencer activity.",
-  "retail_events.csv": "Retail events, competitive price moves, and markdown starts.",
-  "segments.csv": "Behavioral segments mapped to channel group.",
-  "segment_kpis.csv": "Segment KPIs (AOV, repeat loss, CAC, promo redemption)."
+  "scope": "Pizza Hut active root data bundle",
+  "generated_at": "2026-04-08",
+  "datasets": {
+    "customers": {
+      "description": "Sample customer-level Pizza Hut records with channel mix and visit behavior.",
+      "columns": {
+        "customer_id": {
+          "description": "Synthetic Pizza Hut customer identifier."
+        },
+        "channel_group": {
+          "description": "Internal group used by legacy models."
+        },
+        "segment_key": {
+          "description": "Composite 3-axis segment id."
+        }
+      }
+    },
+    "channel_weekly": {
+      "description": "Weekly KPI panel by internal channel group, rebuilt for Pizza Hut.",
+      "columns": {
+        "week_start": {
+          "description": "Week start date."
+        },
+        "channel_group": {
+          "description": "Internal compatibility grouping."
+        },
+        "active_customers": {
+          "description": "Proxy for active weekly order customers."
+        },
+        "new_customers": {
+          "description": "Modeled weekly new or reactivated guests."
+        },
+        "repeat_loss_customers": {
+          "description": "Modeled guests losing repeat frequency."
+        },
+        "price": {
+          "description": "Strategic list-price anchor used by scenario models."
+        },
+        "effective_price": {
+          "description": "List-price anchor adjusted for promo depth."
+        },
+        "revenue": {
+          "description": "Weekly net sales."
+        },
+        "aov": {
+          "description": "Average order value."
+        }
+      }
+    },
+    "season_calendar": {
+      "description": "Demand windows and operational pressure indices for Pizza Hut.",
+      "columns": {
+        "week_start": {
+          "description": "Week start date."
+        },
+        "season_phase": {
+          "description": "Modeled seasonal window."
+        },
+        "demand_index": {
+          "description": "Relative demand index vs average week."
+        }
+      }
+    },
+    "price_calendar": {
+      "description": "Weekly list and effective pricing by internal group.",
+      "columns": {
+        "week_start": {
+          "description": "Week start date."
+        },
+        "channel_group": {
+          "description": "Internal compatibility grouping."
+        },
+        "list_price": {
+          "description": "Strategic list-price anchor."
+        },
+        "promo_discount_pct": {
+          "description": "Average modeled promo discount."
+        },
+        "effective_price": {
+          "description": "List-price anchor after discount."
+        }
+      }
+    },
+    "market_signals": {
+      "description": "External market and competitive proxies aligned to Pizza Hut weeks.",
+      "columns": {
+        "week_start": {
+          "description": "Week start date."
+        },
+        "competitor_avg_price": {
+          "description": "Modeled competitive market price."
+        },
+        "macro_cpi": {
+          "description": "Macro inflation proxy."
+        },
+        "consumer_sentiment": {
+          "description": "Consumer sentiment proxy."
+        }
+      }
+    },
+    "social_signals": {
+      "description": "Modeled social attention and paid support aligned to Pizza Hut demand windows.",
+      "columns": {
+        "week_start": {
+          "description": "Week start date."
+        },
+        "total_social_mentions": {
+          "description": "Modeled total social mentions."
+        },
+        "social_sentiment": {
+          "description": "Relative positive sentiment."
+        }
+      }
+    },
+    "retail_events": {
+      "description": "Promo and competitive event log aligned to Pizza Hut pricing analysis.",
+      "columns": {
+        "event_id": {
+          "description": "Event identifier."
+        },
+        "week_start": {
+          "description": "Week start date."
+        },
+        "event_type": {
+          "description": "Event classification."
+        },
+        "promo_discount_pct": {
+          "description": "Associated discount depth."
+        }
+      }
+    },
+    "segments": {
+      "description": "Sample customer-to-segment assignments for Pizza Hut.",
+      "columns": {
+        "customer_id": {
+          "description": "Sample customer identifier."
+        },
+        "channel_group": {
+          "description": "Internal compatibility grouping."
+        },
+        "segment_key": {
+          "description": "Composite segment id."
+        }
+      }
+    },
+    "segment_kpis": {
+      "description": "Segment-level KPIs used by cohort and comparison views.",
+      "columns": {
+        "segment_key": {
+          "description": "Composite segment id."
+        },
+        "customer_count": {
+          "description": "Modeled segment population."
+        },
+        "repeat_loss_rate": {
+          "description": "Modeled repeat-loss rate."
+        },
+        "avg_order_value": {
+          "description": "Average order value."
+        }
+      }
+    }
+  },
+  "business_glossary": {
+    "AOV": {
+      "definition": "Average order value."
+    },
+    "Repeat Loss": {
+      "definition": "Modeled reduction in visit frequency after price or promo changes."
+    },
+    "Promo Mix": {
+      "definition": "Share of orders touched by promotional pricing or bundle support."
+    },
+    "Owned Channel": {
+      "definition": "Carryout or pickup app ordering where Pizza Hut keeps more economics than delivery."
+    }
+  }
 }

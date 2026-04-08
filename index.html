@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Yum Brands Pricing Elasticity Studio</title>
+  <title>Pizza Hut Pricing Elasticity Studio</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PGNpcmNsZSBjeD0iMTYiIGN5PSIxNiIgcj0iMTUiIGZpbGw9IiMyNTYzZWIiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJtMTYgNyAyIDcgNyAyLTcgMi0yIDctMi03LTctMiA3LTJaIi8+PC9zdmc+">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
@@ -35,7 +35,7 @@
   <nav class="step-nav">
     <div class="container">
       <div class="d-flex justify-content-between align-items-center">
-        <div class="brand" onclick="handleBrandClick()" style="cursor: pointer;">Yum Brands Pricing Elasticity Studio</div>
+        <div class="brand" onclick="handleBrandClick()" style="cursor: pointer;">Pizza Hut Pricing Elasticity Studio</div>
         <div class="d-flex align-items-center gap-3">
           <div class="steps-stack">
             <div class="step-indicator">
@@ -44,15 +44,19 @@
               <div class="step-line"></div>
               <div class="step-dot module-data-foundation" data-step="2">2</div>
               <div class="step-line"></div>
-              <div class="step-dot module-segmentation" data-step="3">3</div>
+              <div class="step-dot module-data-foundation" data-step="3">3</div>
               <div class="step-line"></div>
               <div class="step-dot module-segmentation" data-step="4">4</div>
               <div class="step-line"></div>
-              <div class="step-dot module-elasticity" data-step="5">5</div>
+              <div class="step-dot module-segmentation" data-step="5">5</div>
               <div class="step-line"></div>
               <div class="step-dot module-elasticity" data-step="6">6</div>
               <div class="step-line"></div>
-              <div class="step-dot module-analytics" data-step="7">7</div>
+              <div class="step-dot module-elasticity" data-step="7">7</div>
+              <div class="step-line"></div>
+              <div class="step-dot module-elasticity" data-step="8">8</div>
+              <div class="step-line"></div>
+              <div class="step-dot module-analytics" data-step="9">9</div>
             </div>
             <div class="step-legend">
               <div class="legend-item legend-data-foundation">
@@ -61,22 +65,19 @@
               </div>
               <div class="legend-item legend-segmentation">
                 <div class="legend-color segmentation"></div>
-                <span>Elasticity Detail</span>
+                <span>Segmentation</span>
               </div>
               <div class="legend-item legend-elasticity">
                 <div class="legend-color elasticity"></div>
-                <span>Decision Flow</span>
+                <span>Elasticity Modeling &amp; Simulation</span>
               </div>
               <div class="legend-item legend-analytics">
                 <div class="legend-color analytics"></div>
-                <span>AI</span>
+                <span>AI &amp; Advanced Analytics</span>
               </div>
             </div>
           </div>
           <div class="d-flex align-items-center gap-2">
-            <button class="btn btn-sm btn-outline-primary steps-overview-trigger" data-bs-toggle="modal" data-bs-target="#stepsOverviewModal">
-              <i class="bi bi-grid-3x3-gap me-1"></i> Steps
-            </button>
             <button id="configure-llm" class="btn btn-sm" style="opacity: 0.8;">
               <i class="bi bi-key"></i>
             </button>
@@ -107,7 +108,7 @@
       <div class="container">
         <div class="hero">
           <div>
-            <h1>Yum Brands Portfolio Elasticity Studio</h1>
+            <h1>Pizza Hut Pricing Elasticity Studio</h1>
             <p>Analyze how customers respond to pricing and promotions, simulate business impact, and make smarter revenue and margin decisions.</p>
             <button class="btn btn-primary-custom btn-lg" onclick="goToStep(1)">
               Start Exploration <i class="bi bi-arrow-right ms-2"></i>
@@ -122,86 +123,76 @@
   <div class="container">
     <div class="section-header section-header-split">
       <div class="section-header-main">
-        <div class="section-number">Step 2</div>
+        <div class="section-number">Step 1</div>
         <h2 class="section-title">
-          Current Business Overview
+          Current State Overview
           <button class="btn btn-sm btn-outline-info ms-2" data-bs-toggle="modal" data-bs-target="#methodology-modal-step1" title="View Methodology">
             <i class="bi bi-info-circle"></i>
           </button>
         </h2>
-        <p class="section-subtitle">After reviewing the data foundation, use this screen to understand the selected Yum brand's current traffic, order value, margin, channel posture, and pricing context.</p>
+        <p class="section-subtitle">Before exploring Pizza Hut price elasticity, review the current price architecture and the latest business performance guardrails.</p>
       </div>
     </div>
 
     <!-- Top Navigation -->
     <div class="section-header-nav">
-      <button class="btn btn-secondary-custom" onclick="goToStep(1)"><i class="bi bi-arrow-left me-2"></i> Back to Data Explorer</button>
-      <button class="btn btn-primary-custom" onclick="goToStep(3)">Next: Customer Cohorts <i class="bi bi-arrow-right ms-2"></i></button>
+      <button class="btn btn-secondary-custom" onclick="goToStep(0)"><i class="bi bi-arrow-left me-2"></i> Back to Home</button>
+      <button class="btn btn-primary-custom" onclick="goToStep(2)">Next: Data Explorer <i class="bi bi-arrow-right ms-2"></i></button>
     </div>
 
     <!-- Auto-Loading Progress -->
-    <div id="load-data-section" aria-label="Loading Yum data foundation" role="status">
-      <div class="ld-aurora" aria-hidden="true">
-        <div class="ld-blob ld-blob-1"></div>
-        <div class="ld-blob ld-blob-2"></div>
-        <div class="ld-blob ld-blob-3"></div>
-      </div>
+    <div class="text-center my-4" id="load-data-section">
+      <div class="glass-card" style="padding: 2rem;">
+        <h5 class="mb-3">
+          <i class="bi bi-database me-2"></i>
+          Loading Data
+        </h5>
+        <p class="text-muted">Initializing Pizza Hut demand, pricing, and elasticity datasets...</p>
 
-      <div class="ld-top-strip">
-        <div id="loading-progress-bar" class="ld-top-fill" role="progressbar"
-             style="width: 5%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-      </div>
-
-      <div class="ld-center">
-        <div class="ld-logo" aria-hidden="true">
-          <i class="bi bi-shop-window"></i>
-        </div>
-        <div class="ld-wordmark">Yum Elasticity Studio</div>
-        <div class="ld-sub">Portfolio Pricing Intelligence</div>
-
-        <div class="ld-stage-wrap">
-          <span id="loading-stage" class="ld-stage-text">Initializing...</span>
-          <span class="ld-cursor" aria-hidden="true"></span>
+        <div id="loading-progress" class="mt-4" style="display: block !important; visibility: visible !important;">
+          <div class="mb-2">
+            <small id="loading-stage" class="d-block fw-semibold text-primary">Initializing...</small>
+          </div>
+          <div class="progress" style="height: 25px; background-color: rgba(0, 102, 255, 0.1); border: 1px solid rgba(0, 102, 255, 0.2);">
+            <div id="loading-progress-bar" class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
+                 role="progressbar" style="width: 5%; min-width: 5%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+              <span id="loading-percentage" class="fw-bold">0%</span>
+            </div>
+          </div>
         </div>
 
-        <div class="ld-segs" aria-hidden="true">
-          <div class="ld-seg"></div>
-          <div class="ld-seg"></div>
-          <div class="ld-seg"></div>
-          <div class="ld-seg"></div>
-          <div class="ld-seg"></div>
-          <div class="ld-seg"></div>
-        </div>
-
-        <div id="loading-percentage" class="ld-pct">0%</div>
+        <button id="load-data-btn" class="btn btn-primary-custom mt-3" style="display: none;">
+          <i class="bi bi-cloud-download me-2"></i>
+          Load Pizza Hut Data
+        </button>
       </div>
-
-      <div id="loading-progress" style="display: none; visibility: hidden;" aria-hidden="true"></div>
-
-      <button id="load-data-btn" class="btn btn-primary-custom mt-3" style="display: none;">
-        <i class="bi bi-cloud-download me-2"></i>
-        Load Data
-      </button>
     </div>
 
     <!-- KPI Summary Cards -->
     <div id="kpi-section" style="display: none;">
-      <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-3">
-        <div class="d-flex align-items-end gap-3 flex-wrap">
-          <div class="yum-brand-picker">
-            <div class="small text-uppercase text-muted fw-semibold mb-2">Brand View</div>
-            <div id="yum-overview-brand-cards" class="yum-brand-card-grid" aria-label="Select Yum brand for Current Business Overview">
-              <div class="yum-brand-select-card is-loading">
-                <div class="yum-brand-select-card__name">Loading Yum concepts...</div>
-              </div>
-            </div>
+      <h5 class="mb-3">Current Price Architecture</h5>
+      <div class="row g-4 mb-5">
+        <div class="col-md-6">
+          <div class="glass-card tier-card ad-lite">
+            <div class="small text-uppercase text-muted fw-semibold mb-1" id="overview-tier-primary-band">Traffic Builder Ladder</div>
+            <div class="tier-name" id="overview-tier-primary-name">Everyday Value</div>
+            <div class="tier-price"><span id="overview-tier-primary-price">--</span></div>
+            <div class="small text-muted mt-2" id="overview-tier-primary-products">Loading anchor items...</div>
+            <div class="mt-2" id="overview-tier-primary-copy">Loading value-led Pizza Hut price architecture...</div>
           </div>
-          <p class="small text-muted mb-0" id="yum-overview-brand-hint">Choose a Yum concept to refresh the Current Business Overview.</p>
+        </div>
+        <div class="col-md-6">
+          <div class="glass-card tier-card ad-free">
+            <div class="small text-uppercase text-muted fw-semibold mb-1" id="overview-tier-secondary-band">Family Share Ladder</div>
+            <div class="tier-name" id="overview-tier-secondary-name">Family &amp; Premium</div>
+            <div class="tier-price"><span id="overview-tier-secondary-price">--</span></div>
+            <div class="small text-muted mt-2" id="overview-tier-secondary-products">Loading anchor items...</div>
+            <div class="mt-2" id="overview-tier-secondary-copy">Loading family-order and premium mix architecture...</div>
+          </div>
         </div>
       </div>
 
-      <!-- KPI Metrics -->
-      <h5 class="mb-3" id="kpi-metrics-heading">Yum Brands Brand-wise Operating KPIs (Latest Week)</h5>
+      <h5 class="mb-3" id="kpi-metrics-heading">Key Performance Metrics (Latest Week)</h5>
       <div class="row g-3 mb-4" id="kpi-cards">
         <div class="col-md-3">
           <div class="card kpi-card h-100">
@@ -247,245 +238,11 @@
         </div>
       </div>
 
-      <div class="row g-4 mb-4">
-        <div class="col-xl-6">
-          <div class="card h-100 border-0 shadow-sm">
-            <div class="card-body">
-              <div class="small text-uppercase text-muted fw-semibold mb-2">AI-Generated Business Summary</div>
-              <ul class="small mb-0 ps-3" id="yum-business-summary">
-                <li>Loading current Yum business readout...</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="col-xl-6">
-          <div class="card h-100 border-0 shadow-sm">
-            <div class="card-body">
-              <div class="small text-uppercase text-muted fw-semibold mb-2">Recommended Next Actions</div>
-              <ul class="small mb-0 ps-3" id="yum-recommended-actions">
-                <li>Loading recommended actions...</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Channel Groups -->
-      <h5 class="mb-3" id="kpi-architecture-heading">Yum Brands Channel Architecture</h5>
-      <div class="row g-4 mb-5" id="yum-channel-mix-cards">
-        <div class="col-md-6 col-xl-3">
-          <div class="glass-card tier-card channel-card channel-card--drive-thru h-100">
-            <div class="channel-card-head">
-              <div class="channel-card-title-group">
-                <div class="channel-icon">
-                  <i class="bi bi-car-front"></i>
-                </div>
-                <div>
-                  <div class="tier-name">Drive-Thru</div>
-                  <div class="channel-subtitle">High-throughput anchor</div>
-                </div>
-              </div>
-              <div class="channel-mix-pill">Loading</div>
-            </div>
-            <div class="channel-metrics-grid">
-              <div class="channel-metric">
-                <span class="channel-metric-label">Average order value</span>
-                <strong class="channel-metric-value">--</strong>
-              </div>
-              <div class="channel-metric">
-                <span class="channel-metric-label">Weekly orders</span>
-                <strong class="channel-metric-value">--</strong>
-              </div>
-            </div>
-            <div class="channel-items-section">
-              <div class="channel-items-label">Top items</div>
-              <div class="channel-chip-list">
-                <span class="channel-chip">Loading Yum portfolio channel metrics...</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Legacy KPI Metrics -->
-      <h5 class="mb-3" id="kpi-metrics-heading-legacy" style="display: none;">Yum Brands Operating KPIs (Latest Week)</h5>
-      <div class="row g-3" id="kpi-cards-legacy" style="display: none;">
-        <div class="col-md-3">
-          <div class="card kpi-card h-100">
-            <div class="card-body">
-              <div class="text-muted mb-2 small text-uppercase" id="kpi-customers-label-legacy">Weekly Orders</div>
-              <div class="fs-2 fw-bold" id="kpi-customers-legacy">--</div>
-              <div class="small text-success" id="kpi-customers-change-legacy">
-                <i class="bi bi-arrow-up"></i> --
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="card kpi-card h-100">
-            <div class="card-body">
-              <div class="text-muted mb-2 small text-uppercase" id="kpi-revenue-label-legacy">Weekly Net Sales</div>
-              <div class="fs-2 fw-bold" id="kpi-revenue-legacy">--</div>
-              <div class="small text-success" id="kpi-revenue-change-legacy">
-                <i class="bi bi-arrow-up"></i> --
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="card kpi-card h-100">
-            <div class="card-body">
-              <div class="text-muted mb-2 small text-uppercase" id="kpi-aov-label-legacy">Average Check</div>
-              <div class="fs-2 fw-bold" id="kpi-aov-legacy">--</div>
-              <div class="small" id="kpi-aov-change-legacy">--</div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="card kpi-card h-100">
-            <div class="card-body">
-            <div class="text-muted mb-2 small text-uppercase" id="kpi-churn-label-legacy">Contribution Margin Rate</div>
-              <div class="fs-2 fw-bold" id="kpi-churn-legacy">--</div>
-              <div class="small text-danger" id="kpi-churn-change-legacy">
-                <i class="bi bi-arrow-down"></i> --
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <!-- Insight Box -->
       <div class="insight-box mt-4">
         <div class="icon">💡</div>
-        <h5 id="kpi-insight-title">Decision Context</h5>
-      <p class="mb-0" id="kpi-insight-text">This dashboard tracks current Yum demand, realized price, margin quality, promo dependence, and elasticity posture from the generated operating panel. The details below explain why the summary and actions above are being recommended.</p>
-      </div>
-
-      <div class="card h-100 border-0 shadow-sm bg-body-tertiary mt-4">
-        <div class="card-body">
-          <div class="small text-uppercase text-muted fw-semibold mb-2">Data Backing This View</div>
-          <div class="small mb-2"><strong>Primary grains:</strong> <code id="yum-data-grain">Loading...</code></div>
-          <div class="small mb-2"><strong>Latest modeled week:</strong> <span id="yum-data-latest-week">--</span></div>
-          <div class="small mb-2"><strong>Coverage:</strong> <span id="yum-data-coverage">--</span></div>
-          <div class="small mb-2"><strong>Core tables:</strong> <span id="yum-data-tables">--</span></div>
-          <div class="small text-muted" id="yum-data-quality-note">Validating generated panel quality...</div>
-        </div>
-      </div>
-
-      <!-- Channel Promotions Simulator -->
-      <div class="mt-5" id="channel-promo-simulator-section" style="display: none;">
-        <div class="d-flex justify-content-between align-items-center mb-2">
-          <div>
-            <h5 class="mb-1">Channel Promotions Simulator</h5>
-            <p class="text-muted small mb-0">
-              Start from the current Mass vs Prestige channels and adjust promo depth to see how revenue and profit shift by channel group.
-            </p>
-          </div>
-          <span class="badge bg-primary-subtle text-primary small">Supergoop Seasonal Use Case</span>
-        </div>
-
-        <div class="row g-4" id="channel-promo-simulator">
-          <!-- Controls -->
-          <div class="col-lg-4">
-            <div class="card h-100">
-              <div class="card-body">
-                <h6 class="text-uppercase text-muted mb-3">Promo Depth by Channel Group</h6>
-
-                <div class="mb-4">
-                  <div class="d-flex justify-content-between align-items-center mb-1">
-                    <label for="mass-promo-slider" class="form-label mb-0">Drive-Thru / Core Value Mix</label>
-                    <span class="fw-semibold" id="mass-promo-value">0%</span>
-                  </div>
-                  <input type="range" class="form-range" id="mass-promo-slider" min="0" max="40" step="5" value="0">
-                  <div class="d-flex justify-content-between small text-muted">
-                    <span>0%</span>
-                    <span>20%</span>
-                    <span>40%</span>
-                  </div>
-                </div>
-
-                <div class="mb-4">
-                  <div class="d-flex justify-content-between align-items-center mb-1">
-                    <label for="prestige-promo-slider" class="form-label mb-0">Prestige (Sephora, Ulta, DTC)</label>
-                    <span class="fw-semibold" id="prestige-promo-value">0%</span>
-                  </div>
-                  <input type="range" class="form-range" id="prestige-promo-slider" min="0" max="30" step="5" value="0">
-                  <div class="d-flex justify-content-between small text-muted">
-                    <span>0%</span>
-                    <span>15%</span>
-                    <span>30%</span>
-                  </div>
-                </div>
-
-                <div class="mb-3">
-                  <label for="channel-promo-objective" class="form-label fw-bold small text-uppercase">Objective</label>
-                  <select id="channel-promo-objective" class="form-select form-select-sm">
-                    <option value="balance" selected>Balance Sales &amp; Profit</option>
-                    <option value="sales">Maximize Sales (Revenue)</option>
-                    <option value="profit">Maximize Profit</option>
-                  </select>
-                </div>
-
-                <p class="small text-muted mb-0">
-                  Yum channel behavior is anchored to the operating panel and refreshed weekly through the generated store-channel datasets.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Summary + Charts -->
-          <div class="col-lg-8">
-            <div class="card h-100">
-              <div class="card-body">
-                <div class="row g-3 mb-3">
-                  <div class="col-md-4">
-                    <div class="border rounded-3 p-3 h-100 bg-body-tertiary">
-                      <div class="small text-muted text-uppercase mb-1">Total Revenue vs Baseline</div>
-                      <div class="d-flex align-items-baseline gap-2">
-                        <div class="fs-4 fw-bold" id="channel-promo-revenue-delta">--</div>
-                        <div class="small text-muted" id="channel-promo-revenue-note">Baseline = 0%</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="border rounded-3 p-3 h-100 bg-body-tertiary">
-                      <div class="small text-muted text-uppercase mb-1">Total Profit vs Baseline</div>
-                      <div class="d-flex align-items-baseline gap-2">
-                        <div class="fs-4 fw-bold" id="channel-promo-profit-delta">--</div>
-                        <div class="small text-muted" id="channel-promo-profit-note">Baseline = 0%</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="border rounded-3 p-3 h-100 bg-body-tertiary">
-                      <div class="d-flex justify-content-between align-items-center mb-1">
-                        <div class="small text-muted text-uppercase">Promo Posture</div>
-                        <span id="channel-promo-posture-pill" class="badge rounded-pill bg-secondary-subtle text-body-secondary">--</span>
-                      </div>
-                      <div class="small" id="channel-promo-posture-line1">Adjust sliders to see impact.</div>
-                      <div class="small text-muted" id="channel-promo-posture-line2"></div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row g-3">
-                  <div class="col-md-6">
-                    <h6 class="small text-uppercase text-muted mb-2">Revenue by Channel Group</h6>
-                    <div class="chart-container" style="height: 220px;">
-                      <canvas id="channel-promo-revenue-chart"></canvas>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <h6 class="small text-uppercase text-muted mb-2">Profit by Channel Group</h6>
-                    <div class="chart-container" style="height: 220px;">
-                      <canvas id="channel-promo-profit-chart"></canvas>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <h5 id="kpi-insight-title">The Question</h5>
+        <p class="mb-0" id="kpi-insight-text">How much pricing room does Pizza Hut have before weekly orders, margin quality, or promo dependence start to break? The next steps move from the current state into the data, cohorts, and elasticity models that answer that question.</p>
       </div>
 
     </div>
@@ -494,48 +251,18 @@
 
   </section>
 
-  <!-- Section 2: Yum Pricing Studio -->
+  <!-- Section 2: Pizza Hut Data Explorer -->
   <section class="section" id="section-2">
   <div class="container">
     <div class="section-header section-header-split">
       <div class="section-header-main">
         <div class="section-number">Step 2</div>
-        <h2 class="section-title">Yum Pricing Studio</h2>
-        <p class="section-subtitle">Run item-level and channel-aware price scenarios on the Yum operating foundation and inspect what still needs to improve before scaling this into a broader portfolio elasticity engine.</p>
-      </div>
-
-    </div>
-
-    <!-- Taco Bell pricing studio will be shown here by step-navigation.js -->
-    <!-- Navigation buttons will be injected by step-navigation.js -->
-    <div id="step-2-yum-container">
-      <div id="step-2-yum-container-content">
-        <!-- Yum pricing studio content will be injected here -->
+        <h2 class="section-title">Data Explorer</h2>
+        <p class="section-subtitle">Explore the Pizza Hut datasets that power the pricing studio. Inspect the current weekly, channel, menu, and promotion foundations directly.</p>
       </div>
     </div>
 
-  </div>
-
-  </section>
-
-  <!-- Section 3: Yum Data Explorer -->
-  <section class="section" id="section-10">
-  <div class="container">
-    <div class="section-header section-header-split">
-      <div class="section-header-main">
-        <div class="section-number">Step 1</div>
-        <h2 class="section-title">Data Foundation Explorer</h2>
-        <p class="section-subtitle">Start with the real Yum operating data that powers the elasticity analysis. Open the modeled foundation tables, inspect their shape, and show what the application is actually reading.</p>
-      </div>
-    </div>
-
-    <!-- Data viewer will be shown here by step-navigation.js -->
-    <!-- Navigation buttons will be injected by step-navigation.js -->
-    <div id="step-3-data-viewer-container">
-      <div id="step-3-data-viewer-container-content">
-        <!-- Data viewer content will be injected here -->
-      </div>
-    </div>
+    <div id="step-2-data-viewer-container"></div>
 
   </div>
 
@@ -546,24 +273,18 @@
   <div class="container">
     <div class="section-header section-header-split">
       <div class="section-header-main">
-        <div class="section-number">Step 5</div>
+        <div class="section-number">Step 6</div>
         <h2 class="section-title">
-          Traffic Acquisition Elasticity
+          Acquisition Elasticity
           <button class="btn btn-sm btn-outline-info ms-2" data-bs-toggle="modal" data-bs-target="#methodology-modal-step3" title="View Methodology">
             <i class="bi bi-info-circle"></i>
           </button>
         </h2>
-        <p class="section-subtitle">Model how the selected Yum brand responds when effective check changes by visit mission and order channel. Keep the scope explicit, show the business impact, and make the next action obvious.</p>
+        <p class="section-subtitle">Model how Pizza Hut weekly orders respond when effective check changes by visit mission and order channel. Keep the scope explicit, show the business impact, and make the next action obvious.</p>
       </div>
     </div>
 
-    <!-- Acquisition elasticity content will be shown here by step-navigation.js -->
-    <!-- Navigation buttons will be injected by step-navigation.js -->
-    <div id="step-3-acquisition-container">
-      <div id="step-3-acquisition-container-content">
-        <!-- Acquisition model content will be injected here -->
-      </div>
-    </div>
+    <div id="step-3-acquisition-container"></div>
 
   </div>
 
@@ -574,24 +295,18 @@
   <div class="container">
     <div class="section-header section-header-split">
       <div class="section-header-main">
-        <div class="section-number">Step 8</div>
+        <div class="section-number">Step 7</div>
         <h2 class="section-title">
-          Repeat-Visit Loss Elasticity
+          Churn Elasticity
           <button class="btn btn-sm btn-outline-info ms-2" data-bs-toggle="modal" data-bs-target="#methodology-modal-step4" title="View Methodology">
             <i class="bi bi-info-circle"></i>
           </button>
         </h2>
-        <p class="section-subtitle">Understand how price and offer changes reduce Taco Bell repeat visits over time. Model delayed visit loss and order-frequency decay by channel and cohort.</p>
+        <p class="section-subtitle">Understand how Pizza Hut price and offer changes reduce repeat visits over time. Model delayed visit loss and order-frequency decay by channel and cohort.</p>
       </div>
     </div>
 
-    <!-- Churn elasticity content will be shown here by step-navigation.js -->
-    <!-- Navigation buttons will be injected by step-navigation.js -->
-    <div id="step-4-churn-container">
-      <div id="step-4-churn-container-content">
-        <!-- Repeat-loss model content will be injected here -->
-      </div>
-    </div>
+    <div id="step-4-churn-container"></div>
 
   </div>
 
@@ -602,24 +317,18 @@
   <div class="container">
     <div class="section-header section-header-split">
       <div class="section-header-main">
-        <div class="section-number">Step 9</div>
+        <div class="section-number">Step 8</div>
         <h2 class="section-title">
           Order Channel Migration
           <button class="btn btn-sm btn-outline-info ms-2" data-bs-toggle="modal" data-bs-target="#methodology-modal-step5" title="View Methodology">
             <i class="bi bi-info-circle"></i>
           </button>
         </h2>
-        <p class="section-subtitle">Model how Taco Bell orders move between drive-thru, pickup, in-store, and delivery as price gaps and fee structures change.</p>
+        <p class="section-subtitle">Model how Pizza Hut orders move between delivery, carryout, pickup, and dine-in as price gaps and fee structures change.</p>
       </div>
     </div>
 
-    <!-- Tier migration content will be shown here by step-navigation.js -->
-    <!-- Navigation buttons will be injected by step-navigation.js -->
-    <div id="step-5-migration-container">
-      <div id="step-5-migration-container-content">
-        <!-- Migration model content will be injected here -->
-      </div>
-    </div>
+    <div id="step-5-migration-container"></div>
 
   </div>
 
@@ -630,7 +339,7 @@
   <div class="container">
     <div class="section-header section-header-split">
       <div class="section-header-main">
-        <div class="section-number">Step 3</div>
+        <div class="section-number">Step 4</div>
         <h2 class="section-title">
           Customer Cohorts & Elasticity
           <button class="btn btn-sm btn-outline-info ms-2" data-bs-toggle="modal" data-bs-target="#methodology-modal-step6" title="View Methodology">
@@ -641,13 +350,7 @@
       </div>
     </div>
 
-    <!-- Segmentation content will be shown here by step-navigation.js -->
-    <!-- Navigation buttons will be injected by step-navigation.js -->
-    <div id="step-6-segmentation-container">
-      <div id="step-6-segmentation-container-content">
-        <!-- Segmentation content will be injected here -->
-      </div>
-    </div>
+    <div id="step-6-segmentation-container"></div>
 
   </div>
 
@@ -658,7 +361,7 @@
   <div class="container">
     <div class="section-header section-header-split">
       <div class="section-header-main">
-        <div class="section-number">Step 4</div>
+        <div class="section-number">Step 5</div>
         <h2 class="section-title">
           Segment Elasticity Comparison
           <button class="btn btn-sm btn-outline-info ms-2" data-bs-toggle="modal" data-bs-target="#methodology-modal-step7" title="View Methodology">
@@ -669,13 +372,7 @@
       </div>
     </div>
 
-    <!-- Segment analysis content will be shown here by step-navigation.js -->
-    <!-- Navigation buttons will be injected by step-navigation.js -->
-    <div id="step-7-analysis-container">
-      <div id="step-7-analysis-container-content">
-        <!-- Segment elasticity comparison content will be injected here -->
-      </div>
-    </div>
+    <div id="step-7-analysis-container"></div>
 
   </div>
 
@@ -686,19 +383,13 @@
   <div class="container">
     <div class="section-header section-header-split">
       <div class="section-header-main">
-        <div class="section-number">Step 6</div>
-        <h2 class="section-title">Promotion Performance &amp; Calendar</h2>
-        <p class="section-subtitle">Review historical promotion pressure and active offer windows for the selected Yum brand so price decisions are read in context, not in isolation.</p>
+        <div class="section-number">Step 3</div>
+        <h2 class="section-title">Event Calendar</h2>
+        <p class="section-subtitle">Track important events and their impact on business metrics. Understand how external factors influence order behavior.</p>
       </div>
     </div>
 
-    <!-- Event calendar content will be shown here by step-navigation.js -->
-    <!-- Navigation buttons will be injected by step-navigation.js -->
-    <div id="step-8-calendar-container">
-      <div id="step-8-calendar-container-content">
-        <!-- Event calendar content will be injected here -->
-      </div>
-    </div>
+    <div id="step-8-calendar-container"></div>
 
   </div>
 
@@ -709,19 +400,13 @@
   <div class="container">
     <div class="section-header section-header-split">
       <div class="section-header-main">
-        <div class="section-number">Step 7</div>
-        <h2 class="section-title">AI Chat &amp; Decision Support</h2>
-        <p class="section-subtitle">Ask follow-up questions from the same Yum data foundation, elasticity readouts, and recommendation logic shown across the experience.</p>
+        <div class="section-number">Step 9</div>
+        <h2 class="section-title">AI Chat &amp; Advanced Analytics</h2>
+        <p class="section-subtitle">Chat with AI to get insights, ask questions about your data, and access advanced analytical tools.</p>
       </div>
     </div>
 
-    <!-- Chat section will be shown here by step-navigation.js -->
-    <!-- Navigation buttons will be injected by step-navigation.js -->
-    <div id="step-9-chat-container">
-      <div id="step-9-chat-container-content">
-        <!-- Content will be injected here -->
-      </div>
-    </div>
+    <div id="step-9-chat-container"></div>
 
   </div>
 
@@ -736,11 +421,11 @@
           <div>
             <h2 class="h5 mb-1" id="yum-studio-heading">
               <i class="bi bi-shop-window me-2"></i>
-              Yum Pricing Studio
+              Pizza Hut Pricing Studio
             </h2>
-            <p class="small mb-0 opacity-75" id="yum-studio-subtitle">Item-level and channel-aware price simulation on top of the Yum operating panel.</p>
+            <p class="small mb-0 opacity-75" id="yum-studio-subtitle">Item-level and channel-aware price simulation on top of the Pizza Hut operating panel.</p>
           </div>
-          <span class="badge rounded-pill text-bg-light text-dark" id="yum-studio-badge">Yum</span>
+          <span class="badge rounded-pill text-bg-light text-dark" id="yum-studio-badge">Pizza Hut</span>
         </div>
       </div>
       <div class="card-body">
@@ -752,7 +437,7 @@
               <div class="mb-3">
                 <label for="yum-brand-select" class="form-label fw-semibold">Brand</label>
                 <select id="yum-brand-select" class="form-select"></select>
-                <div class="form-text" id="yum-brand-summary">Choose a Yum concept to load brand-specific menu elasticity.</div>
+                <div class="form-text" id="yum-brand-summary">Pizza Hut is the active business in this build. Use the controls below to test menu elasticity.</div>
               </div>
 
               <div class="mb-3">
@@ -861,7 +546,7 @@
               <div class="col-md-6">
                 <div class="yum-insight-card h-100">
                   <div class="small text-uppercase text-muted fw-semibold mb-2">Scenario Readout</div>
-                  <p class="mb-0" id="yum-scenario-narrative">Choose a Yum concept and run an item scenario to see the readout.</p>
+                  <p class="mb-0" id="yum-scenario-narrative">Choose a Pizza Hut item and run a scenario to see the readout.</p>
                 </div>
               </div>
             </div>
@@ -872,7 +557,7 @@
                 <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle">Engineering backlog</span>
               </div>
               <ul class="mb-0 small" id="yum-improvement-list">
-                <li>Loading Yum concept pricing guidance...</li>
+                <li>Loading Pizza Hut pricing guidance...</li>
               </ul>
             </div>
           </div>
@@ -889,7 +574,7 @@
       <div class="card-header">
         <h2 class="h5 mb-0">
           <i class="bi bi-table me-2"></i>
-          Yum Data Explorer
+          Pizza Hut Data Explorer
         </h2>
       </div>
       <div class="card-body p-0">
@@ -899,7 +584,7 @@
             <div class="p-3">
               <h6 class="text-muted text-uppercase mb-3">
                 <i class="bi bi-folder2-open me-2"></i>
-                Available Datasets
+                Foundation Tables
               </h6>
               <div class="accordion accordion-flush" id="datasets-accordion">
                 <!-- Datasets will be loaded here -->
@@ -930,14 +615,14 @@
                 </div>
               </div>
 
-              <!-- Quick Visual Overview -->
+              <!-- Dataset Snapshot -->
               <div id="dataset-chart-container" class="mb-3" style="display: none;">
                 <div class="card">
                   <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-2">
                       <h6 class="mb-0 small text-uppercase text-muted">
                         <i class="bi bi-graph-up-arrow me-1"></i>
-                        Quick Visual Overview
+                        Dataset Snapshot
                       </h6>
                       <span class="badge bg-primary-subtle text-primary border-0" id="dataset-chart-caption"></span>
                     </div>
@@ -953,7 +638,7 @@
                 <div class="col-md-6">
                   <div class="input-group">
                     <span class="input-group-text"><i class="bi bi-search"></i></span>
-                    <input type="text" id="data-search" class="form-control" placeholder="Search across all columns...">
+                    <input type="text" id="data-search" class="form-control" placeholder="Search by week, market, channel, item, or signal...">
                   </div>
                 </div>
                 <div class="col-md-3">
@@ -1004,7 +689,7 @@
               <!-- Empty State -->
               <div id="data-empty" class="text-center text-muted py-5">
                 <i class="bi bi-table display-4 mb-3"></i>
-                <p>Select a dataset from the left sidebar to view the data</p>
+                <p>Select a Pizza Hut foundation table from the left sidebar to inspect the modeled pricing inputs.</p>
               </div>
             </div>
           </div>
@@ -1024,7 +709,7 @@
           Scenario Engine - 3 Elasticity Models
         </h2>
         <p class="small mb-0 opacity-75">
-          Simulate Yum brand pricing scenarios across traffic acquisition, repeat-visit loss, and order-channel migration models
+          Simulate Pizza Hut pricing scenarios across traffic acquisition, repeat-visit loss, and order-channel migration models
         </p>
       </div>
       <div class="card-body">
@@ -1041,14 +726,14 @@
           <li class="nav-item" role="presentation">
             <button class="nav-link active" id="acquisition-tab" data-bs-toggle="tab" data-bs-target="#acquisition-pane" type="button" role="tab">
               <i class="bi bi-graph-up-arrow me-2"></i>
-              <strong>1. Traffic Acquisition</strong>
+              <strong>1. Acquisition Elasticity</strong>
               <small class="d-block text-muted" style="font-size: 0.75rem;">Channel Traffic Response</small>
             </button>
           </li>
           <li class="nav-item" role="presentation">
             <button class="nav-link" id="churn-tab" data-bs-toggle="tab" data-bs-target="#churn-pane" type="button" role="tab">
               <i class="bi bi-hourglass-split me-2"></i>
-              <strong>2. Repeat-Visit Loss</strong>
+              <strong>2. Churn Elasticity</strong>
               <small class="d-block text-muted" style="font-size: 0.75rem;">Time-Lagged Frequency Response</small>
             </button>
           </li>
@@ -1056,7 +741,7 @@
             <button class="nav-link" id="migration-tab" data-bs-toggle="tab" data-bs-target="#migration-pane" type="button" role="tab">
               <i class="bi bi-arrows-angle-expand me-2"></i>
               <strong>3. Order Channel Migration</strong>
-              <small class="d-block text-muted" style="font-size: 0.75rem;">Drive-Thru vs Pickup Shift</small>
+              <small class="d-block text-muted" style="font-size: 0.75rem;">Delivery vs Carryout / Pickup Shift</small>
             </button>
           </li>
         </ul>
@@ -1128,8 +813,8 @@
                   <div class="mb-4">
                     <label class="form-label fw-semibold">Select Order Channel</label>
                     <select class="form-select" id="acq-tier-select">
-                      <option value="drive_thru">Drive-Thru</option>
-                      <option value="pickup">Pickup / App</option>
+                      <option value="delivery">Delivery</option>
+                      <option value="pickup_app">Pickup / App</option>
                     </select>
                   </div>
 
@@ -1158,11 +843,11 @@
                       <strong class="metric-value text-success" id="acq-impact">0%</strong>
                     </div>
                     <div class="metric-row">
-                      <span class="metric-label">Total New Customers</span>
+                      <span class="metric-label">Projected Weekly Orders</span>
                       <strong class="metric-value" id="acq-total-subs">0</strong>
                     </div>
                     <div class="metric-row">
-                      <span class="metric-label">Total Revenue Impact (LTV)</span>
+                      <span class="metric-label">Weekly Net Sales Impact</span>
                       <strong class="metric-value" id="acq-total-revenue">$0</strong>
                     </div>
                   </div>
@@ -1181,7 +866,7 @@
                 <!-- Chart -->
                 <div class="glass-card">
                   <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h5 class="mb-0"><i class="bi bi-bar-chart-line me-2"></i>Projected New Customers by Cohort</h5>
+                    <h5 class="mb-0"><i class="bi bi-bar-chart-line me-2"></i>Projected Weekly Orders by Product Ladder</h5>
                     <div class="form-check form-switch">
                       <input class="form-check-input" type="checkbox" id="acq-show-ci" checked>
                       <label class="form-check-label small" for="acq-show-ci">Show 95% CI</label>
@@ -1210,19 +895,19 @@
                       </thead>
                       <tbody>
                         <tr>
-                          <td>0-3 months</td>
+                          <td>Value &amp; Personal Meals</td>
                           <td>-2.5</td>
                           <td><span class="badge bg-danger">High</span></td>
                           <td><strong id="acq-seg-new">0%</strong></td>
                         </tr>
                         <tr>
-                          <td>3-12 months</td>
+                          <td>Core Pizza Orders</td>
                           <td>-1.9</td>
                           <td><span class="badge bg-warning">Medium</span></td>
                           <td><strong id="acq-seg-mid">0%</strong></td>
                         </tr>
                         <tr>
-                          <td>12+ months</td>
+                          <td>Premium &amp; Shareables</td>
                           <td>-1.6</td>
                           <td><span class="badge bg-success">Low</span></td>
                           <td><strong id="acq-seg-loyal">0%</strong></td>
@@ -1244,8 +929,8 @@
                 <div class="glass-card">
                   <!-- Model Description -->
                   <div class="alert alert-primary mb-3">
-                    <h6 class="alert-heading"><i class="bi bi-info-circle me-2"></i>Model 1: Traffic Acquisition Elasticity</h6>
-                    <p class="mb-2"><strong>What it captures:</strong> How the selected Yum brand's weekly order traffic responds when effective check changes within a chosen channel and visit mission.</p>
+                    <h6 class="alert-heading"><i class="bi bi-info-circle me-2"></i>Model 1: Acquisition Elasticity</h6>
+                    <p class="mb-2"><strong>What it captures:</strong> How Pizza Hut weekly order traffic responds when effective check changes within a chosen channel and visit mission.</p>
                     <p class="mb-0"><strong>Key Insight:</strong> Stable channels can absorb more price, while digital and value-led missions usually react first when the check moves too far.</p>
                   </div>
 
@@ -1260,7 +945,7 @@
                     <div class="d-flex align-items-center justify-content-between">
                       <div>
                         <i class="bi bi-arrow-right-circle me-2"></i>
-                        <strong>Deep Dive:</strong> Explore 375 customer segments and detailed cohort analysis
+                        <strong>Deep Dive:</strong> Explore 250 modeled segment combinations and detailed cohort analysis
                       </div>
                       <button class="btn btn-primary btn-sm" onclick="navigateToSegments('acquisition')">
                         <i class="bi bi-graph-up me-1"></i>
@@ -1344,7 +1029,7 @@
                 <div class="insight-box">
                   <div class="icon">⏱️</div>
                   <h5>Why Time-Lagged?</h5>
-                  <p class="mb-2">Customers don't drop immediately. Some wait for reorder cycles, others for promo expiration. Peak repeat loss typically occurs <strong>8-12 weeks</strong> after a price increase.</p>
+                  <p class="mb-2">Guests usually do not react immediately. Some absorb the move for a few meal cycles, while others change behavior once coupons, bundles, or app offers stop offsetting the increase. Peak repeat loss typically appears <strong>8-12 weeks</strong> after a price move.</p>
                   <p class="mb-0 small"><strong>Revenue Note:</strong> The cumulative revenue line accumulates over time. With extreme price increases or highly elastic cohorts (Deal Hunter), it can peak then decline as customer loss outweighs price gain.</p>
                 </div>
               </div>
@@ -1362,17 +1047,17 @@
                 <!-- Retention Forecast with Revenue Impact -->
                 <div class="glass-card mt-4">
                   <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h5 class="mb-0"><i class="bi bi-graph-up me-2"></i>Retention Forecast & Revenue Impact</h5>
+                    <h5 class="mb-0"><i class="bi bi-graph-up me-2"></i>Retention Forecast & Contribution Impact</h5>
                   </div>
 
                   <!-- Summary Metrics -->
                   <div class="metric-display-card mb-3" style="background: rgba(99, 102, 241, 0.05); border-color: rgba(99, 102, 241, 0.2);">
                     <div class="metric-row">
-                      <span class="metric-label">Retained Customers (Week 24)</span>
+                      <span class="metric-label">Retained Menu Units (Week 24)</span>
                       <strong class="metric-value" id="churn-retained-subs">0</strong>
                     </div>
                     <div class="metric-row">
-                      <span class="metric-label">Cumulative Revenue Impact</span>
+                      <span class="metric-label">Cumulative Contribution Impact</span>
                       <strong class="metric-value" id="churn-total-revenue">$0</strong>
                     </div>
                   </div>
@@ -1381,7 +1066,7 @@
                     <canvas id="survival-curve-chart"></canvas>
                   </div>
                   <div class="small text-muted mt-2">
-                    <i class="bi bi-info-circle me-1"></i>Shows percentage of customers retained over time and cumulative revenue impact. Red shaded area between lines represents retention loss from price increase.
+                    <i class="bi bi-info-circle me-1"></i>Shows retained menu units over time and cumulative contribution impact. The shaded gap represents visit-frequency erosion from the tested price move.
                   </div>
                 </div>
 
@@ -1396,7 +1081,7 @@
                     </div>
                     <div class="time-bar" style="background: rgba(239,68,68,0.2);">
                       <div class="fill" id="bar-0-4" style="width: 30%; background: var(--dplus-red);"></div>
-                      <span class="time-bar-label">Low initial impact - customers assess the change</span>
+                      <span class="time-bar-label">Low initial impact while guests assess the change</span>
                     </div>
                   </div>
 
@@ -1407,7 +1092,7 @@
                     </div>
                     <div class="time-bar" style="background: rgba(245,158,11,0.2);">
                       <div class="fill" id="bar-4-8" style="width: 50%; background: var(--dplus-orange);"></div>
-                      <span class="time-bar-label">Promo customers and casual viewers leave</span>
+                      <span class="time-bar-label">Promo-led and occasional guests start spacing out visits</span>
                     </div>
                   </div>
 
@@ -1418,7 +1103,7 @@
                     </div>
                     <div class="time-bar" style="background: rgba(239,68,68,0.3);">
                       <div class="fill" id="bar-8-12" style="width: 85%; background: var(--dplus-red);"></div>
-                      <span class="time-bar-label">Maximum repeat loss - reorder cycles complete</span>
+                      <span class="time-bar-label">Maximum repeat loss once meal cycles fully reset</span>
                     </div>
                   </div>
 
@@ -1429,7 +1114,7 @@
                     </div>
                     <div class="time-bar" style="background: rgba(16,185,129,0.2);">
                       <div class="fill" id="bar-12plus" style="width: 35%; background: var(--dplus-green);"></div>
-                      <span class="time-bar-label">Remaining customers accept new price</span>
+                      <span class="time-bar-label">Remaining guests stabilize at the new price architecture</span>
                     </div>
                   </div>
                 </div>
@@ -1446,8 +1131,8 @@
                 <div class="glass-card">
                   <!-- Model Description -->
                   <div class="alert alert-primary mb-3">
-                    <h6 class="alert-heading"><i class="bi bi-info-circle me-2"></i>Model 2: Repeat-Visit Loss Elasticity (Time-Lagged)</h6>
-                    <p class="mb-2"><strong>What it captures:</strong> When Taco Bell guests trim visit frequency after menu price increases or value support expires.</p>
+                    <h6 class="alert-heading"><i class="bi bi-info-circle me-2"></i>Model 2: Churn Elasticity (Time-Lagged)</h6>
+                    <p class="mb-2"><strong>What it captures:</strong> When Pizza Hut guests trim visit frequency after menu price increases or value support expires.</p>
                     <p class="mb-0"><strong>Key Insight:</strong> Visit loss usually peaks <strong>8-12 weeks after</strong> a price move, once meal cycles and promo offsets wear off.</p>
                   </div>
 
@@ -1506,9 +1191,9 @@
                     <small class="text-muted">See crossover point shift with different cohorts!</small>
                   </div>
 
-                                    <!-- Mass Channel Price Slider -->
+                                    <!-- Delivery price slider -->
                   <div class="mb-4">
-                    <label class="form-label fw-semibold">Drive-Thru Effective Check: <strong class="text-primary" id="mig-adlite-display">$24.00</strong></label>
+                    <label class="form-label fw-semibold">Delivery Effective Check: <strong class="text-primary" id="mig-adlite-display">$24.00</strong></label>
                     <input type="range" class="price-slider" id="mig-adlite-slider" min="18" max="30" step="0.50" value="24">
                     <div class="d-flex justify-content-between mt-1 small text-muted">
                       <span>$18</span>
@@ -1516,9 +1201,9 @@
                     </div>
                   </div>
 
-                  <!-- Prestige Channel Price Slider -->
+                  <!-- Carryout / pickup price slider -->
                   <div class="mb-4">
-                    <label class="form-label fw-semibold">Pickup / App Effective Check: <strong class="text-primary" id="mig-adfree-display">$36.00</strong></label>
+                    <label class="form-label fw-semibold">Carryout / Pickup Effective Check: <strong class="text-primary" id="mig-adfree-display">$36.00</strong></label>
                     <input type="range" class="price-slider" id="mig-adfree-slider" min="28" max="45" step="0.50" value="36">
                     <div class="d-flex justify-content-between mt-1 small text-muted">
                       <span>$28</span>
@@ -1543,7 +1228,7 @@
                 <div class="insight-box">
                   <div class="icon">↔️</div>
                   <h5>Migration Dynamics</h5>
-                  <p class="mb-0">When Pickup / App keeps a clear value edge, more Taco Bell traffic migrates out of Drive-Thru. If that edge disappears, guests fall back to Drive-Thru or leak into other channels.</p>
+                  <p class="mb-0">When carryout and pickup keep a clear value edge, more Pizza Hut traffic migrates out of delivery. If that edge disappears, guests fall back to delivery or leak into other channels.</p>
                 </div>
               </div>
 
@@ -1557,7 +1242,7 @@
                   </div>
                   <div id="sankey-diagram" style="width: 100%; height: 400px;"></div>
                   <div class="small text-muted mt-2">
-                    <i class="bi bi-info-circle me-1"></i>Flow width represents volume of customers. Blue = stay, Green = upgrade, Red = downgrade, Gray = repeat loss.
+                    <i class="bi bi-info-circle me-1"></i>Flow width represents weekly order flow. Blue = stay, Green = owned-channel gain, Red = delivery fallback, Gray = leakage to dine-in or lower-frequency demand.
                   </div>
                 </div>
 
@@ -1568,12 +1253,12 @@
                   <div class="migration-flow mb-4">
                     <div class="flow-box">
                       <div style="font-size: 2rem; font-weight: 700;" id="mig-adlite-pct">62%</div>
-                      <div style="color: rgba(255,255,255,0.6);">Drive-Thru</div>
+                      <div style="color: rgba(255,255,255,0.6);">Delivery</div>
                     </div>
                     <div class="flow-arrow" id="mig-arrow">→</div>
                     <div class="flow-box">
                       <div style="font-size: 2rem; font-weight: 700;" id="mig-adfree-pct">38%</div>
-                      <div style="color: rgba(255,255,255,0.6);">Pickup / App</div>
+                      <div style="color: rgba(255,255,255,0.6);">Carryout / Pickup</div>
                     </div>
                   </div>
 
@@ -1583,31 +1268,31 @@
                         <tr>
                           <th>Transition</th>
                           <th>Probability</th>
-                          <th>Customers</th>
+                          <th>Weekly Orders</th>
                           <th>Revenue Impact</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
-                          <td>Drive-Thru → Pickup / App</td>
+                          <td>Delivery → Carryout / Pickup</td>
                           <td><strong id="mig-upgrade-pct">8.2%</strong></td>
                           <td id="mig-upgrade-subs">~850</td>
                           <td class="text-success" id="mig-upgrade-rev">+$2,550</td>
                         </tr>
                         <tr>
-                          <td>Pickup / App → Drive-Thru</td>
+                          <td>Carryout / Pickup → Delivery</td>
                           <td><strong id="mig-downgrade-pct">3.5%</strong></td>
                           <td id="mig-downgrade-subs">~420</td>
                           <td class="text-danger" id="mig-downgrade-rev">-$1,260</td>
                         </tr>
                         <tr>
-                          <td>Drive-Thru → Delivery / Other</td>
+                          <td>Delivery → Dine-In / Other</td>
                           <td><strong id="mig-cancel-lite-pct">4.2%</strong></td>
                           <td id="mig-cancel-lite-subs">~430</td>
                           <td class="text-danger" id="mig-cancel-lite-rev">-$2,574</td>
                         </tr>
                         <tr>
-                          <td>Pickup / App → Delivery / Other</td>
+                          <td>Carryout / Pickup → Dine-In / Other</td>
                           <td><strong id="mig-cancel-free-pct">3.8%</strong></td>
                           <td id="mig-cancel-free-subs">~460</td>
                           <td class="text-danger" id="mig-cancel-free-rev">-$4,134</td>
@@ -1638,8 +1323,8 @@
                   <!-- Model Description -->
                   <div class="alert alert-primary mb-3">
                     <h6 class="alert-heading"><i class="bi bi-info-circle me-2"></i>Model 3: Order Channel Migration</h6>
-                    <p class="mb-2"><strong>What it captures:</strong> How Taco Bell guests switch between Drive-Thru and Pickup / App when relative price gaps change.</p>
-                    <p class="mb-0"><strong>Decision Takeaway:</strong> Preserve enough Pickup / App value to win digital migration without creating excess delivery leakage or total traffic loss.</p>
+                    <p class="mb-2"><strong>What it captures:</strong> How Pizza Hut guests switch between delivery and carryout / pickup when relative price gaps change.</p>
+                    <p class="mb-0"><strong>Decision Takeaway:</strong> Preserve enough owned-channel value to win carryout and pickup migration without creating excess delivery leakage or total traffic loss.</p>
                   </div>
 
                   <!-- Migration Scenarios -->
@@ -1708,13 +1393,13 @@
                     <i class="bi bi-bullseye me-1"></i>Objective Lens
                   </label>
                   <select id="objective-lens-select" class="form-select">
-                    <option value="revenue-max" selected>Revenue Maximization</option>
-                    <option value="growth-max">Growth Maximization</option>
-                    <option value="churn-capped">Repeat-Loss Capped (Retention)</option>
-                    <option value="mix-targeted">Mix-Shift (Channel Optimization)</option>
+                    <option value="revenue-max" selected>Net Sales &amp; Margin</option>
+                    <option value="growth-max">Weekly Order Growth</option>
+                    <option value="churn-capped">Repeat-Loss Guardrail</option>
+                    <option value="mix-targeted">Owned-Channel Mix</option>
                   </select>
                   <div class="small text-muted mt-1" id="objective-description">
-                    Maximizes revenue and AOV with acceptable repeat loss levels
+                    Maximizes net sales and AOV while keeping repeat loss in a manageable range
                   </div>
                 </div>
                 <div class="col-md-3 d-flex">
@@ -1757,9 +1442,9 @@
             </button>
           </div>
 
-          <!-- New Channel Group Warning (shown only for new tier scenarios) -->
+          <!-- New Menu Ladder Warning (shown only for new ladder scenarios) -->
           <div id="new-tier-warning" style="display: none;">
-            <!-- Will be populated if scenario introduces new tier -->
+            <!-- Will be populated if scenario introduces a modeled ladder beyond the baseline set -->
           </div>
 
           <!-- Result Summary Cards -->
@@ -1782,7 +1467,7 @@
             <div class="col-md-6">
               <div class="card">
                 <div class="card-header">
-                  <h4 class="h6 mb-0">Customer Impact</h4>
+                  <h4 class="h6 mb-0">Order Impact</h4>
                 </div>
                 <div class="card-body">
                   <canvas id="customer-chart-models"></canvas>
@@ -1899,7 +1584,7 @@
                     data-bs-custom-class="ml-popover"
                     data-bs-html="true"
                     data-bs-title="<i class='bi bi-cpu me-2'></i>ML Methodology: Elasticity Analysis"
-                    data-bs-content="<strong>Demand Curve Model:</strong><br>Q = Q₀ × (P/P₀)^ε<br>Non-linear demand function based on constant elasticity<br><br><strong>Segmentation:</strong><br>• Tenure-based cohorts (0-3mo, 3-12mo, 12+mo)<br>• Age demographics<br>• Channel touchpoint<br>• Channel acquisition<br><br><strong>Heatmap Algorithm:</strong><br>Hierarchical clustering of elasticity coefficients across segments using Ward's method<br><br><strong>Cross-Elasticity:</strong><br>Measures channel substitution effects using multivariate regression<br><br><strong>Feature Engineering:</strong><br>• Lagged price variables (1-week, 4-week)<br>• Lagged customer metrics<br>• Promotional flags<br>• Seasonal intensity score (events - gaps)">
+                    data-bs-content="<strong>Demand Curve Model:</strong><br>Q = Q₀ × (P/P₀)^ε<br>Non-linear demand function based on constant elasticity<br><br><strong>Segmentation:</strong><br>• Entry &amp; Value vs Core &amp; Premium ladders<br>• Visit mission cohorts<br>• Order channel context<br>• Basket-build segments<br><br><strong>Heatmap Algorithm:</strong><br>Hierarchical clustering of elasticity coefficients across modeled Pizza Hut segments<br><br><strong>Cross-Effects:</strong><br>Measures how order-channel and basket shifts change the pricing readout<br><br><strong>Feature Engineering:</strong><br>• Lagged price variables (1-week, 4-week)<br>• Lagged order and margin metrics<br>• Promotional flags<br>• Seasonal intensity score (events - gaps)">
               <i class="bi bi-info-circle text-primary"></i>
             </button>
           </h2>
@@ -1942,7 +1627,7 @@
                   data-bs-custom-class="ml-popover"
                   data-bs-html="true"
                   data-bs-title="<i class='bi bi-cpu me-2'></i>ML Methodology: Multi-Scenario Comparison"
-                  data-bs-content="<strong>Algorithm:</strong> Pareto optimization and multi-objective ranking<br><br><strong>Metrics Normalized:</strong><br>• Revenue impact (% change)<br>• Customer growth (% change)<br>• Repeat loss (% change)<br>• AOV (% change)<br>• Customer LTV<br><br><strong>Ranking Method:</strong><br>Weighted scoring based on business priorities<br><br><strong>Radar Chart:</strong><br>5-dimensional representation using min-max normalization<br><br><strong>Trade-off Analysis:</strong><br>Scatter plot showing revenue vs. growth with Pareto frontier<br><br><strong>Sensitivity:</strong> Monte Carlo simulation with 10,000 iterations per scenario">
+                  data-bs-content="<strong>Algorithm:</strong> Pareto optimization and multi-objective ranking<br><br><strong>Metrics Normalized:</strong><br>• Net sales impact (% change)<br>• Weekly order growth (% change)<br>• Repeat loss (% change)<br>• AOV (% change)<br>• Contribution value proxy<br><br><strong>Ranking Method:</strong><br>Weighted scoring based on business priorities<br><br><strong>Radar Chart:</strong><br>5-dimensional representation using min-max normalization<br><br><strong>Trade-off Analysis:</strong><br>Scatter plot showing net sales versus weekly order growth with Pareto frontier<br><br><strong>Sensitivity:</strong> Monte Carlo simulation with 10,000 iterations per scenario">
             <i class="bi bi-info-circle text-primary"></i>
           </button>
         </h2>
@@ -2316,199 +2001,85 @@
     </div>
   </div>
 
-  <!-- Event Calendar Section (RFP-aligned) -->
+  <!-- Event Calendar Section -->
   <div id="event-calendar-section" style="display: none;">
     <div class="container my-4">
-        <div class="card">
-          <div class="card-header bg-primary text-white">
-            <div class="d-flex justify-content-between align-items-center">
-              <h2 class="h5 mb-0">
-                <i class="bi bi-calendar-event me-2"></i>
-                Promotion Performance & Calendar
-              </h2>
-              <span class="badge text-white" id="event-count-badge">Loading...</span>
-            </div>
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <div class="d-flex justify-content-between align-items-center">
+            <h2 class="h5 mb-0">
+              <i class="bi bi-calendar-event me-2"></i>
+              Event Calendar
+            </h2>
+            <span class="badge text-white" id="event-count-badge">Loading...</span>
           </div>
+        </div>
         <div class="card-body">
 
-          <div id="promo-dependency-banner" class="promo-dependency-banner mb-4">
-            <div class="promo-dependency-banner__kicker" id="promo-dependency-kicker">Loading promo dependency...</div>
-            <div class="promo-dependency-banner__title" id="promo-dependency-title">Pricing readiness is loading.</div>
-            <div class="promo-dependency-banner__copy" id="promo-dependency-copy">Loading modeled promotion dependency for the selected Yum brand.</div>
-            <div class="promo-dependency-banner__note" id="promo-dependency-note">Waiting for latest promo and channel readout.</div>
-          </div>
-
-          <div class="row g-3 mb-4" id="promo-calendar-summary-row">
-            <div class="col-md-6 col-xl">
-              <div class="promo-summary-card h-100">
-                <div class="promo-summary-label">Official Campaigns Tracked</div>
-                <div class="promo-summary-value" id="promo-summary-official-count">--</div>
-                <div class="promo-summary-note" id="promo-summary-official-note">Loading official campaign library...</div>
-              </div>
-            </div>
-            <div class="col-md-6 col-xl">
-              <div class="promo-summary-card h-100">
-                <div class="promo-summary-label">Modeled Promo Windows</div>
-                <div class="promo-summary-value" id="promo-summary-modeled-count">--</div>
-                <div class="promo-summary-note" id="promo-summary-modeled-note">Loading modeled calendar coverage...</div>
-              </div>
-            </div>
-            <div class="col-md-6 col-xl">
-              <div class="promo-summary-card h-100">
-                <div class="promo-summary-label">Average Discount</div>
-                <div class="promo-summary-value" id="promo-summary-discount">--</div>
-                <div class="promo-summary-note" id="promo-summary-discount-note">Loading weighted promo depth...</div>
-              </div>
-            </div>
-            <div class="col-md-6 col-xl">
-              <div class="promo-summary-card h-100">
-                <div class="promo-summary-label">Primary Channel Pressure</div>
-                <div class="promo-summary-value" id="promo-summary-channel">--</div>
-                <div class="promo-summary-note" id="promo-summary-channel-note">Loading top channel cue...</div>
-              </div>
-            </div>
-            <div class="col-md-6 col-xl">
-              <div class="promo-summary-card h-100">
-                <div class="promo-summary-label">Promo Dependency</div>
-                <div class="promo-summary-value" id="promo-summary-dependency">--</div>
-                <div class="promo-summary-note" id="promo-summary-dependency-note">Loading promo-driven demand share...</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row g-4 mb-4">
-            <div class="col-lg-5">
-              <div class="card h-100">
-                <div class="card-body">
-                  <h6 class="small text-uppercase text-muted mb-2">
-                    <i class="bi bi-compass me-1"></i> Campaign Strategy Readout
-                  </h6>
-                  <ul class="small mb-0 ps-3" id="promo-strategy-readout">
-                    <li>Loading strategy cues...</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-7">
-              <div class="card h-100">
-                <div class="card-body">
-                  <div class="d-flex justify-content-between align-items-start gap-3 flex-wrap mb-2">
-                    <div>
-                      <h6 class="small text-uppercase text-muted mb-1">
-                        <i class="bi bi-journal-richtext me-1"></i> Official Campaign Pattern Mix
-                      </h6>
-                      <p class="text-muted small mb-0">Actual campaigns from brand-owned press and newsroom pages, separated from the modeled Yum promo calendar below.</p>
-                    </div>
-                    <span class="badge bg-light text-dark border" id="official-source-badge">Official sources</span>
-                  </div>
-                  <div class="d-flex flex-wrap gap-2 mb-3" id="campaign-pattern-chips">
-                    <span class="badge rounded-pill bg-secondary-subtle text-body-secondary">Loading campaign patterns...</span>
-                  </div>
-                  <div class="small" id="campaign-patterns-readout">Loading official campaign notes...</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="mb-4">
-            <div class="d-flex justify-content-between align-items-start gap-3 flex-wrap mb-2">
-              <div>
-                <h6 class="fw-bold mb-1">
-                  <i class="bi bi-megaphone-fill me-2"></i>Official Brand Campaign Tracker
-                </h6>
-                <p class="text-muted small mb-0">
-                  Curated examples of actual Taco Bell, KFC, Pizza Hut, and Habit campaigns from official brand sources. These are reference patterns, not modeled outputs.
-                </p>
-              </div>
-              <span class="badge bg-primary-subtle text-primary border-0">Actual brand activity</span>
-            </div>
-            <div class="row g-3" id="official-campaigns-container">
-              <!-- Official campaign cards will be rendered here -->
-            </div>
-          </div>
-
-          <!-- Market Signals & Listening Dashboard -->
-          <div class="row mb-4" id="market-signals-dashboard-row">
-            <div class="col-lg-6">
-              <div class="card h-100">
-                <div class="card-body py-3">
-                  <h6 class="small text-uppercase text-muted mb-2">
-                    <i class="bi bi-bullseye me-1"></i> Modeled Channel Pressure
-                  </h6>
-                  <div id="market-signals-competitive" class="small"></div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="card h-100">
-                <div class="card-body py-3">
-                  <h6 class="small text-uppercase text-muted mb-2">
-                    <i class="bi bi-graph-up-arrow me-1"></i> Modeled Offer Signal
-                  </h6>
-                  <div id="market-signals-social" class="small"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Event Type Filters -->
           <div class="row mb-4">
             <div class="col-md-12">
-              <div class="small text-uppercase text-muted fw-semibold mb-2">Promotion Calendar Filters</div>
-              <div class="btn-group" role="group" aria-label="Event type filters">
+              <div class="d-flex flex-wrap gap-2" role="group" aria-label="Event type filters">
                 <input type="checkbox" class="btn-check" id="filter-all" checked autocomplete="off">
                 <label class="btn btn-outline-primary btn-sm" for="filter-all">
                   <i class="bi bi-check-all me-1"></i>All Events
                 </label>
 
-                <input type="checkbox" class="btn-check" id="filter-price-change" checked autocomplete="off">
-                <label class="btn btn-outline-success btn-sm" for="filter-price-change">
-                  <i class="bi bi-currency-dollar me-1"></i>Price Changes
+                <input type="checkbox" class="btn-check" id="filter-menu-pricing" checked autocomplete="off">
+                <label class="btn btn-outline-success btn-sm" for="filter-menu-pricing">
+                  <i class="bi bi-currency-dollar me-1"></i>Menu Pricing
                 </label>
 
-                <input type="checkbox" class="btn-check" id="filter-promo" checked autocomplete="off">
-                <label class="btn btn-outline-info btn-sm" for="filter-promo">
-                  <i class="bi bi-tag me-1"></i>Promos
+                <input type="checkbox" class="btn-check" id="filter-value-bundle" checked autocomplete="off">
+                <label class="btn btn-outline-info btn-sm" for="filter-value-bundle">
+                  <i class="bi bi-box-seam me-1"></i>Value &amp; Bundle
                 </label>
 
-                <input type="checkbox" class="btn-check" id="filter-tentpole" checked autocomplete="off">
-                <label class="btn btn-outline-warning btn-sm" for="filter-tentpole">
-                  <i class="bi bi-star me-1"></i>Seasonal Tentpoles
+                <input type="checkbox" class="btn-check" id="filter-digital-loyalty" checked autocomplete="off">
+                <label class="btn btn-outline-primary btn-sm" for="filter-digital-loyalty">
+                  <i class="bi bi-phone me-1"></i>Digital &amp; Loyalty
+                </label>
+
+                <input type="checkbox" class="btn-check" id="filter-premium-innovation" checked autocomplete="off">
+                <label class="btn btn-outline-secondary btn-sm" for="filter-premium-innovation">
+                  <i class="bi bi-stars me-1"></i>Premium &amp; Innovation
+                </label>
+
+                <input type="checkbox" class="btn-check" id="filter-occasion-seasonal" checked autocomplete="off">
+                <label class="btn btn-outline-warning btn-sm" for="filter-occasion-seasonal">
+                  <i class="bi bi-calendar2-week me-1"></i>Occasion &amp; Seasonal
                 </label>
               </div>
             </div>
           </div>
 
-          <!-- Timeline Visualization -->
           <div class="mb-4">
             <h6 class="fw-bold mb-3">
-                  <i class="bi bi-clock-history me-2"></i>Campaign, Seasonal & Promo Timeline
+              <i class="bi bi-clock-history me-2"></i>Last 12 Months
             </h6>
             <div id="event-timeline" class="p-3 rounded" style="min-height: 300px;">
               <!-- Timeline will be rendered here -->
             </div>
           </div>
 
-          <!-- Event Table -->
           <div class="mb-4">
             <h6 class="fw-bold mb-3">
-              <button class="btn btn-link p-0 text-decoration-none fw-bold" type="button"
-                data-bs-toggle="collapse" data-bs-target="#event-details-collapse"
-                aria-expanded="false" aria-controls="event-details-collapse">
-                <i class="bi bi-list-ul me-2"></i>Calendar Event Details
-                <i class="bi bi-chevron-down ms-2 small"></i>
-              </button>
-            </h6>
+                <button class="btn btn-link p-0 text-decoration-none fw-bold" type="button"
+                  data-bs-toggle="collapse" data-bs-target="#event-details-collapse"
+                  aria-expanded="false" aria-controls="event-details-collapse">
+                  <i class="bi bi-list-ul me-2"></i>Campaign Detail Log
+                  <i class="bi bi-chevron-down ms-2 small"></i>
+                </button>
+              </h6>
             <div class="collapse" id="event-details-collapse">
               <div class="table-responsive event-details-table">
                 <table class="table table-sm table-hover" id="event-table">
                   <thead class="table-light">
                     <tr>
                       <th>Date</th>
-                      <th>Event Type</th>
-                      <th>Channel Group</th>
-                      <th>Price Change</th>
-                      <th>Promo</th>
+                      <th>Event</th>
+                      <th>Campaign / Window</th>
+                      <th>Channels</th>
+                      <th>Output</th>
                       <th>Notes</th>
                     </tr>
                   </thead>
@@ -2520,26 +2091,13 @@
             </div>
           </div>
 
-          <!-- Promo Campaign Performance -->
           <div class="mb-4">
-            <h6 class="fw-bold mb-1">
-              <i class="bi bi-bar-chart-line me-2"></i>Modeled Promo Performance Snapshot
+            <h6 class="fw-bold mb-3">
+              <i class="bi bi-megaphone me-2"></i>Campaign Output Summary
             </h6>
-            <p class="text-muted small mb-3">
-              Latest offer windows and campaign pressure from the generated Yum promo calendar, aggregated so you can see where pricing is still being supported by promotion.
-            </p>
-            <div class="row g-3" id="promo-cards-container">
+            <div class="row" id="promo-cards-container">
               <!-- Promo campaign cards will be rendered here -->
             </div>
-          </div>
-
-          <div id="promo-decision-box" class="promo-decision-box">
-            <div class="promo-decision-box__kicker">Recommended Pricing Action</div>
-            <div class="promo-decision-box__title" id="promo-decision-title">Loading recommendation...</div>
-            <div id="promo-decision-actions" class="promo-decision-box__actions">
-              <div class="promo-decision-action">Loading pricing recommendation...</div>
-            </div>
-            <div class="promo-decision-box__risk" id="promo-decision-risk">Risk readout loading...</div>
           </div>
 
         </div>
@@ -2555,7 +2113,7 @@
       <div class="card-header d-flex align-items-center justify-content-between">
         <h2 class="h5 mb-0">
           <i class="bi bi-chat-dots me-2"></i>
-          Ask Questions About The Yum Elasticity Story
+          Ask Questions About The Pizza Hut Elasticity Story
         </h2>
         <button id="chat-reset-btn" class="btn btn-sm btn-outline-secondary assistant-chat-reset-btn" type="button">
           <i class="bi bi-arrow-counterclockwise me-1"></i>
@@ -2567,14 +2125,14 @@
         <div id="chat-messages" class="assistant-chat-feed assistant-chat-feed--full mb-3 border rounded p-3" data-chat-feed data-chat-variant="full" style="height: 500px; overflow-y: auto;">
           <div class="text-center text-muted mt-5">
             <i class="bi bi-robot display-4 mb-3"></i>
-            <p><strong>Yum Elasticity Assistant</strong></p>
+            <p><strong>Pizza Hut Elasticity Assistant</strong></p>
             <p class="small">Ask me to summarize the current business, explain the elasticity readouts, compare options, or turn the evidence into actions.</p>
           </div>
         </div>
 
         <!-- Input -->
         <div class="input-group mb-3">
-          <input type="text" id="chat-input" class="form-control assistant-chat-input" placeholder="Ask about Yum elasticity: summarize, explain, compare, or recommend actions..." disabled />
+          <input type="text" id="chat-input" class="form-control assistant-chat-input" placeholder="Ask about Pizza Hut elasticity: summarize, explain, compare, or recommend actions..." disabled />
           <button id="chat-send-btn" class="btn btn-primary assistant-chat-send-btn" disabled>
             <i class="bi bi-send"></i> Send
           </button>
@@ -2587,10 +2145,10 @@
             Try asking:
           </small>
           <div class="d-flex flex-wrap gap-2">
-            <button class="btn btn-sm btn-outline-secondary suggested-query" disabled>Summarize the current Yum brand performance and price-elasticity risks</button>
+            <button class="btn btn-sm btn-outline-secondary suggested-query" disabled>Summarize current Pizza Hut performance and price-elasticity risks</button>
             <button class="btn btn-sm btn-outline-secondary suggested-query" disabled>What actions should I take this week based on the current elasticity view?</button>
             <button class="btn btn-sm btn-outline-secondary suggested-query" disabled>Which visit missions or channels look most price-sensitive right now?</button>
-            <button class="btn btn-sm btn-outline-secondary suggested-query" disabled>Explain what the Traffic Acquisition step is telling me for the selected brand</button>
+            <button class="btn btn-sm btn-outline-secondary suggested-query" disabled>Explain what the Traffic Acquisition step is telling me for Pizza Hut</button>
           </div>
         </div>
       </div>
@@ -2715,12 +2273,46 @@
         <div class="modal-body">
           <h6 class="mb-3"><i class="bi bi-database me-2"></i> Data Sources</h6>
           <ul>
-            <li><strong>store_channel_week_panel.csv</strong> - weekly Yum brand channel orders, sales, margin, and mix</li>
-            <li><strong>store_item_week_panel.csv</strong> - weekly Yum brand item demand, price, promo, and elasticity rows</li>
+            <li><strong>brand_market_channel_week_panel.csv</strong> - weekly Pizza Hut channel orders, sales, margin, and check signals by market</li>
+            <li><strong>brand_market_product_channel_week_panel.csv</strong> - weekly Pizza Hut item demand, realized price, promo, and elasticity rows by market and channel</li>
             <li><strong>promo_calendar.csv</strong> - generated promotion pressure and campaign windows used for context</li>
           </ul>
 
           <h6 class="mb-3 mt-4"><i class="bi bi-graph-up me-2"></i> KPI Formulas</h6>
+
+          <div class="card mb-3">
+            <div class="card-header"><strong>Weekly Orders</strong></div>
+            <div class="card-body">
+              <code>Weekly Orders = Sum of transaction_count_proxy across the latest Pizza Hut week</code>
+              <p class="small text-muted mt-2 mb-0">Built from the current store-channel operating panel for the active Pizza Hut view.</p>
+            </div>
+          </div>
+
+          <div class="card mb-3">
+            <div class="card-header"><strong>Weekly Net Sales</strong></div>
+            <div class="card-body">
+              <code>Weekly Net Sales = Sum of net_sales across the latest Pizza Hut week</code>
+              <p class="small text-muted mt-2 mb-0">Anchors the operating snapshot to the same weekly cut as orders and margin.</p>
+            </div>
+          </div>
+
+          <div class="card mb-3">
+            <div class="card-header"><strong>Average Order Value (AOV)</strong></div>
+            <div class="card-body">
+              <code>AOV = Weekly Net Sales / Weekly Orders</code>
+              <p class="small text-muted mt-2 mb-0">Calculated from the latest weekly Pizza Hut operating panel.</p>
+            </div>
+          </div>
+
+          <div class="card mb-3">
+            <div class="card-header"><strong>Contribution Margin Rate</strong></div>
+            <div class="card-body">
+              <code>Contribution Margin Rate = Contribution Margin / Weekly Net Sales</code>
+              <p class="small text-muted mt-2 mb-0">Uses the latest modeled Pizza Hut week to show margin posture after fulfillment and promo pressure.</p>
+            </div>
+          </div>
+
+          <div class="d-none">
 
           <div class="card mb-3">
             <div class="card-header"><strong>Average Order Value (AOV)</strong></div>
@@ -2745,13 +2337,15 @@
               <p class="small text-muted mt-2 mb-0">Smoothed with 90-day moving average</p>
             </div>
           </div>
+          </div>
 
           <h6 class="mb-3 mt-4"><i class="bi bi-lightbulb me-2"></i> Key Assumptions</h6>
           <ul>
-            <li>All data is modeled to reflect a realistic seasonal operating pattern</li>
-            <li>Baseline period: Last 12 weeks of available data</li>
+            <li>All data is modeled to reflect a realistic Pizza Hut seasonal operating pattern.</li>
+            <li>Baseline readout emphasizes the latest week with recent-period smoothing where helpful.</li>
+            <li>Channel mix reflects delivery, carryout, pickup-app, and dine-in behavior.</li>
             <li>Currency: USD</li>
-            <li>No seasonal adjustments applied</li>
+            <li>Publicly anchored operating assumptions are used where direct internal data is not available.</li>
           </ul>
         </div>
         <div class="modal-footer">
@@ -2767,43 +2361,48 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="methodology-modal-step3-label">
-            <i class="bi bi-calculator me-2"></i> Methodology: Traffic Acquisition Elasticity
+            <i class="bi bi-calculator me-2"></i> Methodology: Acquisition Elasticity
           </h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <h6 class="mb-3"><i class="bi bi-diagram-3 me-2"></i> Elasticity Model</h6>
-          <p>Traffic acquisition elasticity measures how weekly orders in the selected Yum brand respond to effective price changes by channel and visit mission.</p>
+          <p>Traffic acquisition elasticity measures how weekly Pizza Hut orders respond to effective price changes by channel, visit mission, and product ladder.</p>
 
           <div class="card mb-3">
             <div class="card-header"><strong>Core Formula</strong></div>
             <div class="card-body">
-              <code>% Change in Acquisitions = Elasticity Coefficient × % Change in Price</code>
+              <code>% Change in Orders = Elasticity Coefficient x % Change in Effective Check</code>
               <p class="small text-muted mt-2">
-                <strong>Example:</strong> If elasticity = -2.1 and price increases by 10%, acquisitions decrease by 21%
+                <strong>Example:</strong> If elasticity = -1.9 and effective check increases by 10%, scoped weekly orders decline by about 19%.
               </p>
             </div>
           </div>
 
-          <h6 class="mb-3 mt-4"><i class="bi bi-gear me-2"></i> Elasticity Coefficients (Industry Benchmarks)</h6>
+          <h6 class="mb-3 mt-4"><i class="bi bi-gear me-2"></i> Calibration Inputs</h6>
           <table class="table table-sm">
             <thead class="table-light">
               <tr>
-                <th>Order Channel</th>
-                <th>Base Elasticity</th>
-                <th>Source</th>
+                <th>Driver</th>
+                <th>How It Is Used</th>
+                <th>Why It Matters</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>Drive-Thru</td>
-                <td><strong>-1.7</strong></td>
-                <td>Largest base volume, lower migration risk</td>
+                <td>Latest 8 weeks of channel orders</td>
+                <td><strong>Sets baseline weekly traffic by channel</strong></td>
+                <td>Keeps the simulation anchored to current Pizza Hut operating scale.</td>
               </tr>
               <tr>
-                <td>Pickup / App</td>
-                <td><strong>-2.0</strong></td>
-                <td>Higher digital responsiveness and promo sensitivity</td>
+                <td>Item-level elasticity priors</td>
+                <td><strong>Roll up into value, core, and premium ladders</strong></td>
+                <td>Lets the model show where demand softens first when the check moves.</td>
+              </tr>
+              <tr>
+                <td>Cohort coefficients</td>
+                <td><strong>Adjust slope by visit mission</strong></td>
+                <td>Family, value-led, and lapse-risk guests do not respond the same way.</td>
               </tr>
             </tbody>
           </table>
@@ -2811,49 +2410,48 @@
           <h6 class="mb-3 mt-4"><i class="bi bi-sliders me-2"></i> Adjustment Factors</h6>
           <p>Base elasticity is modified by:</p>
           <ul>
-            <li><strong>Tenure:</strong> New users (0-3 months) are 1.3× more sensitive</li>
-            <li><strong>Age Group:</strong> 18-24 demographic is 1.2× more sensitive</li>
-            <li><strong>Acquisition Channel:</strong> Paid ads users are 1.4× more sensitive</li>
-            <li><strong>Time Horizon:</strong> Long-term effects (12+ months) are 1.5× stronger</li>
+            <li><strong>Visit mission:</strong> Value-led and lapse-risk guests carry steeper response curves.</li>
+            <li><strong>Order channel:</strong> Delivery, carryout, pickup, and dine-in each start from different baseline checks.</li>
+            <li><strong>Product ladder:</strong> Value bundles, core pizzas, and premium items move at different rates.</li>
+            <li><strong>Observed volatility:</strong> Recent week-to-week order variation sets the displayed confidence band.</li>
           </ul>
 
           <h6 class="mb-3 mt-4"><i class="bi bi-activity me-2"></i> Scenario Simulation</h6>
           <ol>
-            <li>Calculate price change percentage: <code>(New Price - Current Price) / Current Price</code></li>
-            <li>Apply elasticity: <code>Demand Change = Elasticity × Price Change%</code></li>
-            <li>Project new acquisitions: <code>New Acq = Baseline Acq × (1 + Demand Change)</code></li>
-            <li>Calculate revenue impact: <code>New Rev = New Acq × New Price × Retention Rate</code></li>
+            <li>Calculate effective-check change for the selected channel.</li>
+            <li>Apply ladder-level elasticity to projected weekly orders.</li>
+            <li>Aggregate the ladder outputs into total channel orders and net sales impact.</li>
+            <li>Show a calibrated confidence interval from recent operating-panel volatility.</li>
           </ol>
 
-          <h6 class="mb-3 mt-4"><i class="bi bi-code-square me-2"></i> ML Model: Poisson GLM (Python)</h6>
+          <h6 class="mb-3 mt-4"><i class="bi bi-code-square me-2"></i> Model Implementation</h6>
           <div class="card">
             <div class="card-header ">
               <strong>Model Implementation</strong>
-              <span class="badge bg-light text-dark border ms-2">python/acquisition_model.py</span>
+              <span class="badge bg-light text-dark border ms-2">js/acquisition-simple.js</span>
             </div>
             <div class="card-body">
-              <p><strong>Algorithm:</strong> Poisson Generalized Linear Model</p>
-              <p><strong>Execution:</strong> Runs in browser via <strong>Pyodide</strong> (Python + NumPy in WebAssembly)</p>
-              <p><strong>Link Function:</strong> <code>log(E[adds]) = β₀ + β₁×price + β₂×discount + β₃×is_promo + β₄×segment</code></p>
+              <p><strong>Engine:</strong> Client-side elasticity simulator using Pizza Hut channel and item panels.</p>
+              <p><strong>Primary inputs:</strong> Channel mix, average check, item-level elasticity priors, and cohort coefficients.</p>
+              <p><strong>Outputs:</strong> Weekly order change, net sales impact, ladder-level sensitivities, and a volatility-based confidence interval.</p>
 
-              <p class="mb-2 mt-3"><strong>Pre-fitted Coefficients:</strong></p>
+              <p class="mb-2 mt-3"><strong>Key mechanics:</strong></p>
               <ul class="small mb-0">
-                <li><code>intercept = 6.5</code> → baseline ~665 adds/month</li>
-                <li><code>price = -0.25</code> → price sensitivity</li>
-                <li><code>promo_discount = 0.03</code> → discount effectiveness</li>
-                <li><code>is_promo = 0.4</code> → promo boost multiplier</li>
-                <li><code>segment_elasticity_factor = 0.12</code> → segment adjustment</li>
+                <li>Uses the latest Pizza Hut order panel instead of a generic benchmark-only curve.</li>
+                <li>Maps item rows into value, core, and premium ladders before simulation.</li>
+                <li>Applies cohort modifiers to show how value-led or loyal guests react differently.</li>
+                <li>Anchors the uncertainty band to recent week-to-week traffic volatility.</li>
               </ul>
 
               <p class="small text-muted mt-3 mb-0">
-                <strong>Why Poisson?</strong> Customer counts are whole numbers (0, 1, 2...). This statistical method naturally fits count data and auto-adjusts as volumes change.
+                <strong>Why this approach?</strong> It stays aligned to the visible Pizza Hut panel while keeping the scenario math auditable in-browser.
               </p>
             </div>
           </div>
 
           <div class="alert alert-warning mt-3">
             <i class="bi bi-exclamation-triangle me-2"></i>
-            <strong>Important:</strong> Model coefficients are industry benchmarks and should be retrained on business data before deployment.
+            <strong>Important:</strong> This is a directional planning model calibrated from the generated Pizza Hut operating panel, not a production forecasting service.
           </div>
         </div>
         <div class="modal-footer">
@@ -2869,54 +2467,54 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="methodology-modal-step4-label">
-            <i class="bi bi-calculator me-2"></i> Methodology: Repeat-Visit Loss Elasticity
+            <i class="bi bi-calculator me-2"></i> Methodology: Churn Elasticity
           </h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <h6 class="mb-3"><i class="bi bi-diagram-3 me-2"></i> Repeat Loss Model</h6>
-          <p>Repeat-visit loss elasticity models how Taco Bell guests trim frequency over time after menu price increases or value support roll-off.</p>
+          <p>Repeat-visit loss elasticity models how Pizza Hut guests trim frequency over time after menu price increases or value support roll-off.</p>
 
           <div class="card mb-3">
             <div class="card-header "><strong>Repeat Loss Formula</strong></div>
             <div class="card-body">
-              <code>Additional Repeat-Visit Loss% = Repeat-Visit Loss Elasticity × Price Change% × Time Factor</code>
+              <code>Additional Visit Loss = Baseline Visit Loss x Repeat-Loss Elasticity x Price Change x Time-Lag Weight</code>
               <p class="small text-muted mt-2">
-                <strong>Example:</strong> 10% price increase with -1.8 elasticity → +18% repeat loss (baseline 3% → 3.54%)
+                <strong>Example:</strong> The same price move can look manageable in Week 4 and materially worse by Weeks 8-12 once guests cycle through fewer occasions.
               </p>
             </div>
           </div>
 
           <h6 class="mb-3 mt-4"><i class="bi bi-clock-history me-2"></i> Time-Lagged Effects</h6>
-          <p>Repeat loss doesn't happen instantly. We model temporal dynamics:</p>
+          <p>Repeat loss does not happen instantly. The model spreads impact across meal cycles:</p>
           <table class="table table-sm">
             <thead class="table-light">
               <tr>
                 <th>Period</th>
-                <th>Effect Multiplier</th>
-                <th>Explanation</th>
+                <th>Modeled Weight</th>
+                <th>Interpretation</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>0-1 month</td>
-                <td>0.3×</td>
-                <td>Immediate reaction (angry users)</td>
+                <td>Weeks 0-4</td>
+                <td>0.15</td>
+                <td>Early reaction from the most price-sensitive guests.</td>
               </tr>
               <tr>
-                <td>2-3 months</td>
-                <td>1.0×</td>
-                <td>Peak repeat loss period</td>
+                <td>Weeks 4-8</td>
+                <td>0.25</td>
+                <td>More households feel the new check after one or two reorder cycles.</td>
               </tr>
               <tr>
-                <td>4-6 months</td>
-                <td>0.7×</td>
-                <td>Tapering off (remaining users adjusted)</td>
+                <td>Weeks 8-12</td>
+                <td>0.30</td>
+                <td>Peak repeat-loss window in the current Pizza Hut calibration.</td>
               </tr>
               <tr>
-                <td>7-12 months</td>
-                <td>0.4×</td>
-                <td>Long-tail effect</td>
+                <td>Week 12+</td>
+                <td>0.30</td>
+                <td>Long-tail erosion or stabilization among remaining guests.</td>
               </tr>
             </tbody>
           </table>
@@ -2924,50 +2522,48 @@
           <h6 class="mb-3 mt-4"><i class="bi bi-people me-2"></i> Cohort-Specific Repeat Loss</h6>
           <p>Different customer segments have different repeat-loss sensitivities:</p>
           <ul>
-            <li><strong>New customers (0-6 months):</strong> 2.5× baseline repeat-loss elasticity</li>
-            <li><strong>Mid-tenure (6-18 months):</strong> 1.0× baseline</li>
-            <li><strong>Loyal (18+ months):</strong> 0.5× baseline (more forgiving)</li>
-            <li><strong>Bundle customers:</strong> 0.3× baseline (highest repeat rate)</li>
+            <li><strong>Coupon-driven guests:</strong> Highest near-term visit-loss risk when value support fades.</li>
+            <li><strong>Family ritual loyalists:</strong> Lower immediate risk, but still soften over time if price moves stack up.</li>
+            <li><strong>Premium pizza loyalists:</strong> Better short-run resilience on higher-ticket items.</li>
+            <li><strong>Channel switchers:</strong> More likely to change order behavior before fully lapsing.</li>
           </ul>
 
           <h6 class="mb-3 mt-4"><i class="bi bi-shield-check me-2"></i> Retention Tactics</h6>
-          <p>Model includes optional retention strategies:</p>
+          <p>The step is designed to inform selective mitigation rather than blanket discounting:</p>
           <ul>
-            <li><strong>Win-back campaigns:</strong> Can reduce repeat loss by 15-25%</li>
-            <li><strong>Price protection:</strong> Exempt loyal customers from increases</li>
-            <li><strong>Loyalty offers:</strong> Offer 20% off for long-tenure customers</li>
+            <li><strong>Keep value support visible:</strong> Preserve a clear entry point on sensitive menu ladders.</li>
+            <li><strong>Target bounce-back offers:</strong> Re-engage lapse-risk guests instead of discounting the full base.</li>
+            <li><strong>Protect high-repeat missions:</strong> Test price first where weekly routine demand is more resilient.</li>
           </ul>
 
-          <h6 class="mb-3 mt-4"><i class="bi bi-code-square me-2"></i> ML Model: Logistic Regression (Python)</h6>
+          <h6 class="mb-3 mt-4"><i class="bi bi-code-square me-2"></i> Model Implementation</h6>
           <div class="card">
             <div class="card-header ">
               <strong>Model Implementation</strong>
-              <span class="badge bg-light text-dark border ms-2">python/churn_model.py</span>
+              <span class="badge bg-light text-dark border ms-2">js/churn-simple.js</span>
             </div>
             <div class="card-body">
-              <p><strong>Algorithm:</strong> Logistic Regression with time-lagged effects</p>
-              <p><strong>Execution:</strong> Runs in browser via <strong>Pyodide</strong> (Python + NumPy)</p>
-              <p><strong>Link Function:</strong> <code>logit(repeat_loss) = β₀ + β₁×price_change + β₂×time_interaction</code></p>
+              <p><strong>Engine:</strong> Client-side time-lagged repeat-loss simulator using the Pizza Hut item panel.</p>
+              <p><strong>Primary inputs:</strong> Menu-ladder baseline contribution, cohort repeat-loss elasticity, and the time-lag distribution.</p>
+              <p><strong>Outputs:</strong> Visit-loss curve, retained menu units, and cumulative contribution impact.</p>
 
-              <p class="mb-2 mt-3"><strong>Pre-fitted Coefficients:</strong></p>
+              <p class="mb-2 mt-3"><strong>Key mechanics:</strong></p>
               <ul class="small mb-0">
-                <li><code>intercept = -2.944</code> → baseline 5% repeat-loss probability</li>
-                <li><code>price_change_pct = 0.01</code> → base price effect</li>
-                <li><code>price_x_0_4wks = 0.006</code> → immediate effect multiplier</li>
-                <li><code>price_x_4_8wks = 0.018</code> → roll-off peak multiplier</li>
-                <li><code>price_x_8_12wks = 0.028</code> → peak repeat-loss multiplier</li>
-                <li><code>price_x_12plus = 0.008</code> → long-tail stabilization</li>
+                <li>Starts from observed Pizza Hut value and core/premium menu ladders.</li>
+                <li>Spreads the impact across Weeks 0-4, 4-8, 8-12, and 12+.</li>
+                <li>Adjusts the curve by cohort so lapse-risk and loyal guests diverge realistically.</li>
+                <li>Translates the volume change into cumulative contribution, not just visit loss.</li>
               </ul>
 
               <p class="small text-muted mt-3 mb-0">
-                <strong>Why Logistic?</strong> Binary outcome (repeat loss yes/no) requires logit link. Time-lagged interactions capture delayed repeat-loss response to price changes.
+                <strong>Why this approach?</strong> It shows when a price move still looks good early but degrades once frequency erosion compounds.
               </p>
             </div>
           </div>
 
           <div class="alert alert-info mt-3">
             <i class="bi bi-info-circle me-2"></i>
-            <strong>Data Source:</strong> Repeat-visit patterns calibrated from Taco Bell weekly item and channel panels plus industry research.
+            <strong>Data Source:</strong> Repeat-visit patterns calibrated from Pizza Hut weekly item and channel panels plus public restaurant pricing research.
           </div>
         </div>
         <div class="modal-footer">
@@ -2989,14 +2585,14 @@
         </div>
         <div class="modal-body">
           <h6 class="mb-3"><i class="bi bi-arrow-left-right me-2"></i> Migration Model</h6>
-          <p>Models Taco Bell guest movement between Drive-Thru and Pickup / App when relative check gaps change, with spillover into other channels.</p>
+          <p>Models Pizza Hut order movement between delivery and carryout / pickup when relative check gaps change, with spillover into other channels.</p>
 
           <div class="card mb-3">
             <div class="card-header "><strong>Migration Formula</strong></div>
             <div class="card-body">
-              <code>Migration Rate = Base Rate × Price Gap Factor × Elasticity</code>
+              <code>Migration Rate = Base Flow + Price Move Response + Relative Gap Response</code>
               <p class="small text-muted mt-2 mb-0">
-                Where <strong>Price Gap</strong> = (Higher Channel Price - Lower Channel Price) / Lower Tier Price
+                The live model compares the new delivery-versus-carryout gap to the current Pizza Hut baseline and applies cohort asymmetry factors.
               </p>
             </div>
           </div>
@@ -3004,78 +2600,78 @@
           <h6 class="mb-3 mt-4"><i class="bi bi-arrows-move me-2"></i> Migration Patterns</h6>
 
           <div class="card mb-3">
-            <div class="card-header "><strong>Fallback Triggers (Pickup / App → Drive-Thru)</strong></div>
+            <div class="card-header "><strong>Reverse Flow Triggers (Carryout / Pickup → Delivery)</strong></div>
             <div class="card-body">
               <ul class="mb-0">
-                <li>Base downgrade rate: <strong>2-5% monthly</strong></li>
-                <li>Increases by <strong>1.5% for every $1 price gap increase</strong></li>
-                <li>Peak downgrade occurs 2-3 months after price change</li>
+                <li>Base reverse flow starts near <strong>1.4% of weekly carryout / pickup orders</strong>.</li>
+                <li>It rises when the carryout / pickup effective check moves up faster than delivery.</li>
+                <li>Coupon-driven and lapse-risk guests show the strongest fallback behavior.</li>
               </ul>
             </div>
           </div>
 
           <div class="card mb-3">
-            <div class="card-header "><strong>Owned-Channel Migration Triggers (Drive-Thru → Pickup / App)</strong></div>
+            <div class="card-header "><strong>Owned-Channel Gain Triggers (Delivery → Carryout / Pickup)</strong></div>
             <div class="card-body">
               <ul class="mb-0">
-                <li>Base upgrade rate: <strong>3-7% monthly</strong></li>
-                <li>Decreases by <strong>0.8% for every $1 price gap increase</strong></li>
-                <li>Motivated by premium assortment and exclusive sets</li>
+                <li>Base owned-channel gain starts near <strong>3.0% of weekly delivery orders</strong>.</li>
+                <li>It accelerates when delivery gets more expensive or the owned-channel value edge widens.</li>
+                <li>Channel switchers and value-led guests produce the biggest mix shift.</li>
               </ul>
             </div>
           </div>
 
           <h6 class="mb-3 mt-4"><i class="bi bi-calculator-fill me-2"></i> Simulation Logic</h6>
           <ol>
-            <li>Calculate new price gaps between all tier pairs</li>
-            <li>Estimate migration probabilities using logistic regression</li>
-            <li>Apply cohort-specific modifiers (tenure, engagement)</li>
-            <li>Simulate month-by-month transitions using Markov chain</li>
-            <li>Calculate net revenue impact accounting for mix shift</li>
+            <li>Read the latest delivery and carryout / pickup checks from the Pizza Hut store-channel panel.</li>
+            <li>Recalculate the current gap after the user changes either channel check.</li>
+            <li>Apply cohort asymmetry, upgrade willingness, and downgrade willingness modifiers.</li>
+            <li>Estimate weekly migration and leakage rates for both directions.</li>
+            <li>Translate the flow into projected channel share and revenue impact.</li>
           </ol>
 
           <h6 class="mb-3 mt-4"><i class="bi bi-bezier2 me-2"></i> Elasticity Cross-Effects</h6>
-          <p>Migration is influenced by relative elasticities:</p>
+          <p>Migration is driven by the relative channel-value signal:</p>
           <code class="d-block p-2 ">
-            Cross-Elasticity = -0.5 × (Channel A Elasticity - Channel B Elasticity)
+            Gap Signal = (Baseline Delivery Gap - New Delivery Gap) / |Baseline Delivery Gap|
           </code>
-          <p class="small text-muted mt-2">Higher elasticity differential = more migration</p>
+          <p class="small text-muted mt-2">A stronger owned-channel value edge increases delivery-to-carryout migration; a weaker edge does the opposite.</p>
 
-          <h6 class="mb-3 mt-4"><i class="bi bi-code-square me-2"></i> ML Model: Multinomial Logit (Python)</h6>
+          <h6 class="mb-3 mt-4"><i class="bi bi-code-square me-2"></i> Model Implementation</h6>
           <div class="card">
             <div class="card-header ">
               <strong>Model Implementation</strong>
-              <span class="badge bg-light text-dark border ms-2">python/migration_model.py</span>
+              <span class="badge bg-light text-dark border ms-2">js/migration-simple.js</span>
             </div>
             <div class="card-body">
-              <p><strong>Algorithm:</strong> Multinomial Logistic Regression (Softmax)</p>
-              <p><strong>Execution:</strong> Runs in browser via <strong>Pyodide</strong> (Python + NumPy)</p>
-              <p><strong>Outputs:</strong> Migration probability matrix across all tier pairs</p>
+              <p><strong>Engine:</strong> Client-side migration simulator calibrated from Pizza Hut channel averages and cohort coefficients.</p>
+              <p><strong>Inputs:</strong> Delivery check, carryout / pickup check, baseline gap, and cohort migration modifiers.</p>
+              <p><strong>Outputs:</strong> Weekly transition rates, projected channel share, Sankey flows, and revenue impact.</p>
 
               <p class="mb-2 mt-3"><strong>Supported Channel Structures:</strong></p>
               <ul class="small">
-                <li><strong>2-Group:</strong> Drive-Thru ↔ Pickup / App</li>
-                <li><strong>3-Group Owned:</strong> Drive-Thru, Pickup / App, Delivery</li>
-                <li><strong>3-Group Broader:</strong> Drive-Thru, Pickup / App, Other Channels</li>
+                <li><strong>Delivery:</strong> Premium off-premise basket.</li>
+                <li><strong>Carryout / Pickup:</strong> Owned-channel value destination.</li>
+                <li><strong>Dine-In / Other:</strong> Leakage bucket for demand leaving the two primary channels.</li>
               </ul>
 
-              <p class="mb-2 mt-3"><strong>Sample Coefficients (3-Tier Bundle):</strong></p>
+              <p class="mb-2 mt-3"><strong>Live Coefficient Structure:</strong></p>
               <ul class="small mb-0">
-                <li><code>ad_free_to_bundle intercept = -0.5</code> → moderate upgrade appeal</li>
-                <li><code>value_savings_pct = 0.03</code> → 21% savings → +0.63 utility</li>
-                <li><code>bundle_need = 0.8</code> → Value sets drive 55-70% conversion</li>
-                <li><code>tenure_months = 0.012</code> → loyal customers more likely to upgrade</li>
+                <li><code>delivery_to_carryout base = 3.0%</code> before price and gap adjustments.</li>
+                <li><code>carryout_to_delivery base = 1.4%</code> before reverse-flow adjustments.</li>
+                <li><code>delivery leakage base = 1.0%</code> and <code>carryout leakage base = 0.8%</code>.</li>
+                <li>Cohort asymmetry and migration willingness factors scale those base flows.</li>
               </ul>
 
               <p class="small text-muted mt-3 mb-0">
-                <strong>Why Multinomial Logit?</strong> Multiple discrete channel choices (stay, migrate, leak). Softmax ensures probabilities sum to 1 and handles asymmetric channel cross-effects.
+                <strong>Why this approach?</strong> It keeps the migration math transparent and directly tied to the visible Pizza Hut channel panel.
               </p>
             </div>
           </div>
 
           <div class="alert alert-info mt-3">
             <i class="bi bi-lightbulb me-2"></i>
-            <strong>Calibration:</strong> Migration rates calibrated from Taco Bell store-channel history and relative check gaps between Drive-Thru and Pickup / App.
+            <strong>Calibration:</strong> Migration rates calibrated from Pizza Hut store-channel history and relative check gaps between delivery and carryout / pickup.
           </div>
         </div>
         <div class="modal-footer">
@@ -3097,19 +2693,19 @@
         </div>
         <div class="modal-body">
           <h6 class="mb-3"><i class="bi bi-diagram-3-fill me-2"></i> Segmentation Framework</h6>
-          <p>3-axis behavioral segmentation framework creating 250 unique segments (5 × 5 × 5 × 2 channel groups).</p>
+          <p>3-axis behavioral segmentation framework creating 250 modeled segment combinations (5 visit missions x 5 repeat behaviors x 5 basket builds x 2 demand ladders).</p>
 
           <h6 class="mb-3 mt-4"><i class="bi bi-grid-3x3 me-2"></i> Three Segmentation Axes</h6>
 
           <div class="card mb-3">
-            <div class="card-header "><strong>Axis 1: Basket Value & Mix (5 segments)</strong></div>
+            <div class="card-header "><strong>Axis 1: Visit Mission & Discovery (5 segments)</strong></div>
             <div class="card-body">
               <ul class="mb-0">
-                <li><strong>Single-SKU Staple:</strong> Repeat purchases of a hero SKU</li>
-                <li><strong>Multi-SKU Builder:</strong> Builds larger baskets</li>
-                <li><strong>Value Bundle Buyer:</strong> Prefers sets and value packs</li>
-                <li><strong>Premium Add-On:</strong> Adds premium or limited SKUs</li>
-                <li><strong>Trial-Size Sampler:</strong> Tests mini or entry packs</li>
+                <li><strong>Game-Day First Try:</strong> Trial driven by sports and shareable-meal occasions.</li>
+                <li><strong>Weekly Meal Routine:</strong> Repeat ordering anchored to established dinner habits.</li>
+                <li><strong>Group Occasion Buyer:</strong> Larger-party and family-sharing missions.</li>
+                <li><strong>Digital Discovery Guest:</strong> App, social, and creator-led demand.</li>
+                <li><strong>Value Offer Triggered:</strong> Visits start when bundle value is clearly visible.</li>
               </ul>
             </div>
           </div>
@@ -3118,24 +2714,24 @@
             <div class="card-header "><strong>Axis 2: Repeat Behavior (5 segments)</strong></div>
             <div class="card-body">
               <ul class="mb-0">
-                <li><strong>Prestige Loyalist:</strong> High repeat rate in prestige channel</li>
-                <li><strong>Value Seeker:</strong> Responds to moderate discounts</li>
-                <li><strong>Deal Hunter:</strong> Promo-first, high drop-off risk</li>
-                <li><strong>Occasional Shopper:</strong> Low frequency purchases</li>
-                <li><strong>Channel Switcher:</strong> Moves between mass and prestige</li>
+                <li><strong>Family Ritual Loyalist:</strong> High repeat rate in recurring Pizza Hut meal routines.</li>
+                <li><strong>Value Bundle Shopper:</strong> Responds strongly to clear meal-deal ladders.</li>
+                <li><strong>Coupon-Driven Guest:</strong> Promo-first and highest repeat-loss risk.</li>
+                <li><strong>Occasional Craving Guest:</strong> Lower-frequency ordering tied to sporadic cravings.</li>
+                <li><strong>Channel Switcher:</strong> Moves between delivery and owned channels as the value gap shifts.</li>
               </ul>
             </div>
           </div>
 
           <div class="card mb-3">
-            <div class="card-header "><strong>Axis 3: Acquisition Driver (5 segments)</strong></div>
+            <div class="card-header "><strong>Axis 3: Basket Build & Check Architecture (5 segments)</strong></div>
             <div class="card-body">
               <ul class="mb-0">
-                <li><strong>Seasonal First-Time:</strong> First purchase driven by season</li>
-                <li><strong>Routine Refill:</strong> Replenishment driven</li>
-                <li><strong>Gift Buyer:</strong> Purchases tied to gifting</li>
-                <li><strong>Influencer Discovered:</strong> Social-led discovery</li>
-                <li><strong>Promo Triggered:</strong> Enters only with discounts</li>
+                <li><strong>Single Pizza Order:</strong> Simple pizza-led order with limited attachments.</li>
+                <li><strong>Multi-Item Builder:</strong> Builds larger checks with sides, wings, or desserts.</li>
+                <li><strong>Bundle Buyer:</strong> Prefers boxes, meal deals, and clear value ladders.</li>
+                <li><strong>Premium Add-On:</strong> Trades into premium crusts or premium extras.</li>
+                <li><strong>Side Sampler:</strong> Uses lower-cost attachments to round out the order.</li>
               </ul>
             </div>
           </div>
@@ -3145,8 +2741,8 @@
             <div class="card-body">
               <code>Segment Elasticity = Base Tier Elasticity × Axis1 Modifier × Axis2 Modifier × Axis3 Modifier</code>
               <p class="small text-muted mt-3 mb-0">
-                <strong>Example:</strong> Drive-Thru deal-seeker, app-migration prone, value-box buyer:<br>
-                -2.1 (base) × 1.3 (promo) × 1.2 (deal hunter) × 1.1 (bundle) = <strong>-3.60</strong> (highly elastic)
+                <strong>Example:</strong> Delivery coupon-driven guest, channel-switch prone, bundle buyer:<br>
+                -2.1 (base) x 1.3 (promo-led mission) x 1.2 (coupon-driven) x 1.1 (bundle basket) = <strong>-3.60</strong> (highly elastic)
               </p>
             </div>
           </div>
@@ -3160,7 +2756,7 @@
 
           <div class="alert alert-success mt-3">
             <i class="bi bi-check-circle me-2"></i>
-            <strong>Validation:</strong> Segments validated against holdout data showing 85% accuracy in predicting repeat-loss behavior.
+            <strong>Calibration:</strong> Segment combinations are modeled from the Pizza Hut operating panel, cohort coefficients, and menu-ladder priors. They are directional planning segments, not CRM-labeled guest truth sets.
           </div>
         </div>
         <div class="modal-footer">
@@ -3182,7 +2778,7 @@
         </div>
         <div class="modal-body">
           <h6 class="mb-3" style="color: #6366f1;"><i class="bi bi-bar-chart-line me-2"></i> Comparative Analysis</h6>
-          <p>Compares price sensitivity across customer segments to identify optimal pricing strategies.</p>
+          <p>Compares price sensitivity across modeled Pizza Hut guest segments to identify where price can move and where value support still matters.</p>
 
           <h6 class="mb-3 mt-4" style="color: #6366f1;"><i class="bi bi-diagram-2 me-2"></i> Analysis Methods</h6>
 
@@ -3227,9 +2823,9 @@
           <p>Analysis supports multiple filter combinations:</p>
           <ul>
             <li><strong>By Menu Ladder:</strong> Compare within Entry &amp; Value or Core &amp; Premium ladders</li>
-            <li><strong>By Tenure:</strong> New (0-6mo), mid-tenure (6-18mo), loyal (18+mo)</li>
-            <li><strong>By Engagement:</strong> Heavy users (>20hr/month), light users (<5hr/month)</li>
-            <li><strong>By Risk:</strong> High repeat-loss risk (>10% monthly), stable (<3% monthly)</li>
+            <li><strong>By Visit Mission:</strong> Game-day trial, weekly routine, group occasion, digital discovery, or value-triggered traffic</li>
+            <li><strong>By Basket Build:</strong> Single pizza, multi-item, bundle-led, premium add-on, or side sampler orders</li>
+            <li><strong>By Repeat Risk:</strong> Coupon-driven and lapse-risk pockets versus stable loyalist pockets</li>
           </ul>
 
           <h6 class="mb-3 mt-4" style="color: #6366f1;"><i class="bi bi-file-earmark-arrow-down me-2"></i> Export Capabilities</h6>
@@ -3258,7 +2854,7 @@
 
   <!-- Footer -->
   <footer class="container my-5 text-center text-muted">
-    <small>Yum Brands Pricing Elasticity Studio</small>
+    <small>Pizza Hut Pricing Elasticity Studio</small>
   </footer>
 
   <!-- Bootstrap JS -->
@@ -3289,107 +2885,6 @@
   }
   </script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/github.min.css">
-
-  <!-- Steps Overview Modal -->
-  <div class="modal fade steps-modal" id="stepsOverviewModal" tabindex="-1" aria-labelledby="stepsOverviewLabel" aria-hidden="true">
-    <div class="modal-dialog modal-fullscreen">
-      <div class="modal-content">
-        <div class="modal-header">
-          <div>
-            <h5 class="modal-title" id="stepsOverviewLabel">
-              <i class="bi bi-compass me-2"></i> Explore the 7 Steps
-            </h5>
-            <div class="small text-muted">Jump to any step with a single click.</div>
-          </div>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="container-fluid">
-            <div class="row g-4">
-              <div class="col-12">
-                <div class="steps-table">
-                  <div class="steps-table-header">
-                    <span>Step</span>
-                    <span>Name + Subtitle</span>
-                  </div>
-                  <button class="steps-table-row" type="button" data-step="1" style="--step-index: 1;">
-                    <span class="steps-table-step">
-                      <span class="step-dot steps-modal-dot module-data-foundation">1</span>
-                      <span class="steps-table-step-label">Step 1</span>
-                    </span>
-                    <span class="steps-table-body">
-                      <strong>Data Foundation Explorer</strong>
-                      <span class="text-muted">Start with the real Yum operating datasets so the analysis is grounded in the tables the application actually uses.</span>
-                    </span>
-                  </button>
-                  <button class="steps-table-row" type="button" data-step="2" style="--step-index: 2;">
-                    <span class="steps-table-step">
-                      <span class="step-dot steps-modal-dot module-data-foundation">2</span>
-                      <span class="steps-table-step-label">Step 2</span>
-                    </span>
-                    <span class="steps-table-body">
-                      <strong>Current Business Overview</strong>
-                      <span class="text-muted">Move from the foundation into the current brand view for traffic, order value, margin, channels, and decision context.</span>
-                    </span>
-                  </button>
-                  <button class="steps-table-row" type="button" data-step="3" style="--step-index: 3;">
-                    <span class="steps-table-step">
-                      <span class="step-dot steps-modal-dot module-segmentation">3</span>
-                      <span class="steps-table-step-label">Step 3</span>
-                    </span>
-                    <span class="steps-table-body">
-                      <strong>Customer Cohorts &amp; Elasticity</strong>
-                      <span class="text-muted">Show how different visit missions and behavioral cohorts respond to price instead of treating the whole brand as one curve.</span>
-                    </span>
-                  </button>
-                  <button class="steps-table-row" type="button" data-step="4" style="--step-index: 4;">
-                    <span class="steps-table-step">
-                      <span class="step-dot steps-modal-dot module-segmentation">4</span>
-                      <span class="steps-table-step-label">Step 4</span>
-                    </span>
-                    <span class="steps-table-body">
-                      <strong>Segment Elasticity Comparison</strong>
-                      <span class="text-muted">Compare which segments are more or less price-sensitive so the action can stay simple even when the data is complex.</span>
-                    </span>
-                  </button>
-                  <button class="steps-table-row" type="button" data-step="5" style="--step-index: 5;">
-                    <span class="steps-table-step">
-                      <span class="step-dot steps-modal-dot module-elasticity">5</span>
-                      <span class="steps-table-step-label">Step 5</span>
-                    </span>
-                    <span class="steps-table-body">
-                      <strong>Traffic Acquisition Elasticity</strong>
-                      <span class="text-muted">Focus the main demo on the selected Yum brand, selected channel, and selected mission so the business impact and next step are clear.</span>
-                    </span>
-                  </button>
-                  <button class="steps-table-row" type="button" data-step="6" style="--step-index: 6;">
-                    <span class="steps-table-step">
-                      <span class="step-dot steps-modal-dot module-elasticity">6</span>
-                      <span class="steps-table-step-label">Step 6</span>
-                    </span>
-                    <span class="steps-table-body">
-                      <strong>Promotion Performance &amp; Calendar</strong>
-                      <span class="text-muted">Read current and recent promotion pressure before changing longer-term price architecture.</span>
-                    </span>
-                  </button>
-                  <button class="steps-table-row" type="button" data-step="7" style="--step-index: 7;">
-                    <span class="steps-table-step">
-                      <span class="step-dot steps-modal-dot module-analytics">7</span>
-                      <span class="steps-table-step-label">Step 7</span>
-                    </span>
-                    <span class="steps-table-body">
-                      <strong>AI Chat &amp; Decision Support</strong>
-                      <span class="text-muted">Ask for explanations, actions, and follow-up cuts from the same Yum data foundation shown in the app.</span>
-                    </span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- Settings Modal -->
   <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
@@ -3453,9 +2948,6 @@
   <script type="module" src="./js/acquisition-simple.js"></script>
   <script type="module" src="./js/churn-simple.js"></script>
   <script type="module" src="./js/migration-simple.js"></script>
-
-  <!-- Channel Promotions Simulator (Step 1) -->
-  <script type="module" src="./js/channel-promo-simulator.js"></script>
 
   <!-- Main Application Script -->
   <script type="module" src="./js/app.js"></script>

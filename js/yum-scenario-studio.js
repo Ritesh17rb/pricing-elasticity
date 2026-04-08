@@ -133,7 +133,7 @@ function syncPriceControls(item) {
   if (!item) {
     numberInput.value = '';
     rangeInput.value = '0';
-    hint.textContent = 'No pricing controls available for the current brand selection.';
+    hint.textContent = 'No pricing controls are available for the current Pizza Hut selection.';
     return;
   }
 
@@ -367,7 +367,7 @@ function bindBrandListener() {
     try {
       await applyBrandSelection(brandId);
     } catch (error) {
-      console.warn('Failed to refresh Yum pricing studio brand selection:', error);
+      console.warn('Failed to refresh Pizza Hut pricing studio selection:', error);
     }
   });
 
@@ -392,7 +392,7 @@ export async function initializeYumScenarioStudio() {
     ]);
 
     if (!availableBrands.length) {
-      throw new Error('No Yum brands found in the generated operating panel.');
+      throw new Error('No Pizza Hut operating rows were found in the generated panel.');
     }
 
     populateBrandSelect();
@@ -412,12 +412,12 @@ export async function initializeYumScenarioStudio() {
     await applyBrandSelection(initialBrandId);
     root.dataset.ready = 'true';
   } catch (error) {
-    console.warn('Yum pricing studio initialization skipped:', error);
+    console.warn('Pizza Hut pricing studio initialization skipped:', error);
     root.innerHTML = `
       <div class="card-body">
         <div class="alert alert-warning mb-0">
           <i class="bi bi-exclamation-triangle me-2"></i>
-          Yum Pricing Studio could not initialize. Generate the Yum operating data first, then refresh.
+          Pizza Hut Pricing Studio could not initialize. Generate the Pizza Hut operating data first, then refresh.
         </div>
       </div>
     `;
