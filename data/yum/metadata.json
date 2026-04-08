@@ -41,10 +41,6 @@
       "grain": "week_start x brand_id x market_id x campaign_id",
       "description": "Pizza Hut campaign cadence by market."
     },
-    "processed/cross_brand_transfer_matrix.csv": {
-      "grain": "occasion_group x from_brand_id x to_brand_id",
-      "description": "Unused placeholder file kept for schema compatibility."
-    },
     "processed/brand_market_product_channel_week_panel.csv": {
       "grain": "week_start x brand_id x market_id x product_id x channel_id",
       "description": "Main modeled Pizza Hut elasticity panel."

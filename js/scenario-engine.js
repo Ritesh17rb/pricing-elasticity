@@ -16,6 +16,46 @@ import { getWeeklyData, getCurrentPrices, loadElasticityParams } from './data-lo
 
 import { pyodideBridge } from './pyodide-bridge.js';
 
+const SCENARIO_TIER_PROXY_MAP = {
+  basic: 'ad_supported',
+  premium: 'ad_free',
+  bundle: 'ad_free'
+};
+
+function toNumber(value, fallback = 0) {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : fallback;
+}
+
+function resolveScenarioProxyTier(tier) {
+  return SCENARIO_TIER_PROXY_MAP[tier] || tier;
+}
+
+function resolveScenarioElasticityTier(tier) {
+  return tier === 'bundle' ? 'bundle' : resolveScenarioProxyTier(tier);
+}
+
+function isNewScenarioTier(tier) {
+  return tier === 'basic' || tier === 'premium';
+}
+
+function resolveScenarioPricing(config = {}, baselineAov = 0) {
+  const configuredCurrentPrice = toNumber(config.current_price, 0);
+  const configuredNewPrice = toNumber(config.new_price, 0);
+  const fallbackCurrentPrice = configuredCurrentPrice > 0
+    ? configuredCurrentPrice
+    : (baselineAov > 0 ? baselineAov : configuredNewPrice);
+  const currentPrice = fallbackCurrentPrice > 0 ? fallbackCurrentPrice : 0;
+  const newPrice = configuredNewPrice > 0 ? configuredNewPrice : currentPrice;
+  const priceChangePct = currentPrice > 0 ? (newPrice - currentPrice) / currentPrice : 0;
+
+  return {
+    currentPrice,
+    newPrice,
+    priceChangePct
+  };
+}
+
 /**
  * Simulate a pricing scenario
  * @param {Object} scenario - Scenario configuration
@@ -40,59 +80,56 @@ export async function simulateScenario(scenario, options = {}) {
   try {
     console.log('Simulating scenario:', scenario.id, 'for tier:', scenario.config.tier);
 
-    // Map new/hypothetical tiers to proxy tiers for baseline data
-    const tierMap = {
-      'basic': 'ad_supported',  // Basic tier uses ad_supported as proxy
-      'premium': 'ad_free',      // Premium tier uses ad_free as proxy
-      'bundle': 'ad_free'        // Bundle uses ad_free (already handled)
-    };
+    const configuredTier = scenario.config.tier;
+    const baselineTier = resolveScenarioProxyTier(configuredTier);
+    const elasticityTier = resolveScenarioElasticityTier(configuredTier);
+    const isNewTier = isNewScenarioTier(configuredTier);
 
-    const baselineTier = tierMap[scenario.config.tier] || scenario.config.tier;
-    // Only "basic" and "premium" are truly new tiers; "bundle" is just a pricing variation of ad_free
-    const isNewTier = (scenario.config.tier === 'basic' || scenario.config.tier === 'premium');
-
-    if (tierMap[scenario.config.tier] && isNewTier) {
-      console.log(`⚠️ New tier "${scenario.config.tier}" - using "${baselineTier}" as baseline proxy`);
+    if (baselineTier !== configuredTier) {
+      console.log(`Using "${baselineTier}" as the simulation proxy for "${configuredTier}"`);
     }
 
-    // Get baseline data (pass scenario for bundle handling)
-    const baseline = await getBaselineMetrics(baselineTier, scenario);
+    // Get baseline data using the scenario tier, with proxy handling inside the baseline lookup.
+    const baseline = await getBaselineMetrics(configuredTier, scenario);
     console.log('Baseline metrics retrieved:', baseline);
+    const { currentPrice, newPrice, priceChangePct } = resolveScenarioPricing(scenario.config, baseline.aov);
 
-    // Calculate elasticity for this scenario (use baseline tier for new tiers)
+    if (currentPrice <= 0 || newPrice <= 0) {
+      throw new Error(`Scenario "${scenario.name}" is missing a valid current or new price.`);
+    }
+
+    // Calculate elasticity for this scenario using the proxy tier where needed.
     const elasticityInfo = await calculateElasticity(
-      baselineTier,
+      elasticityTier,
       null,
       { timeHorizon }
     );
 
-    // Calculate price change percentage
-    const priceChangePct = (scenario.config.new_price - scenario.config.current_price) / scenario.config.current_price;
-
     // Forecast demand
     const demandForecast = forecastDemand(
-      scenario.config.current_price,
-      scenario.config.new_price,
+      currentPrice,
+      newPrice,
       baseline.activeCustomers,
       elasticityInfo.elasticity
     );
 
     // Forecast churn
     const churnForecast = await forecastChurn(
-      scenario.config.tier,
+      elasticityTier,
       priceChangePct,
       baseline.repeatLossRate
     );
 
     // Forecast acquisition
     const acquisitionForecast = await forecastAcquisition(
-      scenario.config.tier,
+      elasticityTier,
       priceChangePct,
       baseline.newCustomers
     );
 
     console.log('📊 Acquisition Forecast:', {
-      tier: scenario.config.tier,
+      tier: configuredTier,
+      proxyTier: elasticityTier,
       baseline: baseline.newCustomers,
       forecasted: acquisitionForecast.forecastedAcquisition,
       change: acquisitionForecast.change,
@@ -102,13 +139,13 @@ export async function simulateScenario(scenario, options = {}) {
     // Calculate revenue impact
     const revenueImpact = calculateRevenueImpact(
       demandForecast.forecastedCustomers,
-      scenario.config.new_price,
+      newPrice,
       baseline.activeCustomers,
-      scenario.config.current_price
+      currentPrice
     );
 
     // Calculate AOV
-    const forecastedAOV = scenario.config.new_price;
+    const forecastedAOV = newPrice;
     const aovChange = forecastedAOV - baseline.aov;
 
     // Calculate AOV percentage change, handling zero baseline
@@ -135,7 +172,7 @@ export async function simulateScenario(scenario, options = {}) {
       demandForecast,
       churnForecast,
       acquisitionForecast,
-      scenario.config.new_price,
+      newPrice,
       12
     );
 
@@ -146,6 +183,14 @@ export async function simulateScenario(scenario, options = {}) {
       model_type: scenario.model_type,
       elasticity: elasticityInfo.elasticity,
       confidence_interval: elasticityInfo.confidenceInterval,
+      scenario_config: {
+        ...scenario.config,
+        current_price: currentPrice,
+        new_price: newPrice,
+        baseline_tier: baselineTier,
+        model_type: scenario.model_type
+      },
+      is_new_tier: isNewTier,
 
       baseline: {
         customers: baseline.activeCustomers,
@@ -308,7 +353,7 @@ async function simulateBaselineScenario(scenario, options = {}) {
  */
 async function getBaselineMetrics(tier, scenario = null) {
   // Special handling for bundle scenarios
-  if (tier === 'bundle') {
+  if (tier === 'bundle' || scenario?.config?.tier === 'bundle') {
     console.log('Bundle scenario detected - using ad_free tier as baseline');
 
     // Use ad_free tier as the baseline proxy for premium bundle scenarios
@@ -326,7 +371,7 @@ async function getBaselineMetrics(tier, scenario = null) {
     const estimatedBundleSubs = Math.round((latestWeek.active_customers || 0) * bundlePotentialPct);
 
     // Bundle baseline AOV should be the CURRENT price, not the new price
-    const bundleCurrentAOV = scenario?.config?.current_price || 14.99;
+    const bundleCurrentAOV = resolveScenarioPricing(scenario?.config, latestWeek.aov || 14.99).currentPrice || 14.99;
 
     return {
       activeCustomers: estimatedBundleSubs,
@@ -340,16 +385,17 @@ async function getBaselineMetrics(tier, scenario = null) {
   }
 
   // Regular tier handling
-  const weeklyData = await getWeeklyData(tier);
+  const lookupTier = resolveScenarioProxyTier(tier);
+  const weeklyData = await getWeeklyData(lookupTier);
 
   if (!weeklyData || weeklyData.length === 0) {
-    throw new Error(`No data available for tier: ${tier}. Please ensure data is loaded correctly.`);
+    throw new Error(`No data available for tier: ${lookupTier}. Please ensure data is loaded correctly.`);
   }
 
   const latestWeek = weeklyData[weeklyData.length - 1];
 
   if (!latestWeek) {
-    throw new Error(`Unable to retrieve latest week data for tier: ${tier}`);
+    throw new Error(`Unable to retrieve latest week data for tier: ${lookupTier}`);
   }
 
   // Calculate AOV if not available or is zero
@@ -513,9 +559,10 @@ function generateWarnings(scenario, churnForecast, demandForecast) {
   }
 
   // Warn about large price increases
-  const priceChangePct = ((scenario.config.new_price - scenario.config.current_price) / scenario.config.current_price) * 100;
-  if (priceChangePct > 20) {
-    warnings.push(`Price increase of ${priceChangePct.toFixed(1)}% may be too aggressive`);
+  const { priceChangePct } = resolveScenarioPricing(scenario.config);
+  const priceChangePctPct = priceChangePct * 100;
+  if (priceChangePctPct > 20) {
+    warnings.push(`Price increase of ${priceChangePctPct.toFixed(1)}% may be too aggressive`);
   }
 
   return warnings;
@@ -657,18 +704,20 @@ export async function simulateSegmentScenario(scenario, options = {}) {
   }
 
   const tier = scenario.config.tier;
-  const currentPrice = scenario.config.current_price;
-  const newPrice = scenario.config.new_price;
-  const priceChangePct = (newPrice - currentPrice) / currentPrice;
 
   // Handle bundle tier - use ad_free as base tier for segment data
   // Bundle scenarios still use the premium proxy tier for segment lookups
-  const segmentTier = tier === 'bundle' ? 'ad_free' : tier;
+  const segmentTier = resolveScenarioProxyTier(tier);
 
   try {
     // Get segment-specific data (using segmentTier for lookups)
     const segmentElasticity = await getSegmentElasticity(segmentTier, targetSegment, segmentAxis);
     const segmentBaseline = await getSegmentBaseline(segmentTier, targetSegment, segmentAxis);
+    const { currentPrice, newPrice, priceChangePct } = resolveScenarioPricing(scenario.config, segmentBaseline.aov);
+
+    if (currentPrice <= 0 || newPrice <= 0) {
+      throw new Error(`Scenario "${scenario.name}" is missing a valid current or new price.`);
+    }
 
     console.log('Segment elasticity:', segmentElasticity);
     console.log('Segment baseline:', segmentBaseline);
@@ -750,6 +799,14 @@ export async function simulateSegmentScenario(scenario, options = {}) {
       scenario_id: scenario.id,
       scenario_name: scenario.name,
       tier,
+      scenario_config: {
+        ...scenario.config,
+        current_price: currentPrice,
+        new_price: newPrice,
+        baseline_tier: segmentTier,
+        model_type: scenario.model_type
+      },
+      is_new_tier: isNewScenarioTier(tier),
       target_segment: targetSegment,
       segment_axis: segmentAxis || 'auto-detected',
 

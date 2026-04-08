@@ -8,7 +8,7 @@ Browser-based pricing strategy application rebuilt around a Pizza Hut-specific o
 - Root experience aligned back to the original `pricingstudio` step flow
 - Active shell and copy rebuilt for a Pizza Hut pricing workflow
 - Modeled Pizza Hut operating foundation generated under `data/yum/`
-- Pizza Hut-oriented top-level cohort, scenario, and analytics data under `data/`
+- Pizza Hut-oriented active root data kept under `data/` only for the files the app still reads directly
 
 ## Application Flow
 
@@ -41,6 +41,20 @@ Generated under `data/yum/processed/`:
 - `market_brand_week_summary.csv`
 - `product_week_summary.csv`
 - `data_quality_checks.csv`
+- `menu_item_dim.csv`
+- `calendar_dim.csv`
+- `store_item_week_panel.csv`
+- `store_channel_week_panel.csv`
+
+Direct root-level files still used by the app:
+
+- `channel_weekly.csv`
+- `cohort_coefficients.json`
+- `elasticity-params.json`
+- `scenarios.json`
+- `segments.csv`
+- `segment_kpis.csv`
+- `segment_elasticity.json`
 
 ## Generate The Data
 

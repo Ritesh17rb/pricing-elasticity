@@ -5,7 +5,7 @@
  * Dependencies: data-loader.js, scenario-engine.js, charts.js
  */
 
-import { loadAllData, loadScenarios, getWeeklyData, loadElasticityParams } from './data-loader.js';
+import { loadScenarios, getWeeklyData, loadElasticityParams } from './data-loader.js';
 import {
   simulateScenario,
   simulateScenarioWithPyodide,

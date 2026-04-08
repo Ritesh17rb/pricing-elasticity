@@ -14,17 +14,9 @@ import { parseCSV } from './csv-utils.js';
 // Global data cache to avoid redundant fetches
 const dataCache = {
   weeklyAggregated: null,
-  pricingHistory: null,
-  externalFactors: null,
-  socialSignals: null,
-  seasonCalendar: null,
   elasticityParams: null,
   scenarios: null,
-  metadata: null,
-  segmentsAvailable: false,
-  eventCalendar: null,
-  promoMetadata: null,
-  validationWindows: null
+  segmentsAvailable: false
 };
 
 /**
@@ -33,30 +25,10 @@ const dataCache = {
  */
 export async function loadAllData() {
   try {
-    const [
-      elasticityParams,
-      scenarios,
-      metadata,
-      weeklyAggregated,
-      pricingHistory,
-      externalFactors,
-      socialSignals,
-      seasonCalendar,
-      eventCalendar,
-      promoMetadata,
-      validationWindows
-    ] = await Promise.all([
+    const [elasticityParams, scenarios, weeklyAggregated] = await Promise.all([
       loadElasticityParams(),
       loadScenarios(),
-      loadMetadata(),
-      loadWeeklyAggregated(),
-      loadPricingHistory(),
-      loadExternalFactors(),
-      loadSocialSignals(),
-      loadSeasonCalendar(),
-      loadEventCalendar(),
-      loadPromoMetadata(),
-      loadValidationWindows()
+      loadWeeklyAggregated()
     ]);
 
     // Load segment data (non-blocking - graceful degradation if not available)
@@ -71,15 +43,7 @@ export async function loadAllData() {
     return {
       elasticityParams,
       scenarios,
-      metadata,
       weeklyAggregated,
-      pricingHistory,
-      externalFactors,
-      socialSignals,
-      seasonCalendar,
-      eventCalendar,
-      promoMetadata,
-      validationWindows,
       segmentsAvailable: dataCache.segmentsAvailable
     };
   } catch (error) {
@@ -136,29 +100,6 @@ export async function loadScenarios() {
 }
 
 /**
- * Load metadata from JSON
- * @returns {Promise<Object>} Metadata object
- */
-export async function loadMetadata() {
-  if (dataCache.metadata) {
-    return dataCache.metadata;
-  }
-
-  try {
-    const response = await fetch('data/metadata.json');
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const data = await response.json();
-    dataCache.metadata = data;
-    return data;
-  } catch (error) {
-    console.error('Error loading metadata:', error);
-    throw error;
-  }
-}
-
-/**
  * Load weekly aggregated data from CSV
  * @returns {Promise<Array>} Array of weekly aggregated records
  */
@@ -179,182 +120,6 @@ export async function loadWeeklyAggregated() {
     return normalized;
   } catch (error) {
     console.error('Error loading weekly aggregated data:', error);
-    throw error;
-  }
-}
-
-/**
- * Load pricing history from CSV
- * @returns {Promise<Array>} Array of pricing history records
- */
-export async function loadPricingHistory() {
-  if (dataCache.pricingHistory) {
-    return dataCache.pricingHistory;
-  }
-
-  try {
-    const response = await fetch('data/price_calendar.csv');
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const csvText = await response.text();
-    const data = parseCSV(csvText);
-    const normalized = normalizePriceCalendar(data);
-    dataCache.pricingHistory = normalized;
-    return normalized;
-  } catch (error) {
-    console.error('Error loading pricing history:', error);
-    throw error;
-  }
-}
-
-/**
- * Load external factors from CSV
- * @returns {Promise<Array>} Array of external factor records
- */
-export async function loadExternalFactors() {
-  if (dataCache.externalFactors) {
-    return dataCache.externalFactors;
-  }
-
-  try {
-    const response = await fetch('data/market_signals.csv');
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const csvText = await response.text();
-    const data = parseCSV(csvText);
-    const normalized = normalizeMarketSignals(data);
-    dataCache.externalFactors = normalized;
-    return normalized;
-  } catch (error) {
-    console.error('Error loading external factors:', error);
-    throw error;
-  }
-}
-
-/**
- * Load social listening signals from CSV
- * @returns {Promise<Array>} Array of social signal records
- */
-export async function loadSocialSignals() {
-  if (dataCache.socialSignals) {
-    return dataCache.socialSignals;
-  }
-
-  try {
-    const response = await fetch('data/social_signals.csv');
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const csvText = await response.text();
-    const data = parseCSV(csvText);
-    dataCache.socialSignals = data;
-    return data;
-  } catch (error) {
-    console.error('Error loading social signals:', error);
-    throw error;
-  }
-}
-
-/**
- * Load season calendar from CSV
- * @returns {Promise<Array>} Array of season calendar records
- */
-export async function loadSeasonCalendar() {
-  if (dataCache.seasonCalendar) {
-    return dataCache.seasonCalendar;
-  }
-
-  try {
-    const response = await fetch('data/season_calendar.csv');
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const csvText = await response.text();
-    const data = parseCSV(csvText);
-    dataCache.seasonCalendar = data;
-    return data;
-  } catch (error) {
-    console.error('Error loading season calendar:', error);
-    throw error;
-  }
-}
-
-/**
- * Load event calendar from CSV
- * NEW: RFP-aligned unified event log
- * @returns {Promise<Array>} Array of event records
- */
-export async function loadEventCalendar() {
-  if (dataCache.eventCalendar) {
-    return dataCache.eventCalendar;
-  }
-
-  try {
-    const response = await fetch('data/retail_events.csv');
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const csvText = await response.text();
-    const data = parseCSV(csvText);
-    const normalized = normalizeRetailEvents(data);
-    dataCache.eventCalendar = normalized;
-    console.log(`Loaded ${normalized.length} events from event calendar`);
-    return normalized;
-  } catch (error) {
-    console.error('Error loading event calendar:', error);
-    throw error;
-  }
-}
-
-/**
- * Load promo metadata from JSON
- * NEW: RFP-aligned promo campaign definitions
- * @returns {Promise<Object>} Promo metadata object
- */
-export async function loadPromoMetadata() {
-  if (dataCache.promoMetadata) {
-    return dataCache.promoMetadata;
-  }
-
-  try {
-    const response = await fetch('data/promo_metadata.json');
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const data = await response.json();
-    dataCache.promoMetadata = data;
-    console.log(`Loaded ${Object.keys(data).length} promo campaigns`);
-    return data;
-  } catch (error) {
-    console.error('Error loading promo metadata:', error);
-    throw error;
-  }
-}
-
-/**
- * Load validation windows from JSON
- * NEW: RFP-aligned train/test period definitions
- * @returns {Promise<Object>} Validation windows object
- */
-export async function loadValidationWindows() {
-  if (dataCache.validationWindows) {
-    return dataCache.validationWindows;
-  }
-
-  try {
-    const response = await fetch('data/validation_windows.json');
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const data = await response.json();
-    const normalized = normalizeValidationWindows(data);
-    dataCache.validationWindows = normalized;
-    console.log(`Loaded validation windows: ${normalized.validation_windows.length} windows defined`);
-    return normalized;
-  } catch (error) {
-    console.error('Error loading validation windows:', error);
     throw error;
   }
 }
@@ -380,89 +145,6 @@ function normalizeChannelWeekly(rows) {
     units_sold: row.units_sold,
     gross_margin_pct: row.gross_margin_pct
   }));
-}
-
-function normalizePriceCalendar(rows) {
-  return rows.map(row => ({
-    date: row.week_start,
-    tier: channelGroupToTier(row.channel_group),
-    base_price: row.list_price,
-    is_promo: row.promo_flag,
-    promo_discount_pct: row.promo_discount_pct,
-    effective_price: row.effective_price,
-    price_changed: row.price_changed,
-    price_change_pct: row.price_change_pct
-  }));
-}
-
-function normalizeMarketSignals(rows) {
-  return rows.map(row => ({
-    date: row.week_start,
-    unemployment_rate: row.unemployment_rate,
-    cpi: row.macro_cpi,
-    consumer_sentiment: row.consumer_sentiment,
-    competitor_mass_price: row.competitor_price_a,
-    competitor_prestige_price: row.competitor_price_b,
-    competitor_marketplace_price: row.competitor_price_c,
-    competitor_avg_price: row.competitor_avg_price,
-    competitor_promo_flag: row.competitor_promo_flag,
-    category_demand_index: row.category_demand_index,
-    promo_clutter_index: row.promo_clutter_index
-  }));
-}
-
-function normalizeRetailEvents(rows) {
-  const eventTypeMap = {
-    'Competitor Price Drop': 'Price Change',
-    'Retail Event': 'Tentpole',
-    'Social Spike': 'Promo',
-    'Markdown Start': 'Promo'
-  };
-  return rows.map(row => ({
-    event_id: row.event_id,
-    date: row.week_start,
-    event_type: eventTypeMap[row.event_type] || row.event_type,
-    tier: channelGroupToTier(row.channel_group),
-    affected_cohort: row.affected_channel,
-    price_before: row.price_before,
-    price_after: row.price_after,
-    promo_id: row.promo_id,
-    promo_discount_pct: row.promo_discount_pct,
-    notes: row.notes,
-    validation_window: row.validation_window
-  }));
-}
-
-function normalizeValidationWindows(data) {
-  if (!data) {
-    return { validation_windows: [] };
-  }
-
-  if (Array.isArray(data.validation_windows)) {
-    return { validation_windows: data.validation_windows };
-  }
-
-  const windows = [];
-  const pushWindows = (items, status) => {
-    if (!Array.isArray(items)) return;
-    items.forEach((item, idx) => {
-      windows.push({
-        window_id: `${status}_${idx + 1}`,
-        type: status === 'clean' ? 'train' : 'test',
-        status,
-        start: item.start || item.start_date,
-        end: item.end || item.end_date,
-        weeks: item.weeks || null,
-        purpose: item.notes || item.purpose || ''
-      });
-    });
-  };
-
-  pushWindows(data.clean_windows, 'clean');
-  pushWindows(data.confounded_windows, 'confounded');
-  pushWindows(data.test_windows, 'test');
-
-  return { validation_windows: windows };
 }
 
 /**
@@ -556,66 +238,6 @@ export async function getWeeklyData(tier = 'all', startDate = null, endDate = nu
   }
 
   return filtered;
-}
-
-/**
- * Get current pricing for all tiers
- * @returns {Promise<Object>} Object with current prices by tier
- */
-export async function getCurrentPrices() {
-  const pricingHistory = await loadPricingHistory();
-
-  // Get latest date
-  const latestDate = pricingHistory.reduce((max, record) => {
-    return record.date > max ? record.date : max;
-  }, '2000-01-01');
-
-  // Get prices for latest date
-  const latestPrices = pricingHistory
-    .filter(record => record.date === latestDate)
-    .reduce((acc, record) => {
-      acc[record.tier] = {
-        base_price: record.base_price,
-        effective_price: record.effective_price,
-        is_promo: record.is_promo,
-        promo_discount_pct: record.promo_discount_pct
-      };
-      return acc;
-    }, {});
-
-  return latestPrices;
-}
-
-/**
- * Get column description from metadata
- * @param {string} dataset - Dataset name (e.g., 'customers')
- * @param {string} column - Column name
- * @returns {Promise<string>} Column description
- */
-export async function getColumnDescription(dataset, column) {
-  const metadata = await loadMetadata();
-
-  if (!metadata.datasets[dataset]) {
-    return 'No description available';
-  }
-
-  const columnInfo = metadata.datasets[dataset].columns[column];
-  return columnInfo ? columnInfo.description : 'No description available';
-}
-
-/**
- * Get business term definition
- * @param {string} term - Business term (e.g., 'AOV')
- * @returns {Promise<string>} Term definition
- */
-export async function getBusinessTermDefinition(term) {
-  const metadata = await loadMetadata();
-
-  if (!metadata.business_glossary[term]) {
-    return 'Term not found in glossary';
-  }
-
-  return metadata.business_glossary[term].definition;
 }
 
 /**

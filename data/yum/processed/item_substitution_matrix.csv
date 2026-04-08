@@ -1,8 +1,0 @@
-brand_id,from_item_id,from_item_name,to_item_id,to_item_name,relationship_type,relationship_strength,rationale
-pizzahut,ph_big_dinner_box,Big Dinner Box,ph_my_hut_box,My Hut Box,substitute,0.33,Legacy compatibility relationship built from shared product family.
-pizzahut,ph_large_pizza,Large One-Topping Pizza,ph_medium_pizza,Medium One-Topping Pizza,substitute,0.59,Legacy compatibility relationship built from shared product family.
-pizzahut,ph_large_pizza,Large One-Topping Pizza,ph_original_stuffed_crust,Original Stuffed Crust Pizza,substitute,0.46,Legacy compatibility relationship built from shared product family.
-pizzahut,ph_large_pizza,Large One-Topping Pizza,ph_personal_pan,Personal Pan Pizza,substitute,0.57,Legacy compatibility relationship built from shared product family.
-pizzahut,ph_medium_pizza,Medium One-Topping Pizza,ph_original_stuffed_crust,Original Stuffed Crust Pizza,substitute,0.67,Legacy compatibility relationship built from shared product family.
-pizzahut,ph_medium_pizza,Medium One-Topping Pizza,ph_personal_pan,Personal Pan Pizza,substitute,0.6,Legacy compatibility relationship built from shared product family.
-pizzahut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,ph_personal_pan,Personal Pan Pizza,substitute,0.63,Legacy compatibility relationship built from shared product family.

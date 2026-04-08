@@ -897,7 +897,6 @@ def metadata() -> Dict[str, object]:
             "processed/calendar_week_dim.csv": {"grain": "week_start", "description": "Weekly calendar dimension with event windows and demand flags."},
             "processed/external_macro_monthly.csv": {"grain": "month_start", "description": "Macro context used to modulate pricing pressure and consumer demand."},
             "processed/promo_calendar.csv": {"grain": "week_start x brand_id x market_id x campaign_id", "description": "Pizza Hut campaign cadence by market."},
-            "processed/cross_brand_transfer_matrix.csv": {"grain": "occasion_group x from_brand_id x to_brand_id", "description": "Unused placeholder file kept for schema compatibility."},
             "processed/brand_market_product_channel_week_panel.csv": {"grain": "week_start x brand_id x market_id x product_id x channel_id", "description": "Main modeled Pizza Hut elasticity panel."},
             "processed/brand_market_channel_week_panel.csv": {"grain": "week_start x brand_id x market_id x channel_id", "description": "Derived Pizza Hut channel operating panel with orders and checks."},
             "processed/portfolio_week_summary.csv": {"grain": "week_start", "description": "Top-line Pizza Hut weekly rollup."},
@@ -1254,7 +1253,6 @@ def main() -> int:
     product_rows = load_product_seed(Path(args.product_seed))
     calendar_rows = build_calendar_week_dim(start_date, end_date)
     macro_rows = build_external_macro_monthly(start_date, end_date, args.skip_macro)
-    transfer_rows = build_cross_brand_transfer_matrix(product_rows)
     promo_rows = build_promo_calendar(calendar_rows, product_rows, market_rows)
     product_panel_rows = build_product_panel(product_rows, market_rows, network_rows, calendar_rows, macro_rows, promo_rows)
     channel_panel_rows = build_brand_market_channel_panel(product_panel_rows)
@@ -1262,7 +1260,6 @@ def main() -> int:
     brand_week_rows = build_brand_week_summary(channel_panel_rows)
     market_brand_rows = build_market_brand_week_summary(channel_panel_rows, network_rows)
     product_week_rows = build_product_week_summary(product_panel_rows)
-    legacy_store_rows = build_legacy_store_dim(network_rows)
     legacy_market_rows = build_legacy_market_dim(network_rows)
     legacy_menu_rows = build_legacy_menu_dim(product_rows)
     legacy_channel_rows = build_legacy_channel_dim(brand_channel_rows, network_rows)
@@ -1270,7 +1267,6 @@ def main() -> int:
     legacy_store_item_rows = build_legacy_store_item_panel(product_panel_rows)
     legacy_store_channel_rows = build_legacy_store_channel_panel(channel_panel_rows)
     legacy_promo_rows = build_legacy_promo_calendar(promo_rows)
-    legacy_item_relationship_rows = build_legacy_item_relationships(product_rows)
     counts = {
         "brand_dim": len(brand_rows),
         "market_dim": len(market_rows),
@@ -1281,18 +1277,15 @@ def main() -> int:
         "calendar_week_dim": len(calendar_rows),
         "external_macro_monthly": len(macro_rows),
         "promo_calendar": len(promo_rows),
-        "cross_brand_transfer_matrix": len(transfer_rows),
         "brand_market_product_channel_week_panel": len(product_panel_rows),
         "brand_market_channel_week_panel": len(channel_panel_rows),
         "portfolio_week_summary": len(portfolio_week_rows),
         "brand_week_summary": len(brand_week_rows),
         "market_brand_week_summary": len(market_brand_rows),
         "product_week_summary": len(product_week_rows),
-        "legacy_store_dim": len(legacy_store_rows),
         "legacy_store_item_week_panel": len(legacy_store_item_rows),
     }
     qa_rows = build_data_quality_checks(counts)
-    qa_report = build_qa_report({**counts, "data_quality_checks": len(qa_rows)}, portfolio_week_rows, brand_week_rows)
 
     def dump(name: str, rows: List[Dict[str, object]]):
         write_csv(processed_dir / name, rows, list(rows[0].keys()) if rows else [])
@@ -1307,7 +1300,6 @@ def main() -> int:
         ("calendar_week_dim.csv", calendar_rows),
         ("external_macro_monthly.csv", macro_rows),
         ("promo_calendar.csv", promo_rows),
-        ("cross_brand_transfer_matrix.csv", transfer_rows),
         ("brand_market_product_channel_week_panel.csv", product_panel_rows),
         ("brand_market_channel_week_panel.csv", channel_panel_rows),
         ("portfolio_week_summary.csv", portfolio_week_rows),
@@ -1315,7 +1307,6 @@ def main() -> int:
         ("market_brand_week_summary.csv", market_brand_rows),
         ("product_week_summary.csv", product_week_rows),
         ("data_quality_checks.csv", qa_rows),
-        ("store_dim.csv", legacy_store_rows),
         ("market_dim.csv", legacy_market_rows),
         ("menu_item_dim.csv", legacy_menu_rows),
         ("channel_dim.csv", legacy_channel_rows),
@@ -1323,7 +1314,6 @@ def main() -> int:
         ("store_item_week_panel.csv", legacy_store_item_rows),
         ("store_channel_week_panel.csv", legacy_store_channel_rows),
         ("promo_calendar.csv", legacy_promo_rows),
-        ("item_substitution_matrix.csv", legacy_item_relationship_rows),
     ]:
         dump(filename, rows)
 
@@ -1332,9 +1322,6 @@ def main() -> int:
         handle.write("\n")
     with (output_dir / "metadata.json").open("w", encoding="utf-8") as handle:
         json.dump(metadata(), handle, indent=2)
-        handle.write("\n")
-    with (output_dir / "qa_report.json").open("w", encoding="utf-8") as handle:
-        json.dump(qa_report, handle, indent=2)
         handle.write("\n")
 
     print("Build complete.", flush=True)

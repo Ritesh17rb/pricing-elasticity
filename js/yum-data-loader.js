@@ -9,7 +9,6 @@ const yumCache = {
   brandMarketProductChannelWeekPanel: null,
   brandMarketChannelWeekPanel: null,
   dataQualityChecks: null,
-  storeDim: null,
   marketDim: null,
   menuItemDim: null,
   channelDim: null,
@@ -18,9 +17,7 @@ const yumCache = {
   externalMacroMonthly: null,
   storeItemWeekPanel: null,
   storeChannelWeekPanel: null,
-  promoCalendar: null,
-  itemSubstitutionMatrix: null,
-  qaReport: null
+  promoCalendar: null
 };
 
 async function fetchJson(path) {
@@ -96,13 +93,6 @@ export async function loadYumDataQualityChecks() {
   return yumCache.dataQualityChecks;
 }
 
-export async function loadYumStoreDim() {
-  if (!yumCache.storeDim) {
-    yumCache.storeDim = await fetchCsv('data/yum/processed/store_dim.csv');
-  }
-  return yumCache.storeDim;
-}
-
 export async function loadYumMarketDim() {
   if (!yumCache.marketDim) {
     yumCache.marketDim = await fetchCsv('data/yum/processed/market_dim.csv');
@@ -166,20 +156,6 @@ export async function loadYumPromoCalendar() {
   return yumCache.promoCalendar;
 }
 
-export async function loadYumItemSubstitutionMatrix() {
-  if (!yumCache.itemSubstitutionMatrix) {
-    yumCache.itemSubstitutionMatrix = await fetchCsv('data/yum/processed/item_substitution_matrix.csv');
-  }
-  return yumCache.itemSubstitutionMatrix;
-}
-
-export async function loadYumQAReport() {
-  if (!yumCache.qaReport) {
-    yumCache.qaReport = await fetchJson('data/yum/qa_report.json');
-  }
-  return yumCache.qaReport;
-}
-
 export async function loadYumFoundation() {
   const [
     manifest,
@@ -190,7 +166,6 @@ export async function loadYumFoundation() {
     brandMarketProductChannelWeekPanel,
     brandMarketChannelWeekPanel,
     dataQualityChecks,
-    storeDim,
     marketDim,
     menuItemDim,
     channelDim,
@@ -199,9 +174,7 @@ export async function loadYumFoundation() {
     externalMacroMonthly,
     storeItemWeekPanel,
     storeChannelWeekPanel,
-    promoCalendar,
-    itemSubstitutionMatrix,
-    qaReport
+    promoCalendar
   ] = await Promise.all([
     loadYumManifest(),
     loadYumMetadata(),
@@ -211,7 +184,6 @@ export async function loadYumFoundation() {
     loadYumBrandMarketProductChannelWeekPanel(),
     loadYumBrandMarketChannelWeekPanel(),
     loadYumDataQualityChecks(),
-    loadYumStoreDim(),
     loadYumMarketDim(),
     loadYumMenuItemDim(),
     loadYumChannelDim(),
@@ -220,9 +192,7 @@ export async function loadYumFoundation() {
     loadYumExternalMacroMonthly(),
     loadYumStoreItemWeekPanel(),
     loadYumStoreChannelWeekPanel(),
-    loadYumPromoCalendar(),
-    loadYumItemSubstitutionMatrix(),
-    loadYumQAReport()
+    loadYumPromoCalendar()
   ]);
 
   return {
@@ -234,7 +204,6 @@ export async function loadYumFoundation() {
     brandMarketProductChannelWeekPanel,
     brandMarketChannelWeekPanel,
     dataQualityChecks,
-    storeDim,
     marketDim,
     menuItemDim,
     channelDim,
@@ -243,9 +212,7 @@ export async function loadYumFoundation() {
     externalMacroMonthly,
     storeItemWeekPanel,
     storeChannelWeekPanel,
-    promoCalendar,
-    itemSubstitutionMatrix,
-    qaReport
+    promoCalendar
   };
 }
 
