@@ -30,9 +30,9 @@ const COHORT_LABELS = {
   baseline: 'All Visit Missions',
   brand_loyal: 'Family Ritual Loyalists',
   value_conscious: 'Value Bundle Shoppers',
-  deal_seeker: 'Coupon-Driven Guests',
+  deal_seeker: 'Coupon-Driven Customers',
   trend_driven: 'Premium Crust Explorers',
-  channel_switcher: 'Digital Channel Switchers',
+  channel_switcher: 'Channel Flexible Customers',
   premium_loyal: 'Premium Pizza Loyalists',
   at_risk: 'Lapse-Risk Guests'
 };

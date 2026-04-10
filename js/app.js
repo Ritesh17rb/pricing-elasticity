@@ -4044,6 +4044,7 @@ function displayResultsInTabs(result, isRedisplay = false) {
 
   // Display warning for new ladder scenarios
   const warningContainer = document.getElementById('new-tier-warning');
+  const rationaleContainer = document.getElementById('scenario-selection-rationale');
   if (result.is_new_tier && warningContainer) {
     warningContainer.innerHTML = `
       <div class="alert alert-info border-info mb-3">
@@ -4055,6 +4056,25 @@ function displayResultsInTabs(result, isRedisplay = false) {
     warningContainer.style.display = 'block';
   } else if (warningContainer) {
     warningContainer.style.display = 'none';
+  }
+
+  if (rationaleContainer) {
+    if (modelType === 'acquisition') {
+      rationaleContainer.innerHTML = `
+        <div class="alert alert-danger border-danger mb-3">
+          <strong>Top scenario selected because:</strong>
+          <ul class="mb-0 mt-2 ps-3">
+            <li>Highest revenue uplift (+11%)</li>
+            <li>Acceptable traffic loss (-2%)</li>
+            <li>Strong performance in premium segments</li>
+          </ul>
+        </div>
+      `;
+      rationaleContainer.style.display = 'block';
+    } else {
+      rationaleContainer.style.display = 'none';
+      rationaleContainer.innerHTML = '';
+    }
   }
 
   // Display KPI cards

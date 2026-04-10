@@ -562,8 +562,8 @@ Avg Order Value: $${avgAOV}`;
 
         // List available segments for targeting (15 predefined segments)
         availableSegments = `Behavioral segments for targeted pricing:
-Visit mission: Game-Day First Try, Weekly Meal Routine, Group Occasion Buyer, Digital Discovery Guest, Value Offer Triggered
-Repeat behavior: Family Ritual Loyalist, Value Bundle Shopper, Coupon-Driven Guest, Occasional Craving Guest, Channel Switcher
+Visit mission: Game-Day First Try, Habitual Value Seeker, Group Occasion Buyer, Digital Promo Explorer, Deal-Seeking Customer
+Repeat behavior: Family Ritual Loyalist, Value Bundle Shopper, Coupon-Driven Customer, Occasional Indulger, Channel Flexible Customer
 Basket build: Single Pizza Order, Multi-Item Builder, Bundle Buyer, Premium Add-On, Side Sampler
 
 Use filters by demand ladder, repeat-loss risk, and basket value.`;

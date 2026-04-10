@@ -54,10 +54,10 @@ export async function getAcquisitionCohorts(tier) {
       // Friendly name mapping
       const nameMap = {
         'seasonal_first_time': 'Game-Day First Try',
-        'routine_refill': 'Weekly Meal Routine',
+        'routine_refill': 'Habitual Value Seeker',
         'gift_buyer': 'Group Occasion Buyer',
-        'influencer_discovered': 'Digital Discovery Guest',
-        'promo_triggered': 'Value Offer Triggered'
+        'influencer_discovered': 'Digital Promo Explorer',
+        'promo_triggered': 'Deal-Seeking Customer'
       };
 
       cohorts.push({
@@ -120,9 +120,9 @@ export async function getChurnCohorts(tier) {
       const nameMap = {
         'prestige_loyalist': 'Family Ritual Loyalist',
         'value_seeker': 'Value Bundle Shopper',
-        'deal_hunter': 'Coupon-Driven Guest',
-        'occasional_shop': 'Occasional Craving Guest',
-        'channel_switcher': 'Channel Switcher'
+        'deal_hunter': 'Coupon-Driven Customer',
+        'occasional_shop': 'Occasional Indulger',
+        'channel_switcher': 'Channel Flexible Customer'
       };
 
       cohorts.push({

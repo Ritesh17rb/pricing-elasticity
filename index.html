@@ -800,9 +800,9 @@
                     <option value="baseline">All Visit Missions</option>
                     <option value="brand_loyal">Family Ritual Loyalists</option>
                     <option value="value_conscious">Value Bundle Shoppers</option>
-                    <option value="deal_seeker">Coupon-Driven Guests</option>
+                    <option value="deal_seeker">Coupon-Driven Customers</option>
                     <option value="trend_driven">Premium Crust Explorers</option>
-                    <option value="channel_switcher">Digital Channel Switchers</option>
+                    <option value="channel_switcher">Channel Flexible Customers</option>
                     <option value="premium_loyal">Premium Pizza Loyalists</option>
                     <option value="at_risk">Lapse-Risk Guests</option>
                   </select>
@@ -980,9 +980,9 @@
                       <option value="baseline">All Visit Missions</option>
                       <option value="brand_loyal">Family Ritual Loyalists</option>
                       <option value="value_conscious">Value Bundle Shoppers</option>
-                      <option value="deal_seeker">Coupon-Driven Guests</option>
+                      <option value="deal_seeker">Coupon-Driven Customers</option>
                       <option value="trend_driven">Premium Crust Explorers</option>
-                      <option value="channel_switcher">Carryout / App Switchers</option>
+                      <option value="channel_switcher">Channel Flexible Customers</option>
                       <option value="premium_loyal">Premium Pizza Loyalists</option>
                       <option value="at_risk">Lapse-Risk Guests</option>
                     </select>
@@ -1186,9 +1186,9 @@
                       <option value="baseline">All Visit Missions</option>
                       <option value="brand_loyal">Family Ritual Loyalists</option>
                       <option value="value_conscious">Value Bundle Shoppers</option>
-                      <option value="deal_seeker">Coupon-Driven Guests</option>
+                      <option value="deal_seeker">Coupon-Driven Customers</option>
                       <option value="trend_driven">Premium Crust Explorers</option>
-                      <option value="channel_switcher">Carryout / App Switchers</option>
+                      <option value="channel_switcher">Channel Flexible Customers</option>
                       <option value="premium_loyal">Premium Pizza Loyalists</option>
                       <option value="at_risk">Lapse-Risk Guests</option>
                     </select>
@@ -1458,6 +1458,7 @@
           <div id="new-tier-warning" style="display: none;">
             <!-- Will be populated if scenario introduces a modeled ladder beyond the baseline set -->
           </div>
+          <div id="scenario-selection-rationale" style="display: none;"></div>
 
           <!-- Result Summary Cards -->
           <div id="result-cards-models" class="row g-3 mb-4">
@@ -1542,30 +1543,6 @@
                         <th>8-12 Weeks</th>
                         <th>12+ Weeks</th>
                       </tr>
-                    </thead>
-                    <tbody>
-                      <!-- Dynamically populated after simulation -->
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Migration detail placeholder -->
-          <div id="migration-results-detail" class="mt-4" style="display: none;">
-            <div class="card">
-              <div class="card-header bg-success-subtle">
-                <h5 class="h6 mb-0">
-                  <i class="bi bi-table me-2"></i>
-                  Placeholder
-                </h5>
-              </div>
-              <div class="card-body">
-                <div class="table-responsive">
-                  <table id="migration-matrix-table" class="table table-sm table-hover">
-                    <thead>
-                      <!-- Dynamic header - populated by JavaScript -->
                     </thead>
                     <tbody>
                       <!-- Dynamically populated after simulation -->
@@ -2694,10 +2671,10 @@
             <div class="card-body">
               <ul class="mb-0">
                 <li><strong>Game-Day First Try:</strong> Trial driven by sports and shareable-meal occasions.</li>
-                <li><strong>Weekly Meal Routine:</strong> Repeat ordering anchored to established dinner habits.</li>
+                <li><strong>Habitual Value Seeker:</strong> Repeat ordering anchored to established dinner habits.</li>
                 <li><strong>Group Occasion Buyer:</strong> Larger-party and family-sharing missions.</li>
-                <li><strong>Digital Discovery Guest:</strong> App, social, and creator-led demand.</li>
-                <li><strong>Value Offer Triggered:</strong> Visits start when bundle value is clearly visible.</li>
+                <li><strong>Digital Promo Explorer:</strong> App, social, and creator-led demand.</li>
+                <li><strong>Deal-Seeking Customer:</strong> Visits start when bundle value is clearly visible.</li>
               </ul>
             </div>
           </div>
@@ -2708,9 +2685,9 @@
               <ul class="mb-0">
                 <li><strong>Family Ritual Loyalist:</strong> High repeat rate in recurring Pizza Hut meal routines.</li>
                 <li><strong>Value Bundle Shopper:</strong> Responds strongly to clear meal-deal ladders.</li>
-                <li><strong>Coupon-Driven Guest:</strong> Promo-first and highest repeat-loss risk.</li>
-                <li><strong>Occasional Craving Guest:</strong> Lower-frequency ordering tied to sporadic cravings.</li>
-                <li><strong>Channel Switcher:</strong> Moves between delivery and owned channels as the value gap shifts.</li>
+                <li><strong>Coupon-Driven Customer:</strong> Promo-first and highest repeat-loss risk.</li>
+                <li><strong>Occasional Indulger:</strong> Lower-frequency ordering tied to sporadic cravings.</li>
+                <li><strong>Channel Flexible Customer:</strong> Moves between delivery and owned channels as the value gap shifts.</li>
               </ul>
             </div>
           </div>
