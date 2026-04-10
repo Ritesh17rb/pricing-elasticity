@@ -1113,7 +1113,7 @@ async function initializeChatContext() {
           // Trade-offs
           tradeoffs: {
             revenue_vs_customers: `${result.delta.revenue_pct >= 0 ? 'Gain' : 'Loss'} ${Math.abs(result.delta.revenue_pct).toFixed(1)}% revenue, ${result.delta.customers_pct >= 0 ? 'gain' : 'lose'} ${Math.abs(result.delta.customers_pct).toFixed(1)}% customers`,
-            price_sensitivity: result.elasticity < -2.0 ? 'High' : result.elasticity < -1.5 ? 'Medium' : 'Low'
+            price_sensitivity: Math.abs(result.elasticity) > 1.5 ? 'High' : Math.abs(result.elasticity) >= 1.0 ? 'Medium' : 'Low'
           },
 
           // Warnings and risks
@@ -2675,9 +2675,9 @@ const SEGMENT_COMPARISON_AXIS_META = {
     helper: 'New or occasional customers driven by promotions and price sensitivity',
     chartLabel: 'Absolute Price Sensitivity',
     guide: [
-      { label: 'Highly sensitive', threshold: '< -2.0', note: 'High risk. Avoid broad price increases and keep promo support in place.' },
-      { label: 'Moderate', threshold: '-2.0 to -1.0', note: 'Use selective pricing with channel or cohort support.' },
-      { label: 'Low sensitivity', threshold: '> -1.0', note: 'Safer for disciplined pricing if demand remains healthy.' }
+      { label: 'High sensitivity', threshold: '> 1.5', note: 'Highly promo-driven. Avoid price increases and maintain strong promotional support.' },
+      { label: 'Moderate', threshold: '1.0 - 1.5', note: 'Use targeted pricing with promotional backing.' },
+      { label: 'Low sensitivity', threshold: '< 1.0', note: 'More stable demand. Suitable for selective price increases.' }
     ]
   },
   engagement: {
@@ -2685,9 +2685,9 @@ const SEGMENT_COMPARISON_AXIS_META = {
     helper: 'Repeat behavior, loyalty strength, and retention risk',
     chartLabel: 'Repeat-Loss Elasticity',
     guide: [
-      { label: 'High risk', threshold: '> 1.5', note: 'High repeat-loss risk. Protect loyalty and avoid blanket price moves.' },
-      { label: 'Moderate', threshold: '0.7 to 1.5', note: 'Mixed sensitivity. Use targeted pricing with retention support.' },
-      { label: 'Low sensitivity', threshold: '< 0.7', note: 'Stable repeat behavior. Better candidates for selective pricing.' }
+      { label: 'High risk', threshold: '> 1.0', note: 'Price-sensitive. Avoid price increases.' },
+      { label: 'Moderate', threshold: '0.7 - 1.0', note: 'Use targeted pricing with support.' },
+      { label: 'Low sensitivity', threshold: '< 0.7', note: 'Safe for selective price increases.' }
     ]
   },
   monetization: {
@@ -2702,6 +2702,99 @@ const SEGMENT_COMPARISON_AXIS_META = {
   }
 };
 
+const SEGMENT_COMPARISON_STATIC_HIGHLIGHTS = {
+  engagement: {
+    ad_supported: {
+      risk: {
+        name: 'Coupon-Driven Customer',
+        metric: 'Repeat-loss elasticity 1.12 | Repeat loss 20%',
+        detail: 'Highly price-sensitive segment with elevated churn risk. Avoid price increases and prioritize retention through targeted offers and loyalty reinforcement.',
+        tag: 'High risk'
+      },
+      opportunity: {
+        name: 'Family Ritual Loyalist',
+        metric: 'Most Stable repeat base | Repeat Loss 10.5%',
+        detail: 'Stable and low-sensitivity segment. Suitable for selective price increases with minimal churn impact.',
+        tag: 'Pricing opportunity'
+      }
+    },
+    ad_free: {
+      risk: {
+        name: 'Coupon-Driven Customer',
+        metric: 'Repeat-loss elasticity 1.03 | Repeat loss 20%',
+        detail: 'Highly price-sensitive segment with elevated churn risk. Avoid price increases and prioritize retention through targeted offers and loyalty reinforcement.',
+        tag: 'High risk'
+      },
+      opportunity: {
+        name: 'Family Ritual Loyalist',
+        metric: 'Most Stable repeat base | Repeat Loss 10.5%',
+        detail: 'Stable and low-sensitivity segment. Suitable for selective price increases with minimal churn impact.',
+        tag: 'Pricing opportunity'
+      }
+    }
+  },
+  acquisition: {
+    ad_supported: {
+      risk: {
+        name: 'Habitual Value Seeker',
+        metric: 'Elasticity 2.13 | Promo response: 0.2% conversion uplift from promotions',
+        detail: 'Avoid broad price increases here. Protect traffic with value-led promotions and entry-point offers.',
+        tag: 'High risk'
+      },
+      opportunity: {
+        name: 'Deal-Seeking Customer',
+        metric: 'Least promo-dependent segment in this view | 18,655 customers',
+        detail: 'Stable and low-sensitivity segment. Suitable for selective price increases with minimal churn impact.',
+        tag: 'Pricing opportunity'
+      }
+    },
+    ad_free: {
+      risk: {
+        name: 'Habitual Value Seeker',
+        metric: 'Elasticity 1.67 | Promo response: 0.2% conversion uplift from promotions',
+        detail: 'Avoid broad price increases here. Protect traffic with value-led promotions and entry-point offers.',
+        tag: 'High risk'
+      },
+      opportunity: {
+        name: 'Deal-Seeking Customer',
+        metric: 'Least promo-dependent segment in this view | 18,655 customers',
+        detail: 'Stable and low-sensitivity segment. Suitable for selective price increases with minimal churn impact.',
+        tag: 'Pricing opportunity'
+      }
+    }
+  },
+  monetization: {
+    ad_supported: {
+      risk: {
+        name: 'Single Item Buyer',
+        metric: 'Elasticity 2.10 | AOV $25.68',
+        detail: 'Customers in this segment significantly reduce basket size when prices increase. Avoid pricing changes without strong value cues or bundle support.',
+        tag: 'High risk'
+      },
+      opportunity: {
+        name: 'Multi-Item Basket Builder',
+        metric: 'Best basket-value headroom | AOV $33.91',
+        detail: 'This segment maintains strong basket size even with price changes. Best suited for selective price increases and upsell optimization.',
+        tag: 'Pricing opportunity'
+      }
+    },
+    ad_free: {
+      risk: {
+        name: 'Single Item Buyer',
+        metric: 'Elasticity 1.50 | AOV $33.79',
+        detail: 'Customers in this segment significantly reduce basket size when prices increase. Avoid pricing changes without strong value cues or bundle support.',
+        tag: 'High risk'
+      },
+      opportunity: {
+        name: 'Multi-Item Basket Builder',
+        metric: 'Best basket-value headroom | AOV $42.29',
+        detail: 'This segment maintains strong basket size even with price changes. Best suited for selective price increases and upsell optimization.',
+        tag: 'Pricing opportunity'
+      }
+    }
+  }
+};
+
 function getSegmentComparisonAxisMeta(axis) {
   return SEGMENT_COMPARISON_AXIS_META[axis] || SEGMENT_COMPARISON_AXIS_META.engagement;
 }
@@ -2712,16 +2805,16 @@ function getSegmentComparisonTierLabel(tier) {
 
 function getSegmentComparisonRiskLevel(axis, elasticity) {
   if (axis === 'engagement') {
-    return elasticity < 0.7 ? 'Low' : (elasticity < 1.5 ? 'Medium' : 'High');
+    return elasticity < 0.7 ? 'Low' : (elasticity <= 1.0 ? 'Medium' : 'High');
   }
 
   if (axis === 'acquisition') {
     const absElasticity = Math.abs(elasticity);
-    return absElasticity < 1.0 ? 'Low' : (absElasticity < 2.0 ? 'Medium' : 'High');
+    return absElasticity < 1.0 ? 'Low' : (absElasticity <= 1.5 ? 'Medium' : 'High');
   }
 
   if (axis === 'monetization') {
-    return elasticity < 0.8 ? 'Low' : (elasticity < 1.3 ? 'Medium' : 'High');
+    return elasticity < 0.8 ? 'Low' : (elasticity <= 1.3 ? 'Medium' : 'High');
   }
 
   return 'Medium';
@@ -2994,6 +3087,7 @@ function renderSegmentComparisonNarrative(axis, tier, comparisonData) {
   const highestRisk = getSegmentComparisonTopRisk(comparisonData, axis, 1)[0];
   const bestOpportunity = getSegmentComparisonTopOpportunities(comparisonData, axis, 1)[0];
   const banner = buildSegmentComparisonInsightBanner(axis, comparisonData, highestRisk, bestOpportunity);
+  const staticHighlight = SEGMENT_COMPARISON_STATIC_HIGHLIGHTS[axis]?.[tier];
 
   if (titleEl) titleEl.textContent = banner.title;
   if (textEl) textEl.textContent = banner.text;
@@ -3010,7 +3104,14 @@ function renderSegmentComparisonNarrative(axis, tier, comparisonData) {
     `).join('');
   }
 
-  if (riskEl && highestRisk) {
+  if (riskEl && staticHighlight?.risk) {
+    riskEl.innerHTML = `
+      <div class="segment-analysis-highlight-name">${staticHighlight.risk.name}</div>
+      <div class="segment-analysis-highlight-metric">${staticHighlight.risk.metric}</div>
+      <div class="segment-analysis-highlight-detail">${staticHighlight.risk.detail}</div>
+      <span class="segment-analysis-highlight-tag is-risk">${staticHighlight.risk.tag}</span>
+    `;
+  } else if (riskEl && highestRisk) {
     riskEl.innerHTML = `
       <div class="segment-analysis-highlight-name">${highestRisk.label}</div>
       <div class="segment-analysis-highlight-metric">${getSegmentComparisonHighlightMetric(axis, highestRisk, 'risk')}</div>
@@ -3019,7 +3120,14 @@ function renderSegmentComparisonNarrative(axis, tier, comparisonData) {
     `;
   }
 
-  if (opportunityEl && bestOpportunity) {
+  if (opportunityEl && staticHighlight?.opportunity) {
+    opportunityEl.innerHTML = `
+      <div class="segment-analysis-highlight-name">${staticHighlight.opportunity.name}</div>
+      <div class="segment-analysis-highlight-metric">${staticHighlight.opportunity.metric}</div>
+      <div class="segment-analysis-highlight-detail">${staticHighlight.opportunity.detail}</div>
+      <span class="segment-analysis-highlight-tag is-opportunity">${staticHighlight.opportunity.tag}</span>
+    `;
+  } else if (opportunityEl && bestOpportunity) {
     opportunityEl.innerHTML = `
       <div class="segment-analysis-highlight-name">${bestOpportunity.label}</div>
       <div class="segment-analysis-highlight-metric">${getSegmentComparisonHighlightMetric(axis, bestOpportunity, 'opportunity')}</div>
@@ -4059,7 +4167,7 @@ function displayResultsInTabs(result, isRedisplay = false) {
 
   if (acquisitionDetail) acquisitionDetail.style.display = (modelType === 'acquisition') ? 'block' : 'none';
   if (churnDetail) churnDetail.style.display = (modelType === 'churn') ? 'block' : 'none';
-  if (migrationDetail) migrationDetail.style.display = (modelType === 'migration') ? 'block' : 'none';
+  if (migrationDetail) migrationDetail.style.display = 'none';
 
   console.log(`👁️ Detail sections visibility:`, {
     modelType: modelType,
@@ -4228,7 +4336,7 @@ async function renderAcquisitionCohortTable(result) {
     const cohorts = await getAcquisitionCohorts(tier);
 
     if (!cohorts || cohorts.length === 0) {
-      tableBody.innerHTML = '<tr><td colspan="6" class="text-center text-muted">No cohort data available</td></tr>';
+      tableBody.innerHTML = '<tr><td colspan="7" class="text-center text-muted">No cohort data available</td></tr>';
       return;
     }
 
@@ -4245,26 +4353,43 @@ async function renderAcquisitionCohortTable(result) {
     }
 
     // Render table rows
+    const cohortNameMap = {
+      'Weekly Meal Routine': 'Habitual Value Seeker',
+      'Digital Discovery Guest': 'Digital Promo Explorer',
+      'Value Offer Triggered': 'Deal-Seeking Customer'
+    };
+    const recommendationMap = {
+      'Game-Day First Try': 'Use promos',
+      'Habitual Value Seeker': 'Avoid price increase',
+      'Group Occasion Buyer': 'Safe to test',
+      'Digital Promo Explorer': 'Safe to test',
+      'Deal-Seeking Customer': 'Use promos'
+    };
+
     tableBody.innerHTML = cohorts.map((cohort, index) => {
       const prediction = predictions[index] || {};
+      const cohortName = cohortNameMap[cohort.name] || cohort.name;
       // Correct elasticity formula: elasticity × price_change
       // -5% price change: elasticity × (-5) = lift
       // +5% price change: elasticity × (+5) = lift
-      const addsLiftMinus5 = prediction.lift_at_minus_5pct || (cohort.elasticity * (-5));
-      const addsLiftPlus5 = prediction.lift_at_plus_5pct || (cohort.elasticity * 5);
+      const elasticity = Math.abs(cohort.elasticity);
+      const addsLiftMinus5 = prediction.lift_at_minus_5pct || (elasticity * 5);
+      const addsLiftPlus5 = prediction.lift_at_plus_5pct || (-elasticity * 5);
       const confidence = prediction.confidence || 2.5;
+      const recommendation = recommendationMap[cohortName] || 'Monitor';
 
       // Badge color based on elasticity
-      const elasticityBadge = Math.abs(cohort.elasticity) > 2.5 ? 'bg-danger' :
-                              Math.abs(cohort.elasticity) > 1.5 ? 'bg-warning' : 'bg-success';
+      const elasticityBadge = elasticity > 1.5 ? 'bg-danger' :
+                              elasticity >= 1.0 ? 'bg-warning' : 'bg-success';
 
       return `
         <tr>
-          <td><strong>${cohort.name}</strong></td>
+          <td><strong>${cohortName}</strong></td>
           <td>${formatNumber(cohort.size)}</td>
-          <td><span class="badge ${elasticityBadge}">${cohort.elasticity.toFixed(2)}</span></td>
+          <td><span class="badge ${elasticityBadge}">${elasticity.toFixed(2)}</span></td>
           <td class="text-success">${addsLiftMinus5 > 0 ? '+' : ''}${addsLiftMinus5.toFixed(1)}%</td>
           <td class="text-danger">${addsLiftPlus5 > 0 ? '+' : ''}${addsLiftPlus5.toFixed(1)}%</td>
+          <td>${recommendation}</td>
           <td><span class="text-muted">±${confidence.toFixed(1)}%</span></td>
         </tr>
       `;
@@ -4273,7 +4398,7 @@ async function renderAcquisitionCohortTable(result) {
     console.log(`✅ Rendered ${cohorts.length} acquisition cohorts`);
   } catch (error) {
     console.error('Error rendering acquisition cohort table:', error);
-    tableBody.innerHTML = '<tr><td colspan="6" class="text-center text-danger">Error loading cohort data</td></tr>';
+    tableBody.innerHTML = '<tr><td colspan="7" class="text-center text-danger">Error loading cohort data</td></tr>';
   }
 }
 
@@ -4285,6 +4410,26 @@ async function renderChurnHeatmap(result) {
   if (!tableBody) return;
 
   try {
+    const heatmapRows = [
+      { name: 'Family Ritual Loyalist', values: [0.3, 1.0, 1.6, 1.2] },
+      { name: 'Value Bundle Shopper', values: [0.5, 1.8, 2.8, 2.0] },
+      { name: 'Coupon-Driven Customer', values: [0.7, 2.2, 3.4, 2.5] },
+      { name: 'Occasional Indulger', values: [0.6, 2.0, 3.0, 2.2] },
+      { name: 'Channel Flexible Customer', values: [0.6, 2.1, 3.2, 2.3] }
+    ];
+    const formatChurn = (value) => `+${value.toFixed(1)} pp`;
+
+    tableBody.innerHTML = heatmapRows.map((row) => `
+      <tr>
+        <td><strong>${row.name}</strong></td>
+        <td class="text-danger">${formatChurn(row.values[0])}</td>
+        <td class="text-danger">${formatChurn(row.values[1])}</td>
+        <td class="text-danger">${formatChurn(row.values[2])}</td>
+        <td class="text-danger">${formatChurn(row.values[3])}</td>
+      </tr>
+    `).join('');
+    return;
+
     const tier = result.scenario_config?.tier || 'ad_supported';
     const cohorts = await getChurnCohorts(tier);
 
@@ -4354,10 +4499,14 @@ async function renderMigrationMatrix(result) {
 
   if (!tableBody) return;
 
-  // Show the card
   if (tableCard) {
-    tableCard.style.display = 'block';
+    tableCard.style.display = 'none';
   }
+  if (tableHeader) {
+    tableHeader.innerHTML = '';
+  }
+  tableBody.innerHTML = '';
+  return;
 
   try {
     // Use Python model migration predictions

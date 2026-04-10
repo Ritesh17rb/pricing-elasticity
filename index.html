@@ -280,7 +280,7 @@
             <i class="bi bi-info-circle"></i>
           </button>
         </h2>
-        <p class="section-subtitle">Model how Pizza Hut weekly orders respond when effective check changes by visit mission and order channel. Keep the scope explicit, show the business impact, and make the next action obvious.</p>
+        <p class="section-subtitle">See how price changes impact weekly orders across customer occasions and order channels. Understand the revenue impact and identify where pricing can drive growth without hurting demand.</p>
       </div>
     </div>
 
@@ -302,7 +302,7 @@
             <i class="bi bi-info-circle"></i>
           </button>
         </h2>
-        <p class="section-subtitle">Understand how Pizza Hut price and offer changes reduce repeat visits over time. Model delayed visit loss and order-frequency decay by channel and cohort.</p>
+        <p class="section-subtitle">See how price changes reduce repeat visits over time and impact long-term demand.</p>
       </div>
     </div>
 
@@ -324,7 +324,7 @@
             <i class="bi bi-info-circle"></i>
           </button>
         </h2>
-        <p class="section-subtitle">Model how Pizza Hut orders move between delivery, carryout, pickup, and dine-in as price gaps and fee structures change.</p>
+        <p class="section-subtitle">Understand how pricing and fee changes shift orders between delivery and owned channels-and identify where to rebalance pricing to protect margin without losing volume.</p>
       </div>
     </div>
 
@@ -718,7 +718,7 @@
         <div class="alert alert-info mb-4">
           <i class="bi bi-info-circle me-2"></i>
           <strong>3-Model Framework:</strong>
-          Each tab represents a distinct elasticity lens with different guest responses and decision metrics.
+          Each tab shows a different way customers react to price changes (new visits, repeat loss, and channel shifts).
         </div>
 
         <!-- Bootstrap Tabs for 3 Models -->
@@ -771,7 +771,7 @@
                     <div class="small text-muted mb-2" id="acq-optimal-context">Loading pricing band...</div>
                     <div class="acq-optimal-range" id="acq-optimal-range">$0.00 - $0.00</div>
                     <div class="small fw-semibold mt-2" id="acq-optimal-supporting">Loading rationale...</div>
-                    <div class="small text-muted mt-2" id="acq-optimal-note">Suggested range minimizes order loss while protecting revenue.</div>
+                    <div class="small text-muted mt-2" id="acq-optimal-note">Use this range for pricing tests to balance growth and retention.</div>
                   </div>
                 </div>
               </div>
@@ -835,11 +835,11 @@
                       <strong class="metric-value" id="acq-price-change">0%</strong>
                     </div>
                     <div class="metric-row">
-                      <span class="metric-label">Elasticity Coefficient</span>
-                      <strong class="metric-value" id="acq-elasticity">-1.9</strong>
+                      <span class="metric-label">Traffic Elasticity</span>
+                      <strong class="metric-value" id="acq-elasticity">1.19</strong>
                     </div>
                     <div class="metric-row">
-                      <span class="metric-label">Acquisition Impact</span>
+                      <span class="metric-label">Projected Order Change</span>
                       <strong class="metric-value text-success" id="acq-impact">0%</strong>
                     </div>
                     <div class="metric-row">
@@ -847,7 +847,7 @@
                       <strong class="metric-value" id="acq-total-subs">0</strong>
                     </div>
                     <div class="metric-row">
-                      <span class="metric-label">Weekly Net Sales Impact</span>
+                      <span class="metric-label">Weekly Revenue Impact</span>
                       <strong class="metric-value" id="acq-total-revenue">$0</strong>
                     </div>
                   </div>
@@ -857,7 +857,7 @@
                 <div class="insight-box">
                   <div class="icon">📊</div>
                   <h5>How To Read This View</h5>
-                  <p class="mb-0">This readout is always scoped to the selected visit mission and order channel. An elasticity of <strong>-1.9</strong> means a 1% effective price increase drives about a 1.9% weekly order decline for that scoped demand pocket.</p>
+                  <p class="mb-0">This readout is always scoped to the selected visit mission and order channel. An elasticity of <strong>1.19</strong> means demand is moderately price sensitive, with value-led ladders reacting faster than premium baskets.</p>
                 </div>
               </div>
 
@@ -876,7 +876,7 @@
                     <canvas id="acquisition-chart-simple"></canvas>
                   </div>
                   <div class="small text-muted mt-2">
-                    <i class="bi bi-info-circle me-1"></i>Confidence intervals show the range of uncertainty in forecasts (±15% standard error)
+                    <i class="bi bi-info-circle me-1"></i>Revenue impact reflects both order volume and price change. Higher traffic does not always translate to higher revenue.
                   </div>
                 </div>
 
@@ -945,7 +945,7 @@
                     <div class="d-flex align-items-center justify-content-between">
                       <div>
                         <i class="bi bi-arrow-right-circle me-2"></i>
-                        <strong>Deep Dive:</strong> Explore 250 modeled segment combinations and detailed cohort analysis
+                        <strong>Deep Dive:</strong> Identify which customer segments drive the biggest gains or losses under this pricing scenario
                       </div>
                       <button class="btn btn-primary btn-sm" onclick="navigateToSegments('acquisition')">
                         <i class="bi bi-graph-up me-1"></i>
@@ -986,7 +986,7 @@
                       <option value="premium_loyal">Premium Pizza Loyalists</option>
                       <option value="at_risk">Lapse-Risk Guests</option>
                     </select>
-                    <small class="text-muted">Compare how repeat-visit loss builds by visit mission after a price move.</small>
+                    <small class="text-muted">See how repeat visits decline over time across different customer occasions after a price increase.</small>
                   </div>
 
                                     <!-- Price Increase Slider -->
@@ -1012,15 +1012,15 @@
                   <div class="metric-display-card" style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.2);">
                     <div class="metric-row">
                       <span class="metric-label">Baseline Repeat Loss</span>
-                      <strong class="metric-value">4.2%</strong>
+                      <strong class="metric-value">15.8%</strong>
                     </div>
                     <div class="metric-row">
-                      <span class="metric-label">Price Change</span>
-                      <strong class="metric-value" id="churn-pct-change">+16.7%</strong>
+                      <span class="metric-label">Effective Price Move</span>
+                      <strong class="metric-value" id="churn-pct-change">+6.7%</strong>
                     </div>
                     <div class="metric-row">
-                      <span class="metric-label">Peak Repeat-Loss Impact</span>
-                      <strong class="metric-value text-danger" id="churn-peak-impact">+2.8pp</strong>
+                      <span class="metric-label">Peak Repeat Loss Impact</span>
+                      <strong class="metric-value text-danger" id="churn-peak-impact">+2.0pp</strong>
                     </div>
                   </div>
                 </div>
@@ -1077,46 +1077,50 @@
                   <div class="mb-4">
                     <div class="d-flex justify-content-between mb-2">
                       <span><strong>0-4 Weeks</strong> (Immediate)</span>
-                      <span id="churn-0-4">+0.8pp</span>
+                      <span id="churn-0-4">+0.3pp</span>
                     </div>
                     <div class="time-bar" style="background: rgba(239,68,68,0.2);">
                       <div class="fill" id="bar-0-4" style="width: 30%; background: var(--dplus-red);"></div>
-                      <span class="time-bar-label">Low initial impact while guests assess the change</span>
+                      <span class="time-bar-label">Minimal immediate impact as guests absorb the price change</span>
                     </div>
                   </div>
 
                   <div class="mb-4">
                     <div class="d-flex justify-content-between mb-2">
                       <span><strong>4-8 Weeks</strong> (Roll-off)</span>
-                      <span id="churn-4-8">+1.8pp</span>
+                      <span id="churn-4-8">+1.2pp</span>
                     </div>
                     <div class="time-bar" style="background: rgba(245,158,11,0.2);">
                       <div class="fill" id="bar-4-8" style="width: 50%; background: var(--dplus-orange);"></div>
-                      <span class="time-bar-label">Promo-led and occasional guests start spacing out visits</span>
+                      <span class="time-bar-label">Value-sensitive and promo-driven guests begin reducing visit frequency</span>
                     </div>
                   </div>
 
                   <div class="mb-4">
                     <div class="d-flex justify-content-between mb-2">
                       <span><strong>8-12 Weeks</strong> (Peak)</span>
-                      <span id="churn-8-12" class="text-danger">+2.8pp</span>
+                      <span id="churn-8-12" class="text-danger">+2.0pp</span>
                     </div>
                     <div class="time-bar" style="background: rgba(239,68,68,0.3);">
                       <div class="fill" id="bar-8-12" style="width: 85%; background: var(--dplus-red);"></div>
-                      <span class="time-bar-label">Maximum repeat loss once meal cycles fully reset</span>
+                      <span class="time-bar-label">Peak churn as meal cycles reset and price sensitivity fully materializes</span>
                     </div>
                   </div>
 
                   <div class="mb-0">
                     <div class="d-flex justify-content-between mb-2">
                       <span><strong>12+ Weeks</strong> (Stabilize)</span>
-                      <span id="churn-12plus">+0.9pp</span>
+                      <span id="churn-12plus">+1.6pp</span>
                     </div>
                     <div class="time-bar" style="background: rgba(16,185,129,0.2);">
                       <div class="fill" id="bar-12plus" style="width: 35%; background: var(--dplus-green);"></div>
-                      <span class="time-bar-label">Remaining guests stabilize at the new price architecture</span>
+                      <span class="time-bar-label">Core loyal guests stabilize, establishing a new steady-state frequency</span>
                     </div>
                   </div>
+                </div>
+                <div class="alert alert-danger mt-4 mb-0">
+                  <strong>Key Insight:</strong>
+                  <span id="churn-key-insight-text">This price increase drives short-term revenue but causes significant repeat loss among value-driven customers, peaking at Week 8-12 (+2.0 pp).</span>
                 </div>
               </div>
             </div>
@@ -1147,7 +1151,7 @@
                     <div class="d-flex align-items-center justify-content-between">
                       <div>
                         <i class="bi bi-arrow-right-circle me-2"></i>
-                        <strong>Deep Dive:</strong> Explore repeat-loss-prone segments and time-lagged heatmaps
+                        <strong>Deep Dive:</strong> Explore which customer segments drive repeat loss and how churn evolves over time.
                       </div>
                       <button class="btn btn-primary btn-sm" onclick="navigateToSegments('churn')">
                         <i class="bi bi-hourglass-split me-1"></i>
@@ -1188,12 +1192,12 @@
                       <option value="premium_loyal">Premium Pizza Loyalists</option>
                       <option value="at_risk">Lapse-Risk Guests</option>
                     </select>
-                    <small class="text-muted">See how delivery and owned-channel demand shift by visit mission.</small>
+                    <small class="text-muted">Simulate how price gaps between delivery and pickup influence where customers order.</small>
                   </div>
 
                                     <!-- Delivery price slider -->
                   <div class="mb-4">
-                    <label class="form-label fw-semibold">Delivery Effective Check: <strong class="text-primary" id="mig-adlite-display">$24.00</strong></label>
+                    <label class="form-label fw-semibold">Delivery Price (incl. fees): <strong class="text-primary" id="mig-adlite-display">$24.00</strong></label>
                     <input type="range" class="price-slider" id="mig-adlite-slider" min="18" max="30" step="0.50" value="24">
                     <div class="d-flex justify-content-between mt-1 small text-muted">
                       <span>$18</span>
@@ -1203,7 +1207,7 @@
 
                   <!-- Carryout / pickup price slider -->
                   <div class="mb-4">
-                    <label class="form-label fw-semibold">Carryout / Pickup Effective Check: <strong class="text-primary" id="mig-adfree-display">$36.00</strong></label>
+                    <label class="form-label fw-semibold">Pickup Price (net of discounts): <strong class="text-primary" id="mig-adfree-display">$36.00</strong></label>
                     <input type="range" class="price-slider" id="mig-adfree-slider" min="28" max="45" step="0.50" value="36">
                     <div class="d-flex justify-content-between mt-1 small text-muted">
                       <span>$28</span>
@@ -1240,6 +1244,10 @@
                     <h5 class="mb-0"><i class="bi bi-diagram-3 me-2"></i>Migration Flow Diagram</h5>
 
                   </div>
+                  <div class="alert alert-warning py-2 px-3 mb-3 small">
+                    <strong>Key Shift:</strong>
+                    <span id="mig-key-shift-text">+3.0% of delivery orders move to pickup, but 1.0% leak to dine-in / lost demand.</span>
+                  </div>
                   <div id="sankey-diagram" style="width: 100%; height: 400px;"></div>
                   <div class="small text-muted mt-2">
                     <i class="bi bi-info-circle me-1"></i>Flow width represents weekly order flow. Blue = stay, Green = owned-channel gain, Red = delivery fallback, Gray = leakage to dine-in or lower-frequency demand.
@@ -1248,7 +1256,8 @@
 
                 <!-- Channel Distribution Flow -->
                 <div class="glass-card mt-4">
-                  <h5 class="mb-4"><i class="bi bi-pie-chart me-2"></i>Projected Channel Distribution</h5>
+                  <h5 class="mb-2"><i class="bi bi-pie-chart me-2"></i>Channel Mix Shift (Delivery → Pickup)</h5>
+                  <div class="small text-muted mb-3">Shift toward pickup improves margin, but excessive gap may reduce total orders.</div>
 
                   <div class="migration-flow mb-4">
                     <div class="flow-box">
@@ -1338,7 +1347,7 @@
                     <div class="d-flex align-items-center justify-content-between">
                       <div>
                         <i class="bi bi-arrow-right-circle me-2"></i>
-                        <strong>Deep Dive:</strong> Explore channel mix migration patterns and transition matrices
+                        <strong>Deep Dive:</strong> Explore channel mix migration patterns that help protect margin without losing too much volume
                       </div>
                       <button class="btn btn-primary btn-sm" onclick="navigateToSegments('migration')">
                         <i class="bi bi-arrows-angle-expand me-1"></i>
@@ -1349,7 +1358,7 @@
 
                   <p class="small text-muted mb-0">
                     <i class="bi bi-info-circle me-1"></i>
-                    <strong>Note:</strong> Detailed channel transition matrices will appear below after running a scenario simulation.
+                    <strong>Note:</strong> Use the flow diagram and mix shift cards above as the primary migration readout for Pizza Hut.
                   </p>
                 </div>
               </div>
@@ -1361,6 +1370,9 @@
 
         <!-- Simulate Button -->
         <div class="text-center my-4">
+          <div class="small text-muted mb-2" id="scenario-decision-hint">
+            Recommended: Start with "Delivery Fee Pressure Test" to evaluate margin protection with moderate churn risk.
+          </div>
           <button id="simulate-btn-models" class="btn btn-primary btn-lg" disabled>
             <i class="bi bi-play-fill me-2"></i>
             Simulate Selected Scenario
@@ -1494,9 +1506,10 @@
                       <tr>
                         <th>Cohort</th>
                         <th>Size</th>
-                        <th>Adds Elasticity</th>
-                        <th>Adds Lift @ P-5%</th>
-                        <th>Adds Lift @ P+5%</th>
+                        <th>Traffic Elasticity</th>
+                        <th>Order Lift @ P-5%</th>
+                        <th>Order Lift @ P+5%</th>
+                        <th>Recommendation</th>
                         <th>Confidence</th>
                       </tr>
                     </thead>
@@ -1539,13 +1552,13 @@
             </div>
           </div>
 
-          <!-- Migration: Channel Transition Matrix -->
+          <!-- Migration detail placeholder -->
           <div id="migration-results-detail" class="mt-4" style="display: none;">
             <div class="card">
               <div class="card-header bg-success-subtle">
                 <h5 class="h6 mb-0">
                   <i class="bi bi-table me-2"></i>
-                  Channel Transition Matrix (Δ vs baseline)
+                  Placeholder
                 </h5>
               </div>
               <div class="card-body">
@@ -2151,10 +2164,10 @@
             Try asking:
           </small>
           <div class="d-flex flex-wrap gap-2">
-            <button class="btn btn-sm btn-outline-secondary suggested-query" disabled>Summarize current Pizza Hut performance and price-elasticity risks</button>
-            <button class="btn btn-sm btn-outline-secondary suggested-query" disabled>What actions should I take this week based on the current elasticity view?</button>
-            <button class="btn btn-sm btn-outline-secondary suggested-query" disabled>Which visit missions or channels look most price-sensitive right now?</button>
-            <button class="btn btn-sm btn-outline-secondary suggested-query" disabled>Explain what the Traffic Acquisition step is telling me for Pizza Hut</button>
+            <button class="btn btn-sm btn-outline-secondary suggested-query" disabled>Can I increase prices right now without losing too many repeat customers?</button>
+            <button class="btn btn-sm btn-outline-secondary suggested-query" disabled>Which customer segments or visit occasions are most at risk if I raise prices?</button>
+            <button class="btn btn-sm btn-outline-secondary suggested-query" disabled>Where am I gaining revenue but losing long-term customer frequency?</button>
+            <button class="btn btn-sm btn-outline-secondary suggested-query" disabled>What is the best pricing or promotion action I should take this week?</button>
           </div>
         </div>
       </div>
@@ -2457,7 +2470,7 @@
           <div class="card mb-3">
             <div class="card-header "><strong>Repeat Loss Formula</strong></div>
             <div class="card-body">
-              <code>Additional Visit Loss = Baseline Visit Loss x Repeat-Loss Elasticity x Price Change x Time-Lag Weight</code>
+              <code>Additional Repeat Loss follows the calibrated price-change curve and time-horizon response profile.</code>
               <p class="small text-muted mt-2">
                 <strong>Example:</strong> The same price move can look manageable in Week 4 and materially worse by Weeks 8-12 once guests cycle through fewer occasions.
               </p>
@@ -2817,8 +2830,8 @@
           <h6 class="mb-3 mt-4" style="color: #6366f1;"><i class="bi bi-lightning-charge me-2"></i> Key Insights</h6>
           <div class="alert alert-primary">
             <ul class="mb-0">
-              <li>Segments with elasticity < -2.5 are <strong>highly price-sensitive</strong></li>
-              <li>Segments with elasticity > -1.0 are <strong>inelastic</strong> (price increase opportunity)</li>
+              <li>Segments with elasticity above 1.5 are <strong>highly price-sensitive</strong></li>
+              <li>Segments with elasticity below 1.0 are <strong>lower sensitivity</strong> (selective price increase opportunity)</li>
               <li>Focus price optimization on high-revenue, low-elasticity segments</li>
               <li>Consider targeted discounts for high-elasticity, low-engagement segments</li>
             </ul>

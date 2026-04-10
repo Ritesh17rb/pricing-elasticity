@@ -67,8 +67,8 @@ function relabelMigrationPane() {
 
   const labels = pane.querySelectorAll('.form-label.fw-semibold');
   if (labels[0]) labels[0].textContent = 'Select Visit Mission';
-  if (labels[1]) labels[1].innerHTML = 'Delivery Effective Check: <strong class="text-primary" id="mig-adlite-display">$0.00</strong>';
-  if (labels[2]) labels[2].innerHTML = 'Carryout / Pickup Effective Check: <strong class="text-primary" id="mig-adfree-display">$0.00</strong>';
+  if (labels[1]) labels[1].innerHTML = 'Delivery Price (incl. fees): <strong class="text-primary" id="mig-adlite-display">$0.00</strong>';
+  if (labels[2]) labels[2].innerHTML = 'Pickup Price (net of discounts): <strong class="text-primary" id="mig-adfree-display">$0.00</strong>';
 
   const metricLabels = pane.querySelectorAll('.metric-label');
   if (metricLabels[0]) metricLabels[0].textContent = 'Channel Check Gap';
@@ -84,7 +84,7 @@ function relabelMigrationPane() {
   const chartTitles = pane.querySelectorAll('.glass-card h5');
   if (chartTitles[0]) chartTitles[0].innerHTML = '<i class="bi bi-sliders me-2"></i>Adjust Channel Checks';
   if (chartTitles[1]) chartTitles[1].innerHTML = '<i class="bi bi-diagram-3 me-2"></i>Channel Flow Diagram';
-  if (chartTitles[2]) chartTitles[2].innerHTML = '<i class="bi bi-pie-chart me-2"></i>Projected Channel Share';
+  if (chartTitles[2]) chartTitles[2].innerHTML = '<i class="bi bi-pie-chart me-2"></i>Channel Mix Shift (Delivery → Pickup)';
   if (chartTitles[3]) chartTitles[3].textContent = 'Channel Mix Over Time';
 
   const flowLabels = pane.querySelectorAll('.migration-flow .flow-box div:nth-child(2)');
@@ -409,6 +409,10 @@ function updateMigrationModel() {
   document.getElementById('mig-gap-change').textContent = `${gapChangePct >= 0 ? '+' : ''}${gapChangePct.toFixed(1)}%`;
   document.getElementById('mig-adlite-pct').textContent = `${projectedDeliveryShare.toFixed(1)}%`;
   document.getElementById('mig-adfree-pct').textContent = `${projectedCarryoutPickupShare.toFixed(1)}%`;
+  const keyShiftEl = document.getElementById('mig-key-shift-text');
+  if (keyShiftEl) {
+    keyShiftEl.textContent = `+${deliveryToCarryoutPickupPct.toFixed(1)}% of delivery orders move to pickup, but ${deliveryLeakagePct.toFixed(1)}% leak to dine-in / lost demand.`;
+  }
 
   const deliveryToCarryoutPickupRev = deliveryToCarryoutPickup * (carryoutPickupPrice - deliveryPrice);
   const carryoutPickupToDeliveryRev = carryoutPickupToDelivery * (deliveryPrice - carryoutPickupPrice);
