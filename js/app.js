@@ -561,6 +561,28 @@ function setElementText(elementId, text) {
   }
 }
 
+function setElementHtml(elementId, html) {
+  const element = document.getElementById(elementId);
+  if (element) {
+    element.innerHTML = html;
+  }
+}
+
+function formatStep1InsightText(text) {
+  if (!text) return '';
+  const marker = 'The key question is:';
+  const markerIndex = text.indexOf(marker);
+  if (markerIndex === -1) return text;
+
+  const intro = text.slice(0, markerIndex).trim();
+  const question = text.slice(markerIndex + marker.length).trim();
+  return `${intro}
+    <span class="insight-question-line">
+      <span class="insight-question-kicker">${marker}</span>
+      <span class="insight-question-copy">${question}</span>
+    </span>`;
+}
+
 function setElementHTML(selector, html) {
   const element = typeof selector === 'string' ? document.querySelector(selector) : null;
   if (element) {
@@ -834,7 +856,7 @@ function renderYumOverviewNarrative({
   setElementText('overview-tier-secondary-products', STEP1_EXECUTIVE_OVERVIEW.secondaryLane.products);
   setElementText('overview-tier-secondary-copy', STEP1_EXECUTIVE_OVERVIEW.secondaryLane.copy);
   setElementText('kpi-insight-title', STEP1_EXECUTIVE_OVERVIEW.insightTitle);
-  setElementText('kpi-insight-text', STEP1_EXECUTIVE_OVERVIEW.insightText);
+  setElementHtml('kpi-insight-text', formatStep1InsightText(STEP1_EXECUTIVE_OVERVIEW.insightText));
 }
 
 // Load KPI data
