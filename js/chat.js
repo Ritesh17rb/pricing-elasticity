@@ -14,6 +14,8 @@ import { unsafeHTML } from "lit-html/directives/unsafe-html.js";
 import { Marked } from "marked";
 import { parse } from "partial-json";
 import saveform from "saveform";
+import { searchKnowledgeBase } from "./knowledge-base.js";
+import { createChatChartSpec } from "./chat-chart-tools.js";
 
 // Initialize Markdown renderer with code highlighting
 const marked = new Marked();
@@ -45,6 +47,7 @@ const settingsForm = saveform("#settings-form");
 let conversationHistory = [];
 let dataContext = null;
 let uiMessages = [];
+let renderedChatCharts = [];
 
 // Default system prompt template
 const DEFAULT_SYSTEM_PROMPT = `You are the Pizza Hut Analyst for the Pizza Hut Pricing Elasticity Studio.
@@ -91,6 +94,8 @@ const DEFAULT_SYSTEM_PROMPT = `You are the Pizza Hut Analyst for the Pizza Hut P
 5. **create_scenario** - Generate a new custom scenario from parameters
 6. **query_segments** - Get detailed information about customer segments (filter by demand ladder, size, repeat-loss risk, value)
 7. **get_screen_context** - Retrieve the live context for the current or requested screen, including the active filters, controls, KPI cards, and screen-specific inference text
+8. **search_knowledge_base** - Retrieve grounded notes, definitions, methodology, and project decisions from local docs and metadata
+9. **create_chart** - Render a chart in the chat UI from trusted app data when a visual comparison or trend view would help
 
 **How to Use Tools:**
 - When users ask to interpret results: Use interpret_scenario with the scenario_id
@@ -100,6 +105,8 @@ const DEFAULT_SYSTEM_PROMPT = `You are the Pizza Hut Analyst for the Pizza Hut P
 - When users want to create new scenarios: Use create_scenario with parameters
 - When users ask about customer segments: Use query_segments with filters (demand ladder, size, repeat-loss risk, value)
 - When the answer depends on the live screen state or visible controls: Use get_screen_context before concluding
+- When users ask about methodology, assumptions, definitions, meeting decisions, dataset meaning, or project history: Use search_knowledge_base before answering
+- When users ask to plot, graph, chart, visualize, or compare visually, or when a visual would materially improve clarity: Use create_chart
 
 **Response Guidelines:**
 - Focus on business interpretation, recommended actions, and trust in the underlying data
@@ -113,6 +120,8 @@ const DEFAULT_SYSTEM_PROMPT = `You are the Pizza Hut Analyst for the Pizza Hut P
 - Prefer the active screen context over generic global context when both are available
 - When users save scenarios, you can compare them using the compare_outcomes tool
 - When a message contains an "Active Screen Context" block, treat that as the primary scope and answer from that screen's current state first
+- When you use search_knowledge_base, cite the source file paths in the answer
+- When you use create_chart, briefly explain what the chart shows and the one or two most important takeaways
 
 Be concise and informative in your responses. Ask follow-up questions only when they are necessary.
 Return the response in Markdown format for rich text display. (Bold important points, use lists for clarity, and include code blocks for any data or JSON.)
@@ -158,6 +167,17 @@ function getChatFeeds() {
   return Array.from(document.querySelectorAll('[data-chat-feed]'));
 }
 
+function destroyRenderedChatCharts() {
+  renderedChatCharts.forEach((chart) => {
+    try {
+      chart.destroy();
+    } catch (error) {
+      console.warn('Failed to destroy chat chart instance:', error);
+    }
+  });
+  renderedChatCharts = [];
+}
+
 function getEmptyStateMarkup(variant = 'compact') {
   if (variant === 'full') {
     return `
@@ -178,7 +198,26 @@ function getEmptyStateMarkup(variant = 'compact') {
   `;
 }
 
-function renderAllChatFeeds() {
+function getMessageMarkup(message) {
+  if (message.isLoading) {
+    return `
+      <span class="spinner-border spinner-border-sm me-2"></span>
+      <span class="text-muted">Thinking...</span>
+    `;
+  }
+
+  if (message.contentType === 'chart' && message.chartSpec) {
+    return buildChatChartMarkup(message);
+  }
+
+  if (message.role === 'assistant') {
+    return marked.parse(message.content || '');
+  }
+
+  return `<div>${escapeHtml(message.content || '')}</div>`;
+}
+
+function renderAllChatFeedsLegacy() {
   const feeds = getChatFeeds();
   feeds.forEach((feed) => {
     const variant = feed.dataset.chatVariant || 'compact';
@@ -216,6 +255,157 @@ function renderAllChatFeeds() {
 
     feed.scrollTop = feed.scrollHeight;
   });
+}
+
+function buildChatChartMarkup(message) {
+  const spec = message.chartSpec;
+  return `
+    <div class="assistant-chart-card">
+      <div class="assistant-chart-card__header">
+        <div>
+          <div class="assistant-chart-card__title">${escapeHtml(spec.title || 'Chart')}</div>
+          ${spec.subtitle ? `<div class="assistant-chart-card__subtitle">${escapeHtml(spec.subtitle)}</div>` : ''}
+        </div>
+        ${spec.sourceLabel ? `<div class="assistant-chart-card__source">${escapeHtml(spec.sourceLabel)}</div>` : ''}
+      </div>
+      ${spec.summary ? `<div class="assistant-chart-card__summary">${escapeHtml(spec.summary)}</div>` : ''}
+      <div class="assistant-chart-card__canvas-wrap">
+        <canvas data-chat-chart-canvas="${message.id}"></canvas>
+      </div>
+    </div>
+  `;
+}
+
+function renderPendingChatCharts() {
+  if (!window.Chart) return;
+
+  document.querySelectorAll('[data-chat-chart-canvas]').forEach((canvas) => {
+    const messageId = canvas.dataset.chatChartCanvas;
+    const message = uiMessages.find((item) => item.id === messageId && item.contentType === 'chart');
+    if (!message?.chartSpec) return;
+
+    const instance = new window.Chart(canvas.getContext('2d'), buildChatChartConfig(message.chartSpec));
+    renderedChatCharts.push(instance);
+  });
+}
+
+function buildChatChartConfig(spec) {
+  const datasets = (spec.datasets || []).map((dataset) => ({
+    borderWidth: 2,
+    pointRadius: spec.type === 'line' ? 2 : 0,
+    pointHoverRadius: 4,
+    spanGaps: true,
+    ...dataset
+  }));
+
+  return {
+    type: spec.type || 'line',
+    data: {
+      labels: spec.labels || [],
+      datasets
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: {
+        mode: 'index',
+        intersect: false
+      },
+      plugins: {
+        legend: {
+          display: datasets.length > 1
+        },
+        tooltip: {
+          callbacks: {
+            label: (context) => `${context.dataset.label}: ${formatChartValue(context.parsed?.y ?? context.parsed, spec.valueFormat)}`
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: {
+            maxRotation: 0,
+            autoSkip: true,
+            maxTicksLimit: 8
+          },
+          title: spec.xAxisLabel ? {
+            display: true,
+            text: spec.xAxisLabel
+          } : undefined
+        },
+        y: {
+          beginAtZero: shouldStartAtZero(spec.valueFormat),
+          ticks: {
+            callback: (value) => formatChartValue(value, spec.valueFormat)
+          },
+          title: spec.yAxisLabel ? {
+            display: true,
+            text: spec.yAxisLabel
+          } : undefined
+        }
+      }
+    }
+  };
+}
+
+function shouldStartAtZero(valueFormat) {
+  return !['percentSigned', 'integerSigned', 'decimal'].includes(valueFormat);
+}
+
+function formatChartValue(value, valueFormat) {
+  const numeric = Number(value || 0);
+  switch (valueFormat) {
+    case 'currency':
+      return `$${Math.round(numeric).toLocaleString()}`;
+    case 'percent':
+      return `${(numeric * 100).toFixed(1)}%`;
+    case 'percentSigned':
+      return `${numeric >= 0 ? '+' : ''}${numeric.toFixed(1)}%`;
+    case 'integer':
+      return Math.round(numeric).toLocaleString();
+    case 'integerSigned':
+      return `${numeric >= 0 ? '+' : ''}${Math.round(numeric).toLocaleString()}`;
+    case 'decimal':
+      return numeric.toFixed(2);
+    default:
+      return numeric.toLocaleString();
+  }
+}
+
+function renderAllChatFeeds() {
+  destroyRenderedChatCharts();
+  const feeds = getChatFeeds();
+  feeds.forEach((feed) => {
+    const variant = feed.dataset.chatVariant || 'compact';
+    const visibleMessages = variant === 'full' ? uiMessages : uiMessages.slice(-4);
+
+    if (!visibleMessages.length) {
+      feed.innerHTML = getEmptyStateMarkup(variant);
+      return;
+    }
+
+    feed.innerHTML = visibleMessages.map((message) => {
+      const icon = message.role === 'user' ? 'User' : message.role === 'system' ? 'Tool' : 'AI';
+      const label = message.role === 'user' ? 'You' : message.role === 'system' ? 'System' : 'Pizza Hut Analyst';
+      const contentMarkup = getMessageMarkup(message);
+
+      return `
+        <div id="${message.id}" class="chat-message mb-3 ${message.role} ${message.customClass || ''}">
+          <div class="d-flex align-items-start">
+            <div class="me-2">${icon}</div>
+            <div class="flex-grow-1">
+              <div class="text-muted small mb-1">${label}</div>
+              <div class="message-content">${contentMarkup}</div>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    feed.scrollTop = feed.scrollHeight;
+  });
+
+  renderPendingChatCharts();
 }
 
 function setChatComposerEnabled(enabled, reason = '') {
@@ -754,6 +944,80 @@ function getToolDefinitions() {
           required: []
         }
       }
+    },
+    {
+      type: "function",
+      function: {
+        name: "search_knowledge_base",
+        description: "Search the local project knowledge base for methodology, definitions, assumptions, feedback notes, meeting decisions, and dataset descriptions.",
+        parameters: {
+          type: "object",
+          properties: {
+            query: {
+              type: "string",
+              description: "The knowledge question or search query to look up."
+            },
+            top_k: {
+              type: "integer",
+              description: "Maximum number of knowledge chunks to return. Use a small number such as 3 to 5."
+            }
+          },
+          required: ["query"]
+        }
+      }
+    },
+    {
+      type: "function",
+      function: {
+        name: "create_chart",
+        description: "Render a chart in the chat UI from trusted app data. Use this when the user asks to visualize, graph, plot, or compare metrics visually.",
+        parameters: {
+          type: "object",
+          properties: {
+            chart_kind: {
+              type: "string",
+              enum: ["weekly_trend", "scenario_comparison", "segment_comparison", "forecast", "demand_curve"],
+              description: "The type of chart to create."
+            },
+            metric: {
+              type: "string",
+              description: "Metric to plot. Examples: revenue, customers, aov, repeat_loss_rate, revenue_pct, customers_pct, avg_order_value, elasticity."
+            },
+            title: {
+              type: "string",
+              description: "Optional chart title override."
+            },
+            tier: {
+              type: "string",
+              enum: ["all", "ad_supported", "ad_free"],
+              description: "Optional tier filter for weekly, demand, or segment charts."
+            },
+            group_by: {
+              type: "string",
+              enum: ["acquisition", "engagement", "monetization"],
+              description: "Axis to aggregate by for segment comparison charts."
+            },
+            scenario_id: {
+              type: "string",
+              description: "Optional scenario id for forecast charts."
+            },
+            scenario_ids: {
+              type: "array",
+              items: { type: "string" },
+              description: "Optional scenario ids for scenario comparison charts."
+            },
+            limit: {
+              type: "integer",
+              description: "Optional maximum number of points or bars to show."
+            },
+            time_window_weeks: {
+              type: "integer",
+              description: "Optional number of recent weeks to show for weekly trend charts."
+            }
+          },
+          required: ["chart_kind"]
+        }
+      }
     }
   ];
 }
@@ -893,12 +1157,17 @@ async function executeToolCalls(toolCalls) {
 
     try {
       const result = await executeTool(toolName, args);
+      const toolContent = result?.llmPayload || result;
+
+      if (toolName === 'create_chart' && result?.chartSpec) {
+        appendChartMessage(result.chartSpec);
+      }
 
       toolResults.push({
         tool_call_id: toolCall.id,
         role: "tool",
         name: toolName,
-        content: JSON.stringify(result)
+        content: JSON.stringify(toolContent)
       });
 
       appendMessage('system', `✅ ${toolName} completed`, false, 'tool');
@@ -1059,6 +1328,12 @@ async function executeTool(toolName, args) {
       }
       return await dataContext.getScreenContext(args.section_id);
 
+    case 'search_knowledge_base':
+      return await searchKnowledgeBase(args.query, { topK: args.top_k });
+
+    case 'create_chart':
+      return await createChatChartSpec(args, dataContext);
+
     default:
       throw new Error(`Unknown tool: ${toolName}`);
   }
@@ -1168,6 +1443,21 @@ function appendMessage(role, content, isLoading = false, customClass = '') {
   return messageId;
 }
 
+function appendChartMessage(chartSpec) {
+  const messageId = `msg-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
+  uiMessages.push({
+    id: messageId,
+    role: 'assistant',
+    content: '',
+    isLoading: false,
+    customClass: 'assistant-chart-message',
+    contentType: 'chart',
+    chartSpec
+  });
+  renderAllChatFeeds();
+  return messageId;
+}
+
 /**
  * Update an existing message
  */
@@ -1196,6 +1486,7 @@ function removeMessage(messageId) {
 export function clearHistory() {
   conversationHistory = [];
   uiMessages = [];
+  destroyRenderedChatCharts();
   renderAllChatFeeds();
 }
 

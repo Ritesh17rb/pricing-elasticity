@@ -40,6 +40,7 @@ import {
   getYumChannelLabel,
   sortYumBrandIds
 } from './yum-brand-utils.js';
+import { warmKnowledgeBase } from './knowledge-base.js';
 
 // Global state
 let allScenarios = [];
@@ -1101,6 +1102,35 @@ async function initializeChatContext() {
     // Load elasticity parameters for visualization context
     const elasticityParams = await loadElasticityParams();
 
+    const resolveScenarioResult = async (scenarioId) => {
+      if (!scenarioId) return currentResult || null;
+
+      let result = allSimulationResults.find((item) => item.scenario_id === scenarioId);
+      if (!result && currentResult && currentResult.scenario_id === scenarioId) {
+        result = currentResult;
+      }
+      if (result) return result;
+
+      const scenario = allScenarios.find((item) => item.id === scenarioId);
+      if (!scenario) {
+        throw new Error(`Scenario ${scenarioId} not found`);
+      }
+
+      result = await simulateScenario(scenario);
+      const modelType = result.model_type || scenario.model_type || activeModelType;
+      if (!allSimulationResultsByModel[modelType]) {
+        allSimulationResultsByModel[modelType] = [];
+      }
+      if (!allSimulationResultsByModel[modelType].some((item) => item.scenario_id === result.scenario_id)) {
+        allSimulationResultsByModel[modelType].push(result);
+      }
+      if (modelType === activeModelType) {
+        allSimulationResults = allSimulationResultsByModel[modelType];
+      }
+
+      return result;
+    };
+
     // Create scenario-focused context for chat
     const context = {
       // All scenario definitions
@@ -1114,6 +1144,12 @@ async function initializeChatContext() {
 
       // All simulation results
       getAllSimulationResults: () => allSimulationResults,
+
+      // Active model scope
+      getActiveModelType: () => activeModelType,
+
+      // Resolve or simulate a scenario result on demand
+      getScenarioResult: resolveScenarioResult,
 
       // Live screen context for contextual assistants
       getScreenContext: async (sectionId = null) => {
@@ -1164,22 +1200,7 @@ async function initializeChatContext() {
 
       // Interpret a specific scenario's results
       interpretScenario: async (scenarioId) => {
-        // Check if we have results for this scenario
-        let result = allSimulationResults.find(r => r.scenario_id === scenarioId);
-
-        // If not, check if it's the current result
-        if (!result && currentResult && currentResult.scenario_id === scenarioId) {
-          result = currentResult;
-        }
-
-        // If still not found, run the simulation
-        if (!result) {
-          const scenario = allScenarios.find(s => s.id === scenarioId);
-          if (!scenario) {
-            throw new Error(`Scenario ${scenarioId} not found`);
-          }
-          result = await simulateScenario(scenario);
-        }
+        const result = await resolveScenarioResult(scenarioId);
 
         // Build interpretation
         const interpretation = {
@@ -1347,15 +1368,7 @@ async function initializeChatContext() {
         // Run all scenarios if not already simulated
         const results = [];
         for (const scenario of scenarios) {
-          let result = allSimulationResults.find(r => r.scenario_id === scenario.id);
-          if (!result && currentResult && currentResult.scenario_id === scenario.id) {
-            result = currentResult;
-          }
-          if (!result) {
-            result = await simulateScenario(scenario);
-            allSimulationResults.push(result);
-          }
-          results.push(result);
+          results.push(await resolveScenarioResult(scenario.id));
         }
 
         // Analyze trade-offs
@@ -1454,6 +1467,9 @@ async function initializeChatContext() {
 
     // Initialize chat module with scenario-focused context
     initializeChat(context);
+    warmKnowledgeBase().catch((error) => {
+      console.warn('Knowledge base warm-up failed:', error);
+    });
   } catch (error) {
     console.error('Error initializing chat context:', error);
     throw error;
@@ -2310,7 +2326,23 @@ function getScreenAssistantEmptyMarkup() {
   `;
 }
 
+function pinScreenAssistantToBottom(sectionId = null) {
+  const sectionIds = sectionId
+    ? [sectionId]
+    : Object.keys(SCREEN_ASSISTANT_CONFIG).filter((id) => id !== 'section-9');
+
+  sectionIds.forEach((currentSectionId) => {
+    const mount = getScreenAssistantMount(currentSectionId);
+    const card = document.getElementById(`screen-assistant-${currentSectionId}`);
+    if (!mount || !card) return;
+    if (card.parentElement !== mount || mount.lastElementChild !== card) {
+      mount.appendChild(card);
+    }
+  });
+}
+
 function updateScreenAssistantVisibility() {
+  pinScreenAssistantToBottom();
   const shouldShow = Boolean(window.dataLoaded) && !window.dataLoading;
   document.querySelectorAll('.screen-assistant-card').forEach((card) => {
     card.style.display = shouldShow ? '' : 'none';
@@ -2362,6 +2394,7 @@ function mountScreenAssistants() {
       if (!mount || document.getElementById(`screen-assistant-${sectionId}`)) return;
       mount.appendChild(createScreenAssistantPanel(sectionId, config));
     });
+  pinScreenAssistantToBottom();
   updateScreenAssistantVisibility();
 }
 
@@ -3909,6 +3942,7 @@ async function init() {
   // Make loadData available globally so it can be called when navigating to step 1
   window.loadAppData = loadData;
   window.dataLoaded = false;
+  window.pinScreenAssistantToBottom = pinScreenAssistantToBottom;
   window.dataLoading = false;
 }
 

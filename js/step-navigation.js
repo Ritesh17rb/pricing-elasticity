@@ -202,6 +202,11 @@ function showStepContent(step) {
       break;
     }
   }
+
+  const visibleSectionId = stepSectionMap[step];
+  if (visibleSectionId && visibleSectionId !== 'section-9' && window.pinScreenAssistantToBottom) {
+    window.pinScreenAssistantToBottom(visibleSectionId);
+  }
 }
 
 function showElasticityModel(modelType, containerId) {
