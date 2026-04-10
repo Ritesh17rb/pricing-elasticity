@@ -991,11 +991,11 @@
 
                                     <!-- Price Increase Slider -->
                   <div class="mb-4">
-                    <label class="form-label fw-semibold">Price Increase: <strong class="text-danger" id="churn-increase-display">+$1.00</strong></label>
-                    <input type="range" class="price-slider" id="churn-price-slider" min="0" max="3" step="0.5" value="1">
+                    <label class="form-label fw-semibold">Price Increase: <strong class="text-danger" id="churn-increase-display">+$1.80</strong></label>
+                    <input type="range" class="price-slider" id="churn-price-slider" min="0" max="1.85" step="0.05" value="1.80">
                     <div class="d-flex justify-content-between mt-1 small text-muted">
                       <span>$0</span>
-                      <span>+$3.00</span>
+                      <span>+$1.85</span>
                     </div>
                   </div>
 
@@ -1016,11 +1016,11 @@
                     </div>
                     <div class="metric-row">
                       <span class="metric-label">Effective Price Move</span>
-                      <strong class="metric-value" id="churn-pct-change">+6.7%</strong>
+                      <strong class="metric-value" id="churn-pct-change">+24.1%</strong>
                     </div>
                     <div class="metric-row">
                       <span class="metric-label">Peak Repeat Loss Impact</span>
-                      <strong class="metric-value text-danger" id="churn-peak-impact">+2.0pp</strong>
+                      <strong class="metric-value text-danger" id="churn-peak-impact">+20.0pp</strong>
                     </div>
                   </div>
                 </div>
@@ -1038,7 +1038,7 @@
               <div class="col-lg-7">
                 <!-- Cumulative Churn Chart (moved to top) -->
                 <div class="glass-card">
-                  <h5 class="mb-3">Cumulative Repeat Loss Over Time</h5>
+                  <h5 class="mb-3">Cumulative Repeat-Visit Loss Over Time</h5>
                   <div style="position: relative; height: 300px;">
                     <canvas id="churn-chart-simple"></canvas>
                   </div>
@@ -1053,7 +1053,7 @@
                   <!-- Summary Metrics -->
                   <div class="metric-display-card mb-3" style="background: rgba(99, 102, 241, 0.05); border-color: rgba(99, 102, 241, 0.2);">
                     <div class="metric-row">
-                      <span class="metric-label">Retained Menu Units (Week 24)</span>
+                      <span class="metric-label">Retained Menu Units (Steady State)</span>
                       <strong class="metric-value" id="churn-retained-subs">0</strong>
                     </div>
                     <div class="metric-row">
@@ -1077,10 +1077,10 @@
                   <div class="mb-4">
                     <div class="d-flex justify-content-between mb-2">
                       <span><strong>0-4 Weeks</strong> (Immediate)</span>
-                      <span id="churn-0-4">+0.3pp</span>
+                      <span id="churn-0-4">+2.5pp</span>
                     </div>
                     <div class="time-bar" style="background: rgba(239,68,68,0.2);">
-                      <div class="fill" id="bar-0-4" style="width: 30%; background: var(--dplus-red);"></div>
+                      <div class="fill" id="bar-0-4" style="width: 12.5%; background: var(--dplus-red);"></div>
                       <span class="time-bar-label">Minimal immediate impact as guests absorb the price change</span>
                     </div>
                   </div>
@@ -1088,7 +1088,7 @@
                   <div class="mb-4">
                     <div class="d-flex justify-content-between mb-2">
                       <span><strong>4-8 Weeks</strong> (Roll-off)</span>
-                      <span id="churn-4-8">+1.2pp</span>
+                      <span id="churn-4-8">+10.0pp</span>
                     </div>
                     <div class="time-bar" style="background: rgba(245,158,11,0.2);">
                       <div class="fill" id="bar-4-8" style="width: 50%; background: var(--dplus-orange);"></div>
@@ -1099,10 +1099,10 @@
                   <div class="mb-4">
                     <div class="d-flex justify-content-between mb-2">
                       <span><strong>8-12 Weeks</strong> (Peak)</span>
-                      <span id="churn-8-12" class="text-danger">+2.0pp</span>
+                      <span id="churn-8-12" class="text-danger">+20.0pp</span>
                     </div>
                     <div class="time-bar" style="background: rgba(239,68,68,0.3);">
-                      <div class="fill" id="bar-8-12" style="width: 85%; background: var(--dplus-red);"></div>
+                      <div class="fill" id="bar-8-12" style="width: 100%; background: var(--dplus-red);"></div>
                       <span class="time-bar-label">Peak churn as meal cycles reset and price sensitivity fully materializes</span>
                     </div>
                   </div>
@@ -1110,17 +1110,17 @@
                   <div class="mb-0">
                     <div class="d-flex justify-content-between mb-2">
                       <span><strong>12+ Weeks</strong> (Stabilize)</span>
-                      <span id="churn-12plus">+1.6pp</span>
+                      <span id="churn-12plus">+15.0pp</span>
                     </div>
                     <div class="time-bar" style="background: rgba(16,185,129,0.2);">
-                      <div class="fill" id="bar-12plus" style="width: 35%; background: var(--dplus-green);"></div>
-                      <span class="time-bar-label">Core loyal guests stabilize, establishing a new steady-state frequency</span>
+                      <div class="fill" id="bar-12plus" style="width: 75%; background: var(--dplus-green);"></div>
+                      <span class="time-bar-label">Core loyal guests stabilize at a lower steady-state frequency</span>
                     </div>
                   </div>
                 </div>
                 <div class="alert alert-danger mt-4 mb-0">
                   <strong>Key Insight:</strong>
-                  <span id="churn-key-insight-text">This price increase drives short-term revenue but causes significant repeat loss among value-driven customers, peaking at Week 8-12 (+2.0 pp).</span>
+                  <span id="churn-key-insight-text">This price increase drives short-term revenue but causes significant repeat loss among value-driven customers, peaking at Week 8-12 (+20.0 pp).</span>
                 </div>
               </div>
             </div>

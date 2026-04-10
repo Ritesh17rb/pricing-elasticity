@@ -11,11 +11,14 @@ const GROUP_CONFIG = [
   { key: 'value_entry', label: 'Entry & Value Meals' },
   { key: 'core_premium', label: 'Core & Premium Meals' }
 ];
+const CHURN_DEFAULT_PRICE_INCREASE = 1.80;
+const CHURN_REFERENCE_PEAK_IMPACT = 20.0;
+const CHURN_REFERENCE_BASELINE_REPEAT_LOSS = 15.8;
 const CHURN_TIME_SHARES = {
-  '0_4': 0.15,
-  '4_8': 0.60,
+  '0_4': 0.125,
+  '4_8': 0.50,
   '8_12': 1.00,
-  '12plus': 0.80
+  '12plus': 0.75
 };
 const CHURN_COHORT_MULTIPLIERS = {
   baseline: 1.0,
@@ -55,18 +58,21 @@ const CHURN_PRICE_CURVE = [
   { price: 1.20, effectiveMovePct: 16.1, peakImpact: 9.8 },
   { price: 1.25, effectiveMovePct: 16.7, peakImpact: 10.7 },
   { price: 1.30, effectiveMovePct: 17.4, peakImpact: 11.6 },
-  { price: 1.35, effectiveMovePct: 18.1, peakImpact: 12.6 },
-  { price: 1.40, effectiveMovePct: 18.7, peakImpact: 13.7 },
-  { price: 1.45, effectiveMovePct: 19.4, peakImpact: 14.8 },
-  { price: 1.50, effectiveMovePct: 20.1, peakImpact: 16.0 },
-  { price: 1.55, effectiveMovePct: 20.7, peakImpact: 17.2 },
-  { price: 1.60, effectiveMovePct: 21.4, peakImpact: 18.5 },
-  { price: 1.65, effectiveMovePct: 22.1, peakImpact: 19.9 },
-  { price: 1.70, effectiveMovePct: 22.7, peakImpact: 21.3 },
-  { price: 1.75, effectiveMovePct: 23.4, peakImpact: 22.8 },
-  { price: 1.80, effectiveMovePct: 24.1, peakImpact: 24.4 },
-  { price: 1.85, effectiveMovePct: 24.7, peakImpact: 26.0 }
+  { price: 1.35, effectiveMovePct: 18.1, peakImpact: 12.5 },
+  { price: 1.40, effectiveMovePct: 18.7, peakImpact: 13.5 },
+  { price: 1.45, effectiveMovePct: 19.4, peakImpact: 14.5 },
+  { price: 1.50, effectiveMovePct: 20.1, peakImpact: 15.5 },
+  { price: 1.55, effectiveMovePct: 20.7, peakImpact: 16.5 },
+  { price: 1.60, effectiveMovePct: 21.4, peakImpact: 17.5 },
+  { price: 1.65, effectiveMovePct: 22.1, peakImpact: 18.5 },
+  { price: 1.70, effectiveMovePct: 22.7, peakImpact: 19.2 },
+  { price: 1.75, effectiveMovePct: 23.4, peakImpact: 19.7 },
+  { price: 1.80, effectiveMovePct: 24.1, peakImpact: 20.0 },
+  { price: 1.85, effectiveMovePct: 24.7, peakImpact: 20.0 }
 ];
+const RETENTION_BASELINE_SERIES = [100, 98, 96, 94, 93, 92, 91];
+const RETENTION_TARGET_SERIES = [100, 96, 90, 84, 80, 79, 78];
+const CONTRIBUTION_TARGET_SERIES = [0, 6000, 8000, 4000, 0, -1000, -2000];
 const COHORT_LABELS = {
   baseline: 'All Visit Missions',
   brand_loyal: 'Family Ritual Loyalists',
@@ -96,9 +102,62 @@ function toNumber(value, fallback = 0) {
   return Number.isFinite(numeric) ? numeric : fallback;
 }
 
+function clamp(value, min, max) {
+  return Math.min(max, Math.max(min, value));
+}
+
 function average(values) {
   if (!values.length) return 0;
   return values.reduce((sum, value) => sum + value, 0) / values.length;
+}
+
+function interpolateSeries(fromValues, toValues, ratio) {
+  return fromValues.map((value, index) => Number((value + ((toValues[index] ?? value) - value) * ratio).toFixed(1)));
+}
+
+function buildChurnImpacts(peakImpact) {
+  return {
+    '0_4': peakImpact * CHURN_TIME_SHARES['0_4'],
+    '4_8': peakImpact * CHURN_TIME_SHARES['4_8'],
+    '8_12': peakImpact * CHURN_TIME_SHARES['8_12'],
+    '12plus': peakImpact * CHURN_TIME_SHARES['12plus']
+  };
+}
+
+function buildProjectedRepeatLossSeries(group, impacts) {
+  const baseline = group.baselineRepeatLoss;
+  return [
+    baseline,
+    baseline + impacts['0_4'],
+    baseline + impacts['4_8'],
+    baseline + impacts['8_12'],
+    baseline + ((impacts['8_12'] + impacts['12plus']) / 2),
+    baseline + impacts['12plus']
+  ].map(value => Number(value.toFixed(1)));
+}
+
+function buildScenarioRetentionSeries(peakImpact) {
+  return interpolateSeries(
+    RETENTION_BASELINE_SERIES,
+    RETENTION_TARGET_SERIES,
+    clamp(peakImpact / CHURN_REFERENCE_PEAK_IMPACT, 0, 1.25)
+  );
+}
+
+function buildContributionImpactSeries(group, peakImpact) {
+  const impactRatio = clamp(peakImpact / CHURN_REFERENCE_PEAK_IMPACT, 0, 1.25);
+  const contributionRatio = clamp(
+    toNumber(group.baselineContribution, 0) / Math.max(1, toNumber(churnState?.referenceContribution, group.baselineContribution)),
+    0.7,
+    1.15
+  );
+
+  return CONTRIBUTION_TARGET_SERIES.map(value => Math.round(value * impactRatio * contributionRatio));
+}
+
+function calculateSteadyStateRetainedUnits(group, impacts) {
+  const steadyStateLoss = group.baselineRepeatLoss + (impacts['8_12'] * 0.6) + (impacts['12plus'] * 0.4);
+  return Math.max(0, Math.round(group.baselineUnits * (1 - (steadyStateLoss / 100))));
 }
 
 function getRecentWeeks(rows, count = 8) {
@@ -144,7 +203,7 @@ function relabelChurnPane() {
   const labels = pane.querySelectorAll('.form-label.fw-semibold');
   if (labels[0]) labels[0].textContent = 'Select Visit Mission';
   if (labels[1]) {
-    labels[1].innerHTML = 'Price Increase: <strong class="text-danger" id="churn-increase-display">+$1.00</strong>';
+    labels[1].innerHTML = `Price Increase: <strong class="text-danger" id="churn-increase-display">+${formatCurrency(CHURN_DEFAULT_PRICE_INCREASE)}</strong>`;
   }
   if (labels[2]) labels[2].textContent = 'Select Menu Ladder';
 
@@ -160,7 +219,7 @@ function relabelChurnPane() {
   if (metricLabels[0]) metricLabels[0].textContent = 'Baseline Repeat Loss';
   if (metricLabels[1]) metricLabels[1].textContent = 'Effective Price Move';
   if (metricLabels[2]) metricLabels[2].textContent = 'Peak Repeat Loss Impact';
-  if (metricLabels[3]) metricLabels[3].textContent = 'Retained Menu Units (Week 24)';
+  if (metricLabels[3]) metricLabels[3].textContent = 'Retained Menu Units (Steady State)';
   if (metricLabels[4]) metricLabels[4].textContent = 'Cumulative Contribution Impact';
 
   const insightTitle = pane.querySelector('.insight-box h5');
@@ -240,7 +299,7 @@ function buildChurnState(itemRows, brandId) {
       100;
 
     const baselineRepeatLoss = group.key === 'value_entry'
-      ? Math.max(15.8, Math.min(18.5, 11.6 + weightedElasticity * 2.1 + promoMixPct * 0.05))
+      ? CHURN_REFERENCE_BASELINE_REPEAT_LOSS
       : Math.max(10.5, Math.min(14.8, 8.8 + weightedElasticity * 1.6 + promoMixPct * 0.03));
 
     groups[group.key] = {
@@ -255,7 +314,10 @@ function buildChurnState(itemRows, brandId) {
     };
   });
 
-  return { groups };
+  return {
+    groups,
+    referenceContribution: groups.value_entry?.baselineContribution || Math.max(...Object.values(groups).map(group => group.baselineContribution || 0))
+  };
 }
 
 function createChurnChartSimple(initialGroup) {
@@ -267,7 +329,10 @@ function createChurnChartSimple(initialGroup) {
   }
 
   const baseline = initialGroup.baselineRepeatLoss;
+  const defaultPeakImpact = getChurnCurvePoint(CHURN_DEFAULT_PRICE_INCREASE).peakImpact;
+  const defaultImpacts = buildChurnImpacts(defaultPeakImpact);
   const baselineSeries = [baseline, baseline, baseline, baseline, baseline, baseline];
+  const projectedSeries = buildProjectedRepeatLossSeries(initialGroup, defaultImpacts);
 
   churnChartSimple = new Chart(ctx, {
     type: 'line',
@@ -286,7 +351,7 @@ function createChurnChartSimple(initialGroup) {
         },
         {
           label: 'Projected Repeat Loss',
-          data: baselineSeries,
+          data: projectedSeries,
           borderColor: 'rgba(239, 68, 68, 1)',
           backgroundColor: 'rgba(239, 68, 68, 0.10)',
           fill: true,
@@ -348,16 +413,10 @@ function createSurvivalCurveChart(initialGroup) {
     survivalCurveChart.destroy();
   }
 
-  const baseline = initialGroup.baselineRepeatLoss;
-  const baselineRetention = [
-    100,
-    100 - baseline * 0.35,
-    100 - baseline * 0.7,
-    100 - baseline * 1.0,
-    100 - baseline * 1.2,
-    100 - baseline * 1.35,
-    100 - baseline * 1.5
-  ];
+  const defaultPeakImpact = getChurnCurvePoint(CHURN_DEFAULT_PRICE_INCREASE).peakImpact;
+  const baselineRetention = [...RETENTION_BASELINE_SERIES];
+  const scenarioRetention = buildScenarioRetentionSeries(defaultPeakImpact);
+  const contributionImpact = buildContributionImpactSeries(initialGroup, defaultPeakImpact);
 
   survivalCurveChart = new Chart(ctx, {
     type: 'line',
@@ -376,7 +435,7 @@ function createSurvivalCurveChart(initialGroup) {
         },
         {
           label: 'Scenario Retention',
-          data: baselineRetention,
+          data: scenarioRetention,
           borderColor: 'rgba(239, 68, 68, 1)',
           backgroundColor: 'rgba(239, 68, 68, 0)',
           borderWidth: 3,
@@ -386,7 +445,7 @@ function createSurvivalCurveChart(initialGroup) {
         },
         {
           label: 'Contribution Impact',
-          data: [0, 0, 0, 0, 0, 0, 0],
+          data: contributionImpact,
           borderColor: 'rgba(251, 191, 36, 1)',
           backgroundColor: 'rgba(251, 191, 36, 0.12)',
           borderWidth: 3,
@@ -474,7 +533,7 @@ function setSliderForGroup(group) {
   slider.min = '0';
   slider.max = '1.85';
   slider.step = '0.05';
-  slider.value = '0.50';
+  slider.value = CHURN_DEFAULT_PRICE_INCREASE.toFixed(2);
   if (display) {
     display.textContent = `+${formatCurrency(toNumber(slider.value))}`;
   }
@@ -505,17 +564,16 @@ function updateChurnModel(selectedGroupKey = 'value_entry') {
   const curvePoint = getChurnCurvePoint(priceIncrease);
   const sensitivityMultiplier = getChurnSensitivityMultiplier(cohortKey, selectedGroupKey);
   const peakImpact = curvePoint.peakImpact * sensitivityMultiplier;
-
-  const impacts = {
-    '0_4': peakImpact * CHURN_TIME_SHARES['0_4'],
-    '4_8': peakImpact * CHURN_TIME_SHARES['4_8'],
-    '8_12': peakImpact * CHURN_TIME_SHARES['8_12'],
-    '12plus': peakImpact * CHURN_TIME_SHARES['12plus']
-  };
+  const impacts = buildChurnImpacts(peakImpact);
+  const projectedSeries = buildProjectedRepeatLossSeries(group, impacts);
+  const baselineSeries = Array(projectedSeries.length).fill(Number(group.baselineRepeatLoss.toFixed(1)));
+  const baselineRetention = [...RETENTION_BASELINE_SERIES];
+  const scenarioRetention = buildScenarioRetentionSeries(peakImpact);
+  const contributionImpact = buildContributionImpactSeries(group, peakImpact);
 
   document.getElementById('churn-increase-display').textContent = `+${formatCurrency(priceIncrease)}`;
   document.getElementById('churn-pct-change').textContent = `+${curvePoint.effectiveMovePct.toFixed(1)}%`;
-  document.getElementById('churn-peak-impact').textContent = `+${Math.max(...Object.values(impacts)).toFixed(1)}pp`;
+  document.getElementById('churn-peak-impact').textContent = `+${peakImpact.toFixed(1)}pp`;
   document.getElementById('churn-0-4').textContent = `+${impacts['0_4'].toFixed(1)}pp`;
   document.getElementById('churn-4-8').textContent = `+${impacts['4_8'].toFixed(1)}pp`;
   document.getElementById('churn-8-12').textContent = `+${impacts['8_12'].toFixed(1)}pp`;
@@ -525,28 +583,11 @@ function updateChurnModel(selectedGroupKey = 'value_entry') {
     keyInsightEl.textContent = `This price increase drives short-term revenue but causes significant repeat loss among value-driven customers, peaking at Week 8-12 (+${impacts['8_12'].toFixed(1)} pp).`;
   }
 
-  const maxImpact = Math.max(1.5, ...Object.values(impacts)) * 1.1;
-  document.getElementById('bar-0-4').style.width = `${Math.min(100, impacts['0_4'] / maxImpact * 100)}%`;
-  document.getElementById('bar-4-8').style.width = `${Math.min(100, impacts['4_8'] / maxImpact * 100)}%`;
-  document.getElementById('bar-8-12').style.width = `${Math.min(100, impacts['8_12'] / maxImpact * 100)}%`;
-  document.getElementById('bar-12plus').style.width = `${Math.min(100, impacts['12plus'] / maxImpact * 100)}%`;
-
-  const baselineSeries = [
-    group.baselineRepeatLoss,
-    group.baselineRepeatLoss,
-    group.baselineRepeatLoss,
-    group.baselineRepeatLoss,
-    group.baselineRepeatLoss,
-    group.baselineRepeatLoss
-  ];
-  const projectedSeries = [
-    group.baselineRepeatLoss,
-    group.baselineRepeatLoss + impacts['0_4'],
-    group.baselineRepeatLoss + impacts['4_8'],
-    group.baselineRepeatLoss + impacts['8_12'],
-    group.baselineRepeatLoss + (impacts['8_12'] + impacts['12plus']) / 2,
-    group.baselineRepeatLoss + impacts['12plus']
-  ];
+  const widthNormalizer = Math.max(CHURN_REFERENCE_PEAK_IMPACT, ...Object.values(impacts));
+  document.getElementById('bar-0-4').style.width = `${Math.min(100, impacts['0_4'] / widthNormalizer * 100)}%`;
+  document.getElementById('bar-4-8').style.width = `${Math.min(100, impacts['4_8'] / widthNormalizer * 100)}%`;
+  document.getElementById('bar-8-12').style.width = `${Math.min(100, impacts['8_12'] / widthNormalizer * 100)}%`;
+  document.getElementById('bar-12plus').style.width = `${Math.min(100, impacts['12plus'] / widthNormalizer * 100)}%`;
 
   if (churnChartSimple) {
     churnChartSimple.data.datasets[0].data = baselineSeries;
@@ -554,43 +595,11 @@ function updateChurnModel(selectedGroupKey = 'value_entry') {
     churnChartSimple.update('none');
   }
 
-  const baselineRetention = [
-    100,
-    100 - group.baselineRepeatLoss * 0.35,
-    100 - group.baselineRepeatLoss * 0.7,
-    100 - group.baselineRepeatLoss * 1.0,
-    100 - group.baselineRepeatLoss * 1.2,
-    100 - group.baselineRepeatLoss * 1.35,
-    100 - group.baselineRepeatLoss * 1.5
-  ];
-
-  const scenarioRetention = [
-    100,
-    100 - (group.baselineRepeatLoss + impacts['0_4']) * 0.35,
-    100 - (group.baselineRepeatLoss + impacts['4_8']) * 0.7,
-    100 - (group.baselineRepeatLoss + impacts['8_12']) * 1.0,
-    100 - (group.baselineRepeatLoss + ((impacts['8_12'] + impacts['12plus']) / 2)) * 1.2,
-    100 - (group.baselineRepeatLoss + impacts['12plus']) * 1.35,
-    100 - (group.baselineRepeatLoss + impacts['12plus']) * 1.5
-  ];
-
-  const newEffectivePrice = group.price + priceIncrease;
-  const contributionImpact = [0];
-  let cumulativeContribution = 0;
-  for (let index = 0; index < baselineRetention.length - 1; index += 1) {
-    const baselineUnits = group.baselineUnits * ((baselineRetention[index] + baselineRetention[index + 1]) / 2) / 100;
-    const scenarioUnits = group.baselineUnits * ((scenarioRetention[index] + scenarioRetention[index + 1]) / 2) / 100;
-    const baselineContribution = baselineUnits * (group.baselineContribution / Math.max(1, group.baselineUnits));
-    const scenarioContribution = scenarioUnits * (group.baselineContribution / Math.max(1, group.baselineUnits)) * (newEffectivePrice / group.price);
-    cumulativeContribution += scenarioContribution - baselineContribution;
-    contributionImpact.push(cumulativeContribution);
-  }
-
-  const retainedUnits = Math.round(group.baselineUnits * (scenarioRetention[scenarioRetention.length - 1] / 100));
+  const retainedUnits = calculateSteadyStateRetainedUnits(group, impacts);
   document.getElementById('churn-retained-subs').textContent = `${formatNumber(retainedUnits)} / wk`;
 
   const revenueEl = document.getElementById('churn-total-revenue');
-  const totalContributionImpact = contributionImpact[contributionImpact.length - 1];
+  const totalContributionImpact = contributionImpact[contributionImpact.length - 1] || 0;
   revenueEl.textContent = `${totalContributionImpact >= 0 ? '+' : ''}${formatCurrency(totalContributionImpact, 0)}`;
   revenueEl.className = `metric-value ${totalContributionImpact >= 0 ? 'text-success' : 'text-danger'}`;
 
