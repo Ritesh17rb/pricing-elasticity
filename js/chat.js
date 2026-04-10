@@ -90,6 +90,7 @@ const DEFAULT_SYSTEM_PROMPT = `You are the Pizza Hut Analyst for the Pizza Hut P
 4. **compare_outcomes** - Deep comparison of 2 or more scenarios with trade-off analysis
 5. **create_scenario** - Generate a new custom scenario from parameters
 6. **query_segments** - Get detailed information about customer segments (filter by demand ladder, size, repeat-loss risk, value)
+7. **get_screen_context** - Retrieve the live context for the current or requested screen, including the active filters, controls, KPI cards, and screen-specific inference text
 
 **How to Use Tools:**
 - When users ask to interpret results: Use interpret_scenario with the scenario_id
@@ -98,6 +99,7 @@ const DEFAULT_SYSTEM_PROMPT = `You are the Pizza Hut Analyst for the Pizza Hut P
 - When users want to compare 2+ scenarios: Use compare_outcomes with array of scenario_ids
 - When users want to create new scenarios: Use create_scenario with parameters
 - When users ask about customer segments: Use query_segments with filters (demand ladder, size, repeat-loss risk, value)
+- When the answer depends on the live screen state or visible controls: Use get_screen_context before concluding
 
 **Response Guidelines:**
 - Focus on business interpretation, recommended actions, and trust in the underlying data
@@ -108,6 +110,7 @@ const DEFAULT_SYSTEM_PROMPT = `You are the Pizza Hut Analyst for the Pizza Hut P
 - Format numbers with proper currency/percentage symbols
 - Cite elasticity values when explaining price sensitivity
 - Be explicit when an answer applies only to one selected brand, cohort, mission, or channel
+- Prefer the active screen context over generic global context when both are available
 - When users save scenarios, you can compare them using the compare_outcomes tool
 - When a message contains an "Active Screen Context" block, treat that as the primary scope and answer from that screen's current state first
 
@@ -221,8 +224,9 @@ function setChatComposerEnabled(enabled, reason = '') {
   });
 
   document.querySelectorAll('.assistant-chat-input').forEach((input) => {
+    const enabledPlaceholder = input.dataset.enabledPlaceholder || 'Ask about Pizza Hut elasticity: summarize, explain, compare, or recommend actions...';
     input.placeholder = enabled
-      ? 'Ask about Pizza Hut elasticity: summarize, explain, compare, or recommend actions...'
+      ? enabledPlaceholder
       : (reason || 'Configure the LLM with the key button to enable chat.');
   });
 }
@@ -579,8 +583,8 @@ Use filters by demand ladder, repeat-loss risk, and basket value.`;
     .replace('{currentCustomers}', businessContext.currentCustomers?.toLocaleString() || 'N/A')
     .replace('{currentRevenue}', businessContext.currentRevenue ? `$${businessContext.currentRevenue.toLocaleString()}` : 'N/A')
     .replace('{currentChurn}', businessContext.currentChurn ? `${(businessContext.currentChurn * 100).toFixed(2)}%` : 'N/A')
-    .replace('{elasticityAdSupported}', (businessContext.elasticityByTier?.ad_supported || -2.1).toString())
-    .replace('{elasticityAdFree}', (businessContext.elasticityByTier?.ad_free || -1.9).toString())
+    .replace('{elasticityAdSupported}', Math.abs(businessContext.elasticityByTier?.ad_supported || -2.1).toFixed(2))
+    .replace('{elasticityAdFree}', Math.abs(businessContext.elasticityByTier?.ad_free || -1.9).toFixed(2))
     .replace('{availableScenarios}', allScenarios.slice(0, 8).map(s => `- ${s.id}: ${s.name}`).join('\n') || 'None loaded yet')
     .replace('{currentSimulation}', currentSim && currentSim.delta ? `Active: "${currentSim.scenario_name}" - Revenue ${currentSim.delta.revenue_pct >= 0 ? '+' : ''}${currentSim.delta.revenue_pct.toFixed(1)}%, Orders ${currentSim.delta.customers_pct >= 0 ? '+' : ''}${currentSim.delta.customers_pct.toFixed(1)}%` : currentSim ? `Active: "${currentSim.scenario_name}"` : 'No scenario simulated yet')
     .replace('{savedScenarios}', savedScenariosText)
@@ -728,6 +732,23 @@ function getToolDefinitions() {
             limit: {
               type: "integer",
               description: "Maximum number of segments to return (default: 10)"
+            }
+          },
+          required: []
+        }
+      }
+    },
+    {
+      type: "function",
+      function: {
+        name: "get_screen_context",
+        description: "Return the live context for the requested screen or the currently active screen, including selected filters, KPI cards, visible readouts, and decision guidance.",
+        parameters: {
+          type: "object",
+          properties: {
+            section_id: {
+              type: "string",
+              description: "Optional section id such as section-1, section-2, section-3, section-4, section-5, section-6, section-7, section-8, or section-9. Omit to use the active screen."
             }
           },
           required: []
@@ -1031,6 +1052,12 @@ async function executeTool(toolName, args) {
 
     case 'query_segments':
       return await querySegments(args);
+
+    case 'get_screen_context':
+      if (!dataContext.getScreenContext) {
+        throw new Error('Screen context is not available');
+      }
+      return await dataContext.getScreenContext(args.section_id);
 
     default:
       throw new Error(`Unknown tool: ${toolName}`);

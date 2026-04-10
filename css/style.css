@@ -1643,6 +1643,13 @@ html {
   margin-bottom: 1rem;
 }
 
+.screen-assistant-card__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
 .screen-assistant-card__eyebrow {
   font-size: 0.72rem;
   font-weight: 800;
@@ -1669,6 +1676,10 @@ html {
   display: flex;
   flex-wrap: wrap;
   gap: 0.55rem;
+}
+
+.screen-assistant-card .input-group .assistant-chat-send-btn {
+  min-width: 78px;
 }
 
 .assistant-chat-feed {
@@ -1768,6 +1779,11 @@ html {
 @media (max-width: 767px) {
   .screen-assistant-card__header {
     flex-direction: column;
+  }
+
+  .screen-assistant-card__actions {
+    width: 100%;
+    justify-content: flex-start;
   }
 }
 

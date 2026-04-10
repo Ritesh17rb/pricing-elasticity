@@ -131,6 +131,99 @@ const SEGMENT_BASELINE_KPIS = {
   segment_count: 125
 };
 
+const SCREEN_ASSISTANT_CONFIG = {
+  'section-1': {
+    title: 'Current State Assistant',
+    copy: 'Ask how the current Pizza Hut price architecture, weekly KPIs, and promotion pressure frame the pricing problem before you model changes.',
+    placeholder: 'Ask about the current state, pricing architecture, or KPI pressure...',
+    chips: [
+      'What is the main pricing risk in the current Pizza Hut business?',
+      'How should I read the current price architecture on this screen?',
+      'Which KPI here matters most before testing price changes?'
+    ]
+  },
+  'section-2': {
+    title: 'Data Explorer Assistant',
+    copy: 'Use this assistant to understand which dataset is active, what the columns mean, and how the current data slice supports the pricing work.',
+    placeholder: 'Ask about the active dataset, fields, quality, or what to inspect next...',
+    chips: [
+      'What does this active dataset tell me for pricing decisions?',
+      'Which fields in this dataset are most important for elasticity?',
+      'What data quality or interpretation risks should I watch here?'
+    ]
+  },
+  'section-8': {
+    title: 'Event Calendar Assistant',
+    copy: 'Ask how recent Pizza Hut campaigns, pricing windows, and seasonal events influenced orders, sales, and modeling assumptions.',
+    placeholder: 'Ask about events, campaign output, timing, or what to use in modeling...',
+    chips: [
+      'Which recent event is most important for the next pricing test?',
+      'What is the difference between observed, mixed, and modeled campaigns here?',
+      'What do these event windows imply for elasticity modeling?'
+    ]
+  },
+  'section-6': {
+    title: 'Cohort Assistant',
+    copy: 'Ask which cohorts can absorb price, which ones need protection, and how to interpret the current filtered view across acquisition, engagement, and monetization.',
+    placeholder: 'Ask about cohorts, risk, price tier differences, or recommended actions...',
+    chips: [
+      'Which cohorts should Pizza Hut protect first on this screen?',
+      'Where do I have the best pricing headroom in this cohort view?',
+      'How do the current filters change the recommendation?'
+    ]
+  },
+  'section-7': {
+    title: 'Comparison Assistant',
+    copy: 'Ask for a business readout of the current segment comparison, including the highest-risk cohort, best opportunity, and what to do by price tier.',
+    placeholder: 'Ask about the current comparison, highest-risk segment, or best opportunity...',
+    chips: [
+      'Summarize the current segment comparison in plain business language.',
+      'Why is the highlighted risk segment risky on this screen?',
+      'What should Pizza Hut do with the best opportunity segment here?'
+    ]
+  },
+  'section-3': {
+    title: 'Acquisition Assistant',
+    copy: 'Ask how the current channel, price test, and scenario setup affect weekly orders and revenue, and where Pizza Hut should test price next.',
+    placeholder: 'Ask about traffic elasticity, optimal price, or the current acquisition scenario...',
+    chips: [
+      'Can Pizza Hut raise price on this channel without hurting demand too much?',
+      'What does the current optimal price range mean in business terms?',
+      'Which segment is driving the acquisition response on this screen?'
+    ]
+  },
+  'section-4': {
+    title: 'Churn Assistant',
+    copy: 'Ask how the current price increase affects repeat loss over time, where the peak risk sits, and which cohorts are most exposed.',
+    placeholder: 'Ask about repeat loss, time horizon effects, or cohort risk...',
+    chips: [
+      'At this price increase, where does repeat loss peak and why?',
+      'How much churn risk is acceptable in the current setup?',
+      'Which cohort is most exposed to repeat-loss pressure here?'
+    ]
+  },
+  'section-5': {
+    title: 'Migration Assistant',
+    copy: 'Ask how the current delivery versus pickup price gap changes channel mix, margin posture, and leakage risk for Pizza Hut.',
+    placeholder: 'Ask about channel shift, margin protection, or delivery vs pickup trade-offs...',
+    chips: [
+      'Is the current delivery-pickup gap helping or hurting Pizza Hut?',
+      'How much order shift to pickup is worth the leakage risk here?',
+      'What pricing move would best rebalance channel mix on this screen?'
+    ]
+  },
+  'section-9': {
+    title: 'Analytics Copilot',
+    copy: 'Use the full assistant to connect the evidence across all steps, compare scenarios, and turn the current Pizza Hut pricing story into decisions.',
+    placeholder: 'Ask anything across the Pizza Hut studio...',
+    chips: [
+      'Summarize the biggest pricing recommendation across all screens.',
+      'Which current scenario best balances revenue and retention?',
+      'What should Pizza Hut do this week based on the full studio?'
+    ]
+  }
+};
+
 // Format helpers
 function formatNumber(num) {
   // Check for null, undefined, NaN, and Infinity
@@ -1022,6 +1115,15 @@ async function initializeChatContext() {
       // All simulation results
       getAllSimulationResults: () => allSimulationResults,
 
+      // Live screen context for contextual assistants
+      getScreenContext: async (sectionId = null) => {
+        const resolvedSectionId = sectionId || resolveChatContextSectionId() || 'section-9';
+        return {
+          section_id: resolvedSectionId,
+          context: buildScreenContext(resolvedSectionId)
+        };
+      },
+
       // Business context
       businessContext: {
         currentCustomers: Math.round(yumSummary?.latestUnits || totalSubs),
@@ -1361,6 +1463,7 @@ async function initializeChatContext() {
 // Load data with progress bar
 async function loadData() {
   const btn = document.getElementById('load-data-btn');
+  const loadDataSection = document.getElementById('load-data-section');
   const progressContainer = document.getElementById('loading-progress');
   const progressBar = document.getElementById('loading-progress-bar');
   const progressText = document.getElementById('loading-percentage');
@@ -1368,8 +1471,15 @@ async function loadData() {
 
   window.dataLoading = true;
   window.dataLoaded = false;
+  updateScreenAssistantVisibility();
 
   // Hide button, show progress
+  if (loadDataSection) {
+    loadDataSection.hidden = false;
+    loadDataSection.style.display = 'block';
+    loadDataSection.style.visibility = 'visible';
+    loadDataSection.setAttribute('aria-hidden', 'false');
+  }
   if (btn) btn.style.display = 'none';
   if (progressContainer) progressContainer.style.display = 'block';
 
@@ -1377,6 +1487,7 @@ async function loadData() {
   if (!progressContainer || !progressBar || !progressText || !stageText) {
     console.error('Loading UI elements not found');
     window.dataLoading = false;
+    updateScreenAssistantVisibility();
     return;
   }
 
@@ -1464,9 +1575,17 @@ async function loadData() {
     await new Promise(resolve => setTimeout(resolve, 500));
 
     // Hide loading progress, show KPI dashboard
-    const loadDataSection = document.getElementById('load-data-section');
     const kpiSection = document.getElementById('kpi-section');
-    if (loadDataSection) loadDataSection.style.display = 'none';
+    if (progressContainer) {
+      progressContainer.style.display = 'none';
+      progressContainer.style.visibility = 'hidden';
+    }
+    if (loadDataSection) {
+      loadDataSection.style.display = 'none';
+      loadDataSection.style.visibility = 'hidden';
+      loadDataSection.setAttribute('aria-hidden', 'true');
+      loadDataSection.hidden = true;
+    }
     if (kpiSection) kpiSection.style.display = 'block';
 
     // The old channel promo simulator is intentionally hidden in this Pizza Hut build.
@@ -1506,6 +1625,7 @@ async function loadData() {
     dataLoaded = true;
     window.dataLoaded = true;
     window.dataLoading = false;
+    updateScreenAssistantVisibility();
 
     // Initialize Pyodide models in background (non-blocking)
     initializePyodideModels().then(success => {
@@ -1521,6 +1641,7 @@ async function loadData() {
     dataLoaded = false;
     window.dataLoaded = false;
     window.dataLoading = false;
+    updateScreenAssistantVisibility();
 
     // Show error state
     progressBar.classList.remove('bg-success');
@@ -1537,6 +1658,7 @@ async function loadData() {
 
 async function loadDataStyled() {
   const btn = document.getElementById('load-data-btn');
+  const loadDataSection = document.getElementById('load-data-section');
   const progressContainer = document.getElementById('loading-progress');
   const progressBar = document.getElementById('loading-progress-bar');
   const progressText = document.querySelector('.ld-pct') || document.getElementById('loading-percentage');
@@ -1550,6 +1672,13 @@ async function loadDataStyled() {
 
   window.dataLoading = true;
   window.dataLoaded = false;
+  updateScreenAssistantVisibility();
+  if (loadDataSection) {
+    loadDataSection.hidden = false;
+    loadDataSection.style.display = 'block';
+    loadDataSection.style.visibility = 'visible';
+    loadDataSection.setAttribute('aria-hidden', 'false');
+  }
   btn.style.display = 'none';
   if (progressContainer) {
     progressContainer.style.display = 'none';
@@ -1679,10 +1808,18 @@ async function loadDataStyled() {
 
     await delay(420);
 
-    const loadDataSection = document.getElementById('load-data-section');
     const kpiSection = document.getElementById('kpi-section');
     document.body.classList.remove('app-loading-step');
-    if (loadDataSection) loadDataSection.style.display = 'none';
+    if (progressContainer) {
+      progressContainer.style.display = 'none';
+      progressContainer.style.visibility = 'hidden';
+    }
+    if (loadDataSection) {
+      loadDataSection.style.display = 'none';
+      loadDataSection.style.visibility = 'hidden';
+      loadDataSection.setAttribute('aria-hidden', 'true');
+      loadDataSection.hidden = true;
+    }
     if (kpiSection) kpiSection.style.display = 'block';
 
     if (window.segmentEngine && window.segmentEngine.isDataLoaded()) {
@@ -1702,6 +1839,7 @@ async function loadDataStyled() {
     dataLoaded = true;
     window.dataLoaded = true;
     window.dataLoading = false;
+    updateScreenAssistantVisibility();
 
     if (window.goToStep && typeof window.goToStep === 'function') {
       const targetStep = Number.isInteger(window.postLoadStep) ? window.postLoadStep : 1;
@@ -1721,6 +1859,7 @@ async function loadDataStyled() {
     dataLoaded = false;
     window.dataLoaded = false;
     window.dataLoading = false;
+    updateScreenAssistantVisibility();
     progressBar.classList.remove('ld-progress-done');
     progressBar.style.background = 'linear-gradient(90deg, #dc2626, #f97316)';
     stageText.textContent = `Error loading data: ${error.message}`;
@@ -1869,6 +2008,24 @@ function getCheckedFilterTexts(containerSelector) {
     .filter(Boolean);
 }
 
+function getSelectedScenarioCardSummary(paneId) {
+  return cleanAssistantText(document.querySelector(`#${paneId} .scenario-card-tab.selected`)?.textContent || '');
+}
+
+function getTableRowSummaries(bodySelector, limit = 3) {
+  return Array.from(document.querySelectorAll(`${bodySelector} tr`))
+    .slice(0, limit)
+    .map((row) => cleanAssistantText(row.textContent))
+    .filter(Boolean);
+}
+
+function getCardSummaries(containerSelector, limit = 3) {
+  return Array.from(document.querySelectorAll(`${containerSelector} .card`))
+    .slice(0, limit)
+    .map((card) => cleanAssistantText(card.textContent))
+    .filter(Boolean);
+}
+
 function getSectionMeta(sectionId) {
   const section = document.getElementById(sectionId);
   if (!section) return null;
@@ -1956,8 +2113,8 @@ function buildAcquisitionContext() {
     `Selected cohort: ${getSelectedOptionText('acq-cohort-select')}`,
     `Selected order channel: ${getSelectedOptionText('acq-tier-select')}`,
     `Current price test: ${getTextById('acq-price-display')} (${getTextById('acq-price-change')})`,
-    `Elasticity coefficient: ${getTextById('acq-elasticity')}`,
-    `Traffic impact: ${getTextById('acq-impact')}`,
+    `Traffic elasticity: ${getTextById('acq-elasticity')}`,
+    `Projected order change: ${getTextById('acq-impact')}`,
     `Projected weekly orders: ${getTextById('acq-total-subs')}`,
     `Revenue impact: ${getTextById('acq-total-revenue')}`
   ].filter(Boolean);
@@ -1969,33 +2126,110 @@ function buildAcquisitionContext() {
   if (summaryBullets.length) lines.push(`Screen summary: ${summaryBullets.join(' || ')}`);
   const actionBullets = getListTexts('acq-action-bullets');
   if (actionBullets.length) lines.push(`Recommended next actions: ${actionBullets.join(' || ')}`);
+  const selectedScenario = getSelectedScenarioCardSummary('acquisition-pane');
+  if (selectedScenario) lines.push(`Selected acquisition scenario card: ${selectedScenario}`);
+  const modelResult = currentResultByModel.acquisition;
+  if (modelResult?.delta) {
+    lines.push(`Latest simulated acquisition result: Revenue ${formatPercent(modelResult.delta.revenue_pct, 1)} | Orders ${formatPercent(modelResult.delta.customers_pct, 1)} | AOV ${formatPercent(modelResult.delta.aov_pct, 1)}`);
+  }
+  return lines;
+}
+
+function buildChurnContext() {
+  const lines = [
+    `Selected visit mission: ${getSelectedOptionText('churn-cohort-select')}`,
+    `Selected menu ladder: ${cleanAssistantText(document.querySelector('#churn-pane .tier-btn.active')?.textContent || '')}`,
+    `Current price increase: ${getTextById('churn-increase-display')}`,
+    `Effective price move: ${getTextById('churn-pct-change')}`,
+    `Peak repeat loss impact: ${getTextById('churn-peak-impact')}`,
+    `Retained menu units: ${getTextById('churn-retained-subs')}`,
+    `Cumulative contribution impact: ${getTextById('churn-total-revenue')}`,
+    `Time horizon impacts: 0-4 ${getTextById('churn-0-4')} | 4-8 ${getTextById('churn-4-8')} | 8-12 ${getTextById('churn-8-12')} | 12+ ${getTextById('churn-12plus')}`,
+    `Key insight: ${getTextById('churn-key-insight-text')}`
+  ].filter(Boolean);
+
+  const selectedScenario = getSelectedScenarioCardSummary('churn-pane');
+  if (selectedScenario) lines.push(`Selected churn scenario card: ${selectedScenario}`);
+
+  const heatmapRows = getTableRowSummaries('#churn-heatmap-table tbody', 5);
+  if (heatmapRows.length) lines.push(`Cohort repeat-loss table: ${heatmapRows.join(' || ')}`);
+
+  const modelResult = currentResultByModel.churn;
+  if (modelResult?.delta) {
+    lines.push(`Latest simulated churn result: Revenue ${formatPercent(modelResult.delta.revenue_pct, 1)} | Orders ${formatPercent(modelResult.delta.customers_pct, 1)} | Repeat loss ${formatPercent(modelResult.delta.repeat_loss_rate || 0, 2)}`);
+  }
+
+  return lines;
+}
+
+function buildMigrationContext() {
+  const lines = [
+    `Selected visit mission: ${getSelectedOptionText('mig-cohort-select')}`,
+    `Delivery price including fees: ${getTextById('mig-adlite-display')}`,
+    `Pickup price net of discounts: ${getTextById('mig-adfree-display')}`,
+    `Current price gap: ${getTextById('mig-price-gap')} (${getTextById('mig-gap-change')})`,
+    `Key shift: ${getTextById('mig-key-shift-text')}`,
+    `Projected channel mix: Delivery ${getTextById('mig-adlite-pct')} | Pickup ${getTextById('mig-adfree-pct')}`,
+    `Flow summary: Delivery to pickup ${getTextById('mig-upgrade-pct')} / ${getTextById('mig-upgrade-subs')} / ${getTextById('mig-upgrade-rev')} | Pickup to delivery ${getTextById('mig-downgrade-pct')} / ${getTextById('mig-downgrade-subs')} / ${getTextById('mig-downgrade-rev')}`,
+    `Leakage summary: Delivery leakage ${getTextById('mig-cancel-lite-pct')} / ${getTextById('mig-cancel-lite-subs')} / ${getTextById('mig-cancel-lite-rev')} | Pickup leakage ${getTextById('mig-cancel-free-pct')} / ${getTextById('mig-cancel-free-subs')} / ${getTextById('mig-cancel-free-rev')}`
+  ].filter(Boolean);
+
+  const selectedScenario = getSelectedScenarioCardSummary('migration-pane');
+  if (selectedScenario) lines.push(`Selected migration scenario card: ${selectedScenario}`);
+
+  const modelResult = currentResultByModel.migration;
+  if (modelResult?.delta) {
+    lines.push(`Latest simulated migration result: Revenue ${formatPercent(modelResult.delta.revenue_pct, 1)} | Orders ${formatPercent(modelResult.delta.customers_pct, 1)} | AOV ${formatPercent(modelResult.delta.aov_pct, 1)}`);
+  }
+
   return lines;
 }
 
 function buildPromotionContext() {
   const lines = [];
   if (getTextById('event-count-badge')) lines.push(`Visible timeline event count: ${getTextById('event-count-badge')}`);
-  if (getTextById('promo-dependency-kicker')) {
-    lines.push(`Promo dependency banner: ${getTextById('promo-dependency-kicker')} | ${getTextById('promo-dependency-title')} | ${getTextById('promo-dependency-copy')} | ${getTextById('promo-dependency-note')}`);
-  }
-
-  const summaryCards = [
-    `Campaign themes: ${getTextById('promo-summary-official-count')} (${getTextById('promo-summary-official-note')})`,
-    `Modeled promotion windows: ${getTextById('promo-summary-modeled-count')} (${getTextById('promo-summary-modeled-note')})`,
-    `Average discount: ${getTextById('promo-summary-discount')} (${getTextById('promo-summary-discount-note')})`,
-    `Primary channel pressure: ${getTextById('promo-summary-channel')} (${getTextById('promo-summary-channel-note')})`,
-    `Promo dependency: ${getTextById('promo-summary-dependency')} (${getTextById('promo-summary-dependency-note')})`
-  ].filter((line) => !line.includes(':  ()'));
-  if (summaryCards.length) lines.push(`Summary cards: ${summaryCards.join(' | ')}`);
-
-  const strategyReadout = getListTexts('promo-strategy-readout');
-  if (strategyReadout.length) lines.push(`Campaign strategy readout: ${strategyReadout.join(' || ')}`);
-  if (getTextById('campaign-patterns-readout')) lines.push(`Modeled campaign pattern note: ${getTextById('campaign-patterns-readout')}`);
-  const checkedFilters = getCheckedFilterTexts('#event-calendar-section .btn-group');
+  const checkedFilters = getCheckedFilterTexts('#event-calendar-section');
   if (checkedFilters.length) lines.push(`Active timeline filters: ${checkedFilters.join(', ')}`);
-  if (getTextById('promo-decision-title')) {
-    lines.push(`Decision recommendation: ${getTextById('promo-decision-title')} | ${getTextById('promo-decision-risk')}`);
+
+  const detailRows = getTableRowSummaries('#event-table-body', 5);
+  if (detailRows.length) lines.push(`Campaign detail log preview: ${detailRows.join(' || ')}`);
+
+  const campaignCards = getCardSummaries('#promo-cards-container', 4);
+  if (campaignCards.length) lines.push(`Campaign output summary cards: ${campaignCards.join(' || ')}`);
+
+  const visibleTimelineDetail = cleanAssistantText(document.querySelector('#timeline-details')?.textContent || '');
+  if (visibleTimelineDetail) lines.push(`Opened timeline detail: ${visibleTimelineDetail}`);
+
+  return lines;
+}
+
+function buildAdvancedAnalyticsContext() {
+  const lines = [
+    `Objective lens: ${getSelectedOptionText('objective-lens-select')}`,
+    `Scenario decision hint: ${getTextById('scenario-decision-hint')}`
+  ].filter(Boolean);
+
+  const rationaleText = cleanAssistantText(document.getElementById('scenario-selection-rationale')?.textContent || '');
+  if (rationaleText) lines.push(`Top scenario rationale: ${rationaleText}`);
+
+  const topScenarioCards = Array.from(document.querySelectorAll('#top-scenarios-list .card'))
+    .slice(0, 3)
+    .map((card) => cleanAssistantText(card.textContent))
+    .filter(Boolean);
+  if (topScenarioCards.length) lines.push(`Top ranked scenarios: ${topScenarioCards.join(' || ')}`);
+
+  const currentModel = activeModelType || 'acquisition';
+  const activeResult = currentResultByModel[currentModel];
+  if (activeResult?.delta) {
+    lines.push(`Current active simulation result: ${activeResult.scenario_name || activeResult.scenario_id} | Revenue ${formatPercent(activeResult.delta.revenue_pct, 1)} | Orders ${formatPercent(activeResult.delta.customers_pct, 1)} | AOV ${formatPercent(activeResult.delta.aov_pct, 1)}`);
   }
+
+  const savedScenarioSummary = savedScenariosByModel[currentModel]
+    .slice(0, 5)
+    .map((scenario) => cleanAssistantText(`${scenario.scenario_id || scenario.id}: ${scenario.scenario_name || scenario.name}`))
+    .filter(Boolean);
+  if (savedScenarioSummary.length) lines.push(`Saved scenarios for active model: ${savedScenarioSummary.join(' || ')}`);
+
   return lines;
 }
 
@@ -2020,8 +2254,17 @@ function buildScreenContext(sectionId) {
     case 'section-3':
       details = buildAcquisitionContext();
       break;
+    case 'section-4':
+      details = buildChurnContext();
+      break;
+    case 'section-5':
+      details = buildMigrationContext();
+      break;
     case 'section-8':
       details = buildPromotionContext();
+      break;
+    case 'section-9':
+      details = buildAdvancedAnalyticsContext();
       break;
     default:
       details = [];
@@ -2032,6 +2275,94 @@ function buildScreenContext(sectionId) {
     meta.subtitle ? `Screen purpose: ${meta.subtitle}` : '',
     ...details
   ].filter(Boolean).join('\n');
+}
+
+function getScreenAssistantMount(sectionId) {
+  switch (sectionId) {
+    case 'section-1':
+      return document.querySelector('#section-1 .container');
+    case 'section-2':
+      return document.getElementById('step-2-data-viewer-container-content');
+    case 'section-8':
+      return document.getElementById('step-8-calendar-container-content');
+    case 'section-6':
+      return document.getElementById('step-6-segmentation-container-content');
+    case 'section-7':
+      return document.getElementById('step-7-analysis-container-content');
+    case 'section-3':
+      return document.getElementById('step-3-acquisition-container-content');
+    case 'section-4':
+      return document.getElementById('step-4-churn-container-content');
+    case 'section-5':
+      return document.getElementById('step-5-migration-container-content');
+    default:
+      return null;
+  }
+}
+
+function getScreenAssistantEmptyMarkup() {
+  return `
+    <div class="assistant-chat-empty">
+      <div class="assistant-chat-empty__icon"><i class="bi bi-stars"></i></div>
+      <div class="assistant-chat-empty__title">Ask the Pizza Hut analyst about this screen</div>
+      <div class="assistant-chat-empty__copy">The assistant will use this screen's live state, visible metrics, and current selections when it answers.</div>
+    </div>
+  `;
+}
+
+function updateScreenAssistantVisibility() {
+  const shouldShow = Boolean(window.dataLoaded) && !window.dataLoading;
+  document.querySelectorAll('.screen-assistant-card').forEach((card) => {
+    card.style.display = shouldShow ? '' : 'none';
+  });
+}
+
+function createScreenAssistantPanel(sectionId, config) {
+  const wrapper = document.createElement('div');
+  wrapper.className = 'screen-assistant-card';
+  wrapper.dataset.chatPanel = 'true';
+  wrapper.dataset.chatScreen = sectionId;
+  wrapper.id = `screen-assistant-${sectionId}`;
+  const chipsMarkup = (config.chips || []).map((chip) => `
+    <button class="btn btn-sm btn-outline-secondary suggested-query" type="button" disabled>${chip}</button>
+  `).join('');
+
+  wrapper.innerHTML = `
+    <div class="screen-assistant-card__header">
+      <div>
+        <div class="screen-assistant-card__eyebrow">Screen Analyst</div>
+        <div class="screen-assistant-card__title">${config.title}</div>
+        <div class="screen-assistant-card__copy">${config.copy}</div>
+      </div>
+      <div class="screen-assistant-card__actions">
+        <button class="btn btn-sm btn-outline-secondary assistant-chat-reset-btn" type="button" title="Reset assistant conversation">
+          <i class="bi bi-arrow-counterclockwise"></i>
+        </button>
+        <button class="btn btn-sm btn-outline-primary" type="button" data-open-full-chat>
+          <i class="bi bi-box-arrow-up-right me-1"></i>
+          Full Chat
+        </button>
+      </div>
+    </div>
+    <div class="assistant-chat-feed assistant-chat-feed--compact mb-3" data-chat-feed data-chat-variant="compact">${getScreenAssistantEmptyMarkup()}</div>
+    <div class="input-group mb-3">
+      <input type="text" class="form-control assistant-chat-input" data-enabled-placeholder="${config.placeholder}" placeholder="${config.placeholder}" disabled />
+      <button class="btn btn-primary assistant-chat-send-btn" type="button" disabled>Ask</button>
+    </div>
+    <div class="screen-assistant-card__chips">${chipsMarkup}</div>
+  `;
+  return wrapper;
+}
+
+function mountScreenAssistants() {
+  Object.entries(SCREEN_ASSISTANT_CONFIG)
+    .filter(([sectionId]) => sectionId !== 'section-9')
+    .forEach(([sectionId, config]) => {
+      const mount = getScreenAssistantMount(sectionId);
+      if (!mount || document.getElementById(`screen-assistant-${sectionId}`)) return;
+      mount.appendChild(createScreenAssistantPanel(sectionId, config));
+    });
+  updateScreenAssistantVisibility();
 }
 
 function resolveChatContextSectionId(preferredInput = null) {
@@ -3563,6 +3894,10 @@ async function init() {
       handleChatSend(chatInput);
     }
   });
+
+  mountScreenAssistants();
+  window.setTimeout(mountScreenAssistants, 0);
+  window.addEventListener('load', mountScreenAssistants, { once: true });
 
   // Initialize popovers (will be initialized again after data loads)
   initializePopovers();

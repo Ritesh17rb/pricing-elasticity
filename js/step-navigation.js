@@ -92,9 +92,11 @@ function showStepContent(step) {
         }
 
         if (loadSection) {
+          loadSection.hidden = false;
           loadSection.style.display = 'block';
           loadSection.style.visibility = 'visible';
           loadSection.style.opacity = '1';
+          loadSection.setAttribute('aria-hidden', 'false');
         }
         if (loadingProgress) {
           loadingProgress.style.display = 'block';
