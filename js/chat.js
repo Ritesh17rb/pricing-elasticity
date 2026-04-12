@@ -181,10 +181,10 @@ function destroyRenderedChatCharts() {
 function getEmptyStateMarkup(variant = 'compact') {
   if (variant === 'full') {
     return `
-      <div class="text-center text-muted mt-5">
-        <i class="bi bi-robot display-4 mb-3"></i>
-        <p><strong>Pizza Hut Pricing Analyst</strong></p>
-        <p class="small">Ask me to summarize the current business, explain the elasticity readouts, compare options, or turn the evidence into actions.</p>
+      <div class="assistant-chat-empty assistant-chat-empty--full">
+        <div class="assistant-chat-empty__icon"><i class="bi bi-stars"></i></div>
+        <div class="assistant-chat-empty__title">Ask about scenarios, trade-offs, and next actions</div>
+        <div class="assistant-chat-empty__copy">Use the prompt chips below to interpret the current scenario, compare options, or ask the assistant to suggest a better pricing move.</div>
       </div>
     `;
   }
