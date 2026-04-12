@@ -13,13 +13,11 @@
   <link rel="stylesheet" href="css/style.css">
 
   <script>
-    // Default to dark theme on first load; user can change via theme toggle
+    // Always enforce dark theme on load
     (function () {
       try {
-        if (!localStorage.getItem('theme')) {
-          localStorage.setItem('theme', 'dark');
-        }
-        document.documentElement.setAttribute('data-bs-theme', localStorage.getItem('theme') || 'dark');
+        localStorage.setItem('theme', 'dark');
+        document.documentElement.setAttribute('data-bs-theme', 'dark');
       } catch (e) {
         document.documentElement.setAttribute('data-bs-theme', 'dark');
       }
@@ -84,16 +82,9 @@
             <button class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#settingsModal" style="opacity: 0.8;">
               <i class="bi bi-gear"></i>
             </button>
-            <div class="dropdown">
-              <button class="dark-theme-toggle btn btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Toggle theme" style="opacity: 0.8;">
-                <i class="bi bi-circle-half"></i>
-              </button>
-              <ul class="dropdown-menu dropdown-menu-end">
-                <li><button class="dropdown-item" data-bs-theme-value="light"><i class="me-2 bi bi-sun-fill"></i> Light</button></li>
-                <li><button class="dropdown-item" data-bs-theme-value="dark"><i class="me-2 bi bi-moon-stars-fill"></i> Dark</button></li>
-                <li><button class="dropdown-item" data-bs-theme-value="auto"><i class="me-2 bi bi-circle-half"></i> Auto</button></li>
-              </ul>
-            </div>
+            <button class="dark-theme-toggle btn btn-sm" type="button" aria-label="Dark theme enabled" title="Dark theme enabled" style="opacity: 0.8;" disabled>
+              <i class="bi bi-moon-stars-fill"></i>
+            </button>
           </div>
         </div>
       </div>
@@ -2831,7 +2822,6 @@
   </footer>
 
   <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/@gramex/ui@0.3.1/dist/dark-theme.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
   <!-- Chart.js for visualizations -->
