@@ -142,6 +142,53 @@ function getTierDisplayLabel(tier) {
             : String(tier || '').replace(/_/g, ' ');
 }
 
+function isDarkThemeActive() {
+    return document.documentElement.getAttribute('data-bs-theme') === 'dark';
+}
+
+function getSegmentChartPalette() {
+    if (isDarkThemeActive()) {
+        return {
+            surface: '#08111f',
+            title: '#f8fafc',
+            text: '#e2e8f0',
+            muted: '#94a3b8',
+            subtle: '#cbd5e1',
+            axisStroke: 'rgba(148, 163, 184, 0.48)',
+            gridStroke: 'rgba(148, 163, 184, 0.32)',
+            gridSoft: 'rgba(148, 163, 184, 0.2)',
+            polygonFill: 'rgba(30, 41, 59, 0.36)',
+            legendNeutral: '#cbd5e1',
+            legendCircle: 'rgba(148, 163, 184, 0.38)',
+            pointStroke: 'rgba(226, 232, 240, 0.92)',
+            pointStrokeHighlight: '#f8fafc'
+        };
+    }
+
+    return {
+        surface: '#fafafa',
+        title: '#333333',
+        text: '#111827',
+        muted: '#64748b',
+        subtle: '#475569',
+        axisStroke: '#94a3b8',
+        gridStroke: '#cbd5e1',
+        gridSoft: '#e2e8f0',
+        polygonFill: 'rgba(148, 163, 184, 0.05)',
+        legendNeutral: '#666666',
+        legendCircle: '#cccccc',
+        pointStroke: '#ffffff',
+        pointStrokeHighlight: '#0f172a'
+    };
+}
+
+function styleAxis(axisGroup, palette) {
+    axisGroup.selectAll('path, line')
+        .attr('stroke', palette.axisStroke);
+    axisGroup.selectAll('text')
+        .attr('fill', palette.text);
+}
+
 /**
  * Render segment KPI dashboard cards
  * @param {string} containerId - DOM element ID
@@ -266,6 +313,7 @@ export function renderSegmentElasticityHeatmap(containerId, tier, filters = {}, 
     }
 
     const axisMeta = getSegmentAxisMeta(axis);
+    const theme = getSegmentChartPalette();
     const pairMeta = getSegmentAxisPair(axis);
     const totalCustomers = d3.sum(tierSegments, d => parseInt(d.customer_count || 0, 10));
     const cellMap = new Map();
@@ -456,7 +504,7 @@ export function renderSegmentElasticityHeatmap(containerId, tier, filters = {}, 
         .attr('dominant-baseline', 'middle')
         .attr('font-size', '12px')
         .attr('font-weight', 'bold')
-        .attr('fill', d => d.elasticity === null ? '#94a3b8' : '#0f172a')
+        .attr('fill', d => d.elasticity === null ? theme.muted : theme.text)
         .attr('pointer-events', 'none')
         .text(d => d.elasticity === null ? 'No data' : d.elasticity.toFixed(2));
 
@@ -465,30 +513,30 @@ export function renderSegmentElasticityHeatmap(containerId, tier, filters = {}, 
         .attr('y', yScale.bandwidth() / 2 + 12)
         .attr('text-anchor', 'middle')
         .attr('font-size', '10px')
-        .attr('fill', d => d.elasticity === null ? '#94a3b8' : '#475569')
+        .attr('fill', d => d.elasticity === null ? theme.muted : theme.subtle)
         .attr('pointer-events', 'none')
         .text(d => d.elasticity === null ? '' : `${(d.customerShare * 100).toFixed(0)}% share`);
 
-    svg.append('g')
+    const xAxis = svg.append('g')
         .attr('transform', `translate(0,${height})`)
-        .call(d3.axisBottom(xScale).tickFormat(d => window.segmentEngine.formatSegmentLabel(d)))
-        .selectAll('text')
+        .call(d3.axisBottom(xScale).tickFormat(d => window.segmentEngine.formatSegmentLabel(d)));
+    styleAxis(xAxis, theme);
+    xAxis.selectAll('text')
         .attr('transform', 'rotate(-45)')
         .style('text-anchor', 'end')
         .attr('dx', '-0.8em')
-        .attr('dy', '0.15em')
-        .attr('fill', '#111827');
+        .attr('dy', '0.15em');
 
-    svg.append('g')
-        .call(d3.axisLeft(yScale).tickFormat(d => window.segmentEngine.formatSegmentLabel(d)))
-        .selectAll('text')
-        .attr('fill', '#111827');
+    const yAxis = svg.append('g')
+        .call(d3.axisLeft(yScale).tickFormat(d => window.segmentEngine.formatSegmentLabel(d)));
+    styleAxis(yAxis, theme);
 
     svg.append('text')
         .attr('x', width / 2)
         .attr('y', height + margin.bottom - 2)
         .attr('text-anchor', 'middle')
         .attr('font-weight', 'bold')
+        .attr('fill', theme.text)
         .text(`${pairMeta.xLabel} axis`);
 
     svg.append('text')
@@ -497,6 +545,7 @@ export function renderSegmentElasticityHeatmap(containerId, tier, filters = {}, 
         .attr('y', -margin.left + 80)
         .attr('text-anchor', 'middle')
         .attr('font-weight', 'bold')
+        .attr('fill', theme.text)
         .text(`${pairMeta.yLabel} axis`);
 
     const tierLabel = getTierDisplayLabel(tier);
@@ -506,6 +555,7 @@ export function renderSegmentElasticityHeatmap(containerId, tier, filters = {}, 
         .attr('text-anchor', 'middle')
         .attr('font-size', '16px')
         .attr('font-weight', 'bold')
+        .attr('fill', theme.title)
         .text(`${axisMeta.label} heatmap - ${tierLabel}`);
 
     svg.append('text')
@@ -513,7 +563,7 @@ export function renderSegmentElasticityHeatmap(containerId, tier, filters = {}, 
         .attr('y', -margin.top / 2 + 18)
         .attr('text-anchor', 'middle')
         .attr('font-size', '11px')
-        .attr('fill', '#64748b')
+        .attr('fill', theme.muted)
         .text('Elasticity Score (>1 = high sensitivity, <1 = stable demand)');
 
     const legend = svg.append('g')
@@ -524,6 +574,7 @@ export function renderSegmentElasticityHeatmap(containerId, tier, filters = {}, 
         .attr('y', 0)
         .attr('font-size', '12px')
         .attr('font-weight', 'bold')
+        .attr('fill', theme.text)
         .text('Risk scale');
 
     [
@@ -545,7 +596,7 @@ export function renderSegmentElasticityHeatmap(containerId, tier, filters = {}, 
             .attr('x', 22)
             .attr('y', 29 + index * 24)
             .attr('font-size', '10px')
-            .attr('fill', '#334155')
+            .attr('fill', theme.subtle)
             .text(item.label);
     });
 
@@ -553,7 +604,7 @@ export function renderSegmentElasticityHeatmap(containerId, tier, filters = {}, 
         .attr('x', 0)
         .attr('y', 108)
         .attr('font-size', '10px')
-        .attr('fill', '#64748b')
+        .attr('fill', theme.muted)
         .text('Bottom bar = customer share');
 }
 
@@ -568,6 +619,7 @@ export function render3AxisRadialChart(containerId, tier, axis = 'engagement', f
     container.selectAll('*').remove();
 
     const axisMeta = getSegmentAxisMeta(axis);
+    const theme = getSegmentChartPalette();
     const segments = Array.isArray(filteredSegments) && filteredSegments.length
         ? filteredSegments
         : window.segmentEngine.getSegmentsForTier(tier);
@@ -593,7 +645,7 @@ export function render3AxisRadialChart(containerId, tier, axis = 'engagement', f
     const svg = container.append('svg')
         .attr('width', width)
         .attr('height', height)
-        .style('background', '#fafafa');
+        .style('background', theme.surface);
 
     // Define three axes at 120 degrees apart (retail framing)
     const axes = [
@@ -668,7 +720,7 @@ export function render3AxisRadialChart(containerId, tier, axis = 'engagement', f
             .attr('x', labelX)
             .attr('y', labelY + 16)
             .attr('text-anchor', 'middle')
-            .attr('fill', '#475569')
+            .attr('fill', theme.subtle)
             .attr('font-size', '10px')
             .text(axis.helper);
 
@@ -693,7 +745,7 @@ export function render3AxisRadialChart(containerId, tier, axis = 'engagement', f
                 .attr('y', textY)
                 .attr('text-anchor', 'middle')
                 .attr('font-size', '9px')
-                .attr('fill', '#111827')
+                .attr('fill', theme.text)
                 .text(label.length > 15 ? label.substring(0, 13) + '...' : label);
 
             // Marker circle
@@ -708,8 +760,8 @@ export function render3AxisRadialChart(containerId, tier, axis = 'engagement', f
 
     svg.append('polygon')
         .attr('points', axisEndpoints.map(point => `${point.x},${point.y}`).join(' '))
-        .attr('fill', 'rgba(148, 163, 184, 0.05)')
-        .attr('stroke', '#cbd5e1')
+        .attr('fill', theme.polygonFill)
+        .attr('stroke', theme.gridStroke)
         .attr('stroke-width', 1.5)
         .attr('stroke-dasharray', '6,6');
 
@@ -723,7 +775,7 @@ export function render3AxisRadialChart(containerId, tier, axis = 'engagement', f
         svg.append('polygon')
             .attr('points', points)
             .attr('fill', 'none')
-            .attr('stroke', '#e2e8f0')
+            .attr('stroke', theme.gridSoft)
             .attr('stroke-width', 1)
             .attr('stroke-dasharray', '4,6');
     });
@@ -785,7 +837,7 @@ export function render3AxisRadialChart(containerId, tier, axis = 'engagement', f
         .attr('cy', d => d.y)
         .attr('r', d => radiusScale(d.customer_count))
         .attr('fill', d => getSegmentAxisColor(axis, d.axisElasticity))
-        .attr('stroke', d => d.isHighlighted ? '#0f172a' : '#fff')
+        .attr('stroke', d => d.isHighlighted ? theme.pointStrokeHighlight : theme.pointStroke)
         .attr('stroke-width', d => d.isHighlighted ? 3 : 2)
         .attr('opacity', d => d.isHighlighted ? 0.95 : 0.78)
         .style('cursor', 'pointer')
@@ -875,6 +927,7 @@ export function render3AxisRadialChart(containerId, tier, axis = 'engagement', f
         .attr('y', 0)
         .attr('font-weight', 'bold')
         .attr('font-size', '12px')
+        .attr('fill', theme.text)
         .text('Legend');
 
     // Size legend
@@ -882,7 +935,7 @@ export function render3AxisRadialChart(containerId, tier, axis = 'engagement', f
         .attr('x', 0)
         .attr('y', 25)
         .attr('font-size', '10px')
-        .attr('fill', '#666')
+        .attr('fill', theme.legendNeutral)
         .text('Circle Size: Customers');
 
     [1000, 5000, 10000].forEach((count, i) => {
@@ -891,14 +944,14 @@ export function render3AxisRadialChart(containerId, tier, axis = 'engagement', f
             .attr('cx', 10)
             .attr('cy', 40 + i * 25)
             .attr('r', r)
-            .attr('fill', '#ccc')
+            .attr('fill', theme.legendCircle)
             .attr('opacity', 0.5);
 
         legend.append('text')
             .attr('x', 25)
             .attr('y', 43 + i * 25)
             .attr('font-size', '9px')
-            .attr('fill', '#666')
+            .attr('fill', theme.legendNeutral)
             .text(count.toLocaleString());
     });
 
@@ -907,7 +960,7 @@ export function render3AxisRadialChart(containerId, tier, axis = 'engagement', f
         .attr('x', 0)
         .attr('y', 130)
         .attr('font-size', '10px')
-        .attr('fill', '#666')
+        .attr('fill', theme.legendNeutral)
         .text(`Bubble color: ${axisMeta.label.toLowerCase()} risk`);
 
     // Low (green)
@@ -958,7 +1011,7 @@ export function render3AxisRadialChart(containerId, tier, axis = 'engagement', f
         .attr('text-anchor', 'middle')
         .attr('font-weight', 'bold')
         .attr('font-size', '16px')
-        .attr('fill', '#333')
+        .attr('fill', theme.title)
         .text(`3-Axis Customer Cohorts - ${tierLabel} - ${axisMeta.label}`);
 
     svg.append('text')
@@ -966,7 +1019,7 @@ export function render3AxisRadialChart(containerId, tier, axis = 'engagement', f
         .attr('y', 50)
         .attr('text-anchor', 'middle')
         .attr('font-size', '11px')
-        .attr('fill', '#64748b')
+        .attr('fill', theme.muted)
         .text('Highlights: Family Ritual Loyalist | Deal-Seeking Customer | Group Occasion Buyer');
 }
 
@@ -982,6 +1035,7 @@ export function renderSegmentScatterPlot(containerId, tier, axis = 'engagement',
     container.style('position', 'relative');
 
     const axisMeta = getSegmentAxisMeta(axis);
+    const theme = getSegmentChartPalette();
     const segments = Array.isArray(filteredSegments) && filteredSegments.length
         ? filteredSegments
         : window.segmentEngine.getSegmentsForTier(tier);
@@ -1034,18 +1088,21 @@ export function renderSegmentScatterPlot(containerId, tier, axis = 'engagement',
         .domain([0, d3.max(data, d => d.avg_order_value)])
         .range([4, 15]);
 
-    svg.append('g')
+    const xAxis = svg.append('g')
         .attr('transform', `translate(0,${height})`)
         .call(d3.axisBottom(xScale).tickFormat(d => (d / 1000).toFixed(0) + 'K'));
+    styleAxis(xAxis, theme);
 
-    svg.append('g')
+    const yAxis = svg.append('g')
         .call(d3.axisLeft(yScale));
+    styleAxis(yAxis, theme);
 
     svg.append('text')
         .attr('x', width / 2)
         .attr('y', height + 50)
         .attr('text-anchor', 'middle')
         .attr('font-weight', 'bold')
+        .attr('fill', theme.text)
         .text('Customers (K)');
 
     svg.append('text')
@@ -1054,6 +1111,7 @@ export function renderSegmentScatterPlot(containerId, tier, axis = 'engagement',
         .attr('y', -60)
         .attr('text-anchor', 'middle')
         .attr('font-weight', 'bold')
+        .attr('fill', theme.text)
         .text(`${axisMeta.label} elasticity`);
 
     const referenceLines = axis === 'acquisition'
@@ -1098,7 +1156,7 @@ export function renderSegmentScatterPlot(containerId, tier, axis = 'engagement',
             .attr('x2', xScale(xMid))
             .attr('y1', 0)
             .attr('y2', height)
-            .attr('stroke', '#94a3b8')
+            .attr('stroke', theme.axisStroke)
             .attr('stroke-dasharray', '4,6')
             .attr('opacity', 0.55);
     }
@@ -1109,7 +1167,7 @@ export function renderSegmentScatterPlot(containerId, tier, axis = 'engagement',
             .attr('x2', width)
             .attr('y1', yScale(yThreshold))
             .attr('y2', yScale(yThreshold))
-            .attr('stroke', '#94a3b8')
+            .attr('stroke', theme.axisStroke)
             .attr('stroke-dasharray', '4,6')
             .attr('opacity', 0.55);
     }
@@ -1130,7 +1188,7 @@ export function renderSegmentScatterPlot(containerId, tier, axis = 'engagement',
         .attr('text-anchor', 'middle')
         .attr('font-size', '10px')
         .attr('font-weight', 'bold')
-        .attr('fill', '#64748b')
+        .attr('fill', theme.muted)
         .text(d => d.label);
 
     const tooltip = container.append('div')
@@ -1149,7 +1207,7 @@ export function renderSegmentScatterPlot(containerId, tier, axis = 'engagement',
         .attr('r', d => radiusScale(d.avg_order_value))
         .attr('fill', d => getSegmentAxisColor(axis, d.elasticity))
         .attr('opacity', 0.78)
-        .attr('stroke', '#fff')
+        .attr('stroke', theme.pointStroke)
         .attr('stroke-width', 1)
         .style('cursor', 'pointer')
         .on('mouseenter', function(event, d) {
@@ -1208,18 +1266,21 @@ export function renderSegmentScatterPlot(containerId, tier, axis = 'engagement',
         .attr('y', 0)
         .attr('font-weight', 'bold')
         .attr('font-size', '12px')
+        .attr('fill', theme.text)
         .text('Legend');
 
     legend.append('text')
         .attr('x', 0)
         .attr('y', 25)
         .attr('font-size', '10px')
+        .attr('fill', theme.legendNeutral)
         .text('Size: AOV');
 
     legend.append('text')
         .attr('x', 0)
         .attr('y', 80)
         .attr('font-size', '10px')
+        .attr('fill', theme.legendNeutral)
         .text(`Color: ${axisMeta.label.toLowerCase()} risk`);
 
     [
@@ -1237,6 +1298,7 @@ export function renderSegmentScatterPlot(containerId, tier, axis = 'engagement',
             .attr('x', 22)
             .attr('y', item.y + 3)
             .attr('font-size', '9px')
+            .attr('fill', theme.subtle)
             .text(item.label);
     });
 
@@ -1248,6 +1310,7 @@ export function renderSegmentScatterPlot(containerId, tier, axis = 'engagement',
         .attr('text-anchor', 'middle')
         .attr('font-weight', 'bold')
         .attr('font-size', '14px')
+        .attr('fill', theme.title)
         .text(`Segment Analysis - ${tierLabel} cohorts - ${axisMeta.label}`);
 }
 

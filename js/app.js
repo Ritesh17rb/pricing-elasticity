@@ -3491,6 +3491,10 @@ function renderSegmentComparisonNarrative(axis, tier, comparisonData) {
   }
 }
 
+function isDarkThemeActive() {
+  return document.documentElement.getAttribute('data-bs-theme') === 'dark';
+}
+
 function renderSegmentComparisonTable() {
   const axis = document.getElementById('compare-axis-select').value;
   const tier = document.getElementById('compare-tier-select').value;
@@ -3502,8 +3506,8 @@ function renderSegmentComparisonTable() {
   // Render table
   const container = document.getElementById('segment-comparison-table');
   container.innerHTML = `
-    <table class="table table-hover">
-      <thead class="table-light">
+    <table class="table table-hover align-middle segment-comparison-table">
+      <thead>
         <tr>
           <th>Segment</th>
           <th class="text-end">Customers</th>
@@ -3546,6 +3550,7 @@ function renderSegmentComparisonTable() {
 function renderSegmentComparisonChart(data, axis) {
   const ctx = document.getElementById('segment-comparison-chart');
   const axisMeta = getSegmentComparisonAxisMeta(axis);
+  const darkTheme = isDarkThemeActive();
   const chartValues = axis === 'acquisition'
     ? data.map(item => Math.abs(item.elasticity))
     : data.map(item => item.elasticity);
@@ -3583,9 +3588,27 @@ function renderSegmentComparisonChart(data, axis) {
         }
       },
       scales: {
+        x: {
+          ticks: {
+            color: darkTheme ? '#e2e8f0' : '#334155'
+          },
+          grid: {
+            color: darkTheme ? 'rgba(148, 163, 184, 0.14)' : 'rgba(15, 23, 42, 0.08)'
+          }
+        },
         y: {
           beginAtZero: true,
-          title: { display: true, text: axisMeta.chartLabel }
+          ticks: {
+            color: darkTheme ? '#e2e8f0' : '#334155'
+          },
+          grid: {
+            color: darkTheme ? 'rgba(148, 163, 184, 0.14)' : 'rgba(15, 23, 42, 0.08)'
+          },
+          title: {
+            display: true,
+            text: axisMeta.chartLabel,
+            color: darkTheme ? '#f8fafc' : '#0f172a'
+          }
         }
       }
     }
