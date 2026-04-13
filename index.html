@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<html lang="en" data-bs-theme="light">
 
 <head>
   <meta charset="UTF-8">
@@ -13,14 +13,29 @@
   <link rel="stylesheet" href="css/style.css">
 
   <script>
-    // Always enforce dark theme on load
     (function () {
-      try {
-        localStorage.setItem('theme', 'dark');
-        document.documentElement.setAttribute('data-bs-theme', 'dark');
-      } catch (e) {
-        document.documentElement.setAttribute('data-bs-theme', 'dark');
-      }
+      const root = document.documentElement;
+      const getPreferredTheme = () => {
+        try {
+          const savedTheme = localStorage.getItem('theme');
+          if (savedTheme === 'light' || savedTheme === 'dark' || savedTheme === 'auto') {
+            return savedTheme;
+          }
+          localStorage.setItem('theme', 'light');
+        } catch (e) {
+          // Ignore storage failures and fall back to light.
+        }
+        return 'light';
+      };
+
+      const resolveTheme = (theme) => {
+        if (theme === 'auto') {
+          return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        return theme;
+      };
+
+      root.setAttribute('data-bs-theme', resolveTheme(getPreferredTheme()));
     })();
   </script>
 
@@ -82,9 +97,16 @@
             <button class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#settingsModal" style="opacity: 0.8;">
               <i class="bi bi-gear"></i>
             </button>
-            <button class="dark-theme-toggle btn btn-sm" type="button" aria-label="Dark theme enabled" title="Dark theme enabled" style="opacity: 0.8;" disabled>
-              <i class="bi bi-moon-stars-fill"></i>
-            </button>
+            <div class="dropdown">
+              <button class="dark-theme-toggle btn btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Toggle theme" title="Toggle theme" style="opacity: 0.8;">
+                <i class="bi bi-sun-fill"></i>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><button class="dropdown-item" type="button" data-bs-theme-value="light"><i class="me-2 bi bi-sun-fill"></i> Light</button></li>
+                <li><button class="dropdown-item" type="button" data-bs-theme-value="dark"><i class="me-2 bi bi-moon-stars-fill"></i> Dark</button></li>
+                <li><button class="dropdown-item" type="button" data-bs-theme-value="auto"><i class="me-2 bi bi-circle-half"></i> Auto</button></li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -2900,6 +2922,99 @@
         goToStep(0);
       }
     }
+  </script>
+
+  <script>
+    (function () {
+      const root = document.documentElement;
+      const toggle = document.querySelector('.dark-theme-toggle');
+      const themeButtons = document.querySelectorAll('[data-bs-theme-value]');
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      const icons = {
+        light: 'bi-sun-fill',
+        dark: 'bi-moon-stars-fill',
+        auto: 'bi-circle-half'
+      };
+
+      function getStoredTheme() {
+        try {
+          return localStorage.getItem('theme') || 'light';
+        } catch (e) {
+          return 'light';
+        }
+      }
+
+      function resolveTheme(theme) {
+        if (theme === 'auto') {
+          return mediaQuery.matches ? 'dark' : 'light';
+        }
+        return theme === 'dark' ? 'dark' : 'light';
+      }
+
+      function setStoredTheme(theme) {
+        try {
+          localStorage.setItem('theme', theme);
+        } catch (e) {
+          // Ignore storage failures and still apply the theme in-memory.
+        }
+      }
+
+      function updateThemeToggle(theme) {
+        if (!toggle) return;
+        const icon = toggle.querySelector('i');
+        if (icon) {
+          icon.className = `bi ${icons[theme] || icons.light}`;
+        }
+        toggle.setAttribute('title', `Theme: ${theme[0].toUpperCase()}${theme.slice(1)}`);
+        toggle.setAttribute('aria-label', `Theme: ${theme}`);
+
+        themeButtons.forEach((button) => {
+          const isActive = button.getAttribute('data-bs-theme-value') === theme;
+          button.classList.toggle('active', isActive);
+          button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        });
+      }
+
+      function applyTheme(theme, persist = false) {
+        if (persist) {
+          setStoredTheme(theme);
+        }
+
+        const previousTheme = root.getAttribute('data-bs-theme');
+        const resolvedTheme = resolveTheme(theme);
+        root.setAttribute('data-bs-theme', resolvedTheme);
+        updateThemeToggle(theme);
+
+        if (previousTheme !== resolvedTheme) {
+          window.dispatchEvent(new CustomEvent('app-theme-change', {
+            detail: {
+              theme,
+              resolvedTheme
+            }
+          }));
+        }
+      }
+
+      themeButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          applyTheme(button.getAttribute('data-bs-theme-value') || 'light', true);
+        });
+      });
+
+      const handleSystemThemeChange = () => {
+        if (getStoredTheme() === 'auto') {
+          applyTheme('auto');
+        }
+      };
+
+      if (typeof mediaQuery.addEventListener === 'function') {
+        mediaQuery.addEventListener('change', handleSystemThemeChange);
+      } else if (typeof mediaQuery.addListener === 'function') {
+        mediaQuery.addListener(handleSystemThemeChange);
+      }
+
+      applyTheme(getStoredTheme());
+    })();
   </script>
 
   <!-- Simplified Elasticity Models -->

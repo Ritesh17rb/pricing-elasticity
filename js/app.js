@@ -3636,6 +3636,24 @@ function initializeSegmentComparison() {
   // document.getElementById('segment-analysis-section').style.display = 'block';
 }
 
+function refreshThemeSensitiveVisuals() {
+  const segmentTierSelect = document.getElementById('segment-tier-select');
+  const segmentAxisSelect = document.getElementById('segment-axis-select');
+  const segmentVizSelect = document.getElementById('segment-viz-select');
+
+  if (segmentTierSelect && segmentAxisSelect && segmentVizSelect) {
+    updateSegmentVisualization();
+  }
+
+  const compareAxisSelect = document.getElementById('compare-axis-select');
+  const compareTierSelect = document.getElementById('compare-tier-select');
+  const compareSortSelect = document.getElementById('compare-sort-select');
+
+  if (compareAxisSelect && compareTierSelect && compareSortSelect) {
+    renderSegmentComparisonTable();
+  }
+}
+
 /**
  * Initialize filter presets
  */
@@ -3951,6 +3969,13 @@ async function init() {
   window.dataLoaded = false;
   window.pinScreenAssistantToBottom = pinScreenAssistantToBottom;
   window.dataLoading = false;
+  window.refreshThemeSensitiveVisuals = refreshThemeSensitiveVisuals;
+
+  window.addEventListener('app-theme-change', () => {
+    window.requestAnimationFrame(() => {
+      refreshThemeSensitiveVisuals();
+    });
+  });
 }
 
 // Start app
