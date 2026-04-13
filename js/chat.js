@@ -49,6 +49,13 @@ let dataContext = null;
 let uiMessages = [];
 let renderedChatCharts = [];
 
+export const DEFAULT_CHAT_SUGGESTED_QUERIES = Object.freeze([
+  'Interpret the current Pizza Hut scenario results and trade-offs',
+  'Suggest a Pizza Hut scenario to maximize revenue with repeat loss under 5%',
+  'Explain the demand curve chart for the current Pizza Hut menu ladder',
+  'Show high repeat-loss segments in the Entry & Value Meals ladder'
+]);
+
 // Default system prompt template
 const DEFAULT_SYSTEM_PROMPT = `You are the Pizza Hut Analyst for the Pizza Hut Pricing Elasticity Studio.
 
@@ -161,6 +168,18 @@ function escapeHtml(value) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
+}
+
+export function getSuggestedQueryButtonsMarkup(queries = DEFAULT_CHAT_SUGGESTED_QUERIES) {
+  return queries.map((query) => `
+    <button class="btn btn-sm btn-outline-secondary suggested-query" type="button" disabled>${escapeHtml(query)}</button>
+  `).join('');
+}
+
+function syncDefaultSuggestedQueryContainers(root = document) {
+  root.querySelectorAll('[data-default-suggested-queries]').forEach((container) => {
+    container.innerHTML = getSuggestedQueryButtonsMarkup();
+  });
 }
 
 function getChatFeeds() {
@@ -427,6 +446,7 @@ function setChatComposerEnabled(enabled, reason = '') {
  */
 export function initializeChat(context) {
   dataContext = context;
+  syncDefaultSuggestedQueryContainers();
   renderAllChatFeeds();
 
   // Set up settings form handlers
@@ -1489,4 +1509,3 @@ export function clearHistory() {
   destroyRenderedChatCharts();
   renderAllChatFeeds();
 }
-

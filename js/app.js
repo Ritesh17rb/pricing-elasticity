@@ -14,7 +14,7 @@ import {
   compareScenarios as compareScenariosEngine
 } from './scenario-engine.js';
 import { renderDemandCurve, renderElasticityHeatmap, renderTierMixShift, renderTradeoffsScatter, renderComparisonBarChart, renderRadarChart } from './charts.js';
-import { initializeChat, configureLLM, sendMessage, clearHistory } from './chat.js';
+import { initializeChat, configureLLM, sendMessage, clearHistory, DEFAULT_CHAT_SUGGESTED_QUERIES, getSuggestedQueryButtonsMarkup } from './chat.js';
 import { initializeDataViewer } from './data-viewer.js';
 import { renderSegmentKPICards, renderSegmentElasticityHeatmap, render3AxisRadialChart, renderSegmentScatterPlot, exportSVG } from './segment-charts.js';
 import { getAcquisitionCohorts, getChurnCohorts } from './cohort-aggregator.js';
@@ -137,91 +137,55 @@ const SCREEN_ASSISTANT_CONFIG = {
     title: 'Current State Assistant',
     copy: 'Ask how the current Pizza Hut price architecture, weekly KPIs, and promotion pressure frame the pricing problem before you model changes.',
     placeholder: 'Ask about the current state, pricing architecture, or KPI pressure...',
-    chips: [
-      'What is the main pricing risk in the current Pizza Hut business?',
-      'How should I read the current price architecture on this screen?',
-      'Which KPI here matters most before testing price changes?'
-    ]
+    chips: DEFAULT_CHAT_SUGGESTED_QUERIES
   },
   'section-2': {
     title: 'Data Explorer Assistant',
     copy: 'Use this assistant to understand which dataset is active, what the columns mean, and how the current data slice supports the pricing work.',
     placeholder: 'Ask about the active dataset, fields, quality, or what to inspect next...',
-    chips: [
-      'What does this active dataset tell me for pricing decisions?',
-      'Which fields in this dataset are most important for elasticity?',
-      'What data quality or interpretation risks should I watch here?'
-    ]
+    chips: DEFAULT_CHAT_SUGGESTED_QUERIES
   },
   'section-8': {
     title: 'Event Calendar Assistant',
     copy: 'Ask how recent Pizza Hut campaigns, pricing windows, and seasonal events influenced orders, sales, and modeling assumptions.',
     placeholder: 'Ask about events, campaign output, timing, or what to use in modeling...',
-    chips: [
-      'Which recent event is most important for the next pricing test?',
-      'What is the difference between observed, mixed, and modeled campaigns here?',
-      'What do these event windows imply for elasticity modeling?'
-    ]
+    chips: DEFAULT_CHAT_SUGGESTED_QUERIES
   },
   'section-6': {
     title: 'Cohort Assistant',
     copy: 'Ask which cohorts can absorb price, which ones need protection, and how to interpret the current filtered view across acquisition, engagement, and monetization.',
     placeholder: 'Ask about cohorts, risk, price tier differences, or recommended actions...',
-    chips: [
-      'Which cohorts should Pizza Hut protect first on this screen?',
-      'Where do I have the best pricing headroom in this cohort view?',
-      'How do the current filters change the recommendation?'
-    ]
+    chips: DEFAULT_CHAT_SUGGESTED_QUERIES
   },
   'section-7': {
     title: 'Comparison Assistant',
     copy: 'Ask for a business readout of the current segment comparison, including the highest-risk cohort, best opportunity, and what to do by price tier.',
     placeholder: 'Ask about the current comparison, highest-risk segment, or best opportunity...',
-    chips: [
-      'Summarize the current segment comparison in plain business language.',
-      'Why is the highlighted risk segment risky on this screen?',
-      'What should Pizza Hut do with the best opportunity segment here?'
-    ]
+    chips: DEFAULT_CHAT_SUGGESTED_QUERIES
   },
   'section-3': {
     title: 'Acquisition Assistant',
     copy: 'Ask how the current channel, price test, and scenario setup affect weekly orders and revenue, and where Pizza Hut should test price next.',
     placeholder: 'Ask about traffic elasticity, optimal price, or the current acquisition scenario...',
-    chips: [
-      'Can Pizza Hut raise price on this channel without hurting demand too much?',
-      'What does the current optimal price range mean in business terms?',
-      'Which segment is driving the acquisition response on this screen?'
-    ]
+    chips: DEFAULT_CHAT_SUGGESTED_QUERIES
   },
   'section-4': {
     title: 'Churn Assistant',
     copy: 'Ask how the current price increase affects repeat loss over time, where the peak risk sits, and which cohorts are most exposed.',
     placeholder: 'Ask about repeat loss, time horizon effects, or cohort risk...',
-    chips: [
-      'At this price increase, where does repeat loss peak and why?',
-      'How much churn risk is acceptable in the current setup?',
-      'Which cohort is most exposed to repeat-loss pressure here?'
-    ]
+    chips: DEFAULT_CHAT_SUGGESTED_QUERIES
   },
   'section-5': {
     title: 'Migration Assistant',
     copy: 'Ask how the current delivery versus pickup price gap changes channel mix, margin posture, and leakage risk for Pizza Hut.',
     placeholder: 'Ask about channel shift, margin protection, or delivery vs pickup trade-offs...',
-    chips: [
-      'Is the current delivery-pickup gap helping or hurting Pizza Hut?',
-      'How much order shift to pickup is worth the leakage risk here?',
-      'What pricing move would best rebalance channel mix on this screen?'
-    ]
+    chips: DEFAULT_CHAT_SUGGESTED_QUERIES
   },
   'section-9': {
     title: 'Analytics Copilot',
     copy: 'Use the full assistant to connect the evidence across all steps, compare scenarios, and turn the current Pizza Hut pricing story into decisions.',
     placeholder: 'Ask anything across the Pizza Hut studio...',
-    chips: [
-      'Summarize the biggest pricing recommendation across all screens.',
-      'Which current scenario best balances revenue and retention?',
-      'What should Pizza Hut do this week based on the full studio?'
-    ]
+    chips: DEFAULT_CHAT_SUGGESTED_QUERIES
   }
 };
 
@@ -2377,9 +2341,7 @@ function createScreenAssistantPanel(sectionId, config) {
   wrapper.dataset.chatPanel = 'true';
   wrapper.dataset.chatScreen = sectionId;
   wrapper.id = `screen-assistant-${sectionId}`;
-  const chipsMarkup = (config.chips || []).map((chip) => `
-    <button class="btn btn-sm btn-outline-secondary suggested-query" type="button" disabled>${chip}</button>
-  `).join('');
+  const chipsMarkup = getSuggestedQueryButtonsMarkup(config.chips);
 
   wrapper.innerHTML = `
     <div class="screen-assistant-card__header">
@@ -5244,4 +5206,3 @@ function displayTop3Scenarios(top3) {
   // Scroll to results
   container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
-
