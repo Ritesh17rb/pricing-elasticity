@@ -1247,7 +1247,7 @@ async function initializeChatContext() {
             strategy: 'Selective price lift on core and premium items',
             tier: 'ad_free',
             priceChange: +2.00,
-            rationale: 'Core and premium Pizza Hut orders are less elastic, so a selective lift can add dollars with lower order risk than value-ladder pricing.'
+            rationale: 'Core and premium Pizza Hut orders are less elastic, so a selective lift can add dollars with lower order risk than value-tier pricing.'
           },
           grow_customers: {
             strategy: 'Defensive promo on entry and value items',
@@ -1259,7 +1259,7 @@ async function initializeChatContext() {
             strategy: 'Hold price and reduce promo depth',
             tier: 'ad_free',
             priceChange: -1.00,
-            rationale: 'A modest adjustment on the core and premium ladder can protect repeat visits without relying on a broad value reset.'
+            rationale: 'A modest adjustment on the core and premium tier can protect repeat visits without relying on a broad value reset.'
           },
           maximize_aov: {
             strategy: 'Premium bundle price increase',
@@ -1282,8 +1282,8 @@ async function initializeChatContext() {
         return {
           goal: goal,
           suggested_scenario: {
-            name: `${suggestion.strategy} - ${suggestion.tier.replace('_', ' ')}`,
-            tier: suggestion.tier,
+            name: `${suggestion.strategy} - ${SEGMENT_TIER_LABELS[suggestion.tier] || suggestion.tier}`,
+            tier: SEGMENT_TIER_LABELS[suggestion.tier] || suggestion.tier,
             current_price: currentPrice,
             new_price: newPrice,
             price_change: suggestion.priceChange,
@@ -1299,21 +1299,21 @@ async function initializeChatContext() {
       analyzeChart: async (chartName) => {
         const chartAnalysis = {
           demand_curve: {
-            name: 'Demand Curve by Menu Ladder',
+            name: 'Demand Curve by Price Tier',
             description: 'Shows price elasticity - how quantity demanded changes with price',
             interpretation: [
               'Steeper curve = higher elasticity = more price-sensitive customers',
               `Entry & Value Meals (elasticity ${elasticityParams.tiers.ad_supported.base_elasticity}): Most price-sensitive`,
               `Core & Premium Meals (elasticity ${elasticityParams.tiers.ad_free.base_elasticity}): Moderately price-sensitive`
             ],
-            insights: 'Use this to identify optimal price points for each menu ladder. Flatter curves allow for price increases with less order loss.'
+            insights: 'Use this to identify optimal price points for each price tier. Flatter curves allow for price increases with less order loss.'
           },
           tier_mix: currentResult ? {
-            name: 'Menu-Ladder Mix: Baseline vs Forecasted',
-            description: 'Compares current vs forecasted order distribution across demand ladders',
+            name: 'Price Tier Mix: Baseline vs Forecasted',
+            description: 'Compares current vs forecasted order distribution across price tiers',
             baseline: currentResult.baseline,
             forecasted: currentResult.forecasted,
-            interpretation: `Scenario "${currentResult.scenario_name}" shifts menu-ladder distribution. Revenue impact depends on AOV differences across the Pizza Hut ladders.`
+            interpretation: `Scenario "${currentResult.scenario_name}" shifts price tier distribution. Revenue impact depends on AOV differences across the Pizza Hut tiers.`
           } : null,
           forecast: currentResult ? {
             name: '12-Month Customer Forecast',
@@ -1323,7 +1323,7 @@ async function initializeChatContext() {
           } : null,
           heatmap: {
             name: 'Elasticity Heatmap by Cohort',
-            description: 'Shows how price sensitivity varies by visit mission and menu ladder',
+            description: 'Shows how price sensitivity varies by visit mission and price tier',
             interpretation: [
               'Value-led and game-day trial guests are typically more price-sensitive',
               'Routine and loyalist missions tend to hold better when price moves are selective',
@@ -2094,7 +2094,7 @@ function buildCohortContext() {
 function buildSegmentComparisonContext() {
   const lines = [
     `Selected axis: ${getSelectedOptionText('compare-axis-select')} (${getTextById('compare-axis-helper')})`,
-    `Selected demand ladder: ${getSelectedOptionText('compare-tier-select')}`,
+    `Selected price tier: ${getSelectedOptionText('compare-tier-select')}`,
     `Sort order: ${getSelectedOptionText('compare-sort-select')}`
   ].filter(Boolean);
 
@@ -2140,7 +2140,7 @@ function buildAcquisitionContext() {
 function buildChurnContext() {
   const lines = [
     `Selected visit mission: ${getSelectedOptionText('churn-cohort-select')}`,
-    `Selected menu ladder: ${cleanAssistantText(document.querySelector('#churn-pane .tier-btn.active')?.textContent || '')}`,
+    `Selected price tier: ${cleanAssistantText(document.querySelector('#churn-pane .tier-btn.active')?.textContent || '')}`,
     `Current price increase: ${getTextById('churn-increase-display')}`,
     `Effective price move: ${getTextById('churn-pct-change')}`,
     `Peak repeat loss impact: ${getTextById('churn-peak-impact')}`,
@@ -2678,7 +2678,7 @@ function renderSegmentVisualizationGuide(vizType, axis, tierSegments, aggregated
       copy: 'This scatter isolates the active elasticity axis. It is meant to answer which cohorts are both large enough to matter and risky enough to change the pricing recommendation.',
       items: [
         { label: 'X axis', value: 'Customer count for each filtered cohort combination.' },
-        { label: 'Y axis', value: `${axisMeta.label} elasticity for the selected demand ladder.` },
+        { label: 'Y axis', value: `${axisMeta.label} elasticity for the selected price tier.` },
         { label: 'Bubble size', value: `Average order value, currently ${formatCurrency(aov)} on a weighted basis.` }
       ]
     },
@@ -2687,7 +2687,7 @@ function renderSegmentVisualizationGuide(vizType, axis, tierSegments, aggregated
       copy: 'This view is kept separate from the cohort maps. Use it to compare channel posture and then bring the pricing decision back to the cohort views for who-to-protect and where-to-push.',
       items: [
         { label: 'Bar chart', value: 'Compares elasticity across channels.' },
-        { label: 'Heatmap', value: 'Shows where channel risk clusters by demand ladder.' },
+        { label: 'Heatmap', value: 'Shows where channel risk clusters by price tier.' },
         { label: 'Use with', value: 'Pair this with cohort views before making a broad price move.' }
       ]
     }
@@ -3051,62 +3051,62 @@ const SEGMENT_COMPARISON_AXIS_META = {
 };
 
 const SEGMENT_COMPARISON_STATIC_HIGHLIGHTS = {
-  engagement: {
+  acquisition: {
     ad_supported: {
       risk: {
-        name: 'Coupon-Driven Customer',
-        metric: 'Repeat-loss elasticity 1.12 | Repeat loss 20%',
-        detail: 'Highly price-sensitive segment with elevated churn risk. Avoid price increases and prioritize retention through targeted offers and loyalty reinforcement.',
+        name: 'Deal-Seeking Customer',
+        metric: 'High price sensitivity | Promo-dependent traffic',
+        detail: 'Avoid blanket discounts; optimize promo depth (e.g., reduce from 30% → 20%), shift to targeted offers.',
         tag: 'High risk'
       },
       opportunity: {
-        name: 'Family Ritual Loyalist',
-        metric: 'Most Stable repeat base | Repeat Loss 10.5%',
-        detail: 'Stable and low-sensitivity segment. Suitable for selective price increases with minimal churn impact.',
+        name: 'Habitual Value Seeker',
+        metric: 'Repeat ordering anchored to meal habits',
+        detail: 'Drive traffic using entry-price bundles & limited-time value deals to maximize acquisition.',
         tag: 'Pricing opportunity'
       }
     },
     ad_free: {
       risk: {
-        name: 'Coupon-Driven Customer',
-        metric: 'Repeat-loss elasticity 1.03 | Repeat loss 20%',
-        detail: 'Highly price-sensitive segment with elevated churn risk. Avoid price increases and prioritize retention through targeted offers and loyalty reinforcement.',
+        name: 'Group Occasion Buyer',
+        metric: 'Bundle-sensitive | Family & sharing occasions',
+        detail: 'Avoid aggressive price hikes on bundles; maintain perceived value (family combos, sharing meals).',
         tag: 'High risk'
       },
       opportunity: {
-        name: 'Family Ritual Loyalist',
-        metric: 'Most Stable repeat base | Repeat Loss 10.5%',
-        detail: 'Stable and low-sensitivity segment. Suitable for selective price increases with minimal churn impact.',
+        name: 'Digital Promo Explorer',
+        metric: 'App & digital discovery-driven demand',
+        detail: 'Use targeted digital campaigns to upsell into premium combos (app-exclusive offers).',
         tag: 'Pricing opportunity'
       }
     }
   },
-  acquisition: {
+  engagement: {
     ad_supported: {
       risk: {
-        name: 'Habitual Value Seeker',
-        metric: 'Elasticity 2.13 | Promo response: 0.2% conversion uplift from promotions',
-        detail: 'Avoid broad price increases here. Protect traffic with value-led promotions and entry-point offers.',
+        name: 'Coupon-Driven Customer',
+        metric: 'High repeat-loss elasticity | Offer-dependent',
+        detail: 'Reduce dependency on coupons; shift to structured bundles instead of flat discounts.',
         tag: 'High risk'
       },
       opportunity: {
-        name: 'Deal-Seeking Customer',
-        metric: 'Least promo-dependent segment in this view | 18,655 customers',
-        detail: 'Stable and low-sensitivity segment. Suitable for selective price increases with minimal churn impact.',
+        name: 'Value Bundle Shopper',
+        metric: 'Responds to accessible bundle price points',
+        detail: 'Promote combo upgrades (meal deals) to increase frequency without hurting margins.',
         tag: 'Pricing opportunity'
       }
     },
     ad_free: {
       risk: {
-        name: 'Habitual Value Seeker',
-        metric: 'Elasticity 1.67 | Promo response: 0.2% conversion uplift from promotions',
-        detail: 'Avoid broad price increases here. Protect traffic with value-led promotions and entry-point offers.',
+        name: 'Channel Flexible Customer',
+        metric: 'Migration elasticity critical | Channel-switching',
+        detail: 'Improve stickiness via loyalty programs & channel-specific incentives (app rewards, delivery perks).',
         tag: 'High risk'
       },
       opportunity: {
-        name: 'Deal-Seeking Customer',
-        metric: 'Least promo-dependent segment in this view | 18,655 customers',
-        detail: 'Stable and low-sensitivity segment. Suitable for selective price increases with minimal churn impact.',
+        name: 'Family Ritual Loyalist',
+        metric: 'Most stable repeat base | Low repeat-loss',
+        detail: 'Introduce subscription/loyalty perks (weekly deals, family bundles) to lock repeat behavior.',
         tag: 'Pricing opportunity'
       }
     }
@@ -3115,28 +3115,28 @@ const SEGMENT_COMPARISON_STATIC_HIGHLIGHTS = {
     ad_supported: {
       risk: {
         name: 'Single Item Buyer',
-        metric: 'Elasticity 2.10 | AOV $25.68',
-        detail: 'Customers in this segment significantly reduce basket size when prices increase. Avoid pricing changes without strong value cues or bundle support.',
+        metric: 'Moderate price sensitivity | Low basket size',
+        detail: 'Nudge toward combos (add fries + drink at small incremental price); avoid standalone item focus.',
         tag: 'High risk'
       },
       opportunity: {
-        name: 'Multi-Item Basket Builder',
-        metric: 'Best basket-value headroom | AOV $33.91',
-        detail: 'This segment maintains strong basket size even with price changes. Best suited for selective price increases and upsell optimization.',
+        name: 'Bundle Buyer',
+        metric: 'Prefers meal deals & clear value bundles',
+        detail: 'Optimize bundle pricing & highlight savings to increase AOV and attach rate.',
         tag: 'Pricing opportunity'
       }
     },
     ad_free: {
       risk: {
-        name: 'Single Item Buyer',
-        metric: 'Elasticity 1.50 | AOV $33.79',
-        detail: 'Customers in this segment significantly reduce basket size when prices increase. Avoid pricing changes without strong value cues or bundle support.',
+        name: 'Sides & Add-On Explorer',
+        metric: 'High price sensitivity on attachments',
+        detail: 'Avoid overpricing add-ons; use smart pricing (₹/value perception) to prevent drop-off.',
         tag: 'High risk'
       },
       opportunity: {
-        name: 'Multi-Item Basket Builder',
-        metric: 'Best basket-value headroom | AOV $42.29',
-        detail: 'This segment maintains strong basket size even with price changes. Best suited for selective price increases and upsell optimization.',
+        name: 'Premium Upsell Buyer',
+        metric: 'Low price sensitivity | Premium extras',
+        detail: 'Introduce premium add-ons (extra cheese, large sizes, desserts) to maximize margin.',
         tag: 'Pricing opportunity'
       }
     }
@@ -4443,15 +4443,15 @@ function displayResultsInTabs(result, isRedisplay = false) {
     allSimulationResultsByModel[modelType].push(result);
   }
 
-  // Display warning for new ladder scenarios
+  // Display warning for new tier scenarios
   const warningContainer = document.getElementById('new-tier-warning');
   const rationaleContainer = document.getElementById('scenario-selection-rationale');
   if (result.is_new_tier && warningContainer) {
     warningContainer.innerHTML = `
       <div class="alert alert-info border-info mb-3">
         <i class="bi bi-info-circle me-2"></i>
-        <strong>New Menu Ladder Simulation:</strong> This scenario introduces a hypothetical "${result.scenario_config.tier}" ladder that does not exist in the observed baseline.
-        Results use "${result.scenario_config.baseline_tier}" as the reference ladder for modeling.
+        <strong>New Price Tier Simulation:</strong> This scenario introduces a hypothetical "${result.scenario_config.tier}" tier that does not exist in the observed baseline.
+        Results use "${result.scenario_config.baseline_tier}" as the reference tier for modeling.
       </div>
     `;
     warningContainer.style.display = 'block';

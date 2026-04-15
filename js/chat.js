@@ -52,8 +52,8 @@ let renderedChatCharts = [];
 export const DEFAULT_CHAT_SUGGESTED_QUERIES = Object.freeze([
   'Interpret the current Pizza Hut scenario results and trade-offs',
   'Suggest a Pizza Hut scenario to maximize revenue with repeat loss under 5%',
-  'Explain the demand curve chart for the current Pizza Hut menu ladder',
-  'Show high repeat-loss segments in the Entry & Value Meals ladder'
+  'Explain the demand curve chart for the current Pizza Hut menu',
+  'Show high repeat-loss segments in the Entry & Value Meals'
 ]);
 
 // Default system prompt template
@@ -75,8 +75,8 @@ const DEFAULT_SYSTEM_PROMPT = `You are the Pizza Hut Analyst for the Pizza Hut P
 - Average Repeat Loss Rate: {currentChurn}
 
 **Elasticity Reference Points:**
-- Entry & Value Meals ladder: {elasticityAdSupported}
-- Core & Premium Meals ladder: {elasticityAdFree}
+- Entry & Value Meals: {elasticityAdSupported}
+- Core & Premium Meals: {elasticityAdFree}
 
 **Available Scenarios:**
 {availableScenarios}
@@ -99,7 +99,7 @@ const DEFAULT_SYSTEM_PROMPT = `You are the Pizza Hut Analyst for the Pizza Hut P
 3. **analyze_chart** - Explain what a specific visualization shows (demand_curve, tier_mix, forecast, heatmap)
 4. **compare_outcomes** - Deep comparison of 2 or more scenarios with trade-off analysis
 5. **create_scenario** - Generate a new custom scenario from parameters
-6. **query_segments** - Get detailed information about customer segments (filter by demand ladder, size, repeat-loss risk, value)
+6. **query_segments** - Get detailed information about customer segments (filter by price tier, size, repeat-loss risk, value)
 7. **get_screen_context** - Retrieve the live context for the current or requested screen, including the active filters, controls, KPI cards, and screen-specific inference text
 8. **search_knowledge_base** - Retrieve grounded notes, definitions, methodology, and project decisions from local docs and metadata
 9. **create_chart** - Render a chart in the chat UI from trusted app data when a visual comparison or trend view would help
@@ -110,7 +110,7 @@ const DEFAULT_SYSTEM_PROMPT = `You are the Pizza Hut Analyst for the Pizza Hut P
 - When users ask about a chart: Use analyze_chart with the chart name
 - When users want to compare 2+ scenarios: Use compare_outcomes with array of scenario_ids
 - When users want to create new scenarios: Use create_scenario with parameters
-- When users ask about customer segments: Use query_segments with filters (demand ladder, size, repeat-loss risk, value)
+- When users ask about customer segments: Use query_segments with filters (price tier, size, repeat-loss risk, value)
 - When the answer depends on the live screen state or visible controls: Use get_screen_context before concluding
 - When users ask about methodology, assumptions, definitions, meeting decisions, dataset meaning, or project history: Use search_knowledge_base before answering
 - When users ask to plot, graph, chart, visualize, or compare visually, or when a visual would materially improve clarity: Use create_chart
@@ -129,6 +129,10 @@ const DEFAULT_SYSTEM_PROMPT = `You are the Pizza Hut Analyst for the Pizza Hut P
 - When a message contains an "Active Screen Context" block, treat that as the primary scope and answer from that screen's current state first
 - When you use search_knowledge_base, cite the source file paths in the answer
 - When you use create_chart, briefly explain what the chart shows and the one or two most important takeaways
+
+**Important Naming Rules:**
+- Always refer to price tiers as "Entry & Value Meals" (internal: ad_supported) and "Core & Premium Meals" (internal: ad_free). Never use internal tier codes like "ad_free" or "ad_supported" in responses.
+- Always use the proper segment names (e.g., "Deal-Seeking Customer", "Family Ritual Loyalist", "Bundle Buyer") — never use generic labels or internal codes.
 
 Be concise and informative in your responses. Ask follow-up questions only when they are necessary.
 Return the response in Markdown format for rich text display. (Bold important points, use lists for clarity, and include code blocks for any data or JSON.)
@@ -158,7 +162,7 @@ User: "Which saved scenario is best for revenue?"
 User: "Show me high repeat-loss segments"
 → Use query_segments with filter: {repeat_loss_risk: "high"}
 
-User: "What are the largest segments in the entry and value menu ladder?"
+User: "What are the largest segments in the Entry & Value Meals tier?"
 → Use query_segments with filter: {tier: "ad_supported", size: "large"}`;
 
 function escapeHtml(value) {
@@ -767,7 +771,7 @@ Main Grain: week_start x brand_id x market_id x product_id x channel_id`;
         const avgRepeatLoss = (totalRepeatLoss / totalSegments * 100).toFixed(2);
         const avgAOV = (totalAOV / totalSegments).toFixed(2);
 
-        segmentSummary = `${totalSegments} behavioral segments across 2 modeled Pizza Hut demand ladders:
+        segmentSummary = `${totalSegments} behavioral segments across 2 modeled Pizza Hut price tiers:
 - Entry & Value Meals: ${tierCounts['ad_supported'] || 0} segments
 - Core & Premium Meals: ${tierCounts['ad_free'] || 0} segments
 Total Customers: ${totalCustomers.toLocaleString()}
@@ -778,9 +782,9 @@ Avg Order Value: $${avgAOV}`;
         availableSegments = `Behavioral segments for targeted pricing:
 Visit mission: Game-Day First Try, Habitual Value Seeker, Group Occasion Buyer, Digital Promo Explorer, Deal-Seeking Customer
 Repeat behavior: Family Ritual Loyalist, Value Bundle Shopper, Coupon-Driven Customer, Occasional Indulger, Channel Flexible Customer
-Basket build: Single Pizza Order, Multi-Item Builder, Bundle Buyer, Premium Add-On, Side Sampler
+Basket build: Single Item Buyer, Multi-Item Basket Builder, Bundle Buyer, Premium Upsell Buyer, Sides & Add-On Explorer
 
-Use filters by demand ladder, repeat-loss risk, and basket value.`;
+Use filters by price tier, repeat-loss risk, and basket value.`;
       }
     } catch (error) {
       console.error('Error getting segment data for chat:', error);
@@ -892,7 +896,7 @@ function getToolDefinitions() {
             tier: {
               type: "string",
               enum: ["ad_supported", "ad_free"],
-              description: "The modeled demand ladder to adjust (ad_supported = Entry & Value Meals, ad_free = Core & Premium Meals)"
+              description: "The modeled price tier to adjust (ad_supported = Entry & Value Meals, ad_free = Core & Premium Meals)"
             },
             price_change: {
               type: "number",
@@ -922,7 +926,7 @@ function getToolDefinitions() {
             tier: {
               type: "string",
               enum: ["ad_supported", "ad_free", "all"],
-              description: "Filter by modeled demand ladder. Use 'all' to include both ladders."
+              description: "Filter by price tier. Use 'all' to include both tiers."
             },
             size: {
               type: "string",
@@ -1416,9 +1420,10 @@ async function querySegments(filters) {
     const aov = parseFloat(seg.avg_order_value) || 0;
     const customerCount = parseInt(seg.customer_count) || 0;
 
+    const TIER_LABELS = { ad_supported: 'Entry & Value Meals', ad_free: 'Core & Premium Meals' };
     return {
       composite_key: seg.compositeKey,
-      tier: seg.tier,
+      tier: TIER_LABELS[seg.tier] || seg.tier,
       acquisition: seg.acquisition,
       engagement: seg.engagement,
       monetization: seg.monetization,
@@ -1442,15 +1447,15 @@ async function querySegments(filters) {
  * Generate a human-readable segment name
  */
 function generateSegmentName(segment) {
-  const acqMap = { low: 'Loyal', medium: 'Moderate', high: 'Deal-Seeking' };
-  const engMap = { low: 'Casual', medium: 'Regular', high: 'Heavy' };
-  const monMap = { low: 'At-Risk', medium: 'Stable', high: 'Premium' };
+  if (window.segmentEngine?.segmentDescriptions) {
+    const descs = window.segmentEngine.segmentDescriptions;
+    const acq = descs[segment.acquisition]?.label || segment.acquisition;
+    const eng = descs[segment.engagement]?.label || segment.engagement;
+    const mon = descs[segment.monetization]?.label || segment.monetization;
+    return `${acq} | ${eng} | ${mon}`;
+  }
 
-  const acq = acqMap[segment.acquisition] || segment.acquisition;
-  const eng = engMap[segment.engagement] || segment.engagement;
-  const mon = monMap[segment.monetization] || segment.monetization;
-
-  return `${acq} ${eng} ${mon}`;
+  return `${segment.acquisition} | ${segment.engagement} | ${segment.monetization}`;
 }
 
 /**
