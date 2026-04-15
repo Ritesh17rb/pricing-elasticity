@@ -88,14 +88,14 @@ const STEP1_EXECUTIVE_OVERVIEW = {
   heading: 'Key Performance Metrics (Week of Dec 29, 2025)',
   primaryLane: {
     band: 'Traffic Builder',
-    name: 'Entry Value & Solo Meals',
+    name: 'Entry & Value Meals',
     price: 'From $6.99',
     products: 'Anchor items: Personal Pan Pizza | Pizza Hut Melts | 2-Topping Medium Pizza Deal | Breadsticks',
     copy: 'Typically priced between $6.99 and $11.99, this segment drives trial and impulse orders. Value deals and combo meals play a key role in maintaining order volume and entry-level conversion.'
   },
   secondaryLane: {
     band: 'Revenue Driver',
-    name: 'Family Bundles & Premium',
+    name: 'Core & Premium Meals',
     price: 'From $14.99',
     products: 'Anchor items: Large 1-Topping Pizza | Big Dinner Box | Stuffed Crust Pizza | Supreme / Specialty Pizzas',
     copy: 'Priced between $14.99 and $34.99, this segment drives the majority of revenue. Larger pizzas, bundles, and premium crust options dominate, with delivery and group occasions contributing heavily.'
@@ -111,7 +111,7 @@ const STEP1_EXECUTIVE_OVERVIEW = {
     marginChangePts: -0.8
   },
   insightTitle: 'The Pricing Question',
-  insightText: 'Pizza Hut delivered approximately $2.1M in weekly sales across about 100K orders, with an average order value of about $20. Nearly 60% of orders are driven by promotions, particularly across entry-level and combo meals, highlighting strong price sensitivity in key segments. While the value tier drives traffic and order volume, the family and premium tiers contribute the majority of revenue and margin. With orders declining week over week and AOV increasing, a clear trade-off is emerging between pricing and demand. The key question is: Can pricing be optimized to improve margin without impacting order volumes, especially within promotion-driven segments?'
+  insightText: 'Pizza Hut delivered approximately $2.1M in weekly sales across about 100K orders, with an average order value of about $20. Nearly 60% of orders are driven by promotions, particularly across entry-level and combo meals, highlighting strong price sensitivity in key segments. While Entry & Value Meals drive traffic and order volume, Core & Premium Meals contribute the majority of revenue and margin. With orders declining week over week and AOV increasing, a clear trade-off is emerging between pricing and demand. The key question is: Can pricing be optimized to improve margin without impacting order volumes, especially within promotion-driven segments?'
 };
 
 const SEGMENT_TIER_LABELS = {
