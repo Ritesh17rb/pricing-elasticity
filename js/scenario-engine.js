@@ -1098,7 +1098,7 @@ async function calculateTierTotals(tier, impactData) {
  * @returns {Promise<Object>} Simulation results with Python model predictions
  */
 export async function simulateScenarioWithPyodide(scenario, options = {}) {
-  console.info('Pyodide scenario models are disabled for the Pizza Hut build. Using JavaScript simulation instead.');
+  console.info('Pyodide scenario models are disabled for the QSR build. Using JavaScript simulation instead.');
   return simulateScenario(scenario, options);
 }
 
@@ -1113,6 +1113,6 @@ export function isPyodideAvailable() {
  * Initialize Pyodide models (call during app startup)
  */
 export async function initializePyodideModels() {
-  console.debug('Pyodide models are disabled for the Pizza Hut build.');
+  console.debug('Pyodide models are disabled for the QSR build.');
   return false;
 }

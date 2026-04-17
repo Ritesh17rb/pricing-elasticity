@@ -50,14 +50,14 @@ let uiMessages = [];
 let renderedChatCharts = [];
 
 export const DEFAULT_CHAT_SUGGESTED_QUERIES = Object.freeze([
-  'Interpret the current Pizza Hut scenario results and trade-offs',
-  'Suggest a Pizza Hut scenario to maximize revenue with repeat loss under 5%',
-  'Explain the demand curve chart for the current Pizza Hut menu',
+  'Interpret the current QSR scenario results and trade-offs',
+  'Suggest a QSR scenario to maximize revenue with repeat loss under 5%',
+  'Explain the demand curve chart for the current QSR menu',
   'Show high repeat-loss segments in the Entry & Value Meals'
 ]);
 
 // Default system prompt template
-const DEFAULT_SYSTEM_PROMPT = `You are the Pizza Hut Analyst for the Pizza Hut Pricing Elasticity Studio.
+const DEFAULT_SYSTEM_PROMPT = `You are the QSR Analyst for the QSR Pricing Elasticity Studio.
 
 **Your Role:**
 - Interpret scenario simulation results and provide business insights
@@ -66,7 +66,7 @@ const DEFAULT_SYSTEM_PROMPT = `You are the Pizza Hut Analyst for the Pizza Hut P
 - Compare multiple scenarios and highlight trade-offs
 - Help users understand price elasticity and its impact
 
-**Pizza Hut Foundation Context:**
+**QSR Foundation Context:**
 {yumBrandContext}
 
 **Current Business Context:**
@@ -215,7 +215,7 @@ function getEmptyStateMarkup(variant = 'compact') {
   return `
     <div class="assistant-chat-empty">
       <div class="assistant-chat-empty__icon"><i class="bi bi-stars"></i></div>
-      <div class="assistant-chat-empty__title">Ask the Pizza Hut analyst about this screen</div>
+      <div class="assistant-chat-empty__title">Ask the QSR analyst about this screen</div>
       <div class="assistant-chat-empty__copy">Use the prompt chips below or type a question to turn this screen into a clear business readout.</div>
     </div>
   `;
@@ -253,7 +253,7 @@ function renderAllChatFeedsLegacy() {
 
     feed.innerHTML = visibleMessages.map((message) => {
       const icon = message.role === 'user' ? '👤' : message.role === 'system' ? '⚙️' : '🤖';
-      const label = message.role === 'user' ? 'You' : message.role === 'system' ? 'System' : 'Pizza Hut Analyst';
+      const label = message.role === 'user' ? 'You' : message.role === 'system' ? 'System' : 'QSR Analyst';
       const contentMarkup = message.isLoading
         ? `
             <span class="spinner-border spinner-border-sm me-2"></span>
@@ -409,7 +409,7 @@ function renderAllChatFeeds() {
 
     feed.innerHTML = visibleMessages.map((message) => {
       const icon = message.role === 'user' ? 'User' : message.role === 'system' ? 'Tool' : 'AI';
-      const label = message.role === 'user' ? 'You' : message.role === 'system' ? 'System' : 'Pizza Hut Analyst';
+      const label = message.role === 'user' ? 'You' : message.role === 'system' ? 'System' : 'QSR Analyst';
       const contentMarkup = getMessageMarkup(message);
 
       return `
@@ -437,7 +437,7 @@ function setChatComposerEnabled(enabled, reason = '') {
   });
 
   document.querySelectorAll('.assistant-chat-input').forEach((input) => {
-    const enabledPlaceholder = input.dataset.enabledPlaceholder || 'Ask about Pizza Hut elasticity: summarize, explain, compare, or recommend actions...';
+    const enabledPlaceholder = input.dataset.enabledPlaceholder || 'Ask about QSR elasticity: summarize, explain, compare, or recommend actions...';
     input.placeholder = enabled
       ? enabledPlaceholder
       : (reason || 'Configure the LLM with the key button to enable chat.');
@@ -731,7 +731,7 @@ function buildSystemPrompt() {
       }).join('\n')
     : 'No scenarios saved for comparison yet';
 
-  let yumBrandContext = 'Pizza Hut operating foundation not loaded yet.';
+  let yumBrandContext = 'QSR operating foundation not loaded yet.';
   if (window.yumFoundation?.summary) {
     const summary = window.yumFoundation.summary;
     yumBrandContext = `Brand: ${summary.brandId}
@@ -771,7 +771,7 @@ Main Grain: week_start x brand_id x market_id x product_id x channel_id`;
         const avgRepeatLoss = (totalRepeatLoss / totalSegments * 100).toFixed(2);
         const avgAOV = (totalAOV / totalSegments).toFixed(2);
 
-        segmentSummary = `${totalSegments} behavioral segments across 2 modeled Pizza Hut price tiers:
+        segmentSummary = `${totalSegments} behavioral segments across 2 modeled QSR price tiers:
 - Entry & Value Meals: ${tierCounts['ad_supported'] || 0} segments
 - Core & Premium Meals: ${tierCounts['ad_free'] || 0} segments
 Total Customers: ${totalCustomers.toLocaleString()}

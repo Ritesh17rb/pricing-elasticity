@@ -1,5 +1,5 @@
 /**
- * Pizza Hut repeat-visit loss elasticity model.
+ * QSR repeat-visit loss elasticity model.
  * Replaces the legacy churn template with menu-ladder visit behavior.
  */
 
@@ -656,13 +656,13 @@ async function initChurnSimple() {
     setupChurnInteractivity();
     updateChurnModel(GROUP_CONFIG[0].key);
   } catch (error) {
-    console.error('Failed to initialize Pizza Hut repeat-visit model:', error);
+    console.error('Failed to initialize QSR repeat-visit model:', error);
     const container = resolveStepContentTarget('step-4-churn-container');
     if (container) {
       container.innerHTML = `
         <div class="alert alert-danger">
           <i class="bi bi-exclamation-triangle me-2"></i>
-          Failed to load Pizza Hut repeat-visit elasticity inputs. Please refresh the page.
+          Failed to load QSR repeat-visit elasticity inputs. Please refresh the page.
         </div>
       `;
     }

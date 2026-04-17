@@ -1,13 +1,13 @@
 brand_id,brand_name,market_id,market_name,store_count_proxy,franchise_mix_pct,company_owned_mix_pct,drive_thru_coverage_pct,delivery_coverage_pct,digital_ready_index
-pizzahut,Pizza Hut,los_angeles_ca,Los Angeles,28,99.0,1.0,0.0,82.25,0.9408
-pizzahut,Pizza Hut,dallas_tx,Dallas-Fort Worth,26,99.0,1.0,0.0,85.7,0.8484
-pizzahut,Pizza Hut,chicago_il,Chicago,25,99.0,1.0,0.0,90.83,0.84
-pizzahut,Pizza Hut,atlanta_ga,Atlanta,32,99.0,1.0,0.0,90.22,0.8316
-pizzahut,Pizza Hut,new_york_ny,New York City,26,99.0,1.0,0.0,90.47,0.966
-pizzahut,Pizza Hut,miami_fl,Miami,28,99.0,1.0,0.0,79.85,0.8652
-pizzahut,Pizza Hut,phoenix_az,Phoenix,25,99.0,1.0,0.0,83.56,0.8148
-pizzahut,Pizza Hut,denver_co,Denver,27,99.0,1.0,0.0,78.94,0.8652
-pizzahut,Pizza Hut,seattle_wa,Seattle,24,99.0,1.0,0.0,84.67,0.9156
-pizzahut,Pizza Hut,nashville_tn,Nashville,24,99.0,1.0,0.0,92.26,0.798
-pizzahut,Pizza Hut,minneapolis_mn,Minneapolis,25,99.0,1.0,0.0,97.43,0.8232
-pizzahut,Pizza Hut,charlotte_nc,Charlotte,32,99.0,1.0,0.0,84.16,0.8232
+qsr,QSR,los_angeles_ca,Los Angeles,31,99.0,1.0,0.0,82.97,0.9408
+qsr,QSR,dallas_tx,Dallas-Fort Worth,29,99.0,1.0,0.0,93.85,0.8484
+qsr,QSR,chicago_il,Chicago,25,99.0,1.0,0.0,88.96,0.84
+qsr,QSR,atlanta_ga,Atlanta,26,99.0,1.0,0.0,90.91,0.8316
+qsr,QSR,new_york_ny,New York City,29,99.0,1.0,0.0,91.28,0.966
+qsr,QSR,miami_fl,Miami,23,99.0,1.0,0.0,89.63,0.8652
+qsr,QSR,phoenix_az,Phoenix,31,99.0,1.0,0.0,97.03,0.8148
+qsr,QSR,denver_co,Denver,33,99.0,1.0,0.0,80.68,0.8652
+qsr,QSR,seattle_wa,Seattle,25,99.0,1.0,0.0,96.36,0.9156
+qsr,QSR,nashville_tn,Nashville,31,99.0,1.0,0.0,79.87,0.798
+qsr,QSR,minneapolis_mn,Minneapolis,33,99.0,1.0,0.0,85.31,0.8232
+qsr,QSR,charlotte_nc,Charlotte,27,99.0,1.0,0.0,81.66,0.8232

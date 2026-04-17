@@ -1,6 +1,6 @@
 /**
  * Step Navigation System
- * Keeps the Pizza Hut build on the same step shell pattern as pricingstudio.
+ * Keeps the QSR build on the same step shell pattern as pricingstudio.
  */
 
 const TOTAL_STEPS = 10; // 0-9

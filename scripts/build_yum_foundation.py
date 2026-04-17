@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Build a Pizza Hut pricing foundation.
+Build a QSR pricing foundation.
 
-This generator creates a modeled public-data-style Pizza Hut dataset centered on
+This generator creates a modeled public-data-style QSR dataset centered on
 the grain `week_start x brand_id x market_id x product_id x channel_id`.
 """
 
@@ -20,12 +20,12 @@ from typing import Dict, Iterable, List, Tuple
 from urllib.request import Request, urlopen
 
 
-USER_AGENT = "Mozilla/5.0 (compatible; PizzaHutPricingStudio/3.0)"
-SOURCE_METHOD = "modeled_public_pizzahut_pricing_foundation"
+USER_AGENT = "Mozilla/5.0 (compatible; QSRPricingStudio/3.0)"
+SOURCE_METHOD = "modeled_public_qsr_pricing_foundation"
 
 BRANDS = {
-    "pizzahut": {
-        "brand_name": "Pizza Hut",
+    "qsr": {
+        "brand_name": "QSR",
         "portfolio_role": "Delivery, carryout, and dine-in family meal platform",
         "cuisine_focus": "Pizza",
         "service_model": "QSR/casual hybrid",
@@ -67,7 +67,7 @@ CHANNELS = [
 ]
 
 BRAND_CHANNELS = {
-    "pizzahut": {
+    "qsr": {
         "drive_thru": {"supported_flag": "false", "base_mix_pct": 0.0, "elasticity_modifier": 0.0, "service_drag": 0.0},
         "dine_in": {"supported_flag": "true", "base_mix_pct": 9.0, "elasticity_modifier": 1.01, "service_drag": 0.0},
         "carryout": {"supported_flag": "true", "base_mix_pct": 27.0, "elasticity_modifier": 0.95, "service_drag": 0.0},
@@ -77,7 +77,7 @@ BRAND_CHANNELS = {
 }
 
 AVERAGE_ITEMS_PER_ORDER = {
-    "pizzahut": {"drive_thru": 1.0, "dine_in": 1.6, "carryout": 1.35, "pickup_app": 1.42, "delivery": 1.52},
+    "qsr": {"drive_thru": 1.0, "dine_in": 1.6, "carryout": 1.35, "pickup_app": 1.42, "delivery": 1.52},
 }
 
 OCCASION_TRANSFER = {}
@@ -90,7 +90,7 @@ FRED_SERIES = {
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Build Pizza Hut pricing foundation.")
+    parser = argparse.ArgumentParser(description="Build QSR pricing foundation.")
     parser.add_argument("--output-dir", default="data/yum")
     parser.add_argument("--product-seed", default="data/yum/seeds/portfolio_products.csv")
     parser.add_argument("--start-date", default="2025-01-06")
@@ -412,11 +412,11 @@ def build_cross_brand_transfer_matrix(products: List[Dict[str, object]]) -> List
 def select_promo_for_week(brand_id: str, week_start: dt.date, market: Dict[str, object]) -> Dict[str, object] | None:
     week_number = week_start.isocalendar().week
     hot_market = float(market["tourism_index"]) > 1.08 or float(market["delivery_density_index"]) > 1.1
-    if brand_id != "pizzahut":
+    if brand_id != "qsr":
         return None
     if week_start.month in {1, 2, 9, 10, 11} and week_number % 3 == 0:
         return {
-            "campaign_name": "Big Dinner Box Game Day Push",
+            "campaign_name": "Family Meal Box Game Day Push",
             "campaign_type": "family_bundle",
             "objective": "weekend_sales_acceleration",
             "channel_scope": "delivery,carryout,pickup_app",
@@ -440,7 +440,7 @@ def select_promo_for_week(brand_id: str, week_start: dt.date, market: Dict[str, 
         }
     if week_start.month in {6, 7, 8} and hot_market and week_number % 4 == 2:
         return {
-            "campaign_name": "Hut Rewards Summer Carryout",
+            "campaign_name": "App Rewards Summer Carryout",
             "campaign_type": "loyalty_offer",
             "objective": "owned_channel_mix",
             "channel_scope": "carryout,pickup_app",
@@ -520,7 +520,7 @@ def daypart_seasonality(product_row: Dict[str, object], week_start: dt.date, mar
         multiplier *= float(market["late_night_index"])
     if product_row["daypart"] == "summer":
         multiplier *= 1.07 if season == "summer" else 0.96
-    if product_row["brand_id"] == "pizzahut" and week_start.month in {9, 10, 11, 1, 2}:
+    if product_row["brand_id"] == "qsr" and week_start.month in {9, 10, 11, 1, 2}:
         multiplier *= 1.08
     return multiplier
 
@@ -874,7 +874,7 @@ def manifest_for_outputs(output_dir: Path, counts: Dict[str, int], args: argpars
         "start_date": args.start_date,
         "end_date": args.end_date,
         "counts": counts,
-        "foundation_name": "Pizza Hut Pricing Studio",
+        "foundation_name": "QSR Pricing Studio",
         "main_grain": "week_start x brand_id x market_id x product_id x channel_id",
         "source_method": SOURCE_METHOD,
     }
@@ -883,26 +883,26 @@ def manifest_for_outputs(output_dir: Path, counts: Dict[str, int], args: argpars
 def metadata() -> Dict[str, object]:
     return {
         "version": "3.0.0",
-        "generated_for": "Pizza Hut Pricing Studio",
-        "description": "Pizza Hut pricing foundation with a modeled market, channel, menu, and weekly performance panel.",
+        "generated_for": "QSR Pricing Studio",
+        "description": "QSR pricing foundation with a modeled market, channel, menu, and weekly performance panel.",
         "main_grain": "week_start x brand_id x market_id x product_id x channel_id",
         "source_method": SOURCE_METHOD,
         "datasets": {
-            "processed/brand_dim.csv": {"grain": "brand_id", "description": "Pizza Hut brand attributes and positioning metadata."},
+            "processed/brand_dim.csv": {"grain": "brand_id", "description": "QSR brand attributes and positioning metadata."},
             "processed/market_dim.csv": {"grain": "market_id", "description": "Modeled market attribute dimension with pricing, digital, and competition indices."},
-            "processed/brand_market_network.csv": {"grain": "brand_id x market_id", "description": "Pizza Hut market footprint and ownership proxy metrics."},
-            "processed/channel_dim.csv": {"grain": "channel_id", "description": "Pizza Hut order channel definitions."},
-            "processed/brand_channel_dim.csv": {"grain": "brand_id x channel_id", "description": "Pizza Hut channel support, mix, and elasticity modifiers."},
-            "processed/product_dim.csv": {"grain": "brand_id x product_id", "description": "Pizza Hut menu ladder with economics and elasticity priors."},
+            "processed/brand_market_network.csv": {"grain": "brand_id x market_id", "description": "QSR market footprint and ownership proxy metrics."},
+            "processed/channel_dim.csv": {"grain": "channel_id", "description": "QSR order channel definitions."},
+            "processed/brand_channel_dim.csv": {"grain": "brand_id x channel_id", "description": "QSR channel support, mix, and elasticity modifiers."},
+            "processed/product_dim.csv": {"grain": "brand_id x product_id", "description": "QSR menu ladder with economics and elasticity priors."},
             "processed/calendar_week_dim.csv": {"grain": "week_start", "description": "Weekly calendar dimension with event windows and demand flags."},
             "processed/external_macro_monthly.csv": {"grain": "month_start", "description": "Macro context used to modulate pricing pressure and consumer demand."},
-            "processed/promo_calendar.csv": {"grain": "week_start x brand_id x market_id x campaign_id", "description": "Pizza Hut campaign cadence by market."},
-            "processed/brand_market_product_channel_week_panel.csv": {"grain": "week_start x brand_id x market_id x product_id x channel_id", "description": "Main modeled Pizza Hut elasticity panel."},
-            "processed/brand_market_channel_week_panel.csv": {"grain": "week_start x brand_id x market_id x channel_id", "description": "Derived Pizza Hut channel operating panel with orders and checks."},
-            "processed/portfolio_week_summary.csv": {"grain": "week_start", "description": "Top-line Pizza Hut weekly rollup."},
-            "processed/brand_week_summary.csv": {"grain": "week_start x brand_id", "description": "Pizza Hut weekly performance rollup."},
-            "processed/market_brand_week_summary.csv": {"grain": "week_start x market_id x brand_id", "description": "Pizza Hut market weekly summary."},
-            "processed/product_week_summary.csv": {"grain": "week_start x product_id", "description": "Pizza Hut item weekly summary with elasticity weighting."},
+            "processed/promo_calendar.csv": {"grain": "week_start x brand_id x market_id x campaign_id", "description": "QSR campaign cadence by market."},
+            "processed/brand_market_product_channel_week_panel.csv": {"grain": "week_start x brand_id x market_id x product_id x channel_id", "description": "Main modeled QSR elasticity panel."},
+            "processed/brand_market_channel_week_panel.csv": {"grain": "week_start x brand_id x market_id x channel_id", "description": "Derived QSR channel operating panel with orders and checks."},
+            "processed/portfolio_week_summary.csv": {"grain": "week_start", "description": "Top-line QSR weekly rollup."},
+            "processed/brand_week_summary.csv": {"grain": "week_start x brand_id", "description": "QSR weekly performance rollup."},
+            "processed/market_brand_week_summary.csv": {"grain": "week_start x market_id x brand_id", "description": "QSR market weekly summary."},
+            "processed/product_week_summary.csv": {"grain": "week_start x product_id", "description": "QSR item weekly summary with elasticity weighting."},
             "processed/data_quality_checks.csv": {"grain": "dataset_name", "description": "Build-level row counts and integrity checks."},
         },
     }
@@ -918,7 +918,7 @@ def build_legacy_store_dim(network_rows: List[Dict[str, object]]) -> List[Dict[s
                 "brand_name": row["brand_name"],
                 "market_id": row["market_id"],
                 "store_name": f"{row['brand_name']} {row['market_name']} Market Hub",
-                "street_address": "Modeled Pizza Hut market location cluster",
+                "street_address": "Modeled QSR market location cluster",
                 "city": row["market_name"],
                 "state": next(item["state"] for item in MARKETS if item["market_id"] == row["market_id"]),
                 "postal_code": "",

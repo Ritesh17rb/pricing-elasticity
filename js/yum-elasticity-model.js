@@ -121,13 +121,13 @@ export async function simulateBrandPriceChange({
   };
 }
 
-export async function getPizzaHutItemSummaries() {
-  return getBrandItemSummaries('pizzahut');
+export async function getQsrItemSummaries() {
+  return getBrandItemSummaries('qsr');
 }
 
-export async function simulatePizzaHutPriceChange(config) {
+export async function simulateQsrPriceChange(config) {
   return simulateBrandPriceChange({
-    brandId: 'pizzahut',
+    brandId: 'qsr',
     ...config
   });
 }

@@ -2,9 +2,9 @@
   "metadata": {
     "generated_date": "2026-04-08",
     "version": "5.0",
-    "description": "Pizza Hut pricing elasticity parameters for U.S. order channels and menu ladders.",
-    "estimation_method": "Modeled calibration built from the Pizza Hut operating foundation and public-menu-style pricing anchors.",
-    "data_source": "Modeled Pizza Hut transaction panel grounded in public menu, channel, and promotion structure.",
+    "description": "QSR pricing elasticity parameters for U.S. order channels and menu ladders.",
+    "estimation_method": "Modeled calibration built from the QSR operating foundation and public-menu-style pricing anchors.",
+    "data_source": "Modeled QSR transaction panel grounded in public menu, channel, and promotion structure.",
     "real_world_validation": "Delivery remains the least price-sensitive channel while carryout and pickup absorb more value-driven behavior.",
     "confidence_level": 0.9
   },
@@ -24,7 +24,7 @@
           "elasticity": -2.42,
           "confidence_interval": 0.34,
           "size_pct": 0.29,
-          "description": "New Pizza Hut guests or returning lapsed trial."
+          "description": "New QSR guests or returning lapsed trial."
         },
         "tenured_3_12mo": {
           "elasticity": -2.0,
@@ -70,7 +70,7 @@
       "base_elasticity": -1.52,
       "confidence_interval": 0.24,
       "std_error": 0.12,
-      "interpretation": "Core and premium Pizza Hut demand is less elastic than value-led missions.",
+      "interpretation": "Core and premium QSR demand is less elastic than value-led missions.",
       "price_range": {
         "min": 28.0,
         "max": 42.0,
@@ -156,7 +156,7 @@
     "competitive": {
       "competitor_price_increase": {
         "elasticity_multiplier": 0.9,
-        "description": "When competitors raise prices, Pizza Hut elasticity eases."
+        "description": "When competitors raise prices, QSR elasticity eases."
       },
       "competitor_price_decrease": {
         "elasticity_multiplier": 1.16,

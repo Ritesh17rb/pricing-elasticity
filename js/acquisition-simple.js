@@ -1,5 +1,5 @@
 /**
- * Pizza Hut traffic acquisition elasticity model.
+ * QSR traffic acquisition elasticity model.
  * Uses the operating panel instead of the legacy template pricing logic.
  */
 
@@ -925,7 +925,7 @@ async function requestAcquisitionAiReadout(context, fallbackReadout) {
         {
           role: 'system',
           content: [
-            'You write concise AI business cards for the Pizza Hut Pricing Elasticity Studio.',
+            'You write concise AI business cards for the QSR Pricing Elasticity Studio.',
             'Use only the metrics provided by the user. Do not invent facts or numbers.',
             'Return strict JSON with exactly these keys:',
             'summary_bullets: array of 3 or 4 short strings,',
@@ -1199,13 +1199,13 @@ async function initAcquisitionSimple() {
     setupAcquisitionInteractivity();
     updateAcquisitionModel();
   } catch (error) {
-    console.error('Failed to initialize Pizza Hut acquisition model:', error);
+    console.error('Failed to initialize QSR acquisition model:', error);
     const container = resolveStepContentTarget('step-3-acquisition-container');
     if (container) {
       container.innerHTML = `
         <div class="alert alert-danger">
           <i class="bi bi-exclamation-triangle me-2"></i>
-          Failed to load Pizza Hut traffic elasticity inputs. Please refresh the page.
+          Failed to load QSR traffic elasticity inputs. Please refresh the page.
         </div>
       `;
     }

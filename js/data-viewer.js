@@ -1,6 +1,6 @@
 /**
- * Pizza Hut Data Explorer
- * Loads the Pizza Hut foundation datasets used by the app.
+ * QSR Data Explorer
+ * Loads the QSR foundation datasets used by the app.
  */
 
 import { parseCSV } from './csv-utils.js';
@@ -83,7 +83,7 @@ async function ensureCatalog() {
           description:
             metadata.datasets?.[metadataKey]?.description ||
             definition.description ||
-            `${definition.title} used by the Pizza Hut pricing application.`,
+            `${definition.title} used by the QSR pricing application.`,
           grain: metadata.datasets?.[metadataKey]?.grain || definition.grain || 'N/A',
           recordCount:
             definition.recordCount ??
@@ -119,7 +119,7 @@ export function initializeDataViewer() {
       return null;
     })
     .catch((error) => {
-      console.error('Failed to initialize Pizza Hut data explorer:', error);
+      console.error('Failed to initialize QSR data explorer:', error);
       showError(`Failed to initialize data explorer: ${error.message}`);
     });
 }
@@ -435,7 +435,7 @@ function renderDatasetChart() {
         data: currentData.map((row) => numeric(row.digital_maturity_index) * 100),
         backgroundColor: ['#d62828', '#682bd7', '#0f6cbd', '#ff8c42'],
       },
-      'Pizza Hut digital maturity index'
+      'QSR digital maturity index'
     );
   } else if (currentDataset.key === 'market_dim') {
     chart = buildBarChart(
@@ -454,7 +454,7 @@ function renderDatasetChart() {
     chart = buildBarChart(
       topMarkets.map((row) => row.market_name),
       { label: 'Store count', data: topMarkets.map((row) => numeric(row.store_count_proxy)), backgroundColor: '#0f6cbd' },
-      'Top Pizza Hut markets by footprint',
+      'Top QSR markets by footprint',
       true
     );
   } else if (currentDataset.key === 'brand_channel_dim') {
@@ -555,7 +555,7 @@ function renderDatasetChart() {
         borderWidth: 2,
         tension: 0.25,
       })),
-      'Weekly sales for top Pizza Hut menu items'
+      'Weekly sales for top QSR menu items'
     );
   } else if (currentDataset.key === 'brand_market_channel_week_panel') {
     const byChannel = {};
@@ -574,7 +574,7 @@ function renderDatasetChart() {
         borderWidth: 2,
         tension: 0.25,
       })),
-      'Weekly Pizza Hut sales by order channel'
+      'Weekly QSR sales by order channel'
     );
   } else if (currentDataset.key === 'portfolio_week_summary') {
     chart = buildLineChart(
@@ -604,7 +604,7 @@ function renderDatasetChart() {
           yAxisID: 'y1',
         },
       ],
-      'Weekly Pizza Hut sales and orders'
+      'Weekly QSR sales and orders'
     );
   } else if (currentDataset.key === 'market_brand_week_summary') {
     const latestRows = latestRowsBy(currentData, 'week_start').sort((left, right) => numeric(right.system_sales) - numeric(left.system_sales)).slice(0, 10);

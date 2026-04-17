@@ -1,2 +1,2 @@
 brand_id,brand_name,portfolio_role,cuisine_focus,service_model,core_dayparts,value_positioning,typical_check_low,typical_check_high,digital_maturity_index,franchise_mix_pct,global_exposure_index,brand_strength_index,brand_color,source_method
-pizzahut,Pizza Hut,"Delivery, carryout, and dine-in family meal platform",Pizza,QSR/casual hybrid,"dinner,weekend",bundle_led_family_value,14.0,34.0,0.84,99.0,0.97,1.01,#ee3124,modeled_public_pizzahut_pricing_foundation
+qsr,QSR,"Delivery, carryout, and dine-in family meal platform",Pizza,QSR/casual hybrid,"dinner,weekend",bundle_led_family_value,14.0,34.0,0.84,99.0,0.97,1.01,#ee3124,modeled_public_qsr_pricing_foundation

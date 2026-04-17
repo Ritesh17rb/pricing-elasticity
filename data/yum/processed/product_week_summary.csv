@@ -1,573 +1,573 @@
 week_start,brand_id,brand_name,product_id,product_name,product_family,product_role,occasion_group,price_tier,unit_volume,net_sales,avg_realized_price,contribution_margin,contribution_margin_pct,weighted_effective_elasticity
-2025-01-06,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1385,39723.88,28.68,16024.66,0.4034,-0.828
-2025-01-06,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1713,11810.41,6.89,7126.41,0.6034,-0.9763
-2025-01-06,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2253,47839.51,21.23,21444.98,0.4483,-0.9904
-2025-01-06,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2311,39237.56,16.98,18024.01,0.4594,-1.1624
-2025-01-06,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,2124,19341.57,9.11,9882.28,0.5109,-1.47
-2025-01-06,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2600,22259.81,8.56,10388.01,0.4667,-1.8062
-2025-01-06,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1622,39677.14,24.46,16709.7,0.4211,-0.8609
-2025-01-06,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1278,15742.93,12.32,7502.22,0.4765,-1.0956
-2025-01-06,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,2345,17055.53,7.27,8577.95,0.5029,-1.8045
-2025-01-06,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1935,24890.91,12.86,10893.32,0.4376,-1.2135
-2025-01-06,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1060,9396.63,8.86,5633.6,0.5995,-0.7921
-2025-01-13,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1483,38910.38,26.24,15695.36,0.4034,-0.8121
-2025-01-13,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1904,11906.97,6.25,7193.64,0.6042,-0.9559
-2025-01-13,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2483,48041.75,19.35,21565.08,0.4489,-0.9711
-2025-01-13,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2580,39686.74,15.38,18219.26,0.4591,-1.1371
-2025-01-13,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,2401,20179.87,8.4,10321.38,0.5115,-1.4434
-2025-01-13,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,3251,24703.18,7.6,11572.72,0.4685,-1.7627
-2025-01-13,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1737,38919.76,22.41,16441.27,0.4224,-0.8451
-2025-01-13,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1369,15401.15,11.25,7357.53,0.4777,-1.0742
-2025-01-13,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,2801,18229.64,6.51,9217.23,0.5056,-1.764
-2025-01-13,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,2088,25003.86,11.98,11004.1,0.4401,-1.1967
-2025-01-13,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1123,9379.54,8.35,5605.2,0.5976,-0.78
-2025-01-20,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1375,39472.24,28.71,15929.24,0.4036,-0.8285
-2025-01-20,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1736,11969.99,6.9,7222.88,0.6034,-0.9765
-2025-01-20,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2223,47307.43,21.28,21147.38,0.447,-0.9899
-2025-01-20,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2286,38876.06,17.01,17781.79,0.4574,-1.1606
-2025-01-20,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,2143,19499.62,9.1,9970.79,0.5113,-1.4697
-2025-01-20,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2613,22353.15,8.55,10429.93,0.4666,-1.8066
-2025-01-20,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1606,39272.65,24.45,16507.15,0.4203,-0.8595
-2025-01-20,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1243,15285.03,12.3,7295.25,0.4773,-1.0954
-2025-01-20,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,2348,17061.92,7.27,8583.63,0.5031,-1.8043
-2025-01-20,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1914,24590.58,12.85,10807.5,0.4395,-1.2156
-2025-01-20,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1070,9488.68,8.87,5657.57,0.5962,-0.7898
-2025-01-27,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1389,39871.67,28.71,16064.09,0.4029,-0.8278
-2025-01-27,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1730,11938.4,6.9,7195.11,0.6027,-0.9763
-2025-01-27,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2207,46884.63,21.24,20998.38,0.4479,-0.9904
-2025-01-27,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2319,39355.77,16.97,18037.99,0.4583,-1.1612
-2025-01-27,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,2178,19818.48,9.1,10134.05,0.5113,-1.471
-2025-01-27,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2595,22224.87,8.56,10397.48,0.4678,-1.8099
-2025-01-27,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1635,39983.31,24.45,16795.69,0.4201,-0.859
-2025-01-27,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1240,15261.94,12.31,7278.53,0.4769,-1.0956
-2025-01-27,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,2371,17257.52,7.28,8687.88,0.5034,-1.8061
-2025-01-27,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1912,24552.15,12.84,10805.68,0.4401,-1.2155
-2025-01-27,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1071,9490.88,8.86,5673.68,0.5978,-0.7908
-2025-02-03,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1478,38776.04,26.24,15666.99,0.404,-0.8134
-2025-02-03,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1916,11988.51,6.26,7226.27,0.6028,-0.9566
-2025-02-03,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2424,46886.63,19.34,21048.61,0.4489,-0.9729
-2025-02-03,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2582,39750.85,15.4,18245.39,0.459,-1.1388
-2025-02-03,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,2441,20507.38,8.4,10501.79,0.5121,-1.4471
-2025-02-03,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,3226,24541.74,7.61,11479.2,0.4677,-1.7642
-2025-02-03,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1738,38940.17,22.41,16431.0,0.422,-0.8457
-2025-02-03,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1376,15494.72,11.26,7387.17,0.4768,-1.0755
-2025-02-03,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,2840,18490.19,6.51,9310.49,0.5035,-1.7641
-2025-02-03,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,2047,24536.82,11.99,10788.82,0.4397,-1.1986
-2025-02-03,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1108,9251.74,8.35,5546.83,0.5995,-0.7825
-2025-02-10,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1367,39210.34,28.68,15839.13,0.404,-0.8302
-2025-02-10,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1744,12038.45,6.9,7254.37,0.6026,-0.9776
-2025-02-10,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2204,46879.24,21.27,20996.55,0.4479,-0.9923
-2025-02-10,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2319,39394.58,16.99,18023.84,0.4575,-1.1619
-2025-02-10,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,2127,19349.61,9.1,9913.66,0.5123,-1.4738
-2025-02-10,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2606,22330.95,8.57,10406.41,0.466,-1.8086
-2025-02-10,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1601,39069.47,24.4,16489.9,0.4221,-0.8621
-2025-02-10,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1267,15595.44,12.31,7407.72,0.475,-1.0955
-2025-02-10,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,2344,17046.55,7.27,8565.17,0.5025,-1.8063
-2025-02-10,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1896,24380.71,12.86,10695.28,0.4387,-1.2165
-2025-02-10,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1048,9292.14,8.87,5552.66,0.5976,-0.792
-2025-02-17,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1387,39728.23,28.64,16019.41,0.4032,-0.829
-2025-02-17,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1700,11734.92,6.9,7082.29,0.6035,-0.9786
-2025-02-17,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2226,47278.15,21.24,21225.03,0.4489,-0.9933
-2025-02-17,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2293,38953.7,16.99,17826.27,0.4576,-1.1627
-2025-02-17,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,2145,19501.62,9.09,9998.91,0.5127,-1.4742
-2025-02-17,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2607,22331.59,8.57,10426.72,0.4669,-1.8106
-2025-02-17,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1626,39743.97,24.44,16757.85,0.4216,-0.862
-2025-02-17,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1257,15460.17,12.3,7372.2,0.4769,-1.0971
-2025-02-17,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,2336,16994.34,7.27,8558.72,0.5036,-1.809
-2025-02-17,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1895,24356.79,12.85,10699.19,0.4393,-1.217
-2025-02-17,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1059,9386.61,8.86,5614.31,0.5981,-0.7925
-2025-02-24,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1462,38417.02,26.28,15549.05,0.4047,-0.8149
-2025-02-24,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1872,11714.31,6.26,7075.72,0.604,-0.958
-2025-02-24,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2410,46631.26,19.35,20975.04,0.4498,-0.9738
-2025-02-24,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2549,39226.06,15.39,18008.26,0.4591,-1.1389
-2025-02-24,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,2382,20013.64,8.4,10283.32,0.5138,-1.45
-2025-02-24,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,3186,24219.64,7.6,11329.01,0.4678,-1.7638
-2025-02-24,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1700,38089.89,22.41,16094.83,0.4225,-0.846
-2025-02-24,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1368,15383.16,11.24,7365.39,0.4788,-1.0768
-2025-02-24,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,2825,18383.06,6.51,9259.61,0.5037,-1.764
-2025-02-24,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,2074,24841.88,11.98,10909.71,0.4392,-1.1968
-2025-02-24,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1116,9325.25,8.36,5594.83,0.6,-0.7834
-2025-03-03,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1287,36967.76,28.72,14913.7,0.4034,-0.8322
-2025-03-03,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1563,10784.12,6.9,6509.92,0.6037,-0.9805
-2025-03-03,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2041,43375.13,21.25,19416.73,0.4476,-0.9941
-2025-03-03,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2131,36231.21,17.0,16586.21,0.4578,-1.1653
-2025-03-03,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,1917,17426.37,9.09,8935.59,0.5128,-1.4777
-2025-03-03,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2205,18861.33,8.55,8795.83,0.4663,-1.8122
-2025-03-03,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1478,36099.18,24.42,15237.69,0.4221,-0.8645
-2025-03-03,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1171,14411.37,12.31,6889.76,0.4781,-1.1016
-2025-03-03,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,1999,14546.59,7.28,7315.95,0.5029,-1.8118
-2025-03-03,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1522,19543.87,12.84,8581.89,0.4391,-1.2191
-2025-03-03,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,973,8624.94,8.86,5182.53,0.6009,-0.7973
-2025-03-10,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1270,36480.27,28.72,14724.16,0.4036,-0.8322
-2025-03-10,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1575,10871.92,6.9,6557.6,0.6032,-0.9807
-2025-03-10,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2012,42760.88,21.25,19146.88,0.4478,-0.9941
-2025-03-10,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2122,36029.98,16.98,16473.85,0.4572,-1.1645
-2025-03-10,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,1895,17245.55,9.1,8824.35,0.5117,-1.4764
-2025-03-10,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2250,19277.67,8.57,8981.56,0.4659,-1.8129
-2025-03-10,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1478,36105.98,24.43,15211.44,0.4213,-0.8634
-2025-03-10,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1157,14242.53,12.31,6805.32,0.4778,-1.1014
-2025-03-10,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,2006,14591.74,7.27,7336.38,0.5028,-1.8117
-2025-03-10,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1536,19722.36,12.84,8692.63,0.4407,-1.2217
-2025-03-10,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,982,8709.04,8.87,5216.09,0.5989,-0.7957
-2025-03-17,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1261,36169.19,28.68,14596.77,0.4036,-0.832
-2025-03-17,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1561,10765.71,6.9,6525.24,0.6061,-0.9827
-2025-03-17,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2031,43180.54,21.26,19332.85,0.4477,-0.9944
-2025-03-17,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2134,36326.2,17.02,16564.43,0.456,-1.1637
-2025-03-17,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,1881,17115.83,9.1,8773.3,0.5126,-1.4781
-2025-03-17,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2225,19042.15,8.56,8871.8,0.4659,-1.8122
-2025-03-17,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1499,36634.04,24.44,15410.21,0.4207,-0.8632
-2025-03-17,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1157,14235.1,12.3,6800.38,0.4777,-1.1009
-2025-03-17,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,2005,14595.67,7.28,7336.15,0.5026,-1.8113
-2025-03-17,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1536,19734.05,12.85,8663.02,0.439,-1.2187
-2025-03-17,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,971,8612.5,8.87,5155.56,0.5986,-0.7954
-2025-03-24,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1318,36496.23,27.69,14742.99,0.404,-0.8277
-2025-03-24,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1649,10947.98,6.64,6617.09,0.6044,-0.9753
-2025-03-24,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2134,43757.35,20.5,19588.08,0.4477,-0.9892
-2025-03-24,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2222,36258.13,16.32,16651.44,0.4592,-1.1598
-2025-03-24,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,1989,17537.75,8.82,9003.97,0.5134,-1.4714
-2025-03-24,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2428,19777.74,8.15,9294.23,0.4699,-1.8051
-2025-03-24,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1525,36000.74,23.61,15165.91,0.4213,-0.8593
-2025-03-24,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1194,14169.69,11.87,6784.14,0.4788,-1.0951
-2025-03-24,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,2190,15231.2,6.95,7704.49,0.5058,-1.8024
-2025-03-24,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1591,19878.35,12.49,8742.83,0.4398,-1.2152
-2025-03-24,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,996,8624.16,8.66,5163.45,0.5987,-0.7925
-2025-03-31,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1278,36675.71,28.7,14804.15,0.4036,-0.8321
-2025-03-31,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1592,10995.02,6.91,6630.53,0.603,-0.9807
-2025-03-31,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2016,42820.67,21.24,19200.01,0.4484,-0.9951
-2025-03-31,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2138,36323.18,16.99,16656.88,0.4586,-1.1665
-2025-03-31,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,1901,17271.99,9.09,8873.16,0.5137,-1.4792
-2025-03-31,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2197,18802.54,8.56,8784.27,0.4672,-1.8146
-2025-03-31,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1482,36206.33,24.43,15294.5,0.4224,-0.865
-2025-03-31,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1158,14261.81,12.32,6802.78,0.477,-1.101
-2025-03-31,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,2011,14631.97,7.28,7358.27,0.5029,-1.8122
-2025-03-31,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1519,19509.69,12.84,8571.48,0.4393,-1.2191
-2025-03-31,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,981,8697.03,8.87,5207.73,0.5988,-0.7956
-2025-04-07,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1258,36124.71,28.72,14592.17,0.4039,-0.8347
-2025-04-07,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1571,10838.48,6.9,6536.39,0.6031,-0.9831
-2025-04-07,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2042,43429.54,21.27,19474.01,0.4484,-0.9979
-2025-04-07,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2123,36074.17,16.99,16526.54,0.4581,-1.1688
-2025-04-07,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,1890,17186.32,9.09,8825.57,0.5135,-1.4836
-2025-04-07,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2235,19145.93,8.57,8935.78,0.4667,-1.8191
-2025-04-07,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1474,36013.86,24.43,15142.62,0.4205,-0.865
-2025-04-07,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1135,13961.93,12.3,6686.39,0.4789,-1.1054
-2025-04-07,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,1963,14301.46,7.29,7191.27,0.5028,-1.8177
-2025-04-07,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1509,19385.64,12.85,8517.93,0.4394,-1.2232
-2025-04-07,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,986,8755.9,8.88,5227.0,0.597,-0.7967
-2025-04-14,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1281,36705.15,28.65,14865.23,0.405,-0.8354
-2025-04-14,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1575,10881.6,6.91,6559.09,0.6028,-0.9828
-2025-04-14,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2028,43071.06,21.24,19334.61,0.4489,-0.998
-2025-04-14,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2136,36290.95,16.99,16608.03,0.4576,-1.1683
-2025-04-14,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,1876,17065.15,9.1,8756.23,0.5131,-1.4826
-2025-04-14,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2179,18654.35,8.56,8702.51,0.4665,-1.8184
-2025-04-14,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1459,35626.42,24.42,15038.3,0.4221,-0.8666
-2025-04-14,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1144,14085.34,12.31,6726.71,0.4776,-1.104
-2025-04-14,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,1956,14221.77,7.27,7167.23,0.504,-1.8181
-2025-04-14,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1515,19462.22,12.85,8544.94,0.4391,-1.2228
-2025-04-14,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,993,8802.9,8.86,5256.7,0.5972,-0.7961
-2025-04-21,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1296,35933.99,27.73,14485.2,0.4031,-0.8295
-2025-04-21,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1644,10913.41,6.64,6584.63,0.6034,-0.9768
-2025-04-21,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2092,42857.3,20.49,19241.46,0.449,-0.9928
-2025-04-21,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2240,36633.5,16.35,16741.77,0.457,-1.1606
-2025-04-21,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,1987,17470.37,8.79,8993.87,0.5148,-1.477
-2025-04-21,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2429,19772.53,8.14,9300.02,0.4704,-1.8103
-2025-04-21,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1528,36129.89,23.65,15178.64,0.4201,-0.8607
-2025-04-21,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1204,14310.71,11.89,6829.08,0.4772,-1.0971
-2025-04-21,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,2158,15011.92,6.96,7595.38,0.506,-1.807
-2025-04-21,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1583,19756.65,12.48,8704.38,0.4406,-1.2191
-2025-04-21,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,983,8513.91,8.66,5100.46,0.5991,-0.7948
-2025-04-28,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1263,36217.99,28.68,14627.5,0.4039,-0.8344
-2025-04-28,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1568,10814.89,6.9,6533.86,0.6042,-0.984
-2025-04-28,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2024,43011.09,21.25,19313.68,0.449,-0.999
-2025-04-28,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2127,36178.56,17.01,16516.8,0.4565,-1.1672
-2025-04-28,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,1872,17054.1,9.11,8735.56,0.5122,-1.4826
-2025-04-28,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2222,19040.1,8.57,8857.78,0.4652,-1.8167
-2025-04-28,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1479,36160.09,24.45,15199.18,0.4203,-0.8654
-2025-04-28,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1159,14253.96,12.3,6817.45,0.4783,-1.1044
-2025-04-28,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,1970,14354.34,7.29,7217.81,0.5028,-1.8178
-2025-04-28,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1519,19495.02,12.83,8566.6,0.4394,-1.2229
-2025-04-28,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,975,8643.53,8.87,5176.0,0.5988,-0.7973
-2025-05-05,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1262,36223.21,28.7,14643.24,0.4043,-0.8376
-2025-05-05,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1570,10823.04,6.89,6548.55,0.6051,-0.9869
-2025-05-05,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2031,43170.73,21.26,19300.91,0.4471,-0.9991
-2025-05-05,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2106,35772.89,16.99,16399.04,0.4584,-1.172
-2025-05-05,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,1859,16909.12,9.1,8678.29,0.5132,-1.486
-2025-05-05,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2194,18773.01,8.56,8771.72,0.4673,-1.8238
-2025-05-05,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1472,35941.78,24.42,15146.7,0.4214,-0.8688
-2025-05-05,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1141,14046.99,12.31,6712.69,0.4779,-1.1076
-2025-05-05,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,1940,14126.07,7.28,7111.13,0.5034,-1.8227
-2025-05-05,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1549,19884.28,12.84,8723.19,0.4387,-1.2247
-2025-05-05,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,971,8609.28,8.87,5156.65,0.599,-0.8
-2025-05-12,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1254,35959.27,28.68,14539.33,0.4043,-0.8374
-2025-05-12,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1568,10816.78,6.9,6535.37,0.6042,-0.9861
-2025-05-12,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2003,42529.69,21.23,19089.47,0.4489,-1.0007
-2025-05-12,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2072,35242.7,17.01,16128.58,0.4576,-1.1712
-2025-05-12,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,1871,17014.18,9.09,8693.54,0.511,-1.4826
-2025-05-12,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2182,18675.07,8.56,8715.19,0.4667,-1.8235
-2025-05-12,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1466,35797.55,24.42,15098.7,0.4218,-0.8688
-2025-05-12,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1164,14324.76,12.31,6842.11,0.4776,-1.107
-2025-05-12,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,1956,14215.58,7.27,7154.68,0.5033,-1.8215
-2025-05-12,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1518,19529.85,12.87,8585.4,0.4396,-1.2273
-2025-05-12,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,982,8704.25,8.86,5218.38,0.5995,-0.8004
-2025-05-19,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1304,36167.36,27.74,14569.43,0.4028,-0.8315
-2025-05-19,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1613,10712.42,6.64,6477.95,0.6047,-0.9812
-2025-05-19,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2082,42612.36,20.47,19145.7,0.4493,-0.9953
-2025-05-19,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2206,36002.07,16.32,16488.5,0.458,-1.1644
-2025-05-19,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,1967,17303.85,8.8,8920.13,0.5155,-1.4818
-2025-05-19,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2398,19502.4,8.13,9176.05,0.4705,-1.8151
-2025-05-19,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1523,35978.82,23.62,15160.55,0.4214,-0.8637
-2025-05-19,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1202,14261.03,11.86,6820.38,0.4783,-1.1002
-2025-05-19,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,2142,14873.04,6.94,7546.36,0.5074,-1.814
-2025-05-19,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1572,19624.67,12.48,8651.89,0.4409,-1.2221
-2025-05-19,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,991,8576.84,8.65,5132.46,0.5984,-0.796
-2025-05-26,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1267,36352.62,28.69,14700.06,0.4044,-0.8371
-2025-05-26,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1569,10814.73,6.89,6525.59,0.6034,-0.9854
-2025-05-26,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2014,42823.4,21.26,19188.4,0.4481,-1.0001
-2025-05-26,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2098,35657.87,17.0,16379.86,0.4594,-1.1743
-2025-05-26,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,1857,16878.55,9.09,8664.51,0.5133,-1.4861
-2025-05-26,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2194,18777.2,8.56,8759.4,0.4665,-1.8231
-2025-05-26,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1473,35979.49,24.43,15190.54,0.4222,-0.8695
-2025-05-26,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1145,14088.02,12.3,6724.47,0.4773,-1.1069
-2025-05-26,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,1972,14331.48,7.27,7229.03,0.5044,-1.8229
-2025-05-26,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1546,19873.18,12.85,8723.88,0.439,-1.226
-2025-05-26,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,963,8543.73,8.87,5106.49,0.5977,-0.7991
-2025-06-02,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1255,36032.05,28.71,14538.01,0.4035,-0.8385
-2025-06-02,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1570,10838.16,6.9,6536.21,0.6031,-0.988
-2025-06-02,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2058,43718.86,21.24,19593.61,0.4482,-1.0024
-2025-06-02,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2099,35666.75,16.99,16340.58,0.4581,-1.1741
-2025-06-02,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,1874,17040.64,9.09,8745.36,0.5132,-1.4899
-2025-06-02,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2219,18975.17,8.55,8853.39,0.4666,-1.8263
-2025-06-02,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1466,35828.07,24.44,15060.98,0.4204,-0.8697
-2025-06-02,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1133,13941.4,12.3,6642.54,0.4765,-1.1082
-2025-06-02,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,1989,14473.76,7.28,7282.57,0.5032,-1.8256
-2025-06-02,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1515,19464.88,12.85,8563.96,0.44,-1.2295
-2025-06-02,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,968,8586.91,8.87,5140.5,0.5986,-0.8017
-2025-06-09,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1258,36102.17,28.7,14606.07,0.4046,-0.8395
-2025-06-09,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1572,10837.54,6.89,6555.6,0.6049,-0.9886
-2025-06-09,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2023,43001.67,21.26,19277.69,0.4483,-1.0027
-2025-06-09,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2125,36118.8,17.0,16519.5,0.4574,-1.1737
-2025-06-09,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,1873,17026.99,9.09,8722.03,0.5122,-1.4875
-2025-06-09,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2222,19050.09,8.57,8905.34,0.4675,-1.8303
-2025-06-09,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1468,35848.84,24.42,15124.97,0.4219,-0.8708
-2025-06-09,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1135,13968.01,12.31,6660.85,0.4769,-1.1089
-2025-06-09,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,1949,14188.54,7.28,7155.89,0.5043,-1.8285
-2025-06-09,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1513,19430.39,12.84,8543.78,0.4397,-1.2299
-2025-06-09,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,965,8548.45,8.86,5122.84,0.5993,-0.8015
-2025-06-16,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1252,35908.76,28.68,14546.17,0.4051,-0.8399
-2025-06-16,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1581,10922.32,6.91,6560.51,0.6007,-0.9861
-2025-06-16,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,1985,42197.99,21.26,18991.61,0.4501,-1.0048
-2025-06-16,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2098,35668.57,17.0,16289.48,0.4567,-1.1724
-2025-06-16,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,1903,17306.66,9.09,8859.32,0.5119,-1.4877
-2025-06-16,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2230,19090.49,8.56,8912.67,0.4669,-1.8278
-2025-06-16,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1449,35423.01,24.45,14926.43,0.4214,-0.8709
-2025-06-16,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1157,14228.24,12.3,6796.66,0.4777,-1.1091
-2025-06-16,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,1941,14124.29,7.28,7103.94,0.503,-1.826
-2025-06-16,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1511,19397.04,12.84,8541.0,0.4403,-1.2296
-2025-06-16,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,970,8600.19,8.87,5155.62,0.5995,-0.802
-2025-06-23,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1258,35867.44,28.51,14553.72,0.4058,-0.8401
-2025-06-23,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1590,10876.96,6.84,6576.13,0.6046,-0.9875
-2025-06-23,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2027,42753.83,21.09,19198.88,0.4491,-1.0021
-2025-06-23,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2102,35469.1,16.87,16273.5,0.4588,-1.1744
-2025-06-23,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,1918,17344.37,9.04,8895.79,0.5129,-1.489
-2025-06-23,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2223,18814.1,8.46,8820.37,0.4688,-1.8292
-2025-06-23,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1480,35939.07,24.28,15115.53,0.4206,-0.8687
-2025-06-23,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1151,14050.23,12.21,6711.85,0.4777,-1.1086
-2025-06-23,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,2014,14509.44,7.2,7331.05,0.5053,-1.827
-2025-06-23,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1514,19329.03,12.77,8491.09,0.4393,-1.2278
-2025-06-23,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,986,8690.49,8.81,5200.48,0.5984,-0.8005
-2025-06-30,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1260,36151.65,28.69,14577.22,0.4032,-0.838
-2025-06-30,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1564,10790.09,6.9,6519.88,0.6042,-0.9884
-2025-06-30,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,1981,42088.95,21.25,18911.37,0.4493,-1.0038
-2025-06-30,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2106,35799.96,17.0,16380.24,0.4575,-1.1745
-2025-06-30,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,1854,16854.35,9.09,8658.06,0.5137,-1.491
-2025-06-30,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2180,18666.85,8.56,8715.73,0.4669,-1.828
-2025-06-30,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1477,36132.78,24.46,15189.51,0.4204,-0.87
-2025-06-30,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1131,13914.11,12.3,6644.02,0.4775,-1.1089
-2025-06-30,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,1974,14353.04,7.27,7227.46,0.5035,-1.8261
-2025-06-30,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1517,19492.52,12.85,8564.25,0.4394,-1.2291
-2025-06-30,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,984,8721.45,8.86,5225.18,0.5991,-0.8015
-2025-07-07,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1249,35806.94,28.67,14514.16,0.4053,-0.8415
-2025-07-07,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1588,10953.26,6.9,6596.65,0.6023,-0.9886
-2025-07-07,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2018,42917.29,21.27,19236.89,0.4482,-1.0038
-2025-07-07,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2086,35490.72,17.01,16213.09,0.4568,-1.1751
-2025-07-07,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,1866,16979.56,9.1,8709.81,0.513,-1.4924
-2025-07-07,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2224,19024.48,8.55,8890.76,0.4673,-1.8313
-2025-07-07,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1474,35991.1,24.42,15202.11,0.4224,-0.8733
-2025-07-07,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1141,14046.24,12.31,6690.47,0.4763,-1.1097
-2025-07-07,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,1964,14285.64,7.27,7189.69,0.5033,-1.8286
-2025-07-07,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1492,19169.47,12.85,8443.54,0.4405,-1.2325
-2025-07-07,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,974,8650.52,8.88,5177.18,0.5985,-0.8032
-2025-07-14,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1251,35841.71,28.65,14480.89,0.404,-0.8396
-2025-07-14,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1526,10529.06,6.9,6372.21,0.6052,-0.9908
-2025-07-14,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2027,43061.03,21.24,19327.24,0.4488,-1.0048
-2025-07-14,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2096,35635.65,17.0,16295.43,0.4573,-1.1756
-2025-07-14,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,1894,17226.33,9.1,8812.81,0.5116,-1.4894
-2025-07-14,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2154,18429.6,8.56,8620.72,0.4678,-1.8324
-2025-07-14,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1481,36220.7,24.46,15212.44,0.42,-0.8708
-2025-07-14,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1141,14035.0,12.3,6699.37,0.4773,-1.111
-2025-07-14,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,1976,14365.24,7.27,7215.68,0.5023,-1.8266
-2025-07-14,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1522,19532.88,12.83,8595.24,0.44,-1.2315
-2025-07-14,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,971,8603.84,8.86,5155.25,0.5992,-0.803
-2025-07-21,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1264,36054.03,28.52,14543.16,0.4034,-0.8392
-2025-07-21,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1587,10858.09,6.84,6558.3,0.604,-0.9885
-2025-07-21,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2023,42705.73,21.11,19142.67,0.4482,-1.0036
-2025-07-21,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2140,36094.76,16.87,16545.07,0.4584,-1.1756
-2025-07-21,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,1900,17170.04,9.04,8796.83,0.5123,-1.49
-2025-07-21,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2217,18793.63,8.48,8794.16,0.4679,-1.8315
-2025-07-21,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1467,35607.91,24.27,15037.47,0.4223,-0.8724
-2025-07-21,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1161,14176.99,12.21,6776.18,0.478,-1.1104
-2025-07-21,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,1993,14349.64,7.2,7239.99,0.5045,-1.8281
-2025-07-21,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1516,19335.51,12.75,8543.79,0.4419,-1.2328
-2025-07-21,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,969,8552.98,8.83,5118.93,0.5985,-0.8024
-2025-07-28,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1235,35473.66,28.72,14311.05,0.4034,-0.8398
-2025-07-28,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1547,10675.02,6.9,6444.57,0.6037,-0.9898
-2025-07-28,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2012,42796.44,21.27,19190.7,0.4484,-1.0051
-2025-07-28,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2095,35619.67,17.0,16319.04,0.4581,-1.1768
-2025-07-28,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,1833,16663.87,9.09,8554.01,0.5133,-1.4919
-2025-07-28,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2184,18686.54,8.56,8742.09,0.4678,-1.8331
-2025-07-28,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1475,36093.28,24.47,15209.4,0.4214,-0.872
-2025-07-28,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1145,14088.9,12.3,6727.66,0.4775,-1.111
-2025-07-28,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,1980,14401.24,7.27,7252.22,0.5036,-1.8287
-2025-07-28,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1516,19495.11,12.86,8573.67,0.4398,-1.232
-2025-07-28,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,969,8601.48,8.88,5146.23,0.5983,-0.8029
-2025-08-04,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1301,37309.75,28.68,15043.77,0.4032,-0.8395
-2025-08-04,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1627,11228.39,6.9,6783.25,0.6041,-0.9905
-2025-08-04,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2108,44829.55,21.27,20106.36,0.4485,-1.0054
-2025-08-04,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2203,37456.75,17.0,17116.92,0.457,-1.1762
-2025-08-04,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,1868,16987.35,9.09,8715.92,0.5131,-1.4936
-2025-08-04,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2201,18816.21,8.55,8809.35,0.4682,-1.834
-2025-08-04,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1541,37653.41,24.43,15879.34,0.4217,-0.8729
-2025-08-04,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1144,14083.18,12.31,6719.17,0.4771,-1.1117
-2025-08-04,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,1968,14320.08,7.28,7190.72,0.5021,-1.8283
-2025-08-04,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1501,19288.48,12.85,8483.56,0.4398,-1.2332
-2025-08-04,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,962,8524.59,8.86,5116.54,0.6002,-0.804
-2025-08-11,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1319,37869.36,28.71,15312.36,0.4043,-0.8415
-2025-08-11,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1638,11285.47,6.89,6820.77,0.6044,-0.9907
-2025-08-11,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2122,45094.47,21.25,20179.07,0.4475,-1.0039
-2025-08-11,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2200,37341.28,16.97,17122.23,0.4585,-1.1772
-2025-08-11,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,1872,17021.49,9.09,8726.78,0.5127,-1.4923
-2025-08-11,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2214,18945.34,8.56,8853.62,0.4673,-1.8326
-2025-08-11,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1541,37654.62,24.44,15890.73,0.422,-0.8732
-2025-08-11,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1152,14163.27,12.29,6780.94,0.4788,-1.1128
-2025-08-11,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,1976,14381.64,7.28,7240.45,0.5035,-1.8312
-2025-08-11,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1527,19620.81,12.85,8586.53,0.4376,-1.2294
-2025-08-11,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,982,8708.42,8.87,5215.6,0.5989,-0.8037
-2025-08-18,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1323,37680.35,28.48,15233.22,0.4043,-0.84
-2025-08-18,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1648,11283.13,6.85,6806.45,0.6032,-0.9889
-2025-08-18,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2122,44798.48,21.11,20069.81,0.448,-1.0035
-2025-08-18,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2243,37845.52,16.87,17328.16,0.4579,-1.176
-2025-08-18,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,1880,16974.97,9.03,8724.75,0.514,-1.4933
-2025-08-18,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2198,18608.88,8.47,8725.09,0.4689,-1.8334
-2025-08-18,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1545,37480.61,24.26,15799.92,0.4215,-0.8714
-2025-08-18,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1162,14189.59,12.21,6778.04,0.4777,-1.1106
-2025-08-18,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,1976,14244.61,7.21,7184.29,0.5044,-1.83
-2025-08-18,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1537,19606.91,12.76,8630.29,0.4402,-1.2311
-2025-08-18,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,972,8568.36,8.82,5138.27,0.5997,-0.8037
-2025-08-25,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1305,37442.79,28.69,15122.98,0.4039,-0.8399
-2025-08-25,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1631,11248.54,6.9,6802.26,0.6047,-0.9911
-2025-08-25,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2108,44774.45,21.24,20078.87,0.4484,-1.0044
-2025-08-25,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2225,37834.46,17.0,17330.11,0.4581,-1.1779
-2025-08-25,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,1862,16923.97,9.09,8656.16,0.5115,-1.4896
-2025-08-25,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2222,19010.13,8.56,8876.63,0.4669,-1.8327
-2025-08-25,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1560,38157.82,24.46,16028.2,0.4201,-0.8711
-2025-08-25,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1155,14212.5,12.31,6777.31,0.4769,-1.111
-2025-08-25,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,1972,14356.52,7.28,7226.23,0.5033,-1.8308
-2025-08-25,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1503,19299.44,12.84,8486.11,0.4397,-1.2323
-2025-08-25,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,976,8652.4,8.87,5177.53,0.5984,-0.8029
-2025-09-01,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1535,40269.42,26.23,16263.88,0.4039,-0.8229
-2025-09-01,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1956,12215.22,6.25,7382.34,0.6044,-0.9686
-2025-09-01,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2551,49338.48,19.34,22120.16,0.4483,-0.9837
-2025-09-01,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2696,41464.39,15.38,18984.79,0.4579,-1.1503
-2025-09-01,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,2363,19866.96,8.41,10192.82,0.5131,-1.466
-2025-09-01,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,3065,23344.81,7.62,10876.21,0.4659,-1.7829
-2025-09-01,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1799,40348.38,22.43,17022.61,0.4219,-0.8562
-2025-09-01,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1344,15128.81,11.26,7224.29,0.4775,-1.089
-2025-09-01,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,2683,17477.17,6.51,8801.53,0.5036,-1.7856
-2025-09-01,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,2052,24591.2,11.98,10810.84,0.4396,-1.2128
-2025-09-01,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1099,9177.77,8.35,5482.0,0.5973,-0.7903
-2025-09-08,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1432,41028.57,28.65,16535.72,0.403,-0.839
-2025-09-08,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1805,12464.34,6.91,7515.05,0.6029,-0.9898
-2025-09-08,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2326,49445.77,21.26,22202.08,0.449,-1.0059
-2025-09-08,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2381,40460.83,16.99,18552.77,0.4585,-1.1772
-2025-09-08,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,2106,19166.26,9.1,9818.11,0.5123,-1.4919
-2025-09-08,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2458,21027.38,8.55,9822.51,0.4671,-1.8319
-2025-09-08,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1670,40855.7,24.46,17194.6,0.4209,-0.8721
-2025-09-08,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1234,15180.1,12.3,7224.01,0.4759,-1.1093
-2025-09-08,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,2216,16104.81,7.27,8107.72,0.5034,-1.829
-2025-09-08,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1885,24232.65,12.86,10628.02,0.4386,-1.2313
-2025-09-08,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1053,9338.64,8.87,5571.82,0.5966,-0.8008
-2025-09-15,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1415,40626.84,28.71,16392.61,0.4035,-0.8402
-2025-09-15,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1794,12383.11,6.9,7459.41,0.6024,-0.9892
-2025-09-15,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2277,48436.79,21.27,21782.59,0.4497,-1.0069
-2025-09-15,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2405,40900.35,17.01,18720.05,0.4577,-1.1768
-2025-09-15,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,2120,19265.78,9.09,9879.56,0.5128,-1.4913
-2025-09-15,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2484,21249.79,8.55,9914.0,0.4665,-1.8299
-2025-09-15,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1686,41188.04,24.43,17345.25,0.4211,-0.8722
-2025-09-15,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1243,15274.58,12.29,7303.93,0.4782,-1.1111
-2025-09-15,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,2195,15967.59,7.27,8040.5,0.5036,-1.8306
-2025-09-15,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1887,24229.74,12.84,10644.98,0.4393,-1.2311
-2025-09-15,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1038,9210.34,8.87,5500.48,0.5972,-0.8017
-2025-09-22,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1548,40653.21,26.26,16403.88,0.4035,-0.8237
-2025-09-22,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1939,12124.11,6.25,7345.23,0.6058,-0.9706
-2025-09-22,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2508,48545.79,19.36,21801.76,0.4491,-0.9845
-2025-09-22,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2680,41225.36,15.38,18907.1,0.4586,-1.1518
-2025-09-22,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,2393,20120.3,8.41,10336.02,0.5137,-1.468
-2025-09-22,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,3009,22903.28,7.61,10721.08,0.4681,-1.7864
-2025-09-22,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1763,39486.1,22.4,16700.55,0.4229,-0.8569
-2025-09-22,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1366,15358.3,11.24,7335.64,0.4776,-1.0886
-2025-09-22,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,2653,17273.58,6.51,8719.49,0.5048,-1.7872
-2025-09-22,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,2031,24341.65,11.99,10727.11,0.4407,-1.2147
-2025-09-22,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1088,9092.75,8.36,5442.85,0.5986,-0.7915
-2025-09-29,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1430,41058.78,28.71,16567.76,0.4035,-0.8399
-2025-09-29,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1773,12241.28,6.9,7380.64,0.6029,-0.9899
-2025-09-29,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2288,48624.98,21.25,21813.77,0.4486,-1.0049
-2025-09-29,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2370,40278.0,16.99,18458.5,0.4583,-1.1774
-2025-09-29,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,2144,19477.49,9.08,9995.26,0.5132,-1.4919
-2025-09-29,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2489,21331.07,8.57,9929.95,0.4655,-1.8312
-2025-09-29,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1675,40954.84,24.45,17231.45,0.4207,-0.8718
-2025-09-29,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1237,15212.94,12.3,7252.7,0.4767,-1.1101
-2025-09-29,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,2213,16098.01,7.27,8101.89,0.5033,-1.8298
-2025-09-29,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1880,24156.21,12.85,10608.19,0.4391,-1.2314
-2025-09-29,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1044,9260.72,8.87,5543.04,0.5986,-0.8026
-2025-10-06,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1432,41153.54,28.74,16505.97,0.4011,-0.8367
-2025-10-06,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1788,12340.41,6.9,7443.45,0.6032,-0.9895
-2025-10-06,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2301,48925.89,21.26,21930.26,0.4482,-1.0032
-2025-10-06,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2433,41342.2,16.99,18917.34,0.4576,-1.1754
-2025-10-06,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,2031,18467.69,9.09,9462.68,0.5124,-1.4898
-2025-10-06,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2397,20526.34,8.56,9569.16,0.4662,-1.8287
-2025-10-06,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1674,40923.58,24.45,17214.86,0.4207,-0.871
-2025-10-06,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1245,15328.06,12.31,7291.35,0.4757,-1.1083
-2025-10-06,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,2149,15637.21,7.28,7874.07,0.5035,-1.8289
-2025-10-06,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1874,24056.29,12.84,10578.0,0.4397,-1.2306
-2025-10-06,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1053,9347.18,8.88,5576.16,0.5966,-0.8008
-2025-10-13,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1511,39615.33,26.22,16014.82,0.4043,-0.8225
-2025-10-13,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1953,12222.66,6.26,7378.93,0.6037,-0.9682
-2025-10-13,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2563,49612.47,19.36,22251.78,0.4485,-0.9833
-2025-10-13,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2679,41192.99,15.38,18924.37,0.4594,-1.152
-2025-10-13,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,2269,19033.39,8.39,9751.82,0.5124,-1.4623
-2025-10-13,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2944,22376.11,7.6,10486.53,0.4686,-1.7853
-2025-10-13,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1817,40728.93,22.42,17144.18,0.4209,-0.8546
-2025-10-13,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1348,15169.8,11.25,7232.23,0.4768,-1.0873
-2025-10-13,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,2621,17050.98,6.51,8577.41,0.503,-1.7821
-2025-10-13,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,2092,25065.75,11.98,11025.72,0.4399,-1.2115
-2025-10-13,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1113,9295.29,8.35,5549.95,0.5971,-0.7895
-2025-10-20,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1440,41305.25,28.68,16631.94,0.4027,-0.8378
-2025-10-20,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1813,12516.97,6.9,7550.58,0.6032,-0.9892
-2025-10-20,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2315,49113.85,21.22,22071.61,0.4494,-1.0038
-2025-10-20,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2388,40592.0,17.0,18564.14,0.4573,-1.1748
-2025-10-20,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,2067,18804.59,9.1,9624.79,0.5118,-1.4895
-2025-10-20,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2381,20378.5,8.56,9546.0,0.4684,-1.834
-2025-10-20,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1677,40962.77,24.43,17267.21,0.4215,-0.8714
-2025-10-20,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1241,15266.83,12.3,7273.98,0.4765,-1.1087
-2025-10-20,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,2140,15574.08,7.28,7843.94,0.5037,-1.8289
-2025-10-20,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1900,24412.68,12.85,10715.52,0.4389,-1.2289
-2025-10-20,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1048,9291.24,8.87,5547.67,0.5971,-0.8007
-2025-10-27,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1434,41147.27,28.69,16571.32,0.4027,-0.8377
-2025-10-27,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1801,12430.02,6.9,7498.79,0.6033,-0.989
-2025-10-27,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2279,48427.52,21.25,21732.86,0.4488,-1.0039
-2025-10-27,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2386,40599.36,17.02,18602.34,0.4582,-1.1766
-2025-10-27,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,2027,18448.61,9.1,9461.65,0.5129,-1.4913
-2025-10-27,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2395,20508.74,8.56,9572.18,0.4667,-1.8303
-2025-10-27,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1649,40324.32,24.45,16979.89,0.4211,-0.8713
-2025-10-27,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1225,15094.25,12.32,7202.09,0.4771,-1.1105
-2025-10-27,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,2149,15644.15,7.28,7869.09,0.503,-1.8278
-2025-10-27,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1907,24508.6,12.85,10790.57,0.4403,-1.2319
-2025-10-27,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1052,9335.37,8.87,5571.28,0.5968,-0.8003
-2025-11-03,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1463,38384.29,26.24,15520.41,0.4043,-0.8213
-2025-11-03,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1846,11539.56,6.25,6975.62,0.6045,-0.9666
-2025-11-03,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2410,46655.16,19.36,20930.12,0.4486,-0.9818
-2025-11-03,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2585,39777.76,15.39,18258.03,0.459,-1.1492
-2025-11-03,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,2313,19458.0,8.41,9955.32,0.5116,-1.4609
-2025-11-03,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2979,22639.64,7.6,10593.94,0.4679,-1.7809
-2025-11-03,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1722,38547.96,22.39,16331.53,0.4237,-0.8554
-2025-11-03,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1389,15641.54,11.26,7466.89,0.4774,-1.0864
-2025-11-03,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,2602,16955.1,6.52,8547.83,0.5041,-1.782
-2025-11-03,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,2087,25002.6,11.98,10982.49,0.4393,-1.2089
-2025-11-03,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1100,9199.61,8.36,5490.23,0.5968,-0.7884
-2025-11-10,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1363,39117.23,28.7,15752.56,0.4027,-0.8369
-2025-11-10,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1719,11867.02,6.9,7158.41,0.6032,-0.9876
-2025-11-10,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2187,46483.84,21.25,20847.45,0.4485,-1.0021
-2025-11-10,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2306,39222.79,17.01,17936.53,0.4573,-1.1736
-2025-11-10,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,2042,18573.34,9.1,9508.18,0.5119,-1.4874
-2025-11-10,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2414,20652.63,8.56,9646.49,0.4671,-1.8278
-2025-11-10,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1596,38975.63,24.42,16467.48,0.4225,-0.8708
-2025-11-10,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1246,15343.96,12.31,7316.15,0.4768,-1.1079
-2025-11-10,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,2152,15641.09,7.27,7859.11,0.5025,-1.823
-2025-11-10,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1893,24288.93,12.83,10690.14,0.4401,-1.2286
-2025-11-10,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1053,9324.98,8.86,5573.54,0.5977,-0.7992
-2025-11-17,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1378,39506.1,28.67,15934.8,0.4034,-0.8372
-2025-11-17,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1723,11868.81,6.89,7174.57,0.6045,-0.988
-2025-11-17,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2196,46678.65,21.26,20955.67,0.4489,-1.0026
-2025-11-17,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2301,39097.34,16.99,17899.51,0.4578,-1.1738
-2025-11-17,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,2033,18471.78,9.09,9501.33,0.5144,-1.4909
-2025-11-17,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2360,20197.13,8.56,9420.1,0.4664,-1.8264
-2025-11-17,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1594,38928.18,24.42,16443.72,0.4224,-0.8709
-2025-11-17,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1244,15301.65,12.3,7304.86,0.4774,-1.1081
-2025-11-17,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,2172,15794.15,7.27,7935.48,0.5024,-1.8229
-2025-11-17,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1919,24671.09,12.86,10822.54,0.4387,-1.2279
-2025-11-17,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1035,9176.01,8.87,5496.77,0.599,-0.8007
-2025-11-24,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1475,38728.86,26.26,15619.96,0.4033,-0.8207
-2025-11-24,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1868,11683.22,6.25,7076.47,0.6057,-0.968
-2025-11-24,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2394,46323.76,19.35,20861.9,0.4503,-0.9835
-2025-11-24,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2597,40002.06,15.4,18299.66,0.4575,-1.1477
-2025-11-24,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,2293,19264.0,8.4,9894.49,0.5136,-1.4633
-2025-11-24,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2933,22302.03,7.6,10443.9,0.4683,-1.7821
-2025-11-24,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1715,38455.64,22.42,16241.75,0.4224,-0.8542
-2025-11-24,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1374,15463.0,11.25,7389.27,0.4779,-1.0865
-2025-11-24,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,2636,17159.5,6.51,8651.18,0.5042,-1.7814
-2025-11-24,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,2050,24590.22,12.0,10836.72,0.4407,-1.2118
-2025-11-24,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1088,9094.43,8.36,5434.63,0.5976,-0.7892
-2025-12-01,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1280,36703.1,28.67,14822.84,0.4039,-0.8363
-2025-12-01,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1581,10903.41,6.9,6596.9,0.605,-0.9871
-2025-12-01,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2052,43609.67,21.25,19531.46,0.4479,-0.9997
-2025-12-01,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2143,36415.65,16.99,16699.86,0.4586,-1.1726
-2025-12-01,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,1910,17354.35,9.09,8914.91,0.5137,-1.487
-2025-12-01,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2254,19291.01,8.56,8997.1,0.4664,-1.8222
-2025-12-01,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1468,35863.85,24.43,15110.95,0.4213,-0.8682
-2025-12-01,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1156,14238.34,12.32,6782.98,0.4764,-1.1061
-2025-12-01,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,2017,14671.87,7.27,7378.64,0.5029,-1.8214
-2025-12-01,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1551,19914.34,12.84,8760.88,0.4399,-1.2268
-2025-12-01,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,986,8740.38,8.86,5231.53,0.5985,-0.7995
-2025-12-08,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1277,36654.9,28.7,14807.45,0.404,-0.8366
-2025-12-08,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1591,10980.99,6.9,6632.97,0.604,-0.9862
-2025-12-08,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2074,44106.21,21.27,19745.45,0.4477,-1.0003
-2025-12-08,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2123,36093.22,17.0,16512.09,0.4575,-1.1712
-2025-12-08,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,1923,17484.13,9.09,8966.84,0.5129,-1.4857
-2025-12-08,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2218,18998.6,8.57,8867.43,0.4667,-1.8238
-2025-12-08,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1503,36736.67,24.44,15464.09,0.4209,-0.868
-2025-12-08,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1179,14506.47,12.3,6917.15,0.4768,-1.1058
-2025-12-08,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,1981,14416.23,7.28,7247.28,0.5027,-1.8212
-2025-12-08,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1554,19939.62,12.83,8744.76,0.4386,-1.2243
-2025-12-08,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,999,8869.52,8.88,5294.95,0.597,-0.7983
-2025-12-15,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1268,36407.19,28.71,14697.38,0.4037,-0.8365
-2025-12-15,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1596,11013.06,6.9,6646.85,0.6035,-0.986
-2025-12-15,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2065,43857.5,21.24,19725.39,0.4498,-1.0022
-2025-12-15,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2141,36392.94,17.0,16663.33,0.4579,-1.1716
-2025-12-15,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,1934,17611.1,9.11,8999.8,0.511,-1.4835
-2025-12-15,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2227,19050.27,8.55,8898.77,0.4671,-1.8238
-2025-12-15,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1498,36589.5,24.43,15429.99,0.4217,-0.8689
-2025-12-15,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1164,14305.2,12.29,6823.16,0.477,-1.1054
-2025-12-15,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,2023,14712.12,7.27,7406.68,0.5034,-1.8216
-2025-12-15,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1556,19989.45,12.85,8766.16,0.4385,-1.225
-2025-12-15,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,990,8783.23,8.87,5258.92,0.5987,-0.8
-2025-12-22,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1338,36167.43,27.03,14576.9,0.403,-0.8253
-2025-12-22,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1710,11054.57,6.46,6684.52,0.6047,-0.9731
-2025-12-22,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2187,43674.22,19.97,19608.77,0.449,-0.9887
-2025-12-22,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2319,36866.14,15.9,16921.05,0.459,-1.1567
-2025-12-22,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,2058,17761.81,8.63,9124.24,0.5137,-1.4707
-2025-12-22,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2577,20416.01,7.92,9518.66,0.4662,-1.7933
-2025-12-22,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1586,36612.52,23.08,15409.29,0.4209,-0.858
-2025-12-22,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1245,14429.98,11.59,6886.32,0.4772,-1.092
-2025-12-22,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,2302,15584.85,6.77,7849.56,0.5037,-1.7947
-2025-12-22,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1639,20082.29,12.25,8839.14,0.4401,-1.215
-2025-12-22,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1016,8648.6,8.51,5170.15,0.5978,-0.7917
-2025-12-29,pizzahut,Pizza Hut,ph_big_dinner_box,Big Dinner Box,bundles,family_meal,family_share,premium,1268,36377.19,28.69,14707.87,0.4043,-0.8371
-2025-12-29,pizzahut,Pizza Hut,ph_breadsticks,Breadsticks,sides,attach,family_share,entry,1566,10805.46,6.9,6526.03,0.604,-0.9861
-2025-12-29,pizzahut,Pizza Hut,ph_large_pizza,Large One-Topping Pizza,pizza,family_meal,family_share,premium,2047,43474.89,21.24,19462.05,0.4477,-0.9987
-2025-12-29,pizzahut,Pizza Hut,ph_medium_pizza,Medium One-Topping Pizza,pizza,core_meal,family_share,core,2127,36193.8,17.02,16602.25,0.4587,-1.1735
-2025-12-29,pizzahut,Pizza Hut,ph_melts,Pizza Hut Melts,handhelds,traffic_builder,solo_value_meal,core,1928,17541.85,9.1,8994.89,0.5128,-1.4858
-2025-12-29,pizzahut,Pizza Hut,ph_my_hut_box,My Hut Box,bundles,traffic_builder,solo_value_meal,value,2211,18927.7,8.56,8834.41,0.4667,-1.8235
-2025-12-29,pizzahut,Pizza Hut,ph_original_stuffed_crust,Original Stuffed Crust Pizza,pizza,innovation,family_share,premium,1499,36632.99,24.44,15433.64,0.4213,-0.8683
-2025-12-29,pizzahut,Pizza Hut,ph_oven_baked_pasta,Oven-Baked Pasta,pasta,core_meal,core_meal,core,1169,14370.39,12.29,6864.69,0.4777,-1.1065
-2025-12-29,pizzahut,Pizza Hut,ph_personal_pan,Personal Pan Pizza,pizza,traffic_builder,solo_value_meal,entry,1998,14526.95,7.27,7331.84,0.5047,-1.8238
-2025-12-29,pizzahut,Pizza Hut,ph_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1552,19956.56,12.86,8751.22,0.4385,-1.2254
-2025-12-29,pizzahut,Pizza Hut,ph_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,985,8724.98,8.86,5217.62,0.598,-0.7989
+2025-01-06,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1481,42560.13,28.74,17120.25,0.4023,-0.8273
+2025-01-06,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1829,12625.06,6.9,7630.32,0.6044,-0.9776
+2025-01-06,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2372,50432.42,21.26,22584.56,0.4478,-0.9905
+2025-01-06,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2502,42528.16,17.0,19461.32,0.4576,-1.1607
+2025-01-06,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2304,20988.34,9.11,10721.62,0.5108,-1.4694
+2025-01-06,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1739,42438.33,24.4,17969.31,0.4234,-0.8622
+2025-01-06,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1332,16411.13,12.32,7811.01,0.476,-1.0945
+2025-01-06,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2547,18555.99,7.29,9322.46,0.5024,-1.8048
+2025-01-06,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,2028,26060.99,12.85,11451.37,0.4394,-1.2151
+2025-01-06,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1125,9992.45,8.88,5950.51,0.5955,-0.7892
+2025-01-06,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2780,23808.68,8.56,11116.06,0.4669,-1.8074
+2025-01-13,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1591,41774.53,26.26,16866.98,0.4038,-0.8119
+2025-01-13,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,2038,12755.08,6.26,7706.49,0.6042,-0.9563
+2025-01-13,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2632,50934.11,19.35,22833.32,0.4483,-0.9701
+2025-01-13,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2759,42462.53,15.39,19501.74,0.4593,-1.1375
+2025-01-13,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2590,21769.86,8.41,11204.64,0.5147,-1.4487
+2025-01-13,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1901,42612.81,22.42,17963.21,0.4215,-0.8438
+2025-01-13,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1475,16612.9,11.26,7918.61,0.4767,-1.0737
+2025-01-13,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,3030,19730.58,6.51,9939.15,0.5037,-1.7616
+2025-01-13,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,2217,26600.22,12.0,11703.59,0.44,-1.1977
+2025-01-13,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1179,9856.01,8.36,5885.26,0.5971,-0.7795
+2025-01-13,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,3417,25960.04,7.6,12143.6,0.4678,-1.7609
+2025-01-20,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1463,41979.86,28.69,16884.65,0.4022,-0.8271
+2025-01-20,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1852,12776.89,6.9,7707.94,0.6033,-0.9764
+2025-01-20,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2369,50379.46,21.27,22605.41,0.4487,-0.992
+2025-01-20,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2521,42914.78,17.02,19642.23,0.4577,-1.1615
+2025-01-20,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2295,20884.94,9.1,10699.67,0.5123,-1.4722
+2025-01-20,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1741,42589.37,24.46,17904.57,0.4204,-0.8597
+2025-01-20,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1347,16582.27,12.31,7895.57,0.4761,-1.0945
+2025-01-20,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2516,18330.71,7.29,9212.06,0.5025,-1.805
+2025-01-20,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,2027,26048.91,12.85,11473.98,0.4405,-1.2165
+2025-01-20,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1124,9999.12,8.9,5962.74,0.5963,-0.7905
+2025-01-20,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2805,24053.92,8.58,11223.92,0.4666,-1.8079
+2025-01-27,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1449,41575.15,28.69,16764.3,0.4032,-0.8278
+2025-01-27,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1864,12866.34,6.9,7750.64,0.6024,-0.9756
+2025-01-27,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2379,50598.08,21.27,22727.2,0.4492,-0.9928
+2025-01-27,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2498,42486.37,17.01,19400.41,0.4566,-1.1598
+2025-01-27,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2282,20774.7,9.1,10638.91,0.5121,-1.4717
+2025-01-27,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1747,42738.51,24.46,18044.24,0.4222,-0.8616
+2025-01-27,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1341,16514.37,12.31,7870.28,0.4766,-1.0954
+2025-01-27,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2519,18320.65,7.27,9217.07,0.5031,-1.8041
+2025-01-27,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,2061,26473.34,12.84,11644.76,0.4399,-1.2158
+2025-01-27,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1103,9785.32,8.87,5852.01,0.598,-0.7907
+2025-01-27,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2818,24153.2,8.57,11279.87,0.467,-1.809
+2025-02-03,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1571,41245.58,26.25,16677.93,0.4044,-0.8143
+2025-02-03,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,2008,12574.6,6.26,7597.58,0.6042,-0.9582
+2025-02-03,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2572,49825.51,19.37,22394.61,0.4495,-0.9737
+2025-02-03,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2755,42399.76,15.39,19457.32,0.4589,-1.1384
+2025-02-03,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2537,21325.51,8.41,10970.42,0.5144,-1.4509
+2025-02-03,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1849,41488.01,22.44,17510.31,0.4221,-0.8465
+2025-02-03,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1451,16341.63,11.26,7790.45,0.4767,-1.0754
+2025-02-03,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,3023,19688.89,6.51,9920.14,0.5038,-1.7653
+2025-02-03,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,2173,26044.11,11.99,11476.41,0.4407,-1.1996
+2025-02-03,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1189,9950.62,8.37,5929.66,0.5959,-0.7804
+2025-02-03,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,3385,25764.55,7.61,12047.38,0.4676,-1.7646
+2025-02-10,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1474,42334.91,28.72,17069.17,0.4032,-0.8299
+2025-02-10,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1824,12603.86,6.91,7611.52,0.6039,-0.9794
+2025-02-10,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2337,49664.89,21.25,22282.01,0.4486,-0.9934
+2025-02-10,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2447,41590.02,17.0,19047.88,0.458,-1.1628
+2025-02-10,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2260,20573.46,9.1,10559.27,0.5132,-1.4765
+2025-02-10,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1727,42253.65,24.47,17811.9,0.4215,-0.8624
+2025-02-10,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1335,16442.9,12.32,7836.13,0.4766,-1.0969
+2025-02-10,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2468,17963.66,7.28,9041.91,0.5033,-1.8087
+2025-02-10,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,2022,25970.78,12.84,11427.94,0.44,-1.2174
+2025-02-10,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1128,10027.5,8.89,5977.44,0.5961,-0.7911
+2025-02-10,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2805,24048.24,8.57,11237.71,0.4673,-1.8122
+2025-02-17,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1465,42020.94,28.68,17022.59,0.4051,-0.8317
+2025-02-17,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1825,12591.4,6.9,7623.61,0.6055,-0.9799
+2025-02-17,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2374,50468.91,21.26,22661.17,0.449,-0.9936
+2025-02-17,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2468,42001.47,17.02,19217.03,0.4575,-1.1626
+2025-02-17,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2284,20781.73,9.1,10651.98,0.5126,-1.4745
+2025-02-17,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1733,42413.05,24.47,17829.13,0.4204,-0.8617
+2025-02-17,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1328,16379.83,12.33,7788.16,0.4755,-1.0967
+2025-02-17,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2505,18233.46,7.28,9166.91,0.5028,-1.8077
+2025-02-17,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,2021,25977.51,12.85,11409.07,0.4392,-1.2174
+2025-02-17,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1103,9776.76,8.86,5845.72,0.5979,-0.7917
+2025-02-17,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2789,23878.42,8.56,11140.16,0.4665,-1.8097
+2025-02-24,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1552,40737.12,26.25,16449.21,0.4038,-0.8132
+2025-02-24,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,2019,12631.04,6.26,7636.39,0.6046,-0.9583
+2025-02-24,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2623,50701.09,19.33,22806.27,0.4498,-0.9733
+2025-02-24,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2790,42993.42,15.41,19681.92,0.4578,-1.1377
+2025-02-24,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2557,21458.74,8.39,11026.85,0.5139,-1.4488
+2025-02-24,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1831,41053.49,22.42,17347.29,0.4226,-0.8468
+2025-02-24,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1450,16336.51,11.27,7785.24,0.4766,-1.0752
+2025-02-24,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,3005,19591.68,6.52,9860.66,0.5033,-1.7647
+2025-02-24,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,2175,26080.38,11.99,11495.66,0.4408,-1.1998
+2025-02-24,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1175,9821.06,8.36,5867.74,0.5975,-0.7806
+2025-02-24,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,3408,25943.54,7.61,12127.21,0.4674,-1.7641
+2025-03-03,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1343,38556.59,28.71,15555.3,0.4034,-0.8319
+2025-03-03,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1665,11491.27,6.9,6934.32,0.6034,-0.9809
+2025-03-03,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2183,46356.73,21.24,20814.45,0.449,-0.9956
+2025-03-03,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2307,39240.19,17.01,17906.93,0.4563,-1.1642
+2025-03-03,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2011,18306.88,9.1,9367.02,0.5117,-1.4771
+2025-03-03,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1599,39090.52,24.45,16439.66,0.4206,-0.8633
+2025-03-03,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1229,15129.42,12.31,7224.13,0.4775,-1.1006
+2025-03-03,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2111,15362.96,7.28,7743.84,0.5041,-1.8143
+2025-03-03,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1649,21206.45,12.86,9313.66,0.4392,-1.2202
+2025-03-03,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1041,9238.34,8.87,5524.57,0.598,-0.7948
+2025-03-03,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2326,19909.74,8.56,9306.46,0.4674,-1.8157
+2025-03-10,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1362,39113.76,28.72,15741.89,0.4025,-0.831
+2025-03-10,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1680,11602.51,6.91,7006.8,0.6039,-0.9812
+2025-03-10,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2144,45594.28,21.27,20439.76,0.4483,-0.995
+2025-03-10,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2285,38875.61,17.01,17813.58,0.4582,-1.1665
+2025-03-10,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2028,18468.81,9.11,9462.28,0.5123,-1.4782
+2025-03-10,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1558,38082.86,24.44,16045.56,0.4213,-0.8642
+2025-03-10,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1223,15056.99,12.31,7185.53,0.4772,-1.1007
+2025-03-10,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2105,15306.04,7.27,7737.76,0.5055,-1.8161
+2025-03-10,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1610,20676.18,12.84,9115.31,0.4409,-1.2219
+2025-03-10,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1040,9232.36,8.88,5513.52,0.5972,-0.7944
+2025-03-10,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2398,20561.07,8.57,9591.85,0.4665,-1.8149
+2025-03-17,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1366,39185.13,28.69,15828.61,0.4039,-0.8321
+2025-03-17,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1706,11785.76,6.91,7097.15,0.6022,-0.98
+2025-03-17,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2140,45538.92,21.28,20413.26,0.4483,-0.9959
+2025-03-17,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2234,37986.27,17.0,17408.36,0.4583,-1.1664
+2025-03-17,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2025,18434.89,9.1,9445.76,0.5124,-1.4779
+2025-03-17,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1588,38838.46,24.46,16360.48,0.4212,-0.8645
+2025-03-17,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1231,15169.56,12.32,7241.98,0.4774,-1.1013
+2025-03-17,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2110,15364.97,7.28,7730.04,0.5031,-1.8128
+2025-03-17,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1638,21035.13,12.84,9258.25,0.4401,-1.2206
+2025-03-17,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1047,9296.17,8.88,5552.57,0.5973,-0.7944
+2025-03-17,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2379,20367.42,8.56,9495.21,0.4662,-1.8127
+2025-03-24,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1381,38294.99,27.73,15422.13,0.4027,-0.8266
+2025-03-24,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1765,11731.77,6.65,7075.69,0.6031,-0.9744
+2025-03-24,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2252,46102.12,20.47,20723.62,0.4495,-0.9905
+2025-03-24,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2382,38928.06,16.34,17873.14,0.4591,-1.1605
+2025-03-24,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2134,18819.09,8.82,9664.84,0.5136,-1.4721
+2025-03-24,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1629,38493.06,23.63,16250.9,0.4222,-0.8607
+2025-03-24,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1286,15267.0,11.87,7307.96,0.4787,-1.0949
+2025-03-24,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2334,16227.82,6.95,8217.69,0.5064,-1.8032
+2025-03-24,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1699,21216.89,12.49,9335.95,0.44,-1.2151
+2025-03-24,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1047,9062.14,8.66,5431.79,0.5994,-0.7926
+2025-03-24,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2575,21001.6,8.16,9860.51,0.4695,-1.8049
+2025-03-31,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1329,38159.19,28.71,15424.03,0.4042,-0.8329
+2025-03-31,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1669,11532.38,6.91,6968.67,0.6043,-0.9815
+2025-03-31,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2194,46652.95,21.26,20926.29,0.4486,-0.9952
+2025-03-31,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2321,39464.78,17.0,18037.98,0.4571,-1.1646
+2025-03-31,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2018,18372.88,9.1,9397.02,0.5115,-1.4765
+2025-03-31,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1582,38699.55,24.46,16336.6,0.4221,-0.865
+2025-03-31,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1236,15223.25,12.32,7263.65,0.4771,-1.1006
+2025-03-31,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2132,15516.57,7.28,7823.0,0.5042,-1.8145
+2025-03-31,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1612,20715.03,12.85,9088.5,0.4387,-1.2191
+2025-03-31,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1042,9246.05,8.87,5516.81,0.5967,-0.7935
+2025-03-31,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2356,20186.25,8.57,9433.65,0.4673,-1.8156
+2025-04-07,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1346,38650.92,28.72,15587.49,0.4033,-0.834
+2025-04-07,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1686,11630.14,6.9,7028.34,0.6043,-0.9837
+2025-04-07,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2152,45760.85,21.26,20532.89,0.4487,-0.9979
+2025-04-07,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2243,38144.92,17.01,17464.21,0.4578,-1.1687
+2025-04-07,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2002,18231.08,9.11,9362.12,0.5135,-1.4838
+2025-04-07,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1581,38634.67,24.44,16276.28,0.4213,-0.8666
+2025-04-07,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1219,14998.29,12.3,7155.89,0.4771,-1.1031
+2025-04-07,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2111,15364.1,7.28,7729.69,0.5031,-1.8167
+2025-04-07,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1616,20757.5,12.84,9129.25,0.4398,-1.2238
+2025-04-07,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1025,9096.37,8.87,5454.17,0.5996,-0.7984
+2025-04-07,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2355,20182.04,8.57,9412.18,0.4664,-1.819
+2025-04-14,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1334,38303.92,28.71,15473.88,0.404,-0.8349
+2025-04-14,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1699,11738.77,6.91,7081.12,0.6032,-0.9835
+2025-04-14,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2134,45379.65,21.27,20344.82,0.4483,-0.9975
+2025-04-14,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2260,38415.07,17.0,17563.72,0.4572,-1.1675
+2025-04-14,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2032,18498.38,9.1,9483.39,0.5127,-1.4823
+2025-04-14,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1571,38369.21,24.42,16180.23,0.4217,-0.8666
+2025-04-14,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1225,15066.12,12.3,7183.56,0.4768,-1.1027
+2025-04-14,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2133,15525.62,7.28,7805.17,0.5027,-1.8171
+2025-04-14,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1607,20676.22,12.87,9063.8,0.4384,-1.2222
+2025-04-14,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1047,9290.96,8.87,5547.27,0.5971,-0.7962
+2025-04-14,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2348,20101.28,8.56,9385.83,0.4669,-1.8197
+2025-04-21,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1389,38521.12,27.73,15526.79,0.4031,-0.8294
+2025-04-21,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1761,11683.41,6.63,7059.2,0.6042,-0.9771
+2025-04-21,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2221,45442.19,20.46,20436.39,0.4497,-0.9931
+2025-04-21,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2379,38852.53,16.33,17815.11,0.4585,-1.1621
+2025-04-21,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2120,18653.85,8.8,9583.61,0.5138,-1.4752
+2025-04-21,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1637,38722.34,23.65,16328.21,0.4217,-0.8622
+2025-04-21,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1263,15004.63,11.88,7155.83,0.4769,-1.0963
+2025-04-21,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2288,15902.54,6.95,8068.8,0.5074,-1.81
+2025-04-21,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1709,21360.96,12.5,9397.61,0.4399,-1.2185
+2025-04-21,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1048,9092.77,8.68,5440.61,0.5983,-0.7944
+2025-04-21,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2574,20942.32,8.14,9880.21,0.4718,-1.8133
+2025-04-28,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1336,38374.54,28.72,15491.58,0.4037,-0.8346
+2025-04-28,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1679,11587.52,6.9,7015.43,0.6054,-0.9847
+2025-04-28,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2147,45648.13,21.26,20478.77,0.4486,-0.9985
+2025-04-28,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2261,38419.46,16.99,17571.33,0.4574,-1.1674
+2025-04-28,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2034,18522.63,9.11,9459.98,0.5107,-1.4788
+2025-04-28,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1592,38930.25,24.45,16381.7,0.4208,-0.866
+2025-04-28,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1234,15178.42,12.3,7245.12,0.4773,-1.1033
+2025-04-28,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2104,15310.45,7.28,7717.26,0.5041,-1.8184
+2025-04-28,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1631,20974.05,12.86,9232.88,0.4402,-1.2246
+2025-04-28,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1024,9081.38,8.87,5428.61,0.5978,-0.7965
+2025-04-28,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2388,20464.46,8.57,9537.97,0.4661,-1.8182
+2025-05-05,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1331,38183.44,28.69,15392.43,0.4031,-0.8357
+2025-05-05,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1685,11633.08,6.9,7027.92,0.6041,-0.9867
+2025-05-05,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2163,46004.83,21.27,20591.05,0.4476,-0.9998
+2025-05-05,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2269,38597.24,17.01,17673.49,0.4579,-1.1721
+2025-05-05,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,1988,18096.77,9.1,9273.86,0.5125,-1.4856
+2025-05-05,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1578,38573.88,24.44,16267.68,0.4217,-0.8692
+2025-05-05,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1203,14813.3,12.31,7069.12,0.4772,-1.1066
+2025-05-05,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2115,15395.56,7.28,7747.29,0.5032,-1.8224
+2025-05-05,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1619,20800.95,12.85,9148.6,0.4398,-1.2269
+2025-05-05,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1017,9012.95,8.86,5404.97,0.5997,-0.7997
+2025-05-05,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2343,20075.62,8.57,9373.58,0.4669,-1.8241
+2025-05-12,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1336,38340.75,28.7,15460.07,0.4032,-0.8359
+2025-05-12,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1692,11679.88,6.9,7038.56,0.6026,-0.9849
+2025-05-12,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2157,45832.05,21.25,20561.46,0.4486,-1.0005
+2025-05-12,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2286,38901.23,17.02,17752.03,0.4563,-1.1705
+2025-05-12,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,1990,18136.36,9.11,9287.93,0.5121,-1.486
+2025-05-12,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1584,38729.92,24.45,16300.7,0.4209,-0.8683
+2025-05-12,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1212,14929.57,12.32,7112.71,0.4764,-1.1056
+2025-05-12,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2093,15245.66,7.28,7662.32,0.5026,-1.8218
+2025-05-12,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1625,20874.94,12.85,9176.19,0.4396,-1.2263
+2025-05-12,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1029,9136.33,8.88,5469.32,0.5986,-0.7998
+2025-05-12,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2342,20020.06,8.55,9374.58,0.4683,-1.8262
+2025-05-19,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1385,38395.81,27.72,15488.72,0.4034,-0.8318
+2025-05-19,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1721,11426.41,6.64,6912.45,0.605,-0.9809
+2025-05-19,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2235,45800.44,20.49,20558.31,0.4489,-0.9955
+2025-05-19,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2375,38777.35,16.33,17798.74,0.459,-1.1662
+2025-05-19,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2071,18253.73,8.81,9373.72,0.5135,-1.479
+2025-05-19,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1611,38064.06,23.63,16052.26,0.4217,-0.8639
+2025-05-19,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1262,14985.47,11.87,7156.53,0.4776,-1.0998
+2025-05-19,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2278,15839.92,6.95,8004.86,0.5054,-1.8109
+2025-05-19,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1689,21101.73,12.49,9285.8,0.44,-1.222
+2025-05-19,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1060,9187.04,8.67,5488.68,0.5974,-0.7955
+2025-05-19,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2584,21051.49,8.15,9893.67,0.47,-1.8154
+2025-05-26,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1345,38538.39,28.65,15544.07,0.4033,-0.8354
+2025-05-26,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1675,11569.81,6.91,6983.12,0.6036,-0.9865
+2025-05-26,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2157,45850.24,21.26,20593.94,0.4492,-1.001
+2025-05-26,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2269,38539.14,16.99,17656.08,0.4581,-1.172
+2025-05-26,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2008,18283.62,9.11,9365.72,0.5122,-1.4851
+2025-05-26,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1585,38788.2,24.47,16315.77,0.4206,-0.8684
+2025-05-26,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1202,14782.75,12.3,7066.57,0.478,-1.1068
+2025-05-26,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2083,15154.7,7.28,7630.26,0.5035,-1.8221
+2025-05-26,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1607,20661.82,12.86,9077.88,0.4394,-1.2267
+2025-05-26,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1034,9171.38,8.87,5489.19,0.5985,-0.7992
+2025-05-26,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2371,20320.67,8.57,9506.89,0.4678,-1.8272
+2025-06-02,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1340,38400.43,28.66,15491.44,0.4034,-0.8381
+2025-06-02,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1654,11421.6,6.91,6887.52,0.603,-0.9881
+2025-06-02,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2125,45223.51,21.28,20308.31,0.4491,-1.0043
+2025-06-02,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2256,38374.72,17.01,17553.01,0.4574,-1.174
+2025-06-02,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,1988,18097.31,9.1,9265.85,0.512,-1.4876
+2025-06-02,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1558,38099.84,24.45,16036.34,0.4209,-0.8704
+2025-06-02,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1212,14923.31,12.31,7119.19,0.4771,-1.1087
+2025-06-02,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2085,15183.17,7.28,7646.02,0.5036,-1.8267
+2025-06-02,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1613,20722.12,12.85,9105.01,0.4394,-1.2287
+2025-06-02,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1023,9082.94,8.88,5439.04,0.5988,-0.8013
+2025-06-02,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2318,19849.59,8.56,9263.9,0.4667,-1.8286
+2025-06-09,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1329,38135.65,28.69,15391.03,0.4036,-0.8385
+2025-06-09,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1667,11507.84,6.9,6945.05,0.6035,-0.9887
+2025-06-09,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2143,45554.76,21.26,20450.57,0.4489,-1.0034
+2025-06-09,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2227,37857.76,17.0,17382.08,0.4591,-1.1759
+2025-06-09,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,1994,18162.2,9.11,9312.84,0.5128,-1.4898
+2025-06-09,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1579,38585.3,24.44,16229.63,0.4206,-0.8694
+2025-06-09,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1230,15138.6,12.31,7219.89,0.4769,-1.1081
+2025-06-09,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2078,15124.52,7.28,7636.73,0.5049,-1.8291
+2025-06-09,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1605,20643.69,12.86,9079.84,0.4398,-1.2302
+2025-06-09,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1033,9169.44,8.88,5474.57,0.597,-0.7999
+2025-06-09,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2340,20035.58,8.56,9356.04,0.467,-1.8285
+2025-06-16,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1342,38562.52,28.74,15523.74,0.4026,-0.8375
+2025-06-16,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1655,11423.36,6.9,6898.4,0.6039,-0.9884
+2025-06-16,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2173,46221.23,21.27,20697.25,0.4478,-1.0025
+2025-06-16,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2240,38088.65,17.0,17438.25,0.4578,-1.1741
+2025-06-16,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2002,18210.68,9.1,9349.34,0.5134,-1.4905
+2025-06-16,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1578,38599.22,24.46,16246.94,0.4209,-0.8699
+2025-06-16,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1191,14643.91,12.3,6997.62,0.4779,-1.1091
+2025-06-16,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2106,15341.93,7.28,7711.71,0.5027,-1.8256
+2025-06-16,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1634,21003.45,12.85,9236.37,0.4398,-1.2298
+2025-06-16,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1020,9057.76,8.88,5418.67,0.5982,-0.8011
+2025-06-16,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2355,20197.01,8.58,9412.12,0.466,-1.8278
+2025-06-23,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1352,38578.7,28.53,15568.47,0.4036,-0.8379
+2025-06-23,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1698,11645.5,6.86,7022.61,0.603,-0.9871
+2025-06-23,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2148,45386.11,21.13,20378.77,0.449,-1.003
+2025-06-23,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2272,38350.2,16.88,17576.06,0.4583,-1.1745
+2025-06-23,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2030,18360.17,9.04,9404.77,0.5122,-1.488
+2025-06-23,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1584,38465.46,24.28,16199.91,0.4212,-0.8697
+2025-06-23,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1228,14998.84,12.21,7165.69,0.4777,-1.1079
+2025-06-23,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2148,15500.25,7.22,7818.24,0.5044,-1.827
+2025-06-23,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1647,21051.05,12.78,9258.07,0.4398,-1.2289
+2025-06-23,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1021,9000.08,8.81,5405.9,0.6007,-0.8019
+2025-06-23,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2400,20369.15,8.49,9529.56,0.4678,-1.8292
+2025-06-30,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1360,39014.66,28.69,15718.76,0.4029,-0.837
+2025-06-30,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1664,11480.12,6.9,6929.38,0.6036,-0.988
+2025-06-30,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2187,46523.85,21.27,20832.07,0.4478,-1.0023
+2025-06-30,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2282,38821.18,17.01,17761.35,0.4575,-1.1744
+2025-06-30,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,1991,18113.58,9.1,9291.26,0.5129,-1.4903
+2025-06-30,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1559,38142.76,24.47,16094.06,0.4219,-0.8712
+2025-06-30,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1236,15209.53,12.31,7252.44,0.4768,-1.1082
+2025-06-30,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2066,15014.49,7.27,7562.1,0.5037,-1.826
+2025-06-30,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1616,20752.67,12.84,9120.36,0.4395,-1.2287
+2025-06-30,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1029,9134.63,8.88,5458.53,0.5976,-0.8004
+2025-06-30,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2376,20347.34,8.56,9497.45,0.4668,-1.8291
+2025-07-07,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1341,38563.2,28.76,15527.13,0.4026,-0.8389
+2025-07-07,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1653,11409.52,6.9,6899.22,0.6047,-0.9908
+2025-07-07,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2133,45352.55,21.26,20358.47,0.4489,-1.005
+2025-07-07,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2248,38216.71,17.0,17509.26,0.4582,-1.1769
+2025-07-07,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,1980,18019.33,9.1,9235.53,0.5125,-1.4917
+2025-07-07,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1584,38739.26,24.46,16305.5,0.4209,-0.8715
+2025-07-07,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1211,14899.54,12.3,7117.18,0.4777,-1.1108
+2025-07-07,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2084,15170.79,7.28,7639.24,0.5035,-1.8293
+2025-07-07,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1609,20692.92,12.86,9081.22,0.4389,-1.2309
+2025-07-07,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1027,9115.14,8.88,5448.68,0.5978,-0.8019
+2025-07-07,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2341,20060.12,8.57,9369.75,0.4671,-1.8318
+2025-07-14,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1321,37900.88,28.69,15354.21,0.4051,-0.841
+2025-07-14,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1675,11566.74,6.91,6968.01,0.6024,-0.9891
+2025-07-14,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2162,45993.01,21.27,20636.52,0.4487,-1.0055
+2025-07-14,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2258,38387.94,17.0,17596.44,0.4584,-1.1768
+2025-07-14,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,1992,18134.83,9.1,9312.38,0.5135,-1.4936
+2025-07-14,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1572,38410.63,24.43,16223.62,0.4224,-0.8731
+2025-07-14,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1214,14939.1,12.31,7135.44,0.4776,-1.1109
+2025-07-14,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2079,15132.52,7.28,7605.31,0.5026,-1.8278
+2025-07-14,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1620,20824.01,12.85,9131.42,0.4385,-1.2296
+2025-07-14,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1029,9132.95,8.88,5458.88,0.5977,-0.8018
+2025-07-14,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2318,19848.9,8.56,9247.56,0.4659,-1.8287
+2025-07-21,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1338,38157.55,28.52,15380.88,0.4031,-0.8379
+2025-07-21,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1685,11557.37,6.86,6974.78,0.6035,-0.9891
+2025-07-21,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2134,45029.41,21.1,20218.9,0.449,-1.0034
+2025-07-21,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2251,38028.06,16.89,17424.96,0.4582,-1.1759
+2025-07-21,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2031,18369.77,9.04,9419.74,0.5128,-1.4909
+2025-07-21,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1568,38042.08,24.26,16040.88,0.4217,-0.8714
+2025-07-21,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1242,15178.35,12.22,7230.82,0.4764,-1.1084
+2025-07-21,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2148,15495.25,7.21,7794.09,0.503,-1.8264
+2025-07-21,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1624,20760.47,12.78,9128.55,0.4397,-1.231
+2025-07-21,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1031,9106.07,8.83,5449.18,0.5984,-0.8019
+2025-07-21,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2406,20415.22,8.49,9525.23,0.4666,-1.829
+2025-07-28,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1336,38383.93,28.73,15471.43,0.4031,-0.8395
+2025-07-28,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1692,11683.43,6.91,7057.86,0.6041,-0.9905
+2025-07-28,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2153,45760.21,21.25,20510.47,0.4482,-1.004
+2025-07-28,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2249,38248.44,17.01,17515.6,0.4579,-1.1759
+2025-07-28,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2026,18437.57,9.1,9428.15,0.5114,-1.4896
+2025-07-28,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1563,38223.02,24.45,16084.8,0.4208,-0.8717
+2025-07-28,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1219,15015.73,12.32,7156.72,0.4766,-1.1104
+2025-07-28,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2084,15177.93,7.28,7653.97,0.5043,-1.8313
+2025-07-28,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1629,20933.24,12.85,9179.91,0.4385,-1.2297
+2025-07-28,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1027,9108.1,8.87,5459.06,0.5994,-0.8028
+2025-07-28,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2328,19968.42,8.58,9323.88,0.4669,-1.832
+2025-08-04,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1393,40017.75,28.73,16131.43,0.4031,-0.84
+2025-08-04,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1754,12105.39,6.9,7307.09,0.6036,-0.9904
+2025-08-04,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2241,47666.91,21.27,21391.16,0.4488,-1.0057
+2025-08-04,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2321,39454.28,17.0,18079.18,0.4582,-1.1774
+2025-08-04,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2001,18198.44,9.09,9326.8,0.5125,-1.4925
+2025-08-04,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1631,39837.46,24.43,16822.27,0.4223,-0.8731
+2025-08-04,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1210,14900.42,12.31,7108.26,0.4771,-1.1115
+2025-08-04,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2093,15231.4,7.28,7657.84,0.5028,-1.829
+2025-08-04,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1607,20643.36,12.85,9062.24,0.439,-1.231
+2025-08-04,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1030,9136.38,8.87,5465.49,0.5982,-0.8029
+2025-08-04,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2319,19871.45,8.57,9281.26,0.4671,-1.8338
+2025-08-11,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1402,40215.62,28.68,16284.19,0.4049,-0.8409
+2025-08-11,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1751,12082.34,6.9,7285.67,0.603,-0.9899
+2025-08-11,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2264,48113.76,21.25,21570.89,0.4483,-1.0051
+2025-08-11,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2384,40559.01,17.01,18566.64,0.4578,-1.1775
+2025-08-11,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,1976,17985.19,9.1,9205.11,0.5118,-1.4909
+2025-08-11,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1664,40739.28,24.48,17123.78,0.4203,-0.8716
+2025-08-11,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1213,14940.15,12.32,7112.98,0.4761,-1.1104
+2025-08-11,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2105,15342.22,7.29,7695.04,0.5016,-1.8289
+2025-08-11,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1606,20627.1,12.84,9090.86,0.4407,-1.2341
+2025-08-11,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1011,8961.49,8.86,5364.69,0.5986,-0.8029
+2025-08-11,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2337,20020.85,8.57,9350.21,0.467,-1.8321
+2025-08-18,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1429,40731.07,28.5,16468.22,0.4043,-0.8397
+2025-08-18,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1745,11960.01,6.85,7240.4,0.6054,-0.9911
+2025-08-18,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2270,47896.76,21.1,21481.04,0.4485,-1.0037
+2025-08-18,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2411,40734.92,16.9,18624.16,0.4572,-1.1762
+2025-08-18,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2022,18269.79,9.04,9368.39,0.5128,-1.4913
+2025-08-18,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1662,40371.49,24.29,17050.24,0.4223,-0.8727
+2025-08-18,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1236,15109.05,12.22,7203.66,0.4768,-1.1098
+2025-08-18,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2121,15294.81,7.21,7717.39,0.5046,-1.8308
+2025-08-18,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1640,20947.98,12.77,9220.28,0.4402,-1.2316
+2025-08-18,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1028,9075.08,8.83,5430.4,0.5984,-0.8024
+2025-08-18,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2415,20507.38,8.49,9590.01,0.4676,-1.8339
+2025-08-25,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1385,39746.09,28.7,16025.64,0.4032,-0.8398
+2025-08-25,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1754,12120.07,6.91,7304.62,0.6027,-0.9899
+2025-08-25,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2268,48257.22,21.28,21609.36,0.4478,-1.0046
+2025-08-25,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2338,39787.64,17.02,18253.41,0.4588,-1.179
+2025-08-25,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,1985,18038.59,9.09,9262.22,0.5135,-1.494
+2025-08-25,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1637,40068.14,24.48,16916.17,0.4222,-0.8738
+2025-08-25,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1196,14720.95,12.31,7030.83,0.4776,-1.1119
+2025-08-25,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2086,15167.9,7.27,7642.69,0.5039,-1.8307
+2025-08-25,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1622,20830.68,12.84,9169.7,0.4402,-1.2329
+2025-08-25,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1035,9187.28,8.88,5483.69,0.5969,-0.8017
+2025-08-25,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2340,20018.9,8.56,9360.98,0.4676,-1.833
+2025-09-01,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1639,43059.38,26.27,17342.13,0.4027,-0.8227
+2025-09-01,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,2083,13038.4,6.26,7874.58,0.604,-0.9695
+2025-09-01,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2684,51970.52,19.36,23341.22,0.4491,-0.9847
+2025-09-01,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2854,43972.11,15.41,20114.59,0.4574,-1.1504
+2025-09-01,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2563,21546.1,8.41,11037.54,0.5123,-1.4654
+2025-09-01,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1918,42984.73,22.41,18148.24,0.4222,-0.8559
+2025-09-01,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1424,16020.49,11.25,7658.65,0.4781,-1.0893
+2025-09-01,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2878,18751.0,6.52,9436.7,0.5033,-1.7854
+2025-09-01,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,2192,26323.58,12.01,11571.3,0.4396,-1.2137
+2025-09-01,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1156,9660.98,8.36,5770.89,0.5973,-0.7902
+2025-09-01,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,3257,24768.72,7.6,11585.29,0.4677,-1.7855
+2025-09-08,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1507,43281.23,28.72,17441.94,0.403,-0.8393
+2025-09-08,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1897,13101.53,6.91,7902.25,0.6032,-0.99
+2025-09-08,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2485,52862.53,21.27,23714.67,0.4486,-1.0055
+2025-09-08,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2568,43715.81,17.02,20022.47,0.458,-1.1774
+2025-09-08,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2265,20607.64,9.1,10584.54,0.5136,-1.4943
+2025-09-08,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1799,44021.13,24.47,18520.98,0.4207,-0.8721
+2025-09-08,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1319,16231.45,12.31,7736.1,0.4766,-1.11
+2025-09-08,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2375,17312.94,7.29,8686.14,0.5017,-1.8284
+2025-09-08,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,2015,25892.89,12.85,11379.32,0.4395,-1.2317
+2025-09-08,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1103,9794.43,8.88,5855.08,0.5978,-0.8019
+2025-09-08,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2615,22385.01,8.56,10464.63,0.4675,-1.8337
+2025-09-15,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1514,43451.42,28.7,17511.17,0.403,-0.8391
+2025-09-15,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1889,13060.97,6.91,7880.92,0.6034,-0.9908
+2025-09-15,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2445,51911.81,21.23,23275.66,0.4484,-1.0046
+2025-09-15,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2546,43250.65,16.99,19864.34,0.4593,-1.1788
+2025-09-15,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2243,20437.17,9.11,10446.17,0.5111,-1.4902
+2025-09-15,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1780,43583.93,24.49,18277.3,0.4194,-0.8705
+2025-09-15,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1289,15865.3,12.31,7560.4,0.4765,-1.11
+2025-09-15,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2348,17097.99,7.28,8615.73,0.5039,-1.8314
+2025-09-15,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,2021,25993.22,12.86,11388.03,0.4381,-1.2303
+2025-09-15,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1103,9799.08,8.88,5849.0,0.5969,-0.8014
+2025-09-15,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2651,22680.84,8.56,10604.92,0.4676,-1.8329
+2025-09-22,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1634,42860.48,26.23,17262.29,0.4028,-0.822
+2025-09-22,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,2082,13013.4,6.25,7861.67,0.6041,-0.9688
+2025-09-22,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2691,52138.18,19.38,23396.35,0.4487,-0.9844
+2025-09-22,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2890,44442.95,15.38,20428.86,0.4597,-1.1531
+2025-09-22,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2518,21187.87,8.41,10874.61,0.5132,-1.467
+2025-09-22,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1952,43758.16,22.42,18448.73,0.4216,-0.8557
+2025-09-22,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1446,16285.46,11.26,7756.42,0.4763,-1.0879
+2025-09-22,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2879,18774.25,6.52,9442.92,0.503,-1.7853
+2025-09-22,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,2159,25910.76,12.0,11397.12,0.4399,-1.2137
+2025-09-22,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1153,9633.69,8.36,5757.21,0.5976,-0.7907
+2025-09-22,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,3269,24860.47,7.6,11606.29,0.4669,-1.7842
+2025-09-29,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1520,43646.8,28.72,17618.5,0.4037,-0.84
+2025-09-29,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1915,13212.26,6.9,7979.63,0.604,-0.99
+2025-09-29,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2420,51522.18,21.29,23157.07,0.4495,-1.0069
+2025-09-29,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2555,43462.37,17.01,19861.2,0.457,-1.1758
+2025-09-29,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2280,20752.67,9.1,10609.26,0.5112,-1.4898
+2025-09-29,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1765,43122.24,24.43,18167.53,0.4213,-0.872
+2025-09-29,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1322,16297.12,12.33,7769.41,0.4767,-1.111
+2025-09-29,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2376,17305.96,7.28,8697.2,0.5026,-1.8298
+2025-09-29,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,2008,25812.36,12.85,11351.9,0.4398,-1.2328
+2025-09-29,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1090,9674.28,8.88,5782.2,0.5977,-0.8015
+2025-09-29,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2668,22847.42,8.56,10644.02,0.4659,-1.8305
+2025-10-06,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1510,43388.28,28.73,17489.1,0.4031,-0.8385
+2025-10-06,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1938,13374.08,6.9,8090.31,0.6049,-0.9902
+2025-10-06,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2448,52020.46,21.25,23333.74,0.4485,-1.004
+2025-10-06,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2572,43698.12,16.99,20066.93,0.4592,-1.1781
+2025-10-06,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2185,19894.0,9.1,10176.11,0.5115,-1.489
+2025-10-06,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1793,43867.13,24.47,18480.41,0.4213,-0.8717
+2025-10-06,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1315,16197.36,12.32,7716.08,0.4764,-1.109
+2025-10-06,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2279,16594.42,7.28,8342.74,0.5027,-1.8279
+2025-10-06,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,2020,25987.86,12.87,11430.17,0.4398,-1.2322
+2025-10-06,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1106,9819.51,8.88,5858.78,0.5966,-0.8002
+2025-10-06,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2529,21664.66,8.57,10104.42,0.4664,-1.8293
+2025-10-13,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1625,42637.5,26.24,17243.96,0.4044,-0.823
+2025-10-13,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,2061,12902.45,6.26,7806.91,0.6051,-0.9696
+2025-10-13,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2699,52181.75,19.33,23512.4,0.4506,-0.9856
+2025-10-13,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2912,44841.86,15.4,20540.24,0.4581,-1.1504
+2025-10-13,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2419,20338.42,8.41,10422.87,0.5125,-1.4635
+2025-10-13,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1910,42821.54,22.42,18123.26,0.4232,-0.8565
+2025-10-13,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1444,16256.6,11.26,7750.28,0.4767,-1.0872
+2025-10-13,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2771,18059.4,6.52,9106.56,0.5043,-1.7855
+2025-10-13,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,2185,26212.44,12.0,11499.58,0.4387,-1.2101
+2025-10-13,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1167,9757.1,8.36,5825.06,0.597,-0.7895
+2025-10-13,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,3116,23715.88,7.61,11075.17,0.467,-1.7826
+2025-10-20,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1510,43310.76,28.68,17473.41,0.4034,-0.8387
+2025-10-20,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1906,13163.08,6.91,7961.98,0.6049,-0.9905
+2025-10-20,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2474,52588.27,21.26,23566.7,0.4481,-1.0033
+2025-10-20,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2551,43385.71,17.01,19845.87,0.4574,-1.1755
+2025-10-20,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2187,19897.46,9.1,10177.39,0.5115,-1.4886
+2025-10-20,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1796,43938.27,24.46,18487.76,0.4208,-0.8709
+2025-10-20,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1315,16196.54,12.32,7723.22,0.4768,-1.1096
+2025-10-20,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2279,16589.4,7.28,8338.49,0.5026,-1.8273
+2025-10-20,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,2022,25988.27,12.85,11435.19,0.44,-1.2324
+2025-10-20,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1113,9888.18,8.88,5902.28,0.5969,-0.8007
+2025-10-20,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2538,21749.3,8.57,10141.53,0.4663,-1.8291
+2025-10-27,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1509,43316.75,28.71,17527.03,0.4046,-0.8398
+2025-10-27,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1903,13128.81,6.9,7926.88,0.6038,-0.9893
+2025-10-27,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2488,52823.97,21.23,23648.66,0.4477,-1.0021
+2025-10-27,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2568,43686.4,17.01,20006.94,0.458,-1.1763
+2025-10-27,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2166,19714.34,9.1,10113.98,0.513,-1.4917
+2025-10-27,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1823,44554.92,24.44,18763.23,0.4211,-0.8711
+2025-10-27,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1309,16128.62,12.32,7686.69,0.4766,-1.1094
+2025-10-27,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2268,16520.82,7.28,8338.68,0.5047,-1.832
+2025-10-27,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1994,25615.36,12.85,11318.01,0.4418,-1.2346
+2025-10-27,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1116,9908.08,8.88,5905.07,0.596,-0.7992
+2025-10-27,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2539,21740.29,8.56,10170.43,0.4678,-1.8319
+2025-11-03,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1573,41293.12,26.25,16705.94,0.4046,-0.8216
+2025-11-03,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,2002,12528.15,6.26,7573.68,0.6045,-0.967
+2025-11-03,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2569,49716.47,19.35,22269.93,0.4479,-0.9808
+2025-11-03,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2761,42487.58,15.39,19480.15,0.4585,-1.1484
+2025-11-03,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2423,20362.01,8.4,10425.28,0.512,-1.4604
+2025-11-03,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1869,41901.31,22.42,17708.29,0.4226,-0.8548
+2025-11-03,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1454,16397.9,11.28,7820.63,0.4769,-1.0865
+2025-11-03,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2756,17962.04,6.52,9036.75,0.5031,-1.7809
+2025-11-03,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,2205,26435.13,11.99,11633.83,0.4401,-1.2103
+2025-11-03,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1169,9767.21,8.36,5834.62,0.5974,-0.7884
+2025-11-03,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,3129,23798.35,7.61,11147.59,0.4684,-1.7825
+2025-11-10,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1454,41728.43,28.7,16838.88,0.4035,-0.8374
+2025-11-10,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1824,12592.01,6.9,7609.33,0.6043,-0.9885
+2025-11-10,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2353,50054.74,21.27,22466.31,0.4488,-1.0034
+2025-11-10,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2443,41601.04,17.03,19043.14,0.4578,-1.1745
+2025-11-10,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2181,19842.45,9.1,10177.02,0.5129,-1.4889
+2025-11-10,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1713,41900.01,24.46,17636.51,0.4209,-0.8696
+2025-11-10,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1329,16355.12,12.31,7801.82,0.477,-1.1076
+2025-11-10,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2319,16874.81,7.28,8487.52,0.503,-1.8249
+2025-11-10,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,2014,25866.56,12.84,11383.72,0.4401,-1.229
+2025-11-10,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1119,9927.06,8.87,5914.15,0.5958,-0.7977
+2025-11-10,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2566,21996.58,8.57,10239.56,0.4655,-1.8256
+2025-11-17,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1457,41852.29,28.72,16910.17,0.404,-0.8383
+2025-11-17,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1812,12514.98,6.91,7564.45,0.6044,-0.9889
+2025-11-17,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2358,50155.9,21.27,22491.89,0.4484,-1.0023
+2025-11-17,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2477,42112.94,17.0,19285.96,0.458,-1.1744
+2025-11-17,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2179,19836.76,9.1,10159.62,0.5122,-1.4882
+2025-11-17,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1750,42803.67,24.46,17965.05,0.4197,-0.8684
+2025-11-17,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1325,16325.34,12.32,7797.34,0.4776,-1.1089
+2025-11-17,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2304,16754.58,7.27,8423.44,0.5028,-1.8245
+2025-11-17,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,2020,25935.34,12.84,11395.6,0.4394,-1.228
+2025-11-17,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1112,9881.73,8.89,5885.78,0.5956,-0.7982
+2025-11-17,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2561,21942.52,8.57,10253.21,0.4673,-1.8289
+2025-11-24,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1581,41495.77,26.25,16763.76,0.404,-0.8216
+2025-11-24,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,2016,12618.51,6.26,7634.38,0.605,-0.9681
+2025-11-24,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2553,49391.11,19.35,22224.59,0.45,-0.9831
+2025-11-24,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2750,42351.2,15.4,19402.72,0.4581,-1.1486
+2025-11-24,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2476,20821.36,8.41,10661.25,0.512,-1.4611
+2025-11-24,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1849,41476.97,22.43,17503.46,0.422,-0.8542
+2025-11-24,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1455,16396.32,11.27,7806.65,0.4761,-1.0853
+2025-11-24,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2778,18114.69,6.52,9116.68,0.5033,-1.7815
+2025-11-24,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,2205,26464.75,12.0,11634.97,0.4396,-1.2107
+2025-11-24,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1170,9782.76,8.36,5837.46,0.5967,-0.7878
+2025-11-24,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,3138,23872.13,7.61,11141.79,0.4667,-1.7795
+2025-12-01,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1367,39225.81,28.69,15836.76,0.4037,-0.8364
+2025-12-01,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1727,11927.24,6.91,7182.0,0.6022,-0.9851
+2025-12-01,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2193,46618.0,21.26,20858.08,0.4474,-0.9995
+2025-12-01,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2280,38811.78,17.02,17741.84,0.4571,-1.1709
+2025-12-01,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2032,18484.37,9.1,9467.22,0.5122,-1.4844
+2025-12-01,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1625,39750.16,24.46,16741.72,0.4212,-0.8685
+2025-12-01,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1236,15225.25,12.32,7241.74,0.4756,-1.1049
+2025-12-01,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2133,15538.12,7.28,7802.96,0.5022,-1.8207
+2025-12-01,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1646,21146.28,12.85,9309.78,0.4403,-1.2272
+2025-12-01,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1053,9356.07,8.89,5575.84,0.596,-0.7974
+2025-12-01,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2373,20331.5,8.57,9481.41,0.4663,-1.8239
+2025-12-08,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1360,39065.29,28.72,15771.34,0.4037,-0.8366
+2025-12-08,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1729,11935.46,6.9,7181.88,0.6017,-0.9845
+2025-12-08,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2190,46577.16,21.27,20875.4,0.4482,-1.0008
+2025-12-08,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2296,39084.68,17.02,17834.87,0.4563,-1.1704
+2025-12-08,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2015,18342.55,9.1,9406.58,0.5128,-1.4867
+2025-12-08,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1583,38729.49,24.47,16315.27,0.4213,-0.8688
+2025-12-08,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1240,15262.22,12.31,7267.45,0.4762,-1.1051
+2025-12-08,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2123,15444.59,7.27,7774.67,0.5034,-1.8222
+2025-12-08,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1627,20898.7,12.84,9214.99,0.4409,-1.2288
+2025-12-08,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1041,9235.11,8.87,5526.66,0.5984,-0.7994
+2025-12-08,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2373,20312.03,8.56,9505.17,0.468,-1.8269
+2025-12-15,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1368,39270.23,28.71,15805.71,0.4025,-0.8349
+2025-12-15,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1714,11829.62,6.9,7142.39,0.6038,-0.9861
+2025-12-15,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2221,47200.45,21.25,21122.38,0.4475,-0.9991
+2025-12-15,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2300,39087.6,16.99,17913.66,0.4583,-1.1719
+2025-12-15,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2055,18695.24,9.1,9603.65,0.5137,-1.4879
+2025-12-15,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1601,39150.46,24.45,16482.76,0.421,-0.8686
+2025-12-15,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1255,15464.27,12.32,7351.83,0.4754,-1.1047
+2025-12-15,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2154,15691.5,7.28,7880.95,0.5022,-1.8206
+2025-12-15,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1645,21152.75,12.86,9287.32,0.4391,-1.226
+2025-12-15,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1045,9270.24,8.87,5534.44,0.597,-0.7978
+2025-12-15,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2361,20218.25,8.56,9445.57,0.4672,-1.8248
+2025-12-22,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1449,39186.86,27.04,15827.92,0.4039,-0.826
+2025-12-22,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1807,11687.97,6.47,7074.41,0.6053,-0.9737
+2025-12-22,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2337,46654.21,19.96,20942.53,0.4489,-0.9874
+2025-12-22,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2495,39701.2,15.91,18200.32,0.4584,-1.156
+2025-12-22,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2197,18971.95,8.64,9734.68,0.5131,-1.4702
+2025-12-22,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1676,38633.37,23.05,16331.2,0.4227,-0.8592
+2025-12-22,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1315,15250.57,11.6,7271.02,0.4768,-1.0914
+2025-12-22,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2462,16672.55,6.77,8392.58,0.5034,-1.795
+2025-12-22,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1741,21338.99,12.26,9396.92,0.4404,-1.2151
+2025-12-22,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1077,9181.05,8.52,5492.95,0.5983,-0.7925
+2025-12-22,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2739,21691.81,7.92,10141.37,0.4675,-1.7961
+2025-12-29,qsr,QSR,qsr_big_dinner_box,Family Meal Box,bundles,family_meal,family_share,premium,1365,39170.17,28.7,15815.3,0.4038,-0.8363
+2025-12-29,qsr,QSR,qsr_breadsticks,Breadsticks,sides,attach,family_share,entry,1688,11647.59,6.9,7029.77,0.6035,-0.9861
+2025-12-29,qsr,QSR,qsr_large_pizza,Large Signature Pizza,pizza,family_meal,family_share,premium,2159,45818.25,21.22,20553.28,0.4486,-1.0002
+2025-12-29,qsr,QSR,qsr_medium_pizza,Medium Signature Pizza,pizza,core_meal,family_share,core,2302,39181.3,17.02,17942.83,0.4579,-1.1725
+2025-12-29,qsr,QSR,qsr_melts,Melt Combo,handhelds,traffic_builder,solo_value_meal,core,2060,18750.83,9.1,9604.42,0.5122,-1.4849
+2025-12-29,qsr,QSR,qsr_original_stuffed_crust,Stuffed Crust Pizza,pizza,innovation,family_share,premium,1577,38532.83,24.43,16291.88,0.4228,-0.8697
+2025-12-29,qsr,QSR,qsr_oven_baked_pasta,Baked Pasta,pasta,core_meal,core_meal,core,1237,15244.05,12.32,7280.83,0.4776,-1.1071
+2025-12-29,qsr,QSR,qsr_personal_pan,Personal Pizza,pizza,traffic_builder,solo_value_meal,entry,2141,15591.89,7.28,7837.0,0.5026,-1.8218
+2025-12-29,qsr,QSR,qsr_traditional_wings,Traditional Wings,wings,attach,sports_party,core,1676,21548.89,12.86,9432.72,0.4377,-1.2243
+2025-12-29,qsr,QSR,qsr_ultimate_cookie,Ultimate Chocolate Chip Cookie,desserts,attach,snack_treat,core,1051,9325.19,8.87,5581.11,0.5985,-0.7992
+2025-12-29,qsr,QSR,qsr_value_meal_box,Value Meal Box,bundles,traffic_builder,solo_value_meal,value,2392,20473.96,8.56,9557.65,0.4668,-1.8234

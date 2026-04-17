@@ -161,7 +161,7 @@ function addExecutiveSummary(doc, top3, objective, timestamp) {
   // Footer
   doc.setFontSize(8);
   doc.setTextColor(150, 150, 150);
-  doc.text('Pizza Hut Pricing Elasticity Studio', 20, 285);
+  doc.text('QSR Pricing Elasticity Studio', 20, 285);
   doc.text('Page 1 of 5', 180, 285);
 }
 
@@ -214,7 +214,7 @@ function addTop3Recommendations(doc, top3) {
   // Footer
   doc.setFontSize(8);
   doc.setTextColor(150, 150, 150);
-  doc.text('Pizza Hut Pricing Elasticity Studio', 20, 285);
+  doc.text('QSR Pricing Elasticity Studio', 20, 285);
   doc.text('Page 2 of 5', 180, 285);
 }
 
@@ -289,7 +289,7 @@ function addKPIComparison(doc, top3) {
   // Footer
   doc.setFontSize(8);
   doc.setTextColor(150, 150, 150);
-  doc.text('Pizza Hut Pricing Elasticity Studio', 20, 285);
+  doc.text('QSR Pricing Elasticity Studio', 20, 285);
   doc.text('Page 3 of 5', 180, 285);
 }
 
@@ -344,7 +344,7 @@ function addImplementationGuidance(doc, winner) {
   // Footer
   doc.setFontSize(8);
   doc.setTextColor(150, 150, 150);
-  doc.text('Pizza Hut Pricing Elasticity Studio', 20, 285);
+  doc.text('QSR Pricing Elasticity Studio', 20, 285);
   doc.text('Page 4 of 5', 180, 285);
 }
 
@@ -361,7 +361,7 @@ function addAuditTrail(doc, constraints, timestamp) {
     ['Analysis Date', timestamp],
     ['Data Cut', '2024-12-31'],
     ['Model Version', 'v3.0'],
-    ['Elasticity Model', 'Modeled Pizza Hut price-response coefficients'],
+    ['Elasticity Model', 'Modeled QSR price-response coefficients'],
     ['Repeat Loss Model', 'Time-lagged (0-4, 4-8, 8-12, 12+ weeks)'],
     ['Migration Model', 'JavaScript channel-gap migration model'],
     ['Segments Analyzed', '250 modeled segment combinations'],
@@ -369,7 +369,7 @@ function addAuditTrail(doc, constraints, timestamp) {
     ['Constraints Applied', Object.keys(constraints).length > 0 ?
       `Repeat Loss Cap: ${(constraints.repeat_loss_cap * 100).toFixed(1)}%` :
       'None'],
-    ['Data Source', 'Pizza Hut public-data operating panel'],
+    ['Data Source', 'QSR public-data operating panel'],
     ['Forecast Horizon', '12 months'],
     ['Confidence Level', '90%']
   ];
@@ -401,7 +401,7 @@ function addAuditTrail(doc, constraints, timestamp) {
   // Footer
   doc.setFontSize(8);
   doc.setTextColor(150, 150, 150);
-  doc.text('Pizza Hut Pricing Elasticity Studio | Public-data operating build', 20, 285);
+  doc.text('QSR Pricing Elasticity Studio | Public-data operating build', 20, 285);
   doc.text('Page 5 of 5', 180, 285);
 }
 
@@ -486,7 +486,7 @@ function createMetadataSheet() {
     ['Data Cut', '2024-12-31'],
     ['Model Version', 'v3.0'],
     ['Segments', '250'],
-    ['Data Source', 'Pizza Hut public-data operating panel'],
+    ['Data Source', 'QSR public-data operating panel'],
     ['Forecast Horizon', '12 months']
   ];
 }

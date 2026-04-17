@@ -1,14 +1,14 @@
-# Pizza Hut Pricing Elasticity Studio
+# QSR Pricing Elasticity Studio
 
-Browser-based pricing strategy application rebuilt around a Pizza Hut-specific operating foundation and pricing workflow.
+Browser-based pricing strategy application rebuilt around a QSR-specific operating foundation and pricing workflow.
 
 ## Current Scope
 
-- Single-brand build for Pizza Hut only
+- Single-brand build for QSR only
 - Root experience aligned back to the original `pricingstudio` step flow
-- Active shell and copy rebuilt for a Pizza Hut pricing workflow
-- Modeled Pizza Hut operating foundation generated under `data/yum/`
-- Pizza Hut-oriented active root data kept under `data/` only for the files the app still reads directly
+- Active shell and copy rebuilt for a QSR pricing workflow
+- Modeled QSR operating foundation generated under `data/yum/`
+- QSR-oriented active root data kept under `data/` only for the files the app still reads directly
 
 ## Application Flow
 
@@ -62,7 +62,7 @@ Direct root-level files still used by the app:
 python scripts/build_yum_foundation.py --skip-macro
 ```
 
-This rebuilds the Pizza Hut operating foundation and refreshes the generated files under `data/yum/processed/`.
+This rebuilds the QSR operating foundation and refreshes the generated files under `data/yum/processed/`.
 
 ## Run The App
 
@@ -74,6 +74,6 @@ Then open `http://localhost:8000`.
 
 ## Notes
 
-- The app uses modeled public-data foundations, not internal Pizza Hut transaction history.
-- The generated Pizza Hut foundation is the source of truth for the current-business, pricing-studio, and promotion-calendar layers.
-- `plan.md` documents the full Pizza Hut rebuild plan, dataset strategy, and implementation phases.
+- The app uses modeled public-data foundations, not internal QSR transaction history.
+- The generated QSR foundation is the source of truth for the current-business, pricing-studio, and promotion-calendar layers.
+- `plan.md` documents the full QSR rebuild plan, dataset strategy, and implementation phases.

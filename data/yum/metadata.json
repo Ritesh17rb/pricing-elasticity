@@ -1,13 +1,13 @@
 {
   "version": "3.0.0",
-  "generated_for": "Pizza Hut Pricing Studio",
-  "description": "Pizza Hut pricing foundation with a modeled market, channel, menu, and weekly performance panel.",
+  "generated_for": "QSR Pricing Studio",
+  "description": "QSR pricing foundation with a modeled market, channel, menu, and weekly performance panel.",
   "main_grain": "week_start x brand_id x market_id x product_id x channel_id",
-  "source_method": "modeled_public_pizzahut_pricing_foundation",
+  "source_method": "modeled_public_qsr_pricing_foundation",
   "datasets": {
     "processed/brand_dim.csv": {
       "grain": "brand_id",
-      "description": "Pizza Hut brand attributes and positioning metadata."
+      "description": "QSR brand attributes and positioning metadata."
     },
     "processed/market_dim.csv": {
       "grain": "market_id",
@@ -15,19 +15,19 @@
     },
     "processed/brand_market_network.csv": {
       "grain": "brand_id x market_id",
-      "description": "Pizza Hut market footprint and ownership proxy metrics."
+      "description": "QSR market footprint and ownership proxy metrics."
     },
     "processed/channel_dim.csv": {
       "grain": "channel_id",
-      "description": "Pizza Hut order channel definitions."
+      "description": "QSR order channel definitions."
     },
     "processed/brand_channel_dim.csv": {
       "grain": "brand_id x channel_id",
-      "description": "Pizza Hut channel support, mix, and elasticity modifiers."
+      "description": "QSR channel support, mix, and elasticity modifiers."
     },
     "processed/product_dim.csv": {
       "grain": "brand_id x product_id",
-      "description": "Pizza Hut menu ladder with economics and elasticity priors."
+      "description": "QSR menu ladder with economics and elasticity priors."
     },
     "processed/calendar_week_dim.csv": {
       "grain": "week_start",
@@ -39,31 +39,31 @@
     },
     "processed/promo_calendar.csv": {
       "grain": "week_start x brand_id x market_id x campaign_id",
-      "description": "Pizza Hut campaign cadence by market."
+      "description": "QSR campaign cadence by market."
     },
     "processed/brand_market_product_channel_week_panel.csv": {
       "grain": "week_start x brand_id x market_id x product_id x channel_id",
-      "description": "Main modeled Pizza Hut elasticity panel."
+      "description": "Main modeled QSR elasticity panel."
     },
     "processed/brand_market_channel_week_panel.csv": {
       "grain": "week_start x brand_id x market_id x channel_id",
-      "description": "Derived Pizza Hut channel operating panel with orders and checks."
+      "description": "Derived QSR channel operating panel with orders and checks."
     },
     "processed/portfolio_week_summary.csv": {
       "grain": "week_start",
-      "description": "Top-line Pizza Hut weekly rollup."
+      "description": "Top-line QSR weekly rollup."
     },
     "processed/brand_week_summary.csv": {
       "grain": "week_start x brand_id",
-      "description": "Pizza Hut weekly performance rollup."
+      "description": "QSR weekly performance rollup."
     },
     "processed/market_brand_week_summary.csv": {
       "grain": "week_start x market_id x brand_id",
-      "description": "Pizza Hut market weekly summary."
+      "description": "QSR market weekly summary."
     },
     "processed/product_week_summary.csv": {
       "grain": "week_start x product_id",
-      "description": "Pizza Hut item weekly summary with elasticity weighting."
+      "description": "QSR item weekly summary with elasticity weighting."
     },
     "processed/data_quality_checks.csv": {
       "grain": "dataset_name",

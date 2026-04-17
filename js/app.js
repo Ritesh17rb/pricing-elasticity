@@ -1,6 +1,6 @@
 /**
  * Main Application Module
- * Orchestrates the Pizza Hut pricing elasticity studio
+ * Orchestrates the QSR pricing elasticity studio
  *
  * Dependencies: data-loader.js, scenario-engine.js, charts.js
  */
@@ -90,14 +90,14 @@ const STEP1_EXECUTIVE_OVERVIEW = {
     band: 'Traffic Builder',
     name: 'Entry & Value Meals',
     price: 'From $6.99',
-    products: 'Anchor items: Personal Pan Pizza | Pizza Hut Melts | 2-Topping Medium Pizza Deal | Breadsticks',
+    products: 'Anchor items: Personal Pizza | Melt Combo | 2-Topping Medium Pizza Deal | Breadsticks',
     copy: 'Typically priced between $6.99 and $11.99, this segment drives trial and impulse orders. Value deals and combo meals play a key role in maintaining order volume and entry-level conversion.'
   },
   secondaryLane: {
     band: 'Revenue Driver',
     name: 'Core & Premium Meals',
     price: 'From $14.99',
-    products: 'Anchor items: Large 1-Topping Pizza | Big Dinner Box | Stuffed Crust Pizza | Supreme / Specialty Pizzas',
+    products: 'Anchor items: Large 1-Topping Pizza | Family Meal Box | Stuffed Crust Pizza | Supreme / Specialty Pizzas',
     copy: 'Priced between $14.99 and $34.99, this segment drives the majority of revenue. Larger pizzas, bundles, and premium crust options dominate, with delivery and group occasions contributing heavily.'
   },
   metrics: {
@@ -111,7 +111,7 @@ const STEP1_EXECUTIVE_OVERVIEW = {
     marginChangePts: -0.8
   },
   insightTitle: 'The Pricing Question',
-  insightText: 'Pizza Hut delivered approximately $2.1M in weekly sales across about 100K orders, with an average order value of about $20. Nearly 60% of orders are driven by promotions, particularly across entry-level and combo meals, highlighting strong price sensitivity in key segments. While Entry & Value Meals drive traffic and order volume, Core & Premium Meals contribute the majority of revenue and margin. With orders declining week over week and AOV increasing, a clear trade-off is emerging between pricing and demand. The key question is: Can pricing be optimized to improve margin without impacting order volumes, especially within promotion-driven segments?'
+  insightText: 'QSR delivered approximately $2.1M in weekly sales across about 100K orders, with an average order value of about $20. Nearly 60% of orders are driven by promotions, particularly across entry-level and combo meals, highlighting strong price sensitivity in key segments. While Entry & Value Meals drive traffic and order volume, Core & Premium Meals contribute the majority of revenue and margin. With orders declining week over week and AOV increasing, a clear trade-off is emerging between pricing and demand. The key question is: Can pricing be optimized to improve margin without impacting order volumes, especially within promotion-driven segments?'
 };
 
 const SEGMENT_TIER_LABELS = {
@@ -135,7 +135,7 @@ const SEGMENT_BASELINE_KPIS = {
 const SCREEN_ASSISTANT_CONFIG = {
   'section-1': {
     title: 'Current State Assistant',
-    copy: 'Ask how the current Pizza Hut price architecture, weekly KPIs, and promotion pressure frame the pricing problem before you model changes.',
+    copy: 'Ask how the current QSR price architecture, weekly KPIs, and promotion pressure frame the pricing problem before you model changes.',
     placeholder: 'Ask about the current state, pricing architecture, or KPI pressure...',
     chips: DEFAULT_CHAT_SUGGESTED_QUERIES
   },
@@ -147,7 +147,7 @@ const SCREEN_ASSISTANT_CONFIG = {
   },
   'section-8': {
     title: 'Event Calendar Assistant',
-    copy: 'Ask how recent Pizza Hut campaigns, pricing windows, and seasonal events influenced orders, sales, and modeling assumptions.',
+    copy: 'Ask how recent QSR campaigns, pricing windows, and seasonal events influenced orders, sales, and modeling assumptions.',
     placeholder: 'Ask about events, campaign output, timing, or what to use in modeling...',
     chips: DEFAULT_CHAT_SUGGESTED_QUERIES
   },
@@ -165,7 +165,7 @@ const SCREEN_ASSISTANT_CONFIG = {
   },
   'section-3': {
     title: 'Acquisition Assistant',
-    copy: 'Ask how the current channel, price test, and scenario setup affect weekly orders and revenue, and where Pizza Hut should test price next.',
+    copy: 'Ask how the current channel, price test, and scenario setup affect weekly orders and revenue, and where QSR should test price next.',
     placeholder: 'Ask about traffic elasticity, optimal price, or the current acquisition scenario...',
     chips: DEFAULT_CHAT_SUGGESTED_QUERIES
   },
@@ -177,14 +177,14 @@ const SCREEN_ASSISTANT_CONFIG = {
   },
   'section-5': {
     title: 'Migration Assistant',
-    copy: 'Ask how the current delivery versus pickup price gap changes channel mix, margin posture, and leakage risk for Pizza Hut.',
+    copy: 'Ask how the current delivery versus pickup price gap changes channel mix, margin posture, and leakage risk for QSR.',
     placeholder: 'Ask about channel shift, margin protection, or delivery vs pickup trade-offs...',
     chips: DEFAULT_CHAT_SUGGESTED_QUERIES
   },
   'section-9': {
     title: 'Analytics Copilot',
-    copy: 'Use the full assistant to connect the evidence across all steps, compare scenarios, and turn the current Pizza Hut pricing story into decisions.',
-    placeholder: 'Ask anything across the Pizza Hut studio...',
+    copy: 'Use the full assistant to connect the evidence across all steps, compare scenarios, and turn the current QSR pricing story into decisions.',
+    placeholder: 'Ask anything across the QSR studio...',
     chips: DEFAULT_CHAT_SUGGESTED_QUERIES
   }
 };
@@ -437,9 +437,9 @@ async function initializeYumFoundationWorkspace() {
       simulateBrandPriceChange
     };
 
-    console.log('Pizza Hut operating foundation ready', summary);
+    console.log('QSR operating foundation ready', summary);
   } catch (error) {
-    console.warn('Pizza Hut operating foundation initialization skipped:', error);
+    console.warn('QSR operating foundation initialization skipped:', error);
   }
 }
 
@@ -843,7 +843,7 @@ async function loadKPIs(selectedBrandId = getSelectedYumBrandId()) {
     ]);
 
     if (!availableYumBrands.length) {
-      throw new Error('No Pizza Hut brand rows available for Current State Overview KPIs.');
+      throw new Error('No QSR brand rows available for Current State Overview KPIs.');
     }
 
     const brandId = availableYumBrands.includes(selectedBrandId) ? selectedBrandId : availableYumBrands[0];
@@ -1247,7 +1247,7 @@ async function initializeChatContext() {
             strategy: 'Selective price lift on core and premium items',
             tier: 'ad_free',
             priceChange: +2.00,
-            rationale: 'Core and premium Pizza Hut orders are less elastic, so a selective lift can add dollars with lower order risk than value-tier pricing.'
+            rationale: 'Core and premium QSR orders are less elastic, so a selective lift can add dollars with lower order risk than value-tier pricing.'
           },
           grow_customers: {
             strategy: 'Defensive promo on entry and value items',
@@ -1313,7 +1313,7 @@ async function initializeChatContext() {
             description: 'Compares current vs forecasted order distribution across price tiers',
             baseline: currentResult.baseline,
             forecasted: currentResult.forecasted,
-            interpretation: `Scenario "${currentResult.scenario_name}" shifts price tier distribution. Revenue impact depends on AOV differences across the Pizza Hut tiers.`
+            interpretation: `Scenario "${currentResult.scenario_name}" shifts price tier distribution. Revenue impact depends on AOV differences across the QSR tiers.`
           } : null,
           forecast: currentResult ? {
             name: '12-Month Customer Forecast',
@@ -1327,7 +1327,7 @@ async function initializeChatContext() {
             interpretation: [
               'Value-led and game-day trial guests are typically more price-sensitive',
               'Routine and loyalist missions tend to hold better when price moves are selective',
-              'This guides targeted Pizza Hut pricing strategies by segment'
+              'This guides targeted QSR pricing strategies by segment'
             ]
           }
         };
@@ -1590,7 +1590,7 @@ async function loadData() {
     }
     if (kpiSection) kpiSection.style.display = 'block';
 
-    // The old channel promo simulator is intentionally hidden in this Pizza Hut build.
+    // The old channel promo simulator is intentionally hidden in this QSR build.
 
     // NOTE: We're already on Step 1 (navigated before loadData was called)
     // All section visibility is now controlled by step navigation
@@ -1730,7 +1730,7 @@ async function loadDataStyled() {
   });
 
   const stages = [
-    { progress: 10, text: 'Opening Pizza Hut data foundation...', pause: 140 },
+    { progress: 10, text: 'Opening QSR data foundation...', pause: 140 },
     {
       progress: 28,
       text: 'Building weekly KPI baselines...',
@@ -2306,7 +2306,7 @@ function getScreenAssistantEmptyMarkup() {
   return `
     <div class="assistant-chat-empty">
       <div class="assistant-chat-empty__icon"><i class="bi bi-stars"></i></div>
-      <div class="assistant-chat-empty__title">Ask the Pizza Hut analyst about this screen</div>
+      <div class="assistant-chat-empty__title">Ask the QSR analyst about this screen</div>
       <div class="assistant-chat-empty__copy">The assistant will use this screen's live state, visible metrics, and current selections when it answers.</div>
     </div>
   `;
@@ -4942,7 +4942,7 @@ async function renderMigrationMatrix(result) {
       tableBody.innerHTML = `
         <tr>
           <td><strong>JavaScript migration build</strong></td>
-          <td>The Pizza Hut build currently summarizes migration through the channel-flow chart, share cards, and scenario KPIs above. Detailed scenario-level transition matrices are only emitted when a dedicated migration matrix is present in the simulation output.</td>
+          <td>The QSR build currently summarizes migration through the channel-flow chart, share cards, and scenario KPIs above. Detailed scenario-level transition matrices are only emitted when a dedicated migration matrix is present in the simulation output.</td>
         </tr>
       `;
       return;

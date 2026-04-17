@@ -13,7 +13,7 @@ class SegmentationEngine {
         this.cohortCoefficients = null;
         this.activeCohort = 'baseline';
 
-        // Strategic segment axis definitions for Pizza Hut visit missions and order behavior.
+        // Strategic segment axis definitions for QSR visit missions and order behavior.
         this.axisDefinitions = {
             acquisition: [
                 'seasonal_first_time',
@@ -77,7 +77,7 @@ class SegmentationEngine {
             // Axis 2: Repeat Behavior
             'prestige_loyalist': {
                 label: 'Family Ritual Loyalist',
-                description: 'High repeat behavior anchored to regular Pizza Hut meal rituals',
+                description: 'High repeat behavior anchored to regular QSR meal rituals',
                 elasticity_level: 'Low repeat-loss elasticity'
             },
             'value_seeker': {

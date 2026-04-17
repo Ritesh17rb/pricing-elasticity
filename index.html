@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pizza Hut Pricing Elasticity Studio</title>
+  <title>QSR Pricing Elasticity Studio</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PGNpcmNsZSBjeD0iMTYiIGN5PSIxNiIgcj0iMTUiIGZpbGw9IiMyNTYzZWIiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJtMTYgNyAyIDcgNyAyLTcgMi0yIDctMi03LTctMiA3LTJaIi8+PC9zdmc+">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
@@ -48,7 +48,7 @@
   <nav class="step-nav">
     <div class="container">
       <div class="d-flex justify-content-between align-items-center">
-        <div class="brand" onclick="handleBrandClick()" style="cursor: pointer;">Pizza Hut Pricing Elasticity Studio</div>
+        <div class="brand" onclick="handleBrandClick()" style="cursor: pointer;">QSR Pricing Elasticity Studio</div>
         <div class="d-flex align-items-center gap-3">
           <div class="steps-stack">
             <div class="step-indicator">
@@ -121,7 +121,7 @@
       <div class="container">
         <div class="hero">
           <div>
-            <h1>Pizza Hut Pricing Elasticity Studio</h1>
+            <h1>QSR Pricing Elasticity Studio</h1>
             <p>Understand how customers respond to menu pricing, combos, and promotions - and optimize revenue, orders, and margins.</p>
             <button class="btn btn-primary-custom btn-lg" onclick="goToStep(1)">
               Start Exploration <i class="bi bi-arrow-right ms-2"></i>
@@ -160,7 +160,7 @@
           <i class="bi bi-database me-2"></i>
           Loading Data
         </h5>
-        <p class="text-muted">Initializing Pizza Hut demand, pricing, and elasticity datasets...</p>
+        <p class="text-muted">Initializing QSR demand, pricing, and elasticity datasets...</p>
 
         <div id="loading-progress" class="mt-4" style="display: block !important; visibility: visible !important;">
           <div class="mb-2">
@@ -176,7 +176,7 @@
 
         <button id="load-data-btn" class="btn btn-primary-custom mt-3" style="display: none;">
           <i class="bi bi-cloud-download me-2"></i>
-          Load Pizza Hut Data
+          Load QSR Data
         </button>
       </div>
     </div>
@@ -191,7 +191,7 @@
             <div class="tier-name" id="overview-tier-primary-name">Everyday Value</div>
             <div class="tier-price"><span id="overview-tier-primary-price">--</span></div>
             <div class="small text-muted mt-2" id="overview-tier-primary-products">Loading anchor items...</div>
-            <div class="mt-2" id="overview-tier-primary-copy">Loading value-led Pizza Hut price architecture...</div>
+            <div class="mt-2" id="overview-tier-primary-copy">Loading value-led QSR price architecture...</div>
           </div>
         </div>
         <div class="col-md-6">
@@ -255,7 +255,7 @@
       <div class="insight-box mt-4">
         <div class="icon">💡</div>
         <h5 id="kpi-insight-title">The Question</h5>
-        <p class="mb-0" id="kpi-insight-text">How much pricing room does Pizza Hut have before weekly orders, margin quality, or promo dependence start to break? The next steps move from the current state into the data, cohorts, and elasticity models that answer that question.</p>
+        <p class="mb-0" id="kpi-insight-text">How much pricing room does QSR have before weekly orders, margin quality, or promo dependence start to break? The next steps move from the current state into the data, cohorts, and elasticity models that answer that question.</p>
       </div>
 
     </div>
@@ -264,7 +264,7 @@
 
   </section>
 
-  <!-- Section 2: Pizza Hut Data Explorer -->
+  <!-- Section 2: QSR Data Explorer -->
   <section class="section" id="section-2">
   <div class="container">
     <div class="section-header section-header-split">
@@ -434,11 +434,11 @@
           <div>
             <h2 class="h5 mb-1" id="yum-studio-heading">
               <i class="bi bi-shop-window me-2"></i>
-              Pizza Hut Pricing Studio
+              QSR Pricing Studio
             </h2>
-            <p class="small mb-0 opacity-75" id="yum-studio-subtitle">Item-level and channel-aware price simulation on top of the Pizza Hut operating panel.</p>
+            <p class="small mb-0 opacity-75" id="yum-studio-subtitle">Item-level and channel-aware price simulation on top of the QSR operating panel.</p>
           </div>
-          <span class="badge rounded-pill text-bg-light text-dark" id="yum-studio-badge">Pizza Hut</span>
+          <span class="badge rounded-pill text-bg-light text-dark" id="yum-studio-badge">QSR</span>
         </div>
       </div>
       <div class="card-body">
@@ -450,7 +450,7 @@
               <div class="mb-3">
                 <label for="yum-brand-select" class="form-label fw-semibold">Brand</label>
                 <select id="yum-brand-select" class="form-select"></select>
-                <div class="form-text" id="yum-brand-summary">Pizza Hut is the active business in this build. Use the controls below to test menu elasticity.</div>
+                <div class="form-text" id="yum-brand-summary">QSR is the active business in this build. Use the controls below to test menu elasticity.</div>
               </div>
 
               <div class="mb-3">
@@ -559,7 +559,7 @@
               <div class="col-md-6">
                 <div class="yum-insight-card h-100">
                   <div class="small text-uppercase text-muted fw-semibold mb-2">Scenario Readout</div>
-                  <p class="mb-0" id="yum-scenario-narrative">Choose a Pizza Hut item and run a scenario to see the readout.</p>
+                  <p class="mb-0" id="yum-scenario-narrative">Choose a QSR item and run a scenario to see the readout.</p>
                 </div>
               </div>
             </div>
@@ -570,7 +570,7 @@
                 <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle">Engineering backlog</span>
               </div>
               <ul class="mb-0 small" id="yum-improvement-list">
-                <li>Loading Pizza Hut pricing guidance...</li>
+                <li>Loading QSR pricing guidance...</li>
               </ul>
             </div>
           </div>
@@ -587,7 +587,7 @@
       <div class="card-header">
         <h2 class="h5 mb-0">
           <i class="bi bi-table me-2"></i>
-          Pizza Hut Data Explorer
+          QSR Data Explorer
         </h2>
       </div>
       <div class="card-body p-0">
@@ -702,7 +702,7 @@
               <!-- Empty State -->
               <div id="data-empty" class="text-center text-muted py-5">
                 <i class="bi bi-table display-4 mb-3"></i>
-                <p>Select a Pizza Hut foundation table from the left sidebar to inspect the modeled pricing inputs.</p>
+                <p>Select a QSR foundation table from the left sidebar to inspect the modeled pricing inputs.</p>
               </div>
             </div>
           </div>
@@ -722,7 +722,7 @@
           Scenario Engine - 3 Elasticity Models
         </h2>
         <p class="small mb-0 opacity-75">
-          Simulate Pizza Hut pricing scenarios across traffic acquisition, repeat-visit loss, and order-channel migration models
+          Simulate QSR pricing scenarios across traffic acquisition, repeat-visit loss, and order-channel migration models
         </p>
       </div>
       <div class="card-body">
@@ -819,7 +819,7 @@
                     <option value="premium_loyal">Premium Pizza Loyalists</option>
                     <option value="at_risk">Lapse-Risk Guests</option>
                   </select>
-                  <small class="text-muted">Switch visit missions to compare how different Pizza Hut demand pockets react.</small>
+                  <small class="text-muted">Switch visit missions to compare how different QSR demand pockets react.</small>
                 </div>
 
                                     <!-- Tier Selection -->
@@ -943,7 +943,7 @@
                   <!-- Model Description -->
                   <div class="alert alert-primary mb-3">
                     <h6 class="alert-heading"><i class="bi bi-info-circle me-2"></i>Model 1: Acquisition Elasticity</h6>
-                    <p class="mb-2"><strong>What it captures:</strong> How Pizza Hut weekly order traffic responds when effective check changes within a chosen channel and visit mission.</p>
+                    <p class="mb-2"><strong>What it captures:</strong> How QSR weekly order traffic responds when effective check changes within a chosen channel and visit mission.</p>
                     <p class="mb-0"><strong>Key Insight:</strong> Stable channels can absorb more price, while digital and value-led missions usually react first when the check moves too far.</p>
                   </div>
 
@@ -1149,7 +1149,7 @@
                   <!-- Model Description -->
                   <div class="alert alert-primary mb-3">
                     <h6 class="alert-heading"><i class="bi bi-info-circle me-2"></i>Model 2: Churn Elasticity (Time-Lagged)</h6>
-                    <p class="mb-2"><strong>What it captures:</strong> When Pizza Hut guests trim visit frequency after menu price increases or value support expires.</p>
+                    <p class="mb-2"><strong>What it captures:</strong> When QSR guests trim visit frequency after menu price increases or value support expires.</p>
                     <p class="mb-0"><strong>Key Insight:</strong> Visit loss usually peaks <strong>8-12 weeks after</strong> a price move, once meal cycles and promo offsets wear off.</p>
                   </div>
 
@@ -1245,7 +1245,7 @@
                 <div class="insight-box">
                   <div class="icon">↔️</div>
                   <h5>Migration Dynamics</h5>
-                  <p class="mb-0">When carryout and pickup keep a clear value edge, more Pizza Hut traffic migrates out of delivery. If that edge disappears, guests fall back to delivery or leak into other channels.</p>
+                  <p class="mb-0">When carryout and pickup keep a clear value edge, more QSR traffic migrates out of delivery. If that edge disappears, guests fall back to delivery or leak into other channels.</p>
                 </div>
               </div>
 
@@ -1345,7 +1345,7 @@
                   <!-- Model Description -->
                   <div class="alert alert-primary mb-3">
                     <h6 class="alert-heading"><i class="bi bi-info-circle me-2"></i>Model 3: Order Channel Migration</h6>
-                    <p class="mb-2"><strong>What it captures:</strong> How Pizza Hut guests switch between delivery and carryout / pickup when relative price gaps change.</p>
+                    <p class="mb-2"><strong>What it captures:</strong> How QSR guests switch between delivery and carryout / pickup when relative price gaps change.</p>
                     <p class="mb-0"><strong>Decision Takeaway:</strong> Preserve enough owned-channel value to win carryout and pickup migration without creating excess delivery leakage or total traffic loss.</p>
                   </div>
 
@@ -1371,7 +1371,7 @@
 
                   <p class="small text-muted mb-0">
                     <i class="bi bi-info-circle me-1"></i>
-                    <strong>Note:</strong> Use the flow diagram and mix shift cards above as the primary migration readout for Pizza Hut.
+                    <strong>Note:</strong> Use the flow diagram and mix shift cards above as the primary migration readout for QSR.
                   </p>
                 </div>
               </div>
@@ -1587,7 +1587,7 @@
                     data-bs-custom-class="ml-popover"
                     data-bs-html="true"
                     data-bs-title="<i class='bi bi-cpu me-2'></i>ML Methodology: Elasticity Analysis"
-                    data-bs-content="<strong>Demand Curve Model:</strong><br>Q = Q₀ × (P/P₀)^ε<br>Non-linear demand function based on constant elasticity<br><br><strong>Segmentation:</strong><br>• Entry &amp; Value vs Core &amp; Premium ladders<br>• Visit mission cohorts<br>• Order channel context<br>• Basket-build segments<br><br><strong>Heatmap Algorithm:</strong><br>Hierarchical clustering of elasticity coefficients across modeled Pizza Hut segments<br><br><strong>Cross-Effects:</strong><br>Measures how order-channel and basket shifts change the pricing readout<br><br><strong>Feature Engineering:</strong><br>• Lagged price variables (1-week, 4-week)<br>• Lagged order and margin metrics<br>• Promotional flags<br>• Seasonal intensity score (events - gaps)">
+                    data-bs-content="<strong>Demand Curve Model:</strong><br>Q = Q₀ × (P/P₀)^ε<br>Non-linear demand function based on constant elasticity<br><br><strong>Segmentation:</strong><br>• Entry &amp; Value vs Core &amp; Premium ladders<br>• Visit mission cohorts<br>• Order channel context<br>• Basket-build segments<br><br><strong>Heatmap Algorithm:</strong><br>Hierarchical clustering of elasticity coefficients across modeled QSR segments<br><br><strong>Cross-Effects:</strong><br>Measures how order-channel and basket shifts change the pricing readout<br><br><strong>Feature Engineering:</strong><br>• Lagged price variables (1-week, 4-week)<br>• Lagged order and margin metrics<br>• Promotional flags<br>• Seasonal intensity score (events - gaps)">
               <i class="bi bi-info-circle text-primary"></i>
             </button>
           </h2>
@@ -2124,7 +2124,7 @@
           <div class="assistant-chat-shell__eyebrow">Scenario Copilot</div>
           <h2 class="h4 mb-1 assistant-chat-shell__title">
             <i class="bi bi-chat-dots me-2"></i>
-            Ask Questions About The Pizza Hut Elasticity Story
+            Ask Questions About The QSR Elasticity Story
           </h2>
           <p class="assistant-chat-shell__subtitle mb-0">Ask about scenarios: interpret results, compare options, or suggest new scenarios.</p>
         </div>
@@ -2138,7 +2138,7 @@
         <div id="chat-messages" class="assistant-chat-feed assistant-chat-feed--full mb-3 border rounded p-3" data-chat-feed data-chat-variant="full" style="height: 500px; overflow-y: auto;">
           <div class="text-center text-muted mt-5">
             <i class="bi bi-robot display-4 mb-3"></i>
-            <p><strong>Pizza Hut Elasticity Assistant</strong></p>
+            <p><strong>QSR Elasticity Assistant</strong></p>
             <p class="small">Ask about scenarios, compare trade-offs, explain the current chart readouts, or turn the pricing evidence into a recommendation.</p>
           </div>
         </div>
@@ -2281,8 +2281,8 @@
         <div class="modal-body">
           <h6 class="mb-3"><i class="bi bi-database me-2"></i> Data Sources</h6>
           <ul>
-            <li><strong>brand_market_channel_week_panel.csv</strong> - weekly Pizza Hut channel orders, sales, margin, and check signals by market</li>
-            <li><strong>brand_market_product_channel_week_panel.csv</strong> - weekly Pizza Hut item demand, realized price, promo, and elasticity rows by market and channel</li>
+            <li><strong>brand_market_channel_week_panel.csv</strong> - weekly QSR channel orders, sales, margin, and check signals by market</li>
+            <li><strong>brand_market_product_channel_week_panel.csv</strong> - weekly QSR item demand, realized price, promo, and elasticity rows by market and channel</li>
             <li><strong>promo_calendar.csv</strong> - generated promotion pressure and campaign windows used for context</li>
           </ul>
 
@@ -2291,15 +2291,15 @@
           <div class="card mb-3">
             <div class="card-header"><strong>Weekly Orders</strong></div>
             <div class="card-body">
-              <code>Weekly Orders = Sum of orders across the latest Pizza Hut week</code>
-              <p class="small text-muted mt-2 mb-0">Built from the current store-channel operating panel for the active Pizza Hut view.</p>
+              <code>Weekly Orders = Sum of orders across the latest QSR week</code>
+              <p class="small text-muted mt-2 mb-0">Built from the current store-channel operating panel for the active QSR view.</p>
             </div>
           </div>
 
           <div class="card mb-3">
             <div class="card-header"><strong>Weekly Net Sales</strong></div>
             <div class="card-body">
-              <code>Weekly Net Sales = Sum of net_sales across the latest Pizza Hut week</code>
+              <code>Weekly Net Sales = Sum of net_sales across the latest QSR week</code>
               <p class="small text-muted mt-2 mb-0">Anchors the operating snapshot to the same weekly cut as orders and margin.</p>
             </div>
           </div>
@@ -2308,7 +2308,7 @@
             <div class="card-header"><strong>Average Order Value (AOV)</strong></div>
             <div class="card-body">
               <code>AOV = Weekly Net Sales / Weekly Orders</code>
-              <p class="small text-muted mt-2 mb-0">Calculated from the latest weekly Pizza Hut operating panel.</p>
+              <p class="small text-muted mt-2 mb-0">Calculated from the latest weekly QSR operating panel.</p>
             </div>
           </div>
 
@@ -2316,13 +2316,13 @@
             <div class="card-header"><strong>Contribution Margin Rate</strong></div>
             <div class="card-body">
               <code>Contribution Margin Rate = Contribution Margin / Weekly Net Sales</code>
-              <p class="small text-muted mt-2 mb-0">Uses the latest modeled Pizza Hut week to show margin posture after fulfillment and promo pressure.</p>
+              <p class="small text-muted mt-2 mb-0">Uses the latest modeled QSR week to show margin posture after fulfillment and promo pressure.</p>
             </div>
           </div>
 
           <h6 class="mb-3 mt-4"><i class="bi bi-lightbulb me-2"></i> Key Assumptions</h6>
           <ul>
-            <li>All data is modeled to reflect a realistic Pizza Hut seasonal operating pattern.</li>
+            <li>All data is modeled to reflect a realistic QSR seasonal operating pattern.</li>
             <li>Baseline readout emphasizes the latest week with recent-period smoothing where helpful.</li>
             <li>Channel mix reflects delivery, carryout, pickup-app, and dine-in behavior.</li>
             <li>Currency: USD</li>
@@ -2348,7 +2348,7 @@
         </div>
         <div class="modal-body">
           <h6 class="mb-3"><i class="bi bi-diagram-3 me-2"></i> Elasticity Model</h6>
-          <p>Traffic acquisition elasticity measures how weekly Pizza Hut orders respond to effective price changes by channel, visit mission, and product ladder.</p>
+          <p>Traffic acquisition elasticity measures how weekly QSR orders respond to effective price changes by channel, visit mission, and product ladder.</p>
 
           <div class="card mb-3">
             <div class="card-header"><strong>Core Formula</strong></div>
@@ -2373,7 +2373,7 @@
               <tr>
                 <td>Latest 8 weeks of channel orders</td>
                 <td><strong>Sets baseline weekly traffic by channel</strong></td>
-                <td>Keeps the simulation anchored to current Pizza Hut operating scale.</td>
+                <td>Keeps the simulation anchored to current QSR operating scale.</td>
               </tr>
               <tr>
                 <td>Item-level elasticity priors</td>
@@ -2412,27 +2412,27 @@
               <span class="badge bg-light text-dark border ms-2">js/acquisition-simple.js</span>
             </div>
             <div class="card-body">
-              <p><strong>Engine:</strong> Client-side elasticity simulator using Pizza Hut channel and item panels.</p>
+              <p><strong>Engine:</strong> Client-side elasticity simulator using QSR channel and item panels.</p>
               <p><strong>Primary inputs:</strong> Channel mix, average check, item-level elasticity priors, and cohort coefficients.</p>
               <p><strong>Outputs:</strong> Weekly order change, net sales impact, ladder-level sensitivities, and a volatility-based confidence interval.</p>
 
               <p class="mb-2 mt-3"><strong>Key mechanics:</strong></p>
               <ul class="small mb-0">
-                <li>Uses the latest Pizza Hut order panel instead of a generic benchmark-only curve.</li>
+                <li>Uses the latest QSR order panel instead of a generic benchmark-only curve.</li>
                 <li>Maps item rows into value, core, and premium ladders before simulation.</li>
                 <li>Applies cohort modifiers to show how value-led or loyal guests react differently.</li>
                 <li>Anchors the uncertainty band to recent week-to-week traffic volatility.</li>
               </ul>
 
               <p class="small text-muted mt-3 mb-0">
-                <strong>Why this approach?</strong> It stays aligned to the visible Pizza Hut panel while keeping the scenario math auditable in-browser.
+                <strong>Why this approach?</strong> It stays aligned to the visible QSR panel while keeping the scenario math auditable in-browser.
               </p>
             </div>
           </div>
 
           <div class="alert alert-warning mt-3">
             <i class="bi bi-exclamation-triangle me-2"></i>
-            <strong>Important:</strong> This is a directional planning model calibrated from the generated Pizza Hut operating panel, not a production forecasting service.
+            <strong>Important:</strong> This is a directional planning model calibrated from the generated QSR operating panel, not a production forecasting service.
           </div>
         </div>
         <div class="modal-footer">
@@ -2454,7 +2454,7 @@
         </div>
         <div class="modal-body">
           <h6 class="mb-3"><i class="bi bi-diagram-3 me-2"></i> Repeat Loss Model</h6>
-          <p>Repeat-visit loss elasticity models how Pizza Hut guests trim frequency over time after menu price increases or value support roll-off.</p>
+          <p>Repeat-visit loss elasticity models how QSR guests trim frequency over time after menu price increases or value support roll-off.</p>
 
           <div class="card mb-3">
             <div class="card-header "><strong>Repeat Loss Formula</strong></div>
@@ -2490,7 +2490,7 @@
               <tr>
                 <td>Weeks 8-12</td>
                 <td>0.30</td>
-                <td>Peak repeat-loss window in the current Pizza Hut calibration.</td>
+                <td>Peak repeat-loss window in the current QSR calibration.</td>
               </tr>
               <tr>
                 <td>Week 12+</td>
@@ -2524,13 +2524,13 @@
               <span class="badge bg-light text-dark border ms-2">js/churn-simple.js</span>
             </div>
             <div class="card-body">
-              <p><strong>Engine:</strong> Client-side time-lagged repeat-loss simulator using the Pizza Hut item panel.</p>
+              <p><strong>Engine:</strong> Client-side time-lagged repeat-loss simulator using the QSR item panel.</p>
               <p><strong>Primary inputs:</strong> Menu-ladder baseline contribution, cohort repeat-loss elasticity, and the time-lag distribution.</p>
               <p><strong>Outputs:</strong> Visit-loss curve, retained menu units, and cumulative contribution impact.</p>
 
               <p class="mb-2 mt-3"><strong>Key mechanics:</strong></p>
               <ul class="small mb-0">
-                <li>Starts from observed Pizza Hut value and core/premium menu ladders.</li>
+                <li>Starts from observed QSR value and core/premium menu ladders.</li>
                 <li>Spreads the impact across Weeks 0-4, 4-8, 8-12, and 12+.</li>
                 <li>Adjusts the curve by cohort so lapse-risk and loyal guests diverge realistically.</li>
                 <li>Translates the volume change into cumulative contribution, not just visit loss.</li>
@@ -2544,7 +2544,7 @@
 
           <div class="alert alert-info mt-3">
             <i class="bi bi-info-circle me-2"></i>
-            <strong>Data Source:</strong> Repeat-visit patterns calibrated from Pizza Hut weekly item and channel panels plus public restaurant pricing research.
+            <strong>Data Source:</strong> Repeat-visit patterns calibrated from QSR weekly item and channel panels plus public restaurant pricing research.
           </div>
         </div>
         <div class="modal-footer">
@@ -2566,14 +2566,14 @@
         </div>
         <div class="modal-body">
           <h6 class="mb-3"><i class="bi bi-arrow-left-right me-2"></i> Migration Model</h6>
-          <p>Models Pizza Hut order movement between delivery and carryout / pickup when relative check gaps change, with spillover into other channels.</p>
+          <p>Models QSR order movement between delivery and carryout / pickup when relative check gaps change, with spillover into other channels.</p>
 
           <div class="card mb-3">
             <div class="card-header "><strong>Migration Formula</strong></div>
             <div class="card-body">
               <code>Migration Rate = Base Flow + Price Move Response + Relative Gap Response</code>
               <p class="small text-muted mt-2 mb-0">
-                The live model compares the new delivery-versus-carryout gap to the current Pizza Hut baseline and applies cohort asymmetry factors.
+                The live model compares the new delivery-versus-carryout gap to the current QSR baseline and applies cohort asymmetry factors.
               </p>
             </div>
           </div>
@@ -2604,7 +2604,7 @@
 
           <h6 class="mb-3 mt-4"><i class="bi bi-calculator-fill me-2"></i> Simulation Logic</h6>
           <ol>
-            <li>Read the latest delivery and carryout / pickup checks from the Pizza Hut store-channel panel.</li>
+            <li>Read the latest delivery and carryout / pickup checks from the QSR store-channel panel.</li>
             <li>Recalculate the current gap after the user changes either channel check.</li>
             <li>Apply cohort asymmetry, upgrade willingness, and downgrade willingness modifiers.</li>
             <li>Estimate weekly migration and leakage rates for both directions.</li>
@@ -2625,7 +2625,7 @@
               <span class="badge bg-light text-dark border ms-2">js/migration-simple.js</span>
             </div>
             <div class="card-body">
-              <p><strong>Engine:</strong> Client-side migration simulator calibrated from Pizza Hut channel averages and cohort coefficients.</p>
+              <p><strong>Engine:</strong> Client-side migration simulator calibrated from QSR channel averages and cohort coefficients.</p>
               <p><strong>Inputs:</strong> Delivery check, carryout / pickup check, baseline gap, and cohort migration modifiers.</p>
               <p><strong>Outputs:</strong> Weekly transition rates, projected channel share, Sankey flows, and revenue impact.</p>
 
@@ -2645,14 +2645,14 @@
               </ul>
 
               <p class="small text-muted mt-3 mb-0">
-                <strong>Why this approach?</strong> It keeps the migration math transparent and directly tied to the visible Pizza Hut channel panel.
+                <strong>Why this approach?</strong> It keeps the migration math transparent and directly tied to the visible QSR channel panel.
               </p>
             </div>
           </div>
 
           <div class="alert alert-info mt-3">
             <i class="bi bi-lightbulb me-2"></i>
-            <strong>Calibration:</strong> Migration rates calibrated from Pizza Hut store-channel history and relative check gaps between delivery and carryout / pickup.
+            <strong>Calibration:</strong> Migration rates calibrated from QSR store-channel history and relative check gaps between delivery and carryout / pickup.
           </div>
         </div>
         <div class="modal-footer">
@@ -2695,7 +2695,7 @@
             <div class="card-header "><strong>Axis 2: Repeat Behavior (5 segments)</strong></div>
             <div class="card-body">
               <ul class="mb-0">
-                <li><strong>Family Ritual Loyalist:</strong> High repeat rate in recurring Pizza Hut meal routines.</li>
+                <li><strong>Family Ritual Loyalist:</strong> High repeat rate in recurring QSR meal routines.</li>
                 <li><strong>Value Bundle Shopper:</strong> Responds strongly to clear meal-deal ladders.</li>
                 <li><strong>Coupon-Driven Customer:</strong> Promo-first and highest repeat-loss risk.</li>
                 <li><strong>Occasional Indulger:</strong> Lower-frequency ordering tied to sporadic cravings.</li>
@@ -2737,7 +2737,7 @@
 
           <div class="alert alert-success mt-3">
             <i class="bi bi-check-circle me-2"></i>
-            <strong>Calibration:</strong> Segment combinations are modeled from the Pizza Hut operating panel, cohort coefficients, and menu-ladder priors. They are directional planning segments, not CRM-labeled guest truth sets.
+            <strong>Calibration:</strong> Segment combinations are modeled from the QSR operating panel, cohort coefficients, and menu-ladder priors. They are directional planning segments, not CRM-labeled guest truth sets.
           </div>
         </div>
         <div class="modal-footer">
@@ -2759,7 +2759,7 @@
         </div>
         <div class="modal-body">
           <h6 class="mb-3" style="color: #6366f1;"><i class="bi bi-bar-chart-line me-2"></i> Comparative Analysis</h6>
-          <p>Compares price sensitivity across modeled Pizza Hut guest segments to identify where price can move and where value support still matters.</p>
+          <p>Compares price sensitivity across modeled QSR guest segments to identify where price can move and where value support still matters.</p>
 
           <h6 class="mb-3 mt-4" style="color: #6366f1;"><i class="bi bi-diagram-2 me-2"></i> Analysis Methods</h6>
 
@@ -2835,7 +2835,7 @@
 
   <!-- Footer -->
   <footer class="container my-5 text-center text-muted">
-    <small>Pizza Hut Pricing Elasticity Studio</small>
+    <small>QSR Pricing Elasticity Studio</small>
   </footer>
 
   <!-- Bootstrap JS -->

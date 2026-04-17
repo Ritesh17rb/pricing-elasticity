@@ -1,6 +1,6 @@
 /**
- * Pizza Hut Promotion Performance & Calendar
- * Uses modeled Pizza Hut promotion windows plus operating panels.
+ * QSR Promotion Performance & Calendar
+ * Uses modeled QSR promotion windows plus operating panels.
  */
 
 import {
@@ -112,7 +112,7 @@ let currentPromoRows = [];
 let currentStoreChannelRows = [];
 let currentProductRows = [];
 let currentProductIndex = new Map();
-let currentBrandLabel = 'Pizza Hut';
+let currentBrandLabel = 'QSR';
 let promoCampaignSummaries = [];
 let validationWindowRows = [];
 let brandListenerBound = false;
@@ -234,7 +234,7 @@ function getOfferMeta(offerType) {
   return OFFER_THEME_META[offerType] || {
     label: 'Modeled Promotion',
     category: 'value',
-    summary: 'Modeled Pizza Hut promotion window.',
+    summary: 'Modeled QSR promotion window.',
   };
 }
 
@@ -293,7 +293,7 @@ function matchesOfferFallback(row, promoRow) {
   if (promoRow.offer_type === 'loyalty_offer') {
     return row.product_role === 'traffic_builder'
       || isTrueLike(row.value_flag)
-      || /melts|personal pan|my hut box/i.test(String(row.product_name || ''));
+      || /melts|personal pizza|value meal box/i.test(String(row.product_name || ''));
   }
 
   if (promoRow.offer_type === 'premium_ladder') {
@@ -433,7 +433,7 @@ function buildCalendarMomentEvents(calendarWeekDimRows, fallbackRows, brandId, b
       title: `${String(row.season_label || 'Seasonal').replace(/\b\w/g, (letter) => letter.toUpperCase())} Demand Window`,
       typeLabel: 'Calendar Window',
       category: isTrueLike(row.holiday_proxy_flag) || isTrueLike(row.sports_peak_flag) ? 'tentpole' : 'seasonal',
-      note: `Modeled ${brandLabel} demand window from the Pizza Hut calendar foundation.`,
+      note: `Modeled ${brandLabel} demand window from the QSR calendar foundation.`,
     };
 
     const previous = windows[windows.length - 1];
@@ -480,7 +480,7 @@ function buildCalendarMomentEvents(calendarWeekDimRows, fallbackRows, brandId, b
       promo_units: 0,
       promo_sales: 0,
       headline_items: [...rowSignals].join(' | '),
-      notes: `${window.definition.note} Active for ${window.rows.length} week${window.rows.length === 1 ? '' : 's'} in the modeled Pizza Hut calendar.`,
+      notes: `${window.definition.note} Active for ${window.rows.length} week${window.rows.length === 1 ? '' : 's'} in the modeled QSR calendar.`,
       signal_labels: [...rowSignals],
       type_label: window.definition.typeLabel,
       source_group: 'calendar',
@@ -835,7 +835,7 @@ function renderStrategyReadout() {
 
   const bullets = [];
   if (patternEntries[0]) {
-    bullets.push(`${patternEntries[0][0]} is the most frequent Pizza Hut promotion theme in the modeled calendar, appearing in ${patternEntries[0][1]} windows.`);
+    bullets.push(`${patternEntries[0][0]} is the most frequent QSR promotion theme in the modeled calendar, appearing in ${patternEntries[0][1]} windows.`);
   }
   if (topModeledWindow) {
     bullets.push(
@@ -978,7 +978,7 @@ function renderEventTimeline() {
       <div class="d-flex align-items-center"><div style="width: 16px; height: 16px; border-radius: 50%; background: #f59e0b; box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.16);"></div><span class="ms-2 small">Tentpoles</span></div>
       <div class="d-flex align-items-center"><div style="width: 16px; height: 16px; border-radius: 50%; background: #16a34a; box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.16);"></div><span class="ms-2 small">Seasonal Windows</span></div>
     </div>
-    <p class="text-center text-muted small mb-3"><i class="bi bi-info-circle me-1"></i>Click a marker to inspect modeled Pizza Hut promotion windows and calendar context.</p>
+    <p class="text-center text-muted small mb-3"><i class="bi bi-info-circle me-1"></i>Click a marker to inspect modeled QSR promotion windows and calendar context.</p>
     <div class="timeline-slider-container">
       <div class="timeline-track">
   `;
@@ -1041,7 +1041,7 @@ function showEventDetails(event) {
         <div class="col-md-4"><strong>Margin rate:</strong> ${toNumber(event.avg_margin_pct).toFixed(1)}%</div>
         <div class="col-md-4"><strong>Lead channel:</strong> ${event.top_channel ? getYumChannelLabel(event.top_channel) : 'Mixed'}</div>
       </div>
-      <div class="small mb-2">${event.notes || 'Modeled offer pressure surfaced from the Pizza Hut promotion calendar.'}</div>
+      <div class="small mb-2">${event.notes || 'Modeled offer pressure surfaced from the QSR promotion calendar.'}</div>
       <div class="small mb-2"><strong>Headline items:</strong> ${headlineItems.length ? headlineItems.join(', ') : 'N/A'}</div>
       <div class="small"><strong>Anchor items in the output panel:</strong> ${event.anchor_items ? event.anchor_items.replace(/\|/g, ', ') : 'N/A'}</div>
     `;
@@ -1128,7 +1128,7 @@ function renderPromoCards() {
                 <div class="col-6"><strong>Realized price:</strong> ${formatCurrency(toNumber(promo.avg_realized_price))}</div>
               </div>
               <div class="small mb-2"><strong>Anchor items:</strong> ${promo.anchor_items || promo.headline_items || 'N/A'}</div>
-              <div class="small text-muted">${promo.notes || 'Modeled promotion window surfaced from the Pizza Hut promo calendar.'}</div>
+              <div class="small text-muted">${promo.notes || 'Modeled promotion window surfaced from the QSR promo calendar.'}</div>
             </div>
           </div>
         </div>
@@ -1282,13 +1282,13 @@ export async function initializeEventCalendar() {
     setupBrandListener();
     refreshEventCalendar();
   } catch (error) {
-    console.error('Error initializing Pizza Hut event calendar:', error);
+    console.error('Error initializing QSR event calendar:', error);
     const container = document.getElementById('event-timeline');
     if (container) {
       container.innerHTML = `
         <div class="alert alert-danger">
           <i class="bi bi-exclamation-triangle me-2"></i>
-          Error loading Pizza Hut promo calendar data: ${error.message}
+          Error loading QSR promo calendar data: ${error.message}
         </div>
       `;
     }

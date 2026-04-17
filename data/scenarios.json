@@ -269,7 +269,7 @@
     "name": "Do Nothing (Baseline)",
     "category": "baseline",
     "model_type": "baseline",
-    "description": "Maintain current Pizza Hut pricing and promotion settings with no change.",
+    "description": "Maintain current QSR pricing and promotion settings with no change.",
     "impact_summary": "Baseline scenario for comparison",
     "config": {
       "tier": "all",

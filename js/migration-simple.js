@@ -1,12 +1,12 @@
 /**
- * Pizza Hut order-channel migration model.
+ * QSR order-channel migration model.
  * Models Delivery versus Carryout / Pickup movement, with leakage into dine-in or lost demand.
  */
 
 import { loadYumStoreChannelWeekPanel } from './yum-data-loader.js';
 import { formatCurrency, formatNumber } from './utils.js';
 
-const BRAND_ID = 'pizzahut';
+const BRAND_ID = 'qsr';
 const COHORT_LABELS = {
   baseline: 'All Visit Missions',
   brand_loyal: 'Family Ritual Loyalists',
@@ -78,7 +78,7 @@ function relabelMigrationPane() {
   const insightBody = pane.querySelector('.insight-box p');
   if (insightTitle) insightTitle.textContent = 'Order Channel Migration';
   if (insightBody) {
-    insightBody.textContent = 'When delivery gets relatively more expensive, more Pizza Hut demand shifts into carryout and pickup. If the owned-channel value edge narrows, orders drift back to delivery or leak into dine-in and lower-frequency behavior.';
+    insightBody.textContent = 'When delivery gets relatively more expensive, more QSR demand shifts into carryout and pickup. If the owned-channel value edge narrows, orders drift back to delivery or leak into dine-in and lower-frequency behavior.';
   }
 
   const chartTitles = pane.querySelectorAll('.glass-card h5');
@@ -112,7 +112,7 @@ function relabelMigrationPane() {
 
   const advancedParagraphs = pane.querySelectorAll('#migration-advanced .alert p');
   if (advancedParagraphs[0]) {
-    advancedParagraphs[0].innerHTML = '<strong>What it captures:</strong> How Pizza Hut orders shift between delivery and carryout / pickup when relative price gaps move.';
+    advancedParagraphs[0].innerHTML = '<strong>What it captures:</strong> How QSR orders shift between delivery and carryout / pickup when relative price gaps move.';
   }
   if (advancedParagraphs[1]) {
     advancedParagraphs[1].innerHTML = '<strong>Decision Takeaway:</strong> Preserve enough owned-channel value to win carryout and pickup migration without giving away too much delivery mix or total volume.';
@@ -490,7 +490,7 @@ async function initMigrationSimple() {
     relabelMigrationPane();
 
     if (!migrationState?.delivery?.transactions || !migrationState?.carryoutPickup?.transactions) {
-      throw new Error('Delivery and Carryout / Pickup data are required for Pizza Hut migration modeling.');
+      throw new Error('Delivery and Carryout / Pickup data are required for QSR migration modeling.');
     }
 
     setSliderDefaults();
@@ -498,13 +498,13 @@ async function initMigrationSimple() {
     setupMigrationInteractivity();
     updateMigrationModel();
   } catch (error) {
-    console.error('Failed to initialize Pizza Hut migration model:', error);
+    console.error('Failed to initialize QSR migration model:', error);
     const container = resolveStepContentTarget('step-5-migration-container');
     if (container) {
       container.innerHTML = `
         <div class="alert alert-danger">
           <i class="bi bi-exclamation-triangle me-2"></i>
-          Failed to load Pizza Hut channel migration inputs. Please refresh the page.
+          Failed to load QSR channel migration inputs. Please refresh the page.
         </div>
       `;
     }

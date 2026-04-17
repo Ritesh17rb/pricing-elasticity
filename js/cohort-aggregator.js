@@ -1,6 +1,6 @@
 /**
  * Cohort Aggregator Module
- * Aggregates Pizza Hut cohort intersections into model-ready acquisition and repeat-loss cohorts
+ * Aggregates QSR cohort intersections into model-ready acquisition and repeat-loss cohorts
  */
 
 /**

@@ -1,4 +1,4 @@
-Pizza Hut Pricing Elasticity Studio (Landing Screen)
+QSR Pricing Elasticity Studio (Landing Screen)
 Update Text: 
 “Understand how customers respond to menu pricing, combos, and promotions — and optimize revenue, orders, and margins”.
 Current State Overview
@@ -8,21 +8,21 @@ Update Text below Current State Overview:
 Price Architecture Cards:
 Card 1: Entry Value & Solo Meals (Traffic Builder)
 Update From: $6.99
-Update Anchor Items with: Personal Pan Pizza | Pizza Hut Melts | 2-Topping Medium Pizza Deal | Breadsticks
+Update Anchor Items with: Personal Pizza | Melt Combo | 2-Topping Medium Pizza Deal | Breadsticks
 Update Description with: “Typically priced between $6.99 and $11.99, this segment drives trial and impulse orders. Value deals and combo meals play a key role in maintaining order volume and entry-level conversion.”
 Card 2: Family Bundles & Premium (Revenue Driver)
 Update from: $14.99
-Update Anchor Items with: Large 1-Topping Pizza | Big Dinner Box | Stuffed Crust Pizza | Supreme / Specialty Pizzas
+Update Anchor Items with: Large 1-Topping Pizza | Family Meal Box | Stuffed Crust Pizza | Supreme / Specialty Pizzas
 Update Description with: “Priced between $14.99 and $34.99, this segment drives the majority of revenue. Larger pizzas, bundles, and premium crust options dominate, with delivery and group occasions contributing heavily.”
 
 Key Performance Metrics (Week of Dec 29, 2025)
-Weekly Orders = 12,462 (Too small for a US Pizza Hut view, Feels like single-store / small region, not scalable) Replace it with: ~85,000 – 150,000 weekly orders
-Weekly Net Sales = $257K (Doesn’t align with US Pizza Hut weekly sales). Replace with: $1.8M – $3.2M
+Weekly Orders = 12,462 (Too small for a US QSR view, Feels like single-store / small region, not scalable) Replace it with: ~85,000 – 150,000 weekly orders
+Weekly Net Sales = $257K (Doesn’t align with US QSR weekly sales). Replace with: $1.8M – $3.2M
 AOV = $20.67 (Keep as it is, this is realistic)
 Contribution Margin = 46.1% (Slightly on the higher side) Replace with: 28%-26%
 
 The Pricing Question
-Pizza Hut delivered approximately $2.1M in weekly sales across ~100K orders, with an average order value of ~$20.
+QSR delivered approximately $2.1M in weekly sales across ~100K orders, with an average order value of ~$20.
 Nearly 60% of orders are driven by promotions, particularly across entry-level and combo meals — highlighting strong price sensitivity in key segments.
 While the value tier drives traffic and order volume, the family and premium tiers contribute the majority of revenue and margin.
 With orders declining week-over-week and AOV increasing, a clear trade-off is emerging between pricing and demand.
@@ -49,7 +49,7 @@ Output
 Notes
 Mar 22, 2026
 Digital & Loyalty
-Pizza Hut Melts – Lunch Carryout Campaign
+Melt Combo – Lunch Carryout Campaign
 Carryout
 $14.2K sales | 1,900 orders
 Focused on weekday lunch traffic; strong response from value-seeking cohorts
@@ -79,7 +79,7 @@ $48.0K sales | 2,450 orders
 Continued pricing correction to stabilize demand after holiday period
 Jan 11, 2026
 Value & Bundle
-Big Dinner Box – NFL Playoffs Promo
+Family Meal Box – NFL Playoffs Promo
 Delivery
 $160.0K sales | 10.0K orders
 High-volume bundle optimized for game-day occasions
@@ -139,7 +139,7 @@ $49.4K sales | 2,350 orders
 Initial price increase test to evaluate elasticity thresholds
 Aug 31, 2025
 Value & Bundle
-Big Dinner Box – Game Day Promo
+Family Meal Box – Game Day Promo
 Delivery
 $267.0K sales | 16.4K orders
 High-performing sports event bundle campaign
@@ -151,7 +151,7 @@ $49.3K sales | 2,480 orders
 Price correction following earlier demand dip
 Aug 17, 2025
 Digital & Loyalty
-Hut Rewards Summer Carryout Boost
+App Rewards Summer Carryout Boost
 Carryout
 $4.1K sales | 500 orders
 Loyalty-driven traffic boost for off-peak periods
@@ -163,19 +163,19 @@ $3.6M sales | 181K orders
 Major seasonal spike driven by sports viewing occasions
 Jul 20, 2025
 Digital & Loyalty
-Hut Rewards Summer Carryout Boost
+App Rewards Summer Carryout Boost
 Carryout
 $4.0K sales | 490 orders
 Repeat campaign with stable engagement from loyalty users
 Jun 22, 2025
 Digital & Loyalty
-Hut Rewards Summer Carryout Boost
+App Rewards Summer Carryout Boost
 Carryout
 $4.2K sales | 510 orders
 Strong engagement from app-based ordering segment
 May 18, 2025
 Digital & Loyalty
-Pizza Hut Melts – Lunch Carryout Campaign
+Melt Combo – Lunch Carryout Campaign
 Carryout
 $14.5K sales | 2,000 orders
 Lunch-focused value offering driving weekday traffic
@@ -187,7 +187,7 @@ $3.3M sales | 160K orders
 Seasonal demand uplift supported by bundled value deals
 Apr 20, 2025
 Digital & Loyalty
-Pizza Hut Melts – Lunch Carryout Campaign
+Melt Combo – Lunch Carryout Campaign
 Carryout
 $14.3K sales | 1,950 orders
 Entry-level value offering targeting price-sensitive customers
@@ -225,7 +225,7 @@ Avg discount: ~10%
 Realized price: ~$23.50
 Focus: Premium & Innovation
 Channels: Delivery
-4. Big Dinner Box – Game Day Promo (Value & Bundle)
+4. Family Meal Box – Game Day Promo (Value & Bundle)
 Type: Mixed
 Window: Aug 31, 2025 – Feb 22, 2026
 Flights: 2
@@ -235,7 +235,7 @@ Avg discount: ~30%
 Realized price: ~$16.20
 Focus: Value & Bundle
 Channels: Delivery
-5. Hut Rewards Summer Carryout Boost (Digital & Loyalty)
+5. App Rewards Summer Carryout Boost (Digital & Loyalty)
 Type: Observed
 Window: Jun 22, 2025 – Aug 17, 2025
 Flights: 3
@@ -245,7 +245,7 @@ Avg discount: ~15%
 Realized price: ~$8.20
 Focus: Digital & Loyalty
 Channels: Carryout
-6. Pizza Hut Melts – Lunch Carryout Campaign (Digital & Loyalty)
+6. Melt Combo – Lunch Carryout Campaign (Digital & Loyalty)
 Type: Mixed
 Window: Apr 20, 2025 – Mar 22, 2026
 Flights: 3

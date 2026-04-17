@@ -216,7 +216,7 @@ export async function loadYumFoundation() {
   };
 }
 
-export async function getYumFoundationSummary(brandId = 'pizzahut') {
+export async function getYumFoundationSummary(brandId = 'qsr') {
   const foundation = await loadYumFoundation();
   const networkRows = foundation.brandMarketNetwork.filter(row => row.brand_id === brandId);
   const marketIds = new Set(networkRows.map(row => row.market_id));

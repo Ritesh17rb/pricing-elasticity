@@ -1,9 +1,9 @@
-export const DEFAULT_YUM_BRAND_ID = 'pizzahut';
+export const DEFAULT_YUM_BRAND_ID = 'qsr';
 
-export const YUM_BRAND_ORDER = ['pizzahut'];
+export const YUM_BRAND_ORDER = ['qsr'];
 
 export const YUM_BRAND_LABELS = {
-  pizzahut: 'Pizza Hut'
+  qsr: 'QSR'
 };
 
 export const YUM_CHANNEL_ORDER = [
@@ -27,7 +27,7 @@ const YUM_CHANNEL_LABELS = {
 };
 
 export function getYumBrandLabel(brandId) {
-  return YUM_BRAND_LABELS[brandId] || brandId || 'Pizza Hut';
+  return YUM_BRAND_LABELS[brandId] || brandId || 'QSR';
 }
 
 export function sortYumBrandIds(brandIds = []) {
